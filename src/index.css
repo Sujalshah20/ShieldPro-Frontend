@@ -1,0 +1,295 @@
+@import 'tailwindcss';
+@plugin 'lightswind/plugin';
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium Tactile Utilities */
+.btn-tactile {
+  @apply transition-all duration-300 active:scale-[0.95] hover:scale-[1.02];
+}
+
+.card-premium {
+  @apply transition-all duration-500 hover:translate-y-[-6px] hover:shadow-2xl hover:shadow-blue-500/20;
+}
+
+.glass-premium {
+  @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl;
+}
+
+.link-underline {
+  @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-blue-600 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+}
+
+.gradient-border-animate {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  z-index: 1;
+}
+
+.gradient-border-animate::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #2563eb, #7c3aed, #2563eb);
+  background-size: 400%;
+  z-index: -1;
+  border-radius: 26px;
+  animation: borderGradient 8s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes borderGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --secondary: #7c3aed;
+  --secondary-dark: #6d28d9;
+  --accent: #06b6d4;
+  --background: 240 10% 98.7%;
+  /* Slightly lighter background */
+  --foreground: 222.2 47.4% 1%;
+  /* Near black for maximum contrast */
+  /* Slightly darker for better light mode contrast */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 47.4% 1%;
+  --border: 214.3 31.8% 85%;
+  /* Slightly darker border for better visibility */
+  --input: 214.3 31.8% 85%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 1rem;
+}
+
+.dark {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 3%;
+  --card-foreground: 0 0% 98%;
+  --border: 0 0% 12%;
+  --input: 0 0% 12%;
+  --ring: 217.2 91.2% 59.8%;
+}
+
+.dark .premium-gradient {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 60%),
+    #000000;
+  background-attachment: fixed;
+}
+
+* {
+  border-color: var(--border);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .5;
+  }
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  /* Slightly more opaque */
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+}
+
+.premium-gradient {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%),
+    #f8fafc;
+  background-attachment: fixed;
+}
+
+.btn-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
+  box-shadow: 0 20px 25px -5px rgba(37, 99, 235, 0.4);
+}
+
+.dark .glass {
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .admin-header,
+.dark .agent-header,
+.dark .customer-header {
+  background: #000000 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  border-radius: var(--radius);
+}
+
+/* Animated Backgrounds */
+.mesh-gradient {
+  background-color: #4158D0;
+  background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Premium Background Animations */
+@keyframes blob-float {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes mesh-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-blob {
+  animation: blob-float 20s infinite alternate ease-in-out;
+}
+
+.animate-blob-slow {
+  animation: blob-float 30s infinite alternate ease-in-out;
+}
+
+.mesh-gradient-animate {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: mesh-shift 15s ease infinite;
+}
+
+.dark .mesh-gradient-premium {
+  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #1e1b4b);
+  background-size: 400% 400%;
+  animation: mesh-shift 20s ease infinite;
+}
+
+.blob-glass {
+  @apply backdrop-blur-3xl bg-white/10 dark:bg-white/5 border border-white/10 rounded-full;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 3D Canvas Styles */
+.canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.canvas-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  background: transparent !important;
+}
+
+.three-interactive {
+  pointer-events: auto !important;
+}
+
+.auth-container {
+  position: relative;
+  z-index: 10;
+  background: transparent !important;
+}
+
+.bg-transparent-overlay {
+  background-color: transparent !important;
+}

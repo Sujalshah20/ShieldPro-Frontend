@@ -1,0 +1,28 @@
+/* CSS RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global font */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #4f7cff, #8a5cff);
+  min-height: 100vh;
+  color: #1f2937;
+}
+
+/* Remove default input styles */
+input,
+button {
+  font-family: inherit;
+  outline: none;
+  border: none;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
