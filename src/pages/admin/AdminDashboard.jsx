@@ -55,7 +55,7 @@ const AdminDashboard = () => {
     premium: `₹${p.premiumAmount}`,
     coverage: `₹${p.coverageAmount}`,
     duration: `${p.durationYears} Year(s)`,
-    status: p.status.toLowerCase()
+    status: (p.status || 'active').toLowerCase()
   }));
 
   const customers = statsData?.recentUsers || [];
@@ -69,6 +69,38 @@ const AdminDashboard = () => {
     premium: "",
     coverage: "",
     duration: "",
+  });
+
+  // Mutations
+  const updateStatusMutation = useMutation({
+    mutationFn: ({ id, status }) => api.put(`/policies/${id}/status`, { status }, user.token),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['adminPolicies']);
+      queryClient.invalidateQueries(['adminStats']);
+      toast.success({ title: "Status Updated", description: "Policy status updated successfully!" });
+    },
+    onError: (error) => toast.error({ title: "Update Failed", description: error.message })
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => api.delete(`/policies/${id}`, user.token),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['adminPolicies']);
+      queryClient.invalidateQueries(['adminStats']);
+      toast.success({ title: "Policy Deleted", description: "The policy has been removed successfully." });
+    },
+    onError: (error) => toast.error({ title: "Delete Failed", description: error.message })
+  });
+
+  const createPolicyMutation = useMutation({
+    mutationFn: (policyData) => api.post('/policies', policyData, user.token),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['adminPolicies']);
+      queryClient.invalidateQueries(['adminStats']);
+      toast.success({ title: "Policy Created", description: "Policy created successfully!" });
+      closeModal();
+    },
+    onError: (error) => toast.error({ title: "Creation Failed", description: error.message })
   });
 
   // Actions
@@ -103,42 +135,12 @@ const AdminDashboard = () => {
       durationYears: parseInt(newPolicy.duration) || 1
     };
 
-    try {
-      const savedPolicy = await api.post('/policies', policyData, user.token);
-      if (savedPolicy) {
-        toast.success({
-          title: "Policy Created",
-          description: "Policy created successfully!"
-        });
-        queryClient.invalidateQueries(['adminPolicies']);
-        closeModal();
-      } else {
-        const errorData = await response.json();
-        toast.error({
-          title: "Error",
-          description: errorData.message
-        });
-      }
-    } catch (error) {
-      console.error("Error creating policy:", error);
-      toast.error({
-        title: "Error",
-        description: "Something went wrong while saving the policy."
-      });
-    }
+    createPolicyMutation.mutate(policyData);
   };
 
-  const togglePolicyStatus = (id) => {
-    setPolicies(
-      policies.map((policy) =>
-        policy.id === id
-          ? {
-            ...policy,
-            status: policy.status === "active" ? "inactive" : "active",
-          }
-          : policy
-      )
-    );
+  const togglePolicyStatus = (id, currentStatus) => {
+    const newStatus = currentStatus === "active" ? "inactive" : "active";
+    updateStatusMutation.mutate({ id, status: newStatus });
   };
 
   const deletePolicy = (id) => {
@@ -147,21 +149,8 @@ const AdminDashboard = () => {
 
   const confirmDelete = async () => {
     if (policyToDelete) {
-      try {
-        await api.delete(`/policies/${policyToDelete}`, user.token);
-        toast.success({
-          title: "Policy Deleted",
-          description: "The policy has been removed successfully."
-        });
-        queryClient.invalidateQueries(['adminPolicies']);
-      } catch (error) {
-        toast.error({
-          title: "Delete Failed",
-          description: error.message || "Failed to delete the policy."
-        });
-      } finally {
-        setPolicyToDelete(null);
-      }
+      deleteMutation.mutate(policyToDelete);
+      setPolicyToDelete(null);
     }
   };
 
@@ -350,7 +339,7 @@ const AdminDashboard = () => {
                     <td>
                       <button
                         className="action-btn text-blue-600 dark:text-blue-400"
-                        onClick={() => togglePolicyStatus(policy.id)}
+                        onClick={() => togglePolicyStatus(policy.id, policy.status)}
                       >
                         {policy.status === "active" ? "Deactivate" : "Activate"}
                       </button>
@@ -482,14 +471,15 @@ const AdminDashboard = () => {
               </div>
 
               <div className="form-group">
-                <label>Duration</label>
+                <label>Duration (Years)</label>
                 <input
-                  type="text"
+                  type="number"
                   name="duration"
+                  min="1"
                   value={newPolicy.duration}
                   onChange={handleInputChange}
                   required
-                  placeholder="e.g. 1 Year"
+                  placeholder="1"
                 />
               </div>
 
