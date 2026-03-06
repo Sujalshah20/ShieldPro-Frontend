@@ -6,7 +6,7 @@ import { BentoGrid } from "../../components/lightswind/bento-grid";
 import { useNavigate } from "react-router-dom";
 import { User, Shield, Clock, Plus, ArrowRight, Wallet, History, FileText, CheckCircle, AlertCircle, ClipboardList, Search, Filter } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
-import { api } from "../../utils/api";
+import { api, API_BASE_URL } from "../../utils/api";
 import { useNotifications } from "../../context/NotificationContext";
 import { generatePolicyPDF } from "../../utils/pdfUtils";
 import Reveal from "../../components/common/Reveal";
@@ -25,7 +25,7 @@ import {
 import { CardSkeleton, TableSkeleton } from "../../components/common/Skeleton";
 
 const CustomerDashboard = () => {
-  const { user, profile, setProfile } = useContext(AuthContext);
+  const { user, profile, setProfile = () => { } } = useContext(AuthContext);
   const { toast } = useToast();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("browse");
@@ -74,6 +74,7 @@ const CustomerDashboard = () => {
     queryFn: () => api.get('/claims', user.token),
     enabled: !!user?.token
   });
+
 
   // Track status changes for notifications
   useEffect(() => {
@@ -472,7 +473,7 @@ const CustomerDashboard = () => {
                                 {claim.documents.map((doc, idx) => (
                                   <a
                                     key={idx}
-                                    href={`http://localhost:5000${doc.url}`}
+                                    href={`${API_BASE_URL}${doc.url}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded border border-blue-100 hover:bg-blue-100"

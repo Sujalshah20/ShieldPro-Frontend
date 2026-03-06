@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       return data;
     } catch (error) {
       console.error("Login Error:", error.message);
-      return false;
+      throw error;
     }
   };
 
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (error) {
       console.error("Registration Error:", error.message);
-      return false;
+      throw error;
     }
   };
 

@@ -7,7 +7,7 @@ import { FileText, Clock, DollarSign, Activity, PieChart as PieIcon, ShieldCheck
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
 import { useToast } from "../../hooks/use-toast";
 import { CardSkeleton, TableSkeleton } from "../../components/common/Skeleton";
-import { api } from "../../utils/api";
+import { api, API_BASE_URL } from "../../utils/api";
 
 const AgentDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -250,7 +250,7 @@ const AgentDashboard = () => {
                             {claim.documents.map((doc, idx) => (
                               <a
                                 key={idx}
-                                href={`http://localhost:5000${doc.url}`}
+                                href={`${API_BASE_URL}${doc.url}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center gap-2 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 px-3 py-2 rounded-xl hover:border-blue-500 transition-colors group"

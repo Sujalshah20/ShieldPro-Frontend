@@ -32,10 +32,6 @@ const Login = () => {
       loginSchema.parse({ email, password });
 
       const user = await login(email, password);
-      if (!user) {
-        setError("Invalid email or password");
-        return;
-      }
 
       const roleRedirects = {
         admin: "/admin",
@@ -48,7 +44,7 @@ const Login = () => {
       if (err instanceof z.ZodError) {
         setError(err.errors[0].message);
       } else {
-        setError("An error occurred during login. Please try again.");
+        setError(err.message || "An error occurred during login. Please try again.");
       }
     } finally {
       setIsLoading(false);

@@ -31,17 +31,13 @@ const Register = () => {
             // Zod Validation
             registerSchema.parse({ name, email, password, role });
 
-            const success = await register({ name, email, password, role });
-            if (success) {
-                navigate("/login");
-            } else {
-                setError("User already registered with this email!");
-            }
+            await register({ name, email, password, role });
+            navigate("/login");
         } catch (err) {
             if (err instanceof z.ZodError) {
                 setError(err.errors[0].message);
             } else {
-                setError("An unexpected error occurred. Please try again.");
+                setError(err.message || "An unexpected error occurred. Please try again.");
             }
         } finally {
             setIsLoading(false);
