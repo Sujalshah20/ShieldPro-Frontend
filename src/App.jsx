@@ -12,6 +12,7 @@ import { AuthProvider } from "./context/AuthContext";
 /* Lazy Loaded Pages */
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
+const Home = lazy(() => import("./pages/Home"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AgentLayout = lazy(() => import("./pages/agent/AgentLayout"));
@@ -50,7 +51,7 @@ function App() {
               <AnimatePresence mode="wait">
                 <Routes location={location} key={location.pathname}>
                   {/* -------- PUBLIC ROUTES -------- */}
-                  <Route path="/" element={<PageWrapper><Register /></PageWrapper>} />
+                  <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
                   <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
                   <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
 
