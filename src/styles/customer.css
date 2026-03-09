@@ -18,8 +18,8 @@
 }
 
 .dark .customer-header {
-  background: #000000 !important;
-  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card)) !important;
+  border-bottom: 1px solid hsl(var(--border) / 0.1);
 }
 
 .customer-header h2 {
@@ -144,7 +144,7 @@
 .dashboard-tabs {
   display: flex;
   gap: 32px;
-  border-bottom: 2px solid #f3f4f6;
+  border-bottom: 2px solid hsl(var(--border));
   margin-bottom: 30px;
 }
 
@@ -233,6 +233,10 @@
   font-size: 18px;
   font-weight: 700;
   color: #2563eb;
+}
+
+.dark .policy-premium {
+  color: #60a5fa;
 }
 
 .policy-period {

@@ -18,8 +18,8 @@
 }
 
 .dark .agent-header {
-  background: #000000 !important;
-  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card)) !important;
+  border-bottom: 1px solid hsl(var(--border) / 0.1);
 }
 
 .agent-header h2 {
@@ -144,7 +144,7 @@
 .dashboard-tabs {
   display: flex;
   gap: 32px;
-  border-bottom: 2px solid #f3f4f6;
+  border-bottom: 2px solid hsl(var(--border));
   margin-bottom: 30px;
 }
 
@@ -215,8 +215,8 @@
 .policy-type {
   display: inline-block;
   padding: 2px 10px;
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: var(--primary);
+  color: white;
   border-radius: 9999px;
   font-size: 12px;
   font-weight: 500;

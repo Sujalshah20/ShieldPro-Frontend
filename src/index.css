@@ -59,33 +59,34 @@ html {
 }
 
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --secondary: #7c3aed;
-  --secondary-dark: #6d28d9;
-  --accent: #06b6d4;
-  --background: 240 10% 98.7%;
-  /* Slightly lighter background */
-  --foreground: 222.2 47.4% 1%;
-  /* Near black for maximum contrast */
-  /* Slightly darker for better light mode contrast */
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --background: 210 40% 98%;
+  --foreground: 222.2 84% 4.9%;
   --card: 0 0% 100%;
-  --card-foreground: 222.2 47.4% 1%;
-  --border: 214.3 31.8% 85%;
-  /* Slightly darker border for better visibility */
-  --input: 214.3 31.8% 85%;
+  --card-foreground: 222.2 84% 4.9%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
   --ring: 221.2 83.2% 53.3%;
   --radius: 1rem;
+
+  /* Legacy variable supports */
+  --p-blue: #2563eb;
+  --p-purple: #7c3aed;
 }
 
 .dark {
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
-  --card: 0 0% 3%;
-  --card-foreground: 0 0% 98%;
-  --border: 0 0% 12%;
-  --input: 0 0% 12%;
-  --ring: 217.2 91.2% 59.8%;
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
 }
 
 .dark .premium-gradient {
@@ -96,7 +97,7 @@ html {
 }
 
 * {
-  border-color: var(--border);
+  border-color: hsl(var(--border));
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
@@ -128,11 +129,10 @@ body {
 
 /* Glassmorphism Utilities */
 .glass {
-  background: rgba(255, 255, 255, 0.85);
-  /* Slightly more opaque */
+  background: hsla(var(--card) / 0.85);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid hsla(var(--border) / 0.5);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
 }
 
@@ -145,7 +145,7 @@ body {
 }
 
 .btn-gradient {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
   box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
 }
 
@@ -155,8 +155,8 @@ body {
 }
 
 .dark .glass {
-  background: rgba(10, 10, 10, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: hsla(var(--card) / 0.7);
+  border: 1px solid hsla(var(--border) / 0.1);
 }
 
 .dark .admin-header,

@@ -230,7 +230,7 @@ const CustomerDashboard = () => {
             <h2 className="text-3xl font-bold mb-2">Welcome Back, {profile?.name?.split(' ')[0] || user?.name?.split(' ')[0]}</h2>
             <p className="opacity-70 font-medium">Manage your protection and claims from your personal dashboard.</p>
           </div>
-          <div className="flex items-center gap-3 bg-white dark:bg-white/5 p-3 rounded-2xl shadow-sm border border-slate-100 dark:border-white/10">
+          <div className="flex items-center gap-3 bg-card dark:bg-white/5 p-3 rounded-2xl shadow-sm border border-border dark:border-white/10">
             <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
               <User className="text-blue-600 dark:text-blue-400 w-5 h-5" />
             </div>
@@ -300,13 +300,13 @@ const CustomerDashboard = () => {
                       <input
                         type="text"
                         placeholder="Search policies..."
-                        className="pl-10 pr-4 py-2 rounded-xl glass border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="pl-10 pr-4 py-2 rounded-xl glass border-border dark:border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
                     </div>
                     <select
-                      className="px-4 py-2 rounded-xl glass border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="px-4 py-2 rounded-xl glass border-border dark:border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={filterType}
                       onChange={(e) => setFilterType(e.target.value)}
                     >
@@ -457,7 +457,7 @@ const CustomerDashboard = () => {
                     </thead>
                     <tbody>
                       {myClaims.map((claim) => (
-                        <tr key={claim._id} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                        <tr key={claim._id} className="hover:bg-accent/50 dark:hover:bg-white/5 transition-colors">
                           <td className="font-medium">{claim.userPolicy?.policy?.policyName || claim.userPolicy?.policyName || "Multi-Risk Health"}</td>
                           <td className="font-mono text-xs opacity-70">#{claim._id?.substring(claim._id.length - 8).toUpperCase()}</td>
                           <td className="font-bold">₹{claim.amount}</td>
@@ -504,7 +504,7 @@ const CustomerDashboard = () => {
                     name="name"
                     value={profile?.name || ""}
                     onChange={handleProfileChange}
-                    className="w-full p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                    className="w-full p-3 rounded-xl bg-background dark:bg-white/5 border border-border dark:border-white/10"
                   />
                 </div>
                 <div className="form-group">
@@ -514,7 +514,7 @@ const CustomerDashboard = () => {
                     name="email"
                     value={profile?.email || ""}
                     disabled
-                    className="w-full p-3 rounded-xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 opacity-60"
+                    className="w-full p-3 rounded-xl bg-secondary/50 dark:bg-white/10 border border-border dark:border-white/10 opacity-60"
                   />
                 </div>
                 <div className="form-group">
@@ -524,7 +524,7 @@ const CustomerDashboard = () => {
                     name="phone"
                     value={profile?.phone || ""}
                     onChange={handleProfileChange}
-                    className="w-full p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                    className="w-full p-3 rounded-xl bg-background dark:bg-white/5 border border-border dark:border-white/10"
                   />
                 </div>
                 <div className="form-group">
@@ -534,7 +534,7 @@ const CustomerDashboard = () => {
                     name="address"
                     value={profile?.address || ""}
                     onChange={handleProfileChange}
-                    className="w-full p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10"
+                    className="w-full p-3 rounded-xl bg-background dark:bg-white/5 border border-border dark:border-white/10"
                   />
                 </div>
               </div>
@@ -545,7 +545,7 @@ const CustomerDashboard = () => {
 
         {/* File Claim Dialog */}
         <Dialog open={isClaimModalOpen} onOpenChange={setIsClaimModalOpen}>
-          <DialogContent className="dark:bg-[#0a0a0a] dark:border-white/10 sm:max-w-[425px]">
+          <DialogContent className="bg-card dark:border-white/10 sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle className="dark:text-white text-2xl">File Insurance Claim</DialogTitle>
               <DialogDescription className="dark:text-slate-400">
@@ -559,7 +559,7 @@ const CustomerDashboard = () => {
                   type="number"
                   placeholder="0.00"
                   required
-                  className="w-full p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 dark:text-white"
+                  className="w-full p-3 rounded-xl bg-background dark:bg-white/5 border border-border dark:border-white/10 dark:text-white"
                   value={claimForm.amount}
                   onChange={(e) => setClaimForm({ ...claimForm, amount: e.target.value })}
                 />
@@ -570,7 +570,7 @@ const CustomerDashboard = () => {
                   placeholder="Describe the incident or reason for claim..."
                   required
                   rows={4}
-                  className="w-full p-3 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 dark:text-white"
+                  className="w-full p-3 rounded-xl bg-background dark:bg-white/5 border border-border dark:border-white/10 dark:text-white"
                   value={claimForm.description}
                   onChange={(e) => setClaimForm({ ...claimForm, description: e.target.value })}
                 />
@@ -581,7 +581,7 @@ const CustomerDashboard = () => {
                   type="file"
                   multiple
                   accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
-                  className="w-full p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 dark:text-white text-sm"
+                  className="w-full p-2 rounded-xl bg-background dark:bg-white/5 border border-border dark:border-white/10 dark:text-white text-sm"
                   onChange={(e) => setClaimForm({ ...claimForm, files: Array.from(e.target.files) })}
                 />
                 <p className="text-[10px] text-slate-500 italic">Allowed: JPG, PNG, PDF, DOC (Max 5MB each)</p>

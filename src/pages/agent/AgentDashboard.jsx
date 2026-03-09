@@ -126,17 +126,17 @@ const AgentDashboard = () => {
           <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => setActiveTab('claims')}
-              className="p-4 bg-orange-50 rounded-2xl border border-orange-100 flex flex-col items-center gap-2 hover:bg-orange-100 transition-colors"
+              className="p-4 bg-orange-500/10 dark:bg-orange-500/20 rounded-2xl border border-orange-500/20 flex flex-col items-center gap-2 hover:bg-orange-500/30 transition-colors"
             >
-              <Clock className="text-orange-600" />
-              <span className="font-bold text-orange-700">Review Claims</span>
+              <Clock className="text-orange-600 dark:text-orange-400" />
+              <span className="font-bold text-orange-700 dark:text-orange-300">Review Claims</span>
             </button>
             <button
               onClick={() => setActiveTab('policies')}
-              className="p-4 bg-blue-50 rounded-2xl border border-blue-100 flex flex-col items-center gap-2 hover:bg-blue-100 transition-colors"
+              className="p-4 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl border border-blue-500/20 flex flex-col items-center gap-2 hover:bg-blue-500/30 transition-colors"
             >
-              <FileText className="text-blue-600" />
-              <span className="font-bold text-blue-700">View Policies</span>
+              <FileText className="text-blue-600 dark:text-blue-400" />
+              <span className="font-bold text-blue-700 dark:text-blue-300">View Policies</span>
             </button>
           </div>
         </div>
@@ -253,7 +253,7 @@ const AgentDashboard = () => {
                                 href={`${API_BASE_URL}${doc.url}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-2 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 px-3 py-2 rounded-xl hover:border-blue-500 transition-colors group"
+                                className="flex items-center gap-2 bg-card dark:bg-white/5 border border-border dark:border-white/10 px-3 py-2 rounded-xl hover:border-blue-500 transition-colors group"
                               >
                                 <FileText size={14} className="text-blue-500" />
                                 <span className="text-sm font-medium group-hover:text-blue-500">{doc.name || `Document ${idx + 1}`}</span>

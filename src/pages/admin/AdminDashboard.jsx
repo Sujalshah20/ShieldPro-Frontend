@@ -246,7 +246,7 @@ const AdminDashboard = () => {
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={performanceData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                 <XAxis dataKey="name" stroke="#94a3b8" />
                 <YAxis stroke="#94a3b8" />
                 <Tooltip />
@@ -338,13 +338,13 @@ const AdminDashboard = () => {
                     </td>
                     <td>
                       <button
-                        className="action-btn text-blue-600 dark:text-blue-400"
+                        className="action-btn text-blue-600 dark:text-blue-400 font-medium"
                         onClick={() => togglePolicyStatus(policy.id, policy.status)}
                       >
                         {policy.status === "active" ? "Deactivate" : "Activate"}
                       </button>
                       <button
-                        className="action-btn text-red-600 dark:text-red-400"
+                        className="action-btn text-red-600 dark:text-red-400 font-medium"
                         onClick={() => deletePolicy(policy.id)}
                       >
                         Delete

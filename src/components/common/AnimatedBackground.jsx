@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const AnimatedBackground = ({ children }) => {
     return (
-        <div className="relative min-h-screen overflow-hidden bg-slate-50 dark:bg-black">
+        <div className="relative min-h-screen overflow-hidden bg-background text-foreground transition-colors duration-300">
             {/* Animated Mesh Base */}
             <div className="absolute inset-0 z-0 opacity-30 dark:opacity-20 mesh-gradient-premium" />
 

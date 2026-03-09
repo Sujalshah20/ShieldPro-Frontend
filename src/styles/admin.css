@@ -14,8 +14,8 @@
 }
 
 .dark .admin-header {
-  background: #000000 !important;
-  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card)) !important;
+  border-bottom: 1px solid hsl(var(--border) / 0.1);
 }
 
 .admin-header h2 {
@@ -232,7 +232,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-bottom: 1px solid hsl(var(--border));
-  background: hsl(var(--background));
+  background: hsl(var(--background) / 0.5);
 }
 
 .table td {
@@ -285,7 +285,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: hsla(0, 0%, 0%, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;

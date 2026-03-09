@@ -61,7 +61,7 @@ const Register = () => {
                                 animate={{ y: 0 }}
                                 className="flex justify-center mb-6"
                             >
-                                <div className="p-2 bg-white rounded-3xl shadow-lg border border-white/20">
+                                <div className="p-2 bg-card rounded-3xl shadow-lg border border-border">
                                     <img src="/shieldpro_logo.svg" alt="ShieldPro Logo" className="w-12 h-12 sm:w-16 sm:h-16" />
                                 </div>
                             </motion.div>
@@ -79,7 +79,7 @@ const Register = () => {
                                         <input
                                             type="text"
                                             placeholder="John Doe"
-                                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-12 py-3 sm:py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium text-base"
+                                            className="w-full bg-background/50 border border-border rounded-2xl px-12 py-3 sm:py-3.5 text-foreground placeholder:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium text-base"
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             required
@@ -96,7 +96,7 @@ const Register = () => {
                                         <input
                                             type="email"
                                             placeholder="john@example.com"
-                                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-12 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
+                                            className="w-full bg-background/50 border border-border rounded-2xl px-12 py-3.5 text-foreground placeholder:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             required
@@ -113,7 +113,7 @@ const Register = () => {
                                         <input
                                             type="password"
                                             placeholder="••••••••"
-                                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl px-12 py-3.5 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
+                                            className="w-full bg-background/50 border border-border rounded-2xl px-12 py-3.5 text-foreground placeholder:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             required
@@ -130,7 +130,7 @@ const Register = () => {
                                         <select
                                             value={role}
                                             onChange={(e) => setRole(e.target.value)}
-                                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-12 py-3.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer font-medium"
+                                            className="w-full bg-background/50 border border-border rounded-2xl px-12 py-3.5 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all appearance-none cursor-pointer font-medium"
                                         >
                                             <option value="customer">Customer</option>
                                             <option value="agent">Agent</option>

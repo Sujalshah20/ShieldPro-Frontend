@@ -68,7 +68,7 @@ const Login = () => {
                 animate={{ scale: 1, rotate: 0 }}
                 className="flex justify-center mb-6"
               >
-                <div className="p-2 bg-white rounded-3xl shadow-lg border border-white/20">
+                <div className="p-2 bg-card rounded-3xl shadow-lg border border-border">
                   <img src="/shieldpro_logo.svg" alt="ShieldPro Logo" className="w-12 h-12 sm:w-16 sm:h-16" />
                 </div>
               </motion.div>
@@ -80,13 +80,13 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="space-y-6 text-left">
               <Reveal width="100%" delay={0.3} direction="right">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-widest">Email Address</label>
+                  <label className="text-xs font-bold opacity-70 ml-1 uppercase tracking-widest text-foreground">Email Address</label>
                   <div className="relative group">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
                     <input
                       type="email"
                       placeholder="name@example.com"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-12 py-3 sm:py-4 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-base"
+                      className="w-full bg-background/50 border border-border rounded-2xl px-12 py-3 sm:py-4 text-foreground placeholder:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-base"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
@@ -98,7 +98,7 @@ const Login = () => {
               <Reveal width="100%" delay={0.4} direction="right">
                 <div className="space-y-2">
                   <div className="flex justify-between items-center px-1">
-                    <label className="text-xs font-bold text-slate-700 uppercase tracking-widest">Password</label>
+                    <label className="text-xs font-bold opacity-70 uppercase tracking-widest text-foreground">Password</label>
                     <Link to="#" className="text-xs text-blue-600 font-semibold link-underline transition-colors pb-0.5">Forgot Password?</Link>
                   </div>
                   <div className="relative group">
@@ -106,7 +106,7 @@ const Login = () => {
                     <input
                       type="password"
                       placeholder="••••••••"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-12 py-3 sm:py-4 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-base"
+                      className="w-full bg-background/50 border border-border rounded-2xl px-12 py-3 sm:py-4 text-foreground placeholder:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-base"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
