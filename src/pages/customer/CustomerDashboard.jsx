@@ -531,17 +531,20 @@ const CustomerDashboard = () => {
               ) : (
                 <div className="policies-grid">
                   {filteredPolicies.map((policy) => (
-                    <div key={policy._id} className="policy-card card-premium">
-                      <div className="policy-header">
-                        <div>
-                          <h3 className="policy-name">{policy.policyName}</h3>
-                          <span className="policy-type">{policy.policyType}</span>
+                    <Spotlight key={policy._id}>
+                      <div className="policy-card card-premium relative group">
+                        <ParticlesEffect />
+                        <ShimmerBadge className="absolute top-4 right-4">Premium</ShimmerBadge>
+                        <div className="policy-header">
+                          <div>
+                            <h3 className="policy-name">{policy.policyName}</h3>
+                            <span className="policy-type">{policy.policyType}</span>
+                          </div>
+                          <div className="policy-price-container">
+                            <div className="policy-premium">₹{policy.premiumAmount}</div>
+                            <div className="policy-period">per {policy.durationYears} Year(s)</div>
+                          </div>
                         </div>
-                        <div className="policy-price-container">
-                          <div className="policy-premium">₹{policy.premiumAmount}</div>
-                          <div className="policy-period">per {policy.durationYears} Year(s)</div>
-                        </div>
-                      </div>
 
                       <p className="policy-description">{policy.description || "Comprehensive insurance coverage."}</p>
 
@@ -581,17 +584,20 @@ const CustomerDashboard = () => {
               ) : (
                 <div className="policies-list">
                   {myPolicies.map((userPolicy) => (
-                    <div key={userPolicy._id} className="purchased-policy-card card-premium">
-                      <div className="pp-header">
-                        <div>
-                          <h3 className="pp-title">{userPolicy.policy?.policyName}</h3>
-                          <div className="pp-id">Policy #{userPolicy.policyNumber}</div>
-                          <span className="policy-type">{userPolicy.policy?.policyType}</span>
+                    <Spotlight key={userPolicy._id}>
+                      <div className="purchased-policy-card card-premium relative group">
+                        <ParticlesEffect />
+                        <ShimmerBadge className="absolute top-4 right-4">Premium</ShimmerBadge>
+                        <div className="pp-header">
+                          <div>
+                            <h3 className="pp-title">{userPolicy.policy?.policyName}</h3>
+                            <div className="pp-id">Policy #{userPolicy.policyNumber}</div>
+                            <span className="policy-type">{userPolicy.policy?.policyType}</span>
+                          </div>
+                          <span className={`badge ${userPolicy.status?.toLowerCase() === 'active' ? 'badge-active' : 'badge-inactive'}`}>
+                            {userPolicy.status}
+                          </span>
                         </div>
-                        <span className={`badge ${userPolicy.status?.toLowerCase() === 'active' ? 'badge-active' : 'badge-inactive'}`}>
-                          {userPolicy.status}
-                        </span>
-                      </div>
 
                       <div className="pp-details-grid">
                         <div className="pp-item">

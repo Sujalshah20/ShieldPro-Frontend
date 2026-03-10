@@ -272,6 +272,86 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Aceternity component utilities */
+
+.spotlight {
+  position: relative;
+}
+
+@keyframes spotlight-boom {
+  0%, 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  50% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+}
+
+.animate-spotlight {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: spotlight-boom 2s infinite;
+}
+
+.shimmer-badge {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  color: hsl(var(--gold));
+  overflow: hidden;
+}
+
+.glowing-stars {
+  position: relative;
+  overflow: hidden;
+}
+.glowing-stars::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/src/assets/images/stars-pattern.png') repeat;
+  opacity: 0.2;
+  animation: star-twinkle 5s infinite;
+}
+
+@keyframes star-twinkle {
+  0%,100%{opacity:0.2;}
+  50%{opacity:0.5;}
+}
+
+.particles-effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px) 0 0 / 20px 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.group:hover .particles-effect {
+  opacity: 1;
+}
+.particles-effect:hover {
+  /* placeholder for additional interactivity */
+}
+
+.lamp-effect {
+  position: relative;
+}
+.lamp-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top center, rgba(255,248,224,0.4) 0%, transparent 60%);
+  pointer-events: none;
+  animation: lamp-pulse 3s infinite;
+}
+
+@keyframes lamp-pulse {
+  0%,100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
 /* 3D Canvas Styles */
 .canvas-container {
   position: absolute;

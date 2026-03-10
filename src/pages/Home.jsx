@@ -4,6 +4,11 @@ import { motion } from "framer-motion";
 import { Shield, ChevronRight, Star, CheckCircle2, Clock, ShieldCheck, ArrowRight, User, Activity } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import AnimatedBackground from "../components/common/AnimatedBackground";
+import Spotlight from "../components/common/Spotlight";
+import ShimmerBadge from "../components/common/ShimmerBadge";
+import GlowingStars from "../components/common/GlowingStars";
+import ParticlesEffect from "../components/common/ParticlesEffect";
+import LampEffect from "../components/common/LampEffect";
 
 const Home = () => {
     return (
@@ -37,10 +42,10 @@ const Home = () => {
                     <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
                         <div className="relative z-10 text-left">
                             <Reveal direction="down">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-bold uppercase tracking-widest mb-6">
+                                <ShimmerBadge className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-bold uppercase tracking-widest mb-6">
                                     <Star className="w-3 h-3 fill-gold" />
                                     Premium Insurance Solutions
-                                </div>
+                                </ShimmerBadge>
                             </Reveal>
 
                             <Reveal direction="left" delay={0.2}>
@@ -83,26 +88,37 @@ const Home = () => {
 
                         <div className="relative">
                             <Reveal direction="right" delay={0.4}>
-                                <div className="relative z-10 min-h-[400px] md:min-h-[500px] flex items-center justify-center">
-                                    {/* Abstract Shield Illustration Placeholder / Lottie container could go here */}
-                                    <div className="relative w-72 h-72 md:w-96 md:h-96">
-                                        <div className="absolute inset-0 bg-gold/20 rounded-full blur-[80px] animate-pulse"></div>
-                                        <div className="relative z-10 w-full h-full glass-premium rounded-[3rem] border-2 border-gold/30 flex items-center justify-center rotate-6 hover:rotate-0 transition-transform duration-700 overflow-hidden group">
-                                            <Shield className="w-40 h-40 text-gold drop-shadow-[0_0_20px_rgba(255,184,0,0.4)] group-hover:scale-110 transition-transform duration-500" />
-                                            <div className="absolute top-4 right-4 p-4 bg-white/10 rounded-2xl backdrop-blur-md">
-                                                <CheckCircle2 className="text-gold w-6 h-6" />
-                                            </div>
-                                            <div className="absolute bottom-10 left-6 text-left">
-                                                <p className="text-xs font-bold opacity-50 uppercase tracking-widest mb-1 text-white">Trust Score</p>
-                                                <p className="text-3xl font-black text-white">99.9%</p>
+                                <Spotlight>
+                                    <div className="relative z-10 min-h-[400px] md:min-h-[500px] flex items-center justify-center">
+                                        {/* Abstract Shield Illustration Placeholder / Lottie container could go here */}
+                                        <div className="relative w-72 h-72 md:w-96 md:h-96">
+                                            <ParticlesEffect className="group-hover:opacity-100" />
+                                            <div className="absolute inset-0 bg-gold/20 rounded-full blur-[80px] animate-pulse"></div>
+                                            <div className="relative z-10 w-full h-full glass-premium rounded-[3rem] border-2 border-gold/30 flex items-center justify-center rotate-6 hover:rotate-0 transition-transform duration-700 overflow-hidden group">
+                                                <Shield className="w-40 h-40 text-gold drop-shadow-[0_0_20px_rgba(255,184,0,0.4)] group-hover:scale-110 transition-transform duration-500" />
+                                                <div className="absolute top-4 right-4 p-4 bg-white/10 rounded-2xl backdrop-blur-md">
+                                                    <CheckCircle2 className="text-gold w-6 h-6" />
+                                                </div>
+                                                <div className="absolute bottom-10 left-6 text-left">
+                                                    <p className="text-xs font-bold opacity-50 uppercase tracking-widest mb-1 text-white">Trust Score</p>
+                                                    <p className="text-3xl font-black text-white">99.9%</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Spotlight>
                             </Reveal>
                         </div>
                     </div>
                 </section>
+
+                {/* VIP Section */}
+                <GlowingStars className="py-24">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h2 className="text-4xl font-bold text-gold mb-4">VIP Access</h2>
+                        <p className="opacity-60">Our most elite members enjoy early releases, dedicated support, and custom coverage options.</p>
+                    </div>
+                </GlowingStars>
 
                 {/* Features Section */}
                 <section id="features" className="py-24 px-6 relative overflow-hidden bg-card/30">
@@ -188,9 +204,11 @@ const Home = () => {
                             <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">Ready to join the <br /><span className="text-gold">Elite Protected?</span></h2>
                         </Reveal>
                         <Reveal direction="up" delay={0.2}>
-                            <Link to="/register" className="btn-gold px-12 py-5 rounded-2xl text-xl inline-flex items-center gap-3 transition-all transform hover:scale-105 shadow-2xl shadow-gold/40">
-                                Get Started <Shield className="w-6 h-6" />
-                            </Link>
+                            <LampEffect>
+                                <Link to="/register" className="btn-gold px-12 py-5 rounded-2xl text-xl inline-flex items-center gap-3 transition-all transform hover:scale-105 shadow-2xl shadow-gold/40">
+                                    Get Started <Shield className="w-6 h-6" />
+                                </Link>
+                            </LampEffect>
                         </Reveal>
                         <div className="mt-12 flex justify-center gap-8 opacity-40">
                             <span className="text-xs font-bold uppercase tracking-[0.2em]">Secure</span>

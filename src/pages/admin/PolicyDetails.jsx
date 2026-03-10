@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { Button } from "@/components/lightswind/button";
 import { motion } from "framer-motion";
 import { Paperclip } from "lucide-react";
+import Spotlight from "../../components/common/Spotlight";
+import ShimmerBadge from "../../components/common/ShimmerBadge";
 
 const policy = {
   id: 1,
@@ -36,17 +38,19 @@ const PolicyDetails = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-          <div className="p-6 md:p-8">
-            <div className="flex flex-col md:flex-row justify-between items-start mb-6">
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                  {policy.name}
-                </h1>
-                <p className="text-gray-600 dark:text-gray-300 text-lg">
-                  Policy ID: #{id}
-                </p>
-              </div>
+        <Spotlight>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+            <div className="p-6 md:p-8">
+              <div className="flex flex-col md:flex-row justify-between items-start mb-6">
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                    {policy.name}
+                    <ShimmerBadge>Premium</ShimmerBadge>
+                  </h1>
+                  <p className="text-gray-600 dark:text-gray-300 text-lg">
+                    Policy ID: #{id}
+                  </p>
+                </div>
               <div
                 className={`px-4 py-2 text-lg font-semibold rounded-lg ${
                   policy.status === "Active"
@@ -105,5 +109,6 @@ const PolicyDetails = () => {
     </div>
   );
 };
+
 
 export default PolicyDetails;
