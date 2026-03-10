@@ -25,7 +25,7 @@ const DashboardLayout = ({ role }) => {
                     />
 
                     {/* Outlet for child routes */}
-                    <main className="flex-1 p-6 md:p-8 w-full max-w-[1400px] mx-auto overflow-x-hidden">
+                    <main className="flex-1 p-6 md:p-8 w-full mx-auto overflow-x-hidden">
                         <Outlet />
                     </main>
                 </div>

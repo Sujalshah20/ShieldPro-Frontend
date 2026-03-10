@@ -530,40 +530,48 @@ const CustomerDashboard = () => {
                 </div>
               ) : (
                 <div className="policies-grid">
-                  {filteredPolicies.map((policy) => (
-                    <Spotlight key={policy._id}>
-                      <div className="policy-card card-premium relative group">
-                        <ParticlesEffect />
-                        <ShimmerBadge className="absolute top-4 right-4">Premium</ShimmerBadge>
-                        <div className="policy-header">
-                          <div>
-                            <h3 className="policy-name">{policy.policyName}</h3>
-                            <span className="policy-type">{policy.policyType}</span>
+                  {filteredPolicies.map((policy) => {
+                      // calculate display price depending on billing period
+                      const base = policy.premiumAmount || 0;
+                      const displayPrice = isAnnual ? base : (base / 12).toFixed(0);
+                      const periodLabel = isAnnual ? `per ${policy.durationYears} Year(s)` : `per month`;
+
+                      return (
+                        <Spotlight key={policy._id}>
+                          <div className="policy-card card-premium relative group">
+                            <ParticlesEffect />
+                            <ShimmerBadge className="absolute top-4 right-4">Premium</ShimmerBadge>
+                            <div className="policy-header">
+                              <div>
+                                <h3 className="policy-name">{policy.policyName}</h3>
+                                <span className="policy-type">{policy.policyType}</span>
+                              </div>
+                              <div className="policy-price-container">
+                                <div className="policy-premium">₹{displayPrice}</div>
+                                <div className="policy-period">{periodLabel}</div>
+                              </div>
+                            </div>
+
+                            <p className="policy-description">{policy.description || "Comprehensive insurance coverage."}</p>
+
+                            <div className="policy-details">
+                              <div className="detail-item">
+                                <span className="detail-label">Coverage:</span>
+                                <span className="detail-value">₹{policy.coverageAmount}</span>
+                              </div>
+                              <div className="detail-item">
+                                <span className="detail-label">Duration:</span>
+                                <span className="detail-value">{policy.durationYears} Year(s)</span>
+                              </div>
+                            </div>
+
+                            <button className="btn-block btn-tactile mt-4" onClick={() => handleBuyPolicy(policy)}>
+                              Purchase Policy
+                            </button>
                           </div>
-                          <div className="policy-price-container">
-                            <div className="policy-premium">₹{policy.premiumAmount}</div>
-                            <div className="policy-period">per {policy.durationYears} Year(s)</div>
-                          </div>
-                        </div>
-
-                      <p className="policy-description">{policy.description || "Comprehensive insurance coverage."}</p>
-
-                      <div className="policy-details">
-                        <div className="detail-item">
-                          <span className="detail-label">Coverage:</span>
-                          <span className="detail-value">₹{policy.coverageAmount}</span>
-                        </div>
-                        <div className="detail-item">
-                          <span className="detail-label">Duration:</span>
-                          <span className="detail-value">{policy.durationYears} Year(s)</span>
-                        </div>
-                      </div>
-
-                      <button className="btn-block btn-tactile mt-4" onClick={() => handleBuyPolicy(policy)}>
-                        Purchase Policy
-                      </button>
-                    </div>
-                  ))}
+                        </Spotlight>
+                      );
+                  })}
                 </div>
               )}
             </div>
