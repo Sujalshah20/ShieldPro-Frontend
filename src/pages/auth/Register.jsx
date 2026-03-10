@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
-import { Shield, User, Mail, Lock, UserCheck, AlertCircle } from "lucide-react";
+import { Shield, User, Mail, Lock, UserCheck, AlertCircle, ArrowRight } from "lucide-react";
 import { z } from "zod";
 import Reveal from "../../components/common/Reveal";
 import HeroScene from "../../components/3d/HeroScene";
