@@ -259,7 +259,8 @@ const CustomerDashboard = () => {
         </div>
 
         <div className="dashboard-section relative z-20">
-          <div className="dashboard-tabs">
+          {/* hide these tabs on larger screens since the sidebar already provides navigation */}
+          <div className="dashboard-tabs md:hidden">
             <button
               className={`tab flex items-center gap-2 ${activeTab === "overview" ? "active" : ""}`}
               onClick={() => setActiveTab("overview")}
