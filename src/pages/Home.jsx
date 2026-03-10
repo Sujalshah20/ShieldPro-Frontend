@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Shield, ChevronRight, Star, CheckCircle2, Clock, ShieldCheck, ArrowRight, User } from "lucide-react";
+import { Shield, ChevronRight, Star, CheckCircle2, Clock, ShieldCheck, ArrowRight, User, Activity } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import AnimatedBackground from "../components/common/AnimatedBackground";
 
