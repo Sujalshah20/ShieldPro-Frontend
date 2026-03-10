@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
-import { Sun, Moon, Menu } from "lucide-react";
+import { Sun, Moon, Menu, Shield } from "lucide-react";
 import "../../styles/agent.css";
 
 const AgentLayout = () => {
@@ -22,15 +22,17 @@ const AgentLayout = () => {
                 <div className="agent-logo-container flex items-center gap-3">
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden p-2 -ml-2 rounded-lg hover:bg-white/10 transition-colors"
+                        className="md:hidden p-2 -ml-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                         aria-label="Toggle menu"
                     >
-                        <Menu size={24} className="text-white" />
+                        <Menu size={24} />
                     </button>
-                    <img src="/shieldpro_logo.svg" alt="ShieldPro Logo" className="w-10 h-10" />
+                    <div className="p-1.5 bg-gold rounded-xl shadow-[0_0_15px_rgba(255,184,0,0.2)]">
+                        <Shield className="w-6 h-6 text-gold-foreground" />
+                    </div>
                     <div>
-                        <h2 className="m-0 leading-tight">ShieldPro</h2>
-                        <span className="text-xs opacity-70">Agent Dashboard</span>
+                        <h2 className="m-0 leading-tight">Shield<span className="text-gold">Pro</span></h2>
+                        <span className="text-xs font-bold uppercase tracking-widest opacity-50">Agent</span>
                     </div>
                 </div>
 
@@ -42,7 +44,7 @@ const AgentLayout = () => {
                     <div className="flex items-center gap-4">
                         <button
                             onClick={toggleTheme}
-                            className="p-2 rounded-full hover:bg-white/10 transition-colors text-white"
+                            className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
                             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
                         >
                             {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}

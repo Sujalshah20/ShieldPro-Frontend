@@ -61,8 +61,8 @@ const Register = () => {
                                 animate={{ y: 0 }}
                                 className="flex justify-center mb-6"
                             >
-                                <div className="p-2 bg-card rounded-3xl shadow-lg border border-border">
-                                    <img src="/shieldpro_logo.svg" alt="ShieldPro Logo" className="w-12 h-12 sm:w-16 sm:h-16" />
+                                <div className="p-4 bg-gold rounded-3xl shadow-[0_0_40px_rgba(255,184,0,0.3)] border border-gold/50 flex items-center justify-center">
+                                    <Shield className="w-12 h-12 sm:w-16 sm:h-16 text-gold-foreground" />
                                 </div>
                             </motion.div>
 
@@ -157,14 +157,19 @@ const Register = () => {
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className="w-full btn-gradient btn-tactile text-white font-bold py-4 rounded-2xl shadow-lg transition-all disabled:opacity-50 mt-4 h-14"
+                                    className="w-full btn-gold font-bold py-4 rounded-2xl shadow-[0_10px_15px_-3px_hsla(var(--gold)/0.3)] transition-all disabled:opacity-50 mt-4 h-14 group"
                                 >
                                     {isLoading ? (
                                         <div className="flex items-center justify-center gap-2">
-                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                            <div className="w-5 h-5 border-2 border-gold-foreground border-t-transparent rounded-full animate-spin"></div>
                                             Registering...
                                         </div>
-                                    ) : "Create Account"}
+                                    ) : (
+                                        <div className="flex flex-row items-center justify-center gap-2">
+                                            Create Account
+                                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                        </div>
+                                    )}
                                 </motion.button>
                             </Reveal>
                         </form>

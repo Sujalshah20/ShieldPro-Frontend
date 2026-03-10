@@ -68,8 +68,8 @@ const Login = () => {
                 animate={{ scale: 1, rotate: 0 }}
                 className="flex justify-center mb-6"
               >
-                <div className="p-2 bg-card rounded-3xl shadow-lg border border-border">
-                  <img src="/shieldpro_logo.svg" alt="ShieldPro Logo" className="w-12 h-12 sm:w-16 sm:h-16" />
+                <div className="p-4 bg-gold rounded-3xl shadow-[0_0_40px_rgba(255,184,0,0.3)] border border-gold/50 flex items-center justify-center">
+                  <Shield className="w-12 h-12 sm:w-16 sm:h-16 text-gold-foreground" />
                 </div>
               </motion.div>
 
@@ -132,10 +132,10 @@ const Login = () => {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isLoading}
-                  className="w-full btn-gradient btn-tactile text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 mt-4 group"
+                  className="w-full btn-gold font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 mt-4 group"
                 >
                   {isLoading ? (
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-gold-foreground border-t-transparent rounded-full animate-spin"></div>
                   ) : (
                     <>
                       Sign In
