@@ -12,7 +12,6 @@ import { generatePolicyPDF } from "../../utils/pdfUtils";
 import Reveal from "../../components/common/Reveal";
 import Parallax from "../../components/common/Parallax";
 import Toggle from "../../components/common/Toggle";
-import AnimatedBackground from "../../components/common/AnimatedBackground";
 import WaveDivider from "../../components/common/WaveDivider";
 import {
   Dialog,
@@ -211,7 +210,7 @@ const CustomerDashboard = () => {
   });
 
   return (
-    <AnimatedBackground>
+    <>
       <div className="customer-dashboard min-h-screen relative overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
         {/* Parallax Background Blobs */}
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] blur-[120px] opacity-10 pointer-events-none">
@@ -602,7 +601,7 @@ const CustomerDashboard = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </AnimatedBackground>
+    </>
   );
 };
 
