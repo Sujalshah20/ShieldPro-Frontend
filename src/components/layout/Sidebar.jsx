@@ -27,6 +27,8 @@ export const ROLE_LINKS = {
         { name: "Dashboard", path: "/customer", icon: LayoutDashboard },
         { name: "My Policies", path: "/customer/policies", icon: ShieldCheck },
         { name: "My Claims", path: "/customer/claims", icon: FileText },
+        { name: "Profile", path: "/customer/profile", icon: Users },
+        { name: "Settings", path: "/customer/settings", icon: Settings },
         { name: "Payments", path: "/customer/checkout", icon: CreditCard },
         { name: "Support", path: "/customer/support", icon: HelpCircle },
     ]

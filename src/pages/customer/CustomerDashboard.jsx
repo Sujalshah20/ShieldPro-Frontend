@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/customer.css";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,9 @@ const CustomerDashboard = () => {
   const { user, profile, setProfile = () => {} } = useContext(AuthContext);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("overview");
+  const location = useLocation();
+  // derive activeTab from current path
+  const activeTab = location.pathname.split('/')[2] || 'overview';
   const [isAnnual, setIsAnnual] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("All");
@@ -55,7 +58,16 @@ const CustomerDashboard = () => {
   const handleBuy = (policy) => navigate("checkout", { state: { policy } });
 
   // utility helpers
-  const formatPrice = (n) => `?${n.toLocaleString()}`;
+  const formatPrice = (n) => `₹${n.toLocaleString()}`;
+
+  // filter available policies based on search and type
+  const filteredPolicies = availablePolicies.filter(policy => {
+    const matchesSearch = policy.policyName.toLowerCase().includes(searchQuery.toLowerCase());
+    const policyType = (policy.policyType || "").toLowerCase();
+    const selected = filterType.toLowerCase();
+    const matchesType = selected === "all" || policyType === selected;
+    return matchesSearch && matchesType;
+  });
 
   return (
     <article className="space-y-24">
@@ -93,10 +105,10 @@ const CustomerDashboard = () => {
 
       {/* SECTION NAV */}
       <nav aria-label="Dashboard tabs" className="hidden md:flex space-x-16 border-b pb-6">
-        {['overview','browse','mypolicies','claims','profile'].map(tab => (
+        {['overview','browse','mypolicies','claims','profile','settings'].map(tab => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => navigate(`/customer/${tab === 'overview' ? '' : tab}`)}
             className={`font-semibold pb-2 ${activeTab===tab ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-600 hover:text-gray-800'}`}
           >{tab.replace('mypolicies','My Policies').replace('browse','Browse')}</button>
         ))}
@@ -135,9 +147,17 @@ const CustomerDashboard = () => {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input type="text" placeholder="Search policies..." className="pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" value={searchQuery} onChange={e=>setSearchQuery(e.target.value)} />
                   </div>
-                  <select className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" value={filterType} onChange={e=>setFilterType(e.target.value)}>
-                    <option>All Types</option><option>Life</option><option>Health</option><option>Vehicle</option><option>Property</option>
-                  </select>
+                  <select
+                  className="px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  value={filterType}
+                  onChange={e => setFilterType(e.target.value)}
+                >
+                  <option value="All">All Types</option>
+                  <option value="Life">Life</option>
+                  <option value="Health">Health</option>
+                  <option value="Vehicle">Vehicle</option>
+                  <option value="Property">Property</option>
+                </select>
                 </div>
               </div>
             </div>

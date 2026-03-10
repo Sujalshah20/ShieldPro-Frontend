@@ -26,6 +26,10 @@ const AgentClaims = lazy(() => import("./pages/agent/AgentClaims"));
 const CustomerLayout = lazy(() => import("./pages/customer/CustomerLayout"));
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const Checkout = lazy(() => import("./pages/customer/CheckoutPage"));
+const CustomerProfile = lazy(() => import("./pages/customer/CustomerProfile"));
+const CustomerSettings = lazy(() => import("./pages/customer/CustomerSettings"));
+const CustomerPolicies = lazy(() => import("./pages/customer/CustomerPolicies"));
+const CustomerClaims = lazy(() => import("./pages/customer/CustomerClaims"));
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -101,6 +105,10 @@ function App() {
                     }
                   >
                     <Route index element={<CustomerDashboard />} />
+                    <Route path="policies" element={<CustomerPolicies />} />
+                    <Route path="claims" element={<CustomerClaims />} />
+                    <Route path="profile" element={<CustomerProfile />} />
+                    <Route path="settings" element={<CustomerSettings />} />
                     <Route path="checkout" element={<Checkout />} />
                   </Route>
 
