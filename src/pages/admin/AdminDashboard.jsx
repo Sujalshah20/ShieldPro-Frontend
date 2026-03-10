@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import React, { useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/admin.css";
 import { BentoGrid } from "../../components/lightswind/bento-grid";
-import { Shield, Users, UserCheck, CheckCircle, FileText, Activity, Globe as GlobeIcon } from "lucide-react";
+import { Shield, Users, UserCheck, Activity, Globe as GlobeIcon } from "lucide-react";
 import Globe from "../../components/lightswind/globe";
 import { api } from "../../utils/api";
 import {
@@ -26,19 +26,11 @@ import {
   AlertDialogTitle,
 } from "../../components/lightswind/alert-dialog";
 import { TableSkeleton } from "../../components/common/Skeleton";
+import { Button } from "@/components/lightswind/button";
 
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState("policies");
-
-  // Fetch policies using React Query
-  const { data: policiesRAW = [], isLoading: loading } = useQuery({
-    queryKey: ['adminPolicies', user?.token],
-    queryFn: () => api.get('/policies', user.token),
-    enabled: !!user?.token
-  });
 
   // Fetch dashboard stats
   const { data: statsData, isLoading: statsLoading } = useQuery({
@@ -46,113 +38,6 @@ const AdminDashboard = () => {
     queryFn: () => api.get('/stats/admin', user.token),
     enabled: !!user?.token
   });
-
-  // Map policies for display
-  const policies = policiesRAW.map(p => ({
-    id: p._id,
-    name: p.policyName,
-    type: p.policyType,
-    premium: `₹${p.premiumAmount}`,
-    coverage: `₹${p.coverageAmount}`,
-    duration: `${p.durationYears} Year(s)`,
-    status: (p.status || 'active').toLowerCase()
-  }));
-
-  const customers = statsData?.recentUsers || [];
-  const agents = statsData?.recentAgents || [];
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [policyToDelete, setPolicyToDelete] = useState(null);
-  const [newPolicy, setNewPolicy] = useState({
-    name: "",
-    type: "Health",
-    premium: "",
-    coverage: "",
-    duration: "",
-  });
-
-  // Mutations
-  const updateStatusMutation = useMutation({
-    mutationFn: ({ id, status }) => api.put(`/policies/${id}/status`, { status }, user.token),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['adminPolicies']);
-      queryClient.invalidateQueries(['adminStats']);
-      toast.success({ title: "Status Updated", description: "Policy status updated successfully!" });
-    },
-    onError: (error) => toast.error({ title: "Update Failed", description: error.message })
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: (id) => api.delete(`/policies/${id}`, user.token),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['adminPolicies']);
-      queryClient.invalidateQueries(['adminStats']);
-      toast.success({ title: "Policy Deleted", description: "The policy has been removed successfully." });
-    },
-    onError: (error) => toast.error({ title: "Delete Failed", description: error.message })
-  });
-
-  const createPolicyMutation = useMutation({
-    mutationFn: (policyData) => api.post('/policies', policyData, user.token),
-    onSuccess: () => {
-      queryClient.invalidateQueries(['adminPolicies']);
-      queryClient.invalidateQueries(['adminStats']);
-      toast.success({ title: "Policy Created", description: "Policy created successfully!" });
-      closeModal();
-    },
-    onError: (error) => toast.error({ title: "Creation Failed", description: error.message })
-  });
-
-  // Actions
-  const handleCreatePolicy = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setNewPolicy({
-      name: "",
-      type: "Health",
-      premium: "",
-      coverage: "",
-      duration: "",
-    });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewPolicy({ ...newPolicy, [name]: value });
-  };
-
-  const handleSubmitPolicy = async (e) => {
-    e.preventDefault();
-
-    const policyData = {
-      policyName: newPolicy.name,
-      policyType: newPolicy.type,
-      premiumAmount: Number(newPolicy.premium),
-      coverageAmount: Number(newPolicy.coverage),
-      durationYears: parseInt(newPolicy.duration) || 1
-    };
-
-    createPolicyMutation.mutate(policyData);
-  };
-
-  const togglePolicyStatus = (id, currentStatus) => {
-    const newStatus = currentStatus === "active" ? "inactive" : "active";
-    updateStatusMutation.mutate({ id, status: newStatus });
-  };
-
-  const deletePolicy = (id) => {
-    setPolicyToDelete(id);
-  };
-
-  const confirmDelete = async () => {
-    if (policyToDelete) {
-      deleteMutation.mutate(policyToDelete);
-      setPolicyToDelete(null);
-    }
-  };
 
   const statsCards = [
     {
@@ -257,265 +142,30 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Main Section */}
-      <div className="dashboard-section">
-        {/* Tabs */}
-        <div className="dashboard-tabs">
-          <button
-            className={`tab ${activeTab === "policies" ? "active" : ""}`}
-            onClick={() => setActiveTab("policies")}
-          >
-            Policies
-          </button>
-          <button
-            className={`tab ${activeTab === "customers" ? "active" : ""}`}
-            onClick={() => setActiveTab("customers")}
-          >
-            Customers
-          </button>
-          <button
-            className={`tab ${activeTab === "agents" ? "active" : ""}`}
-            onClick={() => setActiveTab("agents")}
-          >
-            Agents
-          </button>
-        </div>
-
-        {/* Header & Actions */}
-        <div className="section-header">
-          <h3>
-            {activeTab === "policies"
-              ? "Policy Management"
-              : activeTab === "customers"
-                ? "Customer Management"
-                : "Agent Management"}
-          </h3>
-          {activeTab === "policies" && (
-            <button className="btn-primary" onClick={handleCreatePolicy}>
-              + Create New Policy
-            </button>
-          )}
-        </div>
-
-        {/* Content */}
-        <div className="table-container">
-          {(loading || statsLoading) ? (
-            <div className="glass p-8 rounded-3xl">
-              <TableSkeleton rows={8} />
+      {/* Recent Activity Section */}
+      <div className="glass p-6 rounded-3xl">
+        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+          <Activity className="text-green-600" /> Recent Activity
+        </h3>
+        <div className="space-y-4">
+          {statsData?.recentActivities?.map((activity, index) => (
+            <div key={index} className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="bg-gray-200 dark:bg-gray-700 p-2 rounded-full">
+                  {activity.type === 'new_user' && <Users className="h-5 w-5 text-gray-600 dark:text-gray-300" />}
+                  {activity.type === 'new_policy' && <Shield className="h-5 w-5 text-gray-600 dark:text-gray-300" />}
+                  {activity.type === 'new_claim' && <FileText className="h-5 w-5 text-gray-600 dark:text-gray-300" />}
+                </div>
+                <div>
+                  <p className="font-semibold">{activity.description}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{new Date(activity.date).toLocaleString()}</p>
+                </div>
+              </div>
+              <Button variant="outline" size="sm">View</Button>
             </div>
-          ) : activeTab === "policies" && (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>POLICY NAME</th>
-                  <th>TYPE</th>
-                  <th>PREMIUM</th>
-                  <th>COVERAGE</th>
-                  <th>DURATION</th>
-                  <th>STATUS</th>
-                  <th>ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {policies.map((policy) => (
-                  <tr key={policy.id}>
-                    <td>
-                      <strong>{policy.name}</strong>
-                    </td>
-                    <td>{policy.type}</td>
-                    <td>{policy.premium}</td>
-                    <td>{policy.coverage}</td>
-                    <td>{policy.duration}</td>
-                    <td>
-                      <span
-                        className={`badge ${policy.status === "active"
-                          ? "badge-active"
-                          : "badge-inactive"
-                          }`}
-                      >
-                        {policy.status}
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        className="action-btn text-blue-600 dark:text-blue-400 font-medium"
-                        onClick={() => togglePolicyStatus(policy.id, policy.status)}
-                      >
-                        {policy.status === "active" ? "Deactivate" : "Activate"}
-                      </button>
-                      <button
-                        className="action-btn text-red-600 dark:text-red-400 font-medium"
-                        onClick={() => deletePolicy(policy.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-
-          {activeTab === "customers" && (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>NAME</th>
-                  <th>EMAIL</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {customers.map((customer) => (
-                  <tr key={customer.id}>
-                    <td>
-                      <strong>{customer.name}</strong>
-                    </td>
-                    <td>{customer.email}</td>
-                    <td>
-                      <span className="badge badge-active">Active</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-
-          {activeTab === "agents" && (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>NAME</th>
-                  <th>EMAIL</th>
-                  <th>STATUS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {agents.map((agent) => (
-                  <tr key={agent.id}>
-                    <td>
-                      <strong>{agent.name}</strong>
-                    </td>
-                    <td>{agent.email}</td>
-                    <td>
-                      <span className="badge badge-active">Active</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+          ))}
         </div>
       </div>
-
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>Create New Policy</h3>
-              <button className="close-btn" onClick={closeModal}>
-                &times;
-              </button>
-            </div>
-            <form onSubmit={handleSubmitPolicy}>
-              <div className="form-group">
-                <label>Policy Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={newPolicy.name}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g. Health Shield Basic"
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Type</label>
-                <select
-                  name="type"
-                  value={newPolicy.type}
-                  onChange={handleInputChange}
-                >
-                  <option value="Health">Health</option>
-                  <option value="Life">Life</option>
-                  <option value="Auto">Auto</option>
-                  <option value="Property">Property</option>
-                </select>
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Premium (₹)</label>
-                  <input
-                    type="number"
-                    name="premium"
-                    value={newPolicy.premium}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="5000"
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Coverage (₹)</label>
-                  <input
-                    type="number"
-                    name="coverage"
-                    value={newPolicy.coverage}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="500000"
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Duration (Years)</label>
-                <input
-                  type="number"
-                  name="duration"
-                  min="1"
-                  value={newPolicy.duration}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="1"
-                />
-              </div>
-
-              <div className="modal-actions">
-                <button type="button" className="btn-secondary" onClick={closeModal}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn-primary">
-                  Create Policy
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Alert */}
-      <AlertDialog open={!!policyToDelete} onOpenChange={(open) => !open && setPolicyToDelete(null)}>
-        <AlertDialogContent className="dark:bg-[#0a0a0a] dark:border-white/10">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="dark:text-white">Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription className="dark:text-slate-400">
-              This action cannot be undone. This will permanently delete the policy from the system.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="dark:bg-white/5 dark:text-white dark:border-white/10">Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700 text-white border-none"
-            >
-              Delete Policy
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };

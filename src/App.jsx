@@ -15,8 +15,14 @@ const Register = lazy(() => import("./pages/auth/Register"));
 const Home = lazy(() => import("./pages/Home"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminPolicies = lazy(() => import("./pages/admin/AdminPolicies"));
+const AdminClaims = lazy(() => import("./pages/admin/AdminClaims"));
+const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
+const PolicyDetails = lazy(() => import("./pages/admin/PolicyDetails"));
 const AgentLayout = lazy(() => import("./pages/agent/AgentLayout"));
 const AgentDashboard = lazy(() => import("./pages/agent/AgentDashboard"));
+const AgentPolicies = lazy(() => import("./pages/agent/AgentPolicies"));
+const AgentClaims = lazy(() => import("./pages/agent/AgentClaims"));
 const CustomerLayout = lazy(() => import("./pages/customer/CustomerLayout"));
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const Checkout = lazy(() => import("./pages/customer/CheckoutPage"));
@@ -65,6 +71,10 @@ function App() {
                     }
                   >
                     <Route index element={<AdminDashboard />} />
+                    <Route path="policies" element={<AdminPolicies />} />
+                    <Route path="policies/:id" element={<PolicyDetails />} />
+                    <Route path="claims" element={<AdminClaims />} />
+                    <Route path="users" element={<AdminUsers />} />
                   </Route>
 
                   {/* -------- AGENT ROUTES -------- */}
@@ -77,6 +87,8 @@ function App() {
                     }
                   >
                     <Route index element={<AgentDashboard />} />
+                    <Route path="policies" element={<AgentPolicies />} />
+                    <Route path="claims" element={<AgentClaims />} />
                   </Route>
 
                   {/* -------- CUSTOMER ROUTES -------- */}
