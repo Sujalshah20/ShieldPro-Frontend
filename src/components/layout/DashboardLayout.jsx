@@ -10,23 +10,29 @@ const DashboardLayout = ({ role }) => {
     return (
         <AnimatedBackground>
             <div className="flex min-h-screen">
-                {/* Sidebar */}
+                {/* Sidebar: fixed width desktop nav; remains sticky on scroll */}
                 <Sidebar
                     role={role}
                     isOpen={mobileMenuOpen}
                     setIsOpen={setMobileMenuOpen}
+                    className="sidebar"
                 />
 
-                {/* Main Content Area */}
-                <div className="flex-1 flex flex-col md:ml-64 w-full min-w-0 transition-all duration-300">
-                    <Header
-                        role={role}
-                        setMobileMenuOpen={setMobileMenuOpen}
-                    />
+                {/* Main content wrapper */}
+                <div className="flex-1 flex flex-col ml-[256px]">
+                    {/* top header with comfortable vertical padding */}
+                    <header className="py-12 px-16 bg-white shadow-sm flex justify-between items-center">
+                        <Header
+                            role={role}
+                            setMobileMenuOpen={setMobileMenuOpen}
+                        />
+                    </header>
 
-                    {/* Outlet for child routes */}
-                    <main className="flex-1 p-6 md:p-8 w-full mx-auto overflow-x-hidden">
-                        <Outlet />
+                    <main className="flex-1 py-16">
+                        <div className="customer-dashboard">
+                            {/* child routes will render inside dashboard container */}
+                            <Outlet />
+                        </div>
                     </main>
                 </div>
             </div>
