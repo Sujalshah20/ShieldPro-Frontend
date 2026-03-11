@@ -115,7 +115,7 @@ const CustomerDashboard = () => {
       {/* QUICK STATS */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((s, idx) => (
-          <div key={s.title} className="group relative overflow-hidden bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div key={s.title} className="group relative overflow-hidden bg-card p-6 rounded-3xl border border-border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <div className={`absolute top-0 right-0 w-24 h-24 -mr-8 -mt-8 opacity-10 group-hover:opacity-20 transition-opacity bg-blue-600 rounded-full blur-2xl`} />
             <div className="flex items-center gap-5">
               <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">

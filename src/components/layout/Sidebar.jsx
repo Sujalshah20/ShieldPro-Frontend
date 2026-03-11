@@ -87,7 +87,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 onClick={() => setIsOpen(false)}
                                 className={`group relative flex items-center gap-3.5 px-4 py-3.5 rounded-2xl transition-all duration-300 ${isActive
                                         ? "bg-blue-600 text-white shadow-xl shadow-blue-500/20 font-bold"
-                                        : "text-muted-foreground hover:bg-zinc-800/5 dark:hover:bg-white/5 hover:text-foreground hover:translate-x-1"
+                                        : "text-zinc-500 hover:bg-zinc-800/5 dark:text-zinc-400 dark:hover:bg-white/5 hover:text-zinc-900 dark:hover:text-white hover:translate-x-1"
                                     }`}
                             >
                                 <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? "scale-110" : "opacity-70 group-hover:opacity-100 group-hover:scale-110"}`} />
