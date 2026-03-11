@@ -31,9 +31,7 @@
 }
 
 /* fixed sidebar width */
-.sidebar-fixed {
-  width: 256px; /* 16 * 16px grid */
-}
+/* sidebar width handled with Tailwind utility w-64 */
 
 .customer-layout {
   min-height: 100vh;

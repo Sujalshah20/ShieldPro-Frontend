@@ -31,7 +31,7 @@ html {
 
 /* desktop sidebar fixed width */
 .sidebar {
-  @apply fixed inset-y-0 left-0 bg-white shadow-md sidebar-fixed;
+  @apply fixed inset-y-0 left-0 bg-white shadow-md w-64;
 }
 
 .link-underline {
