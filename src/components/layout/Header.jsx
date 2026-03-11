@@ -17,6 +17,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
 
     // Handle scroll effect for glass header
     useEffect(() => {
@@ -74,8 +75,15 @@ const Header = ({ role, setMobileMenuOpen }) => {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/40 group-focus-within:text-blue-500 transition-colors" />
                         <input
                             type="text"
+                            value={searchTerm}
                             placeholder={`Search ${role} resources...`}
                             className="w-full bg-black/5 dark:bg-white/5 border border-border/50 rounded-full pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                            onChange={e => setSearchTerm(e.target.value)}
+                            onKeyDown={e => {
+                                if (e.key === 'Enter') {
+                                    navigate(`/customer/browse?search=${encodeURIComponent(searchTerm)}`);
+                                }
+                            }}
                         />
                     </div>
                 </div>
@@ -157,10 +165,10 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                         <div className="text-xs opacity-70">{roleName}</div>
                                     </div>
                                     <div className="p-2 space-y-1">
-                                        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-left">
+                                        <button onClick={() => { navigate('/customer/profile'); setShowProfileMenu(false); }} className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-left">
                                             <UserIcon className="w-4 h-4 opacity-70" /> My Profile
                                         </button>
-                                        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-left">
+                                        <button onClick={() => { navigate('/customer/settings'); setShowProfileMenu(false); }} className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-left">
                                             <Settings className="w-4 h-4 opacity-70" /> Settings
                                         </button>
                                         <div className="h-px bg-border/50 my-1" />

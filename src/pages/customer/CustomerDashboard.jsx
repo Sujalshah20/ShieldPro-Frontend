@@ -22,9 +22,17 @@ const CustomerDashboard = () => {
   const location = useLocation();
   // derive activeTab from current path
   const activeTab = location.pathname.split('/')[2] || 'overview';
+
   const [isAnnual, setIsAnnual] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState("All");
+
+  // read query param for search
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('search') || '';
+    if (q && q !== searchQuery) setSearchQuery(q);
+  }, [location.search]);
 
   const { data: availablePolicies = [], isLoading: isAvailLoading } = useQuery({
     queryKey: ["availablePolicies"],
