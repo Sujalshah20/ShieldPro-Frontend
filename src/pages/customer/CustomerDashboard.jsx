@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
