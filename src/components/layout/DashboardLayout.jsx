@@ -9,30 +9,29 @@ const DashboardLayout = ({ role }) => {
 
     return (
         <AnimatedBackground>
-            <div className="flex min-h-screen">
-                {/* Sidebar: fixed width desktop nav; remains sticky on scroll */}
+            <div className="flex min-h-screen bg-background/50 backdrop-blur-sm">
+                {/* Sidebar */}
                 <Sidebar
                     role={role}
                     isOpen={mobileMenuOpen}
                     setIsOpen={setMobileMenuOpen}
-                    className="sidebar"
                 />
 
                 {/* Main content wrapper */}
-                <div className="flex-1 flex flex-col ml-[256px]">
-                    {/* top header with comfortable vertical padding */}
-                    <header className="py-12 px-16 bg-white shadow-sm flex justify-between items-center">
-                        <Header
-                            role={role}
-                            setMobileMenuOpen={setMobileMenuOpen}
-                        />
-                    </header>
+                <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+                    {/* Header */}
+                    <Header
+                        role={role}
+                        setMobileMenuOpen={setMobileMenuOpen}
+                    />
 
-                    <main className="flex-1 py-16">
-                        <div className="customer-dashboard">
-                            {/* child routes will render inside dashboard container */}
-                            <Outlet />
-                        </div>
+                    {/* Content Area */}
+                    <main className="flex-1 overflow-y-auto overflow-x-hidden">
+                        <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            <div className="max-w-7xl mx-auto">
+                                <Outlet />
+                            </div>
+                        </section>
                     </main>
                 </div>
             </div>
