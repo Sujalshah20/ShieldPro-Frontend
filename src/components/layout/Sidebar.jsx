@@ -9,7 +9,7 @@ import {
     CreditCard
 } from "lucide-react";
 
-export const ROLE_LINKS = {
+const ROLE_LINKS = {
     admin: [
         { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
         { name: "Users", path: "/admin/users", icon: Users },

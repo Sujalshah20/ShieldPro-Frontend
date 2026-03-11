@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
 import { api } from "../utils/api";
 
@@ -7,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("shieldpro_user")) || null
   );
+  const [profile, setProfile] = useState(null);
 
   const login = async (email, password) => {
     try {
@@ -32,11 +34,12 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    setProfile(null);
     localStorage.removeItem("shieldpro_user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, profile, setProfile, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

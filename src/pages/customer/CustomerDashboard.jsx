@@ -4,10 +4,8 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/customer.css";
 import { useNavigate } from "react-router-dom";
-import { User, Shield, CheckCircle, ClipboardList, Search, Home as HomeIcon, Car, Heart } from "lucide-react";
-import { useToast } from "../../hooks/use-toast";
+import { User, Shield, CheckCircle, ClipboardList, Search } from "lucide-react";
 import { api } from "../../utils/api";
-import { useNotifications } from "../../context/NotificationContext";
 import Toggle from "../../components/common/Toggle";
 import { CardSkeleton } from "../../components/common/Skeleton";
 
@@ -16,8 +14,7 @@ import { CardSkeleton } from "../../components/common/Skeleton";
 // and interactive elements follow enterprise UI conventions.
 
 const CustomerDashboard = () => {
-  const { user, profile, setProfile = () => {} } = useContext(AuthContext);
-  const { toast } = useToast();
+  const { user, profile } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   // derive activeTab from current path
@@ -31,7 +28,8 @@ const CustomerDashboard = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const q = params.get('search') || '';
-    if (q && q !== searchQuery) setSearchQuery(q);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (q) setSearchQuery(q);
   }, [location.search]);
 
   const { data: availablePolicies = [], isLoading: isAvailLoading } = useQuery({

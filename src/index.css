@@ -1,42 +1,13 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
 @plugin 'lightswind/plugin';
 
 html {
   scroll-behavior: smooth;
 }
 
-/* Premium Tactile Utilities */
-.btn-tactile {
-  @apply transition-all duration-300 active:scale-[0.95] hover:scale-[1.02];
-}
-
-.card-premium {
-  @apply transition-all duration-500 hover:translate-y-[-6px] hover:shadow-2xl hover:shadow-blue-500/20;
-}
-
-.glass-premium {
-  @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl;
-}
-
-/* corporate card design */
-.card {
-  @apply bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-200;
-}
-.card-header {
-  @apply px-6 py-4 border-b border-gray-200;
-}
-.card-body {
-  @apply px-6 py-5;
-}
-
-/* desktop sidebar fixed width */
-.sidebar {
-  @apply fixed inset-y-0 left-0 bg-white shadow-md w-64;
-}
-
-.link-underline {
-  @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-blue-600 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
-}
 
 .gradient-border-animate {
   position: relative;
@@ -59,7 +30,6 @@ html {
   animation: borderGradient 8s linear infinite;
   opacity: 0.5;
 }
-
 @keyframes borderGradient {
   0% {
     background-position: 0% 50%;
@@ -280,7 +250,7 @@ body {
 }
 
 .blob-glass {
-  @apply backdrop-blur-3xl bg-white/10 dark:bg-white/5 border border-white/10 rounded-full;
+  @apply backdrop-blur-2xl bg-white/10 dark:bg-white/5 border border-white/10 rounded-full;
 }
 
 /* Smooth Scrolling */

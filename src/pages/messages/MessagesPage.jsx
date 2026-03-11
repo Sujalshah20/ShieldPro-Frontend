@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
@@ -22,7 +22,7 @@ const MessagesPage = () => {
     });
 
     // Fetch messages
-    const { data: allMessages = [], isLoading: msgLoading } = useQuery({
+    const { data: allMessages = [] } = useQuery({
         queryKey: ['messages', user?.token],
         queryFn: () => api.get('/messages', user.token),
         enabled: !!user?.token,

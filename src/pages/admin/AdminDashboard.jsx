@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/admin.css";
 import { BentoGrid } from "../../components/lightswind/bento-grid";
-import { Shield, Users, UserCheck, Activity, Globe as GlobeIcon } from "lucide-react";
+import { Shield, Users, UserCheck, Activity, Globe as GlobeIcon, FileText } from "lucide-react";
 import Globe from "../../components/lightswind/globe";
 import { api } from "../../utils/api";
 import {
@@ -14,7 +14,6 @@ import {
   ChartLegendContent
 } from "../../components/lightswind/chart";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-import { useToast } from "../../hooks/use-toast";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,7 +29,6 @@ import { Button } from "@/components/lightswind/button";
 
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
-  const { toast } = useToast();
 
   // Fetch dashboard stats
   const { data: statsData, isLoading: statsLoading } = useQuery({
@@ -38,6 +36,10 @@ const AdminDashboard = () => {
     queryFn: () => api.get('/stats/admin', user.token),
     enabled: !!user?.token
   });
+
+  if (statsLoading) {
+    return <div className="p-8"><TableSkeleton rows={10} cols={5} /></div>;
+  }
 
   const statsCards = [
     {
@@ -78,7 +80,6 @@ const AdminDashboard = () => {
   ];
 
   const chartData = statsData?.charts?.policyDistribution || [];
-  const claimData = statsData?.charts?.claimStatusDistribution || [];
   const performanceData = statsData?.charts?.performanceData || [];
 
   const COLORS = ["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ef4444"];

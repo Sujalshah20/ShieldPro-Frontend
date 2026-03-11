@@ -1,8 +1,9 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./utils/QueryClient";
 import { AnimatePresence, motion } from "framer-motion";
+import Lenis from "lenis";
 import { ThemeProvider } from "./context/ThemeContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import { Toaster } from "./components/lightswind/toaster";
@@ -50,6 +51,30 @@ const LoadingSpinner = () => (
 
 function App() {
   const location = useLocation();
+
+  useEffect(() => {
+    let lenis;
+    try {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+    } catch (error) {
+      console.error("Lenis initialization skipped:", error);
+    }
+
+    return () => {
+      if (lenis) lenis.destroy();
+    };
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

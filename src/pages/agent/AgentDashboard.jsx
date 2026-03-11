@@ -3,22 +3,22 @@ import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/agent.css";
 import { BentoGrid } from "../../components/lightswind/bento-grid";
-import { FileText, Clock, DollarSign, Activity, PieChart as PieIcon, ShieldCheck } from "lucide-react";
+import { FileText, Clock, DollarSign, Activity, PieChart as PieIcon } from "lucide-react";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
-import { useToast } from "../../hooks/use-toast";
 import { CardSkeleton, TableSkeleton } from "../../components/common/Skeleton";
 import { api, API_BASE_URL } from "../../utils/api";
 import { Button } from "@/components/lightswind/button";
 
 const AgentDashboard = () => {
   const { user } = useContext(AuthContext);
-  const { toast } = useToast();
 
   const { data: agentStats, isLoading: statsLoading } = useQuery({
     queryKey: ['agentStats', user?.token],
     queryFn: () => api.get('/stats/agent', user.token),
     enabled: !!user?.token
   });
+
+  if (statsLoading) return <div className="p-8"><TableSkeleton rows={10} cols={5} /></div>;
 
   const statsCards = [
     {

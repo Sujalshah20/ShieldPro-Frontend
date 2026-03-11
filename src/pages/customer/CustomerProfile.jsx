@@ -9,17 +9,25 @@ const CustomerProfile = () => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
 
-    const { data, isLoading } = useQuery({
+    const [form, setForm] = useState({ name: '', phone: '', address: '' });
+
+    const { data: profileData, isLoading } = useQuery({
         queryKey: ['profile', user?.token],
         queryFn: () => api.get('/users/profile', user.token),
         enabled: !!user?.token,
-        onSuccess: data => {
-            setForm(data);
-            setProfile(data);
-        }
     });
 
-    const [form, setForm] = useState({ name: '', phone: '', address: '' });
+    useEffect(() => {
+        if (profileData) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setForm({
+                name: profileData.name || '',
+                phone: profileData.phone || '',
+                address: profileData.address || ''
+            });
+            setProfile(profileData);
+        }
+    }, [profileData, setProfile]);
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -30,10 +38,10 @@ const CustomerProfile = () => {
         try {
             const updated = await api.put('/users/profile', form, user.token);
             setProfile(updated);
-            toast.success({ title: "Profile updated" });
+            toast({ title: "Profile updated" });
             queryClient.invalidateQueries(['profile', user?.token]);
         } catch (err) {
-            toast.error({ title: "Update failed", description: err.message });
+            toast({ title: "Update failed", description: err.message });
         }
     };
 
