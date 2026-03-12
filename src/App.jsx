@@ -110,6 +110,7 @@ function App() {
                     <Route index element={<AdminDashboard />} />
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="policies" element={<AdminPolicies />} />
+                    <Route path="policies/:id" element={<PolicyDetails />} />
                     <Route path="applications" element={<AdminApplications />} />
                     <Route path="commissions" element={<AdminCommissions />} />
                     <Route path="transactions" element={<AdminTransactions />} />
