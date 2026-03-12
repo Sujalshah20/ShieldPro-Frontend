@@ -32,6 +32,8 @@ const CustomerSettings = lazy(() => import("./pages/customer/CustomerSettings"))
 const CustomerPolicies = lazy(() => import("./pages/customer/CustomerPolicies"));
 const CustomerClaims = lazy(() => import("./pages/customer/CustomerClaims"));
 
+const ApplicationPage = lazy(() => import("./pages/customer/ApplicationPage"));
+
 const PageWrapper = ({ children }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -134,6 +136,7 @@ function App() {
                     <Route path="claims" element={<CustomerClaims />} />
                     <Route path="profile" element={<CustomerProfile />} />
                     <Route path="settings" element={<CustomerSettings />} />
+                    <Route path="apply" element={<ApplicationPage />} />
                     <Route path="checkout" element={<Checkout />} />
                   </Route>
 

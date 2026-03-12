@@ -9,6 +9,7 @@ import { User, Shield, CheckCircle, ClipboardList, Search } from "lucide-react";
 import { api } from "../../utils/api";
 import Toggle from "../../components/common/Toggle";
 import { CardSkeleton } from "../../components/common/Skeleton";
+import { useToast } from "../../hooks/use-toast";
 
 // This component has been rewritten for a premium desktop experience.
 // Layout is intentionally spacious, typography scaled for large screens,
@@ -16,6 +17,7 @@ import { CardSkeleton } from "../../components/common/Skeleton";
 
 const CustomerDashboard = () => {
   const { user, profile } = useContext(AuthContext);
+  const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   // derive activeTab from current path
@@ -56,13 +58,32 @@ const CustomerDashboard = () => {
 
   const loading = isAvailLoading || isMyPolLoading || isClaimsLoading;
 
+  const { data: myApplications = [] } = useQuery({
+    queryKey: ["myApplications", user?.token],
+    queryFn: () => api.get("/applications/my", user.token),
+    enabled: !!user?.token
+  });
+
   const stats = [
     { title: "My Policies", value: myPolicies.length, icon: Shield },
-    { title: "Active Policies", value: myPolicies.filter(p => p.status === 'Active').length, icon: CheckCircle },
-    { title: "Pending Claims", value: myClaims.filter(c => c.status === 'Pending').length, icon: ClipboardList }
+    { title: "Applications", value: myApplications.filter(a => a.status !== 'Paid').length, icon: ClipboardList },
+    { title: "Active Claims", value: myClaims.filter(c => c.status === 'Pending').length, icon: CheckCircle }
   ];
 
-  const handleBuy = (policy) => navigate("checkout", { state: { policy } });
+  const handleBuy = (policy) => {
+    // Before applying, check if profile has minimum data (Name and Phone)
+    // Detailed check is inside the ApplicationPage, but this is a quick UX guard
+    if (!profile?.name || !profile?.phone) {
+      toast({ 
+        title: "Profile Incomplete", 
+        description: "Please complete your basic profile before applying for policies.",
+        variant: "destructive"
+      });
+      navigate("/customer/profile");
+      return;
+    }
+    navigate("apply", { state: { policy } });
+  };
 
   // utility helpers
   const formatPrice = (n) => `₹${n.toLocaleString()}`;
@@ -134,7 +155,7 @@ const CustomerDashboard = () => {
       <section className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-border pb-1">
           <nav className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-            {['overview','browse','mypolicies','claims'].map(tab => (
+            {['overview','browse','mypolicies','applications','claims'].map(tab => (
               <button
                 key={tab}
                 onClick={() => navigate(`/customer/${tab === 'overview' ? '' : tab}`)}
@@ -144,7 +165,7 @@ const CustomerDashboard = () => {
                   : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                {tab.replace('mypolicies','My Policies').replace('browse','Browse Plans').replace('overview', 'Overview').replace('claims', 'Active Claims')}
+                {tab.replace('mypolicies','My Policies').replace('browse','Browse Plans').replace('overview', 'Overview').replace('claims', 'Claims').replace('applications', 'Applications')}
                 {activeTab === tab && (
                   <motion.div 
                     layoutId="activeTab" 
@@ -238,6 +259,70 @@ const CustomerDashboard = () => {
                    )}
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Applications Tab Content */}
+          {activeTab === 'applications' && (
+            <div className="space-y-6">
+               <div className="flex items-center justify-between">
+                  <h2 className="text-3xl font-black">My Applications</h2>
+                  <p className="text-sm opacity-60 font-medium">Track your underwriting progress.</p>
+               </div>
+               
+               <div className="grid grid-cols-1 gap-4">
+                  {myApplications.filter(a => a.status !== 'Paid').length > 0 ? (
+                    myApplications.filter(a => a.status !== 'Paid').map(app => (
+                      <div key={app._id} className="glass p-6 md:p-8 rounded-[2.5rem] border border-border flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:border-blue-500/30">
+                         <div className="flex items-center gap-5">
+                            <div className="w-16 h-16 bg-blue-600/10 text-blue-600 rounded-3xl flex items-center justify-center shrink-0">
+                               <Shield size={32} />
+                            </div>
+                            <div>
+                               <h3 className="text-xl font-bold">{app.policy?.policyName}</h3>
+                               <div className="flex items-center gap-3 mt-1">
+                                  <span className="text-xs font-bold uppercase tracking-widest opacity-40">{app.policy?.policyType}</span>
+                                  <span className="w-1 h-1 bg-border rounded-full" />
+                                  <span className="text-xs font-bold text-blue-600">ID: #{app._id.slice(-6).toUpperCase()}</span>
+                               </div>
+                            </div>
+                         </div>
+
+                         <div className="flex flex-wrap items-center gap-4 md:gap-8">
+                            <div className="text-right">
+                               <div className="text-[10px] uppercase font-black opacity-30 tracking-widest mb-1">Status</div>
+                               <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest backdrop-blur-md ${
+                                  app.status === 'Pending' ? 'bg-orange-100 text-orange-600 border border-orange-200' :
+                                  app.status === 'Approved' ? 'bg-green-100 text-green-600 border border-green-200' :
+                                  app.status === 'Rejected' ? 'bg-red-100 text-red-600 border border-red-200' :
+                                  'bg-slate-100 text-slate-600'
+                               }`}>
+                                  {app.status}
+                               </span>
+                            </div>
+
+                            {app.status === 'Approved' ? (
+                               <button 
+                                  onClick={() => navigate('/customer/checkout', { state: { policy: app.policy, applicationId: app._id } })}
+                                  className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all"
+                               >
+                                  Proceed to Payment
+                               </button>
+                            ) : (
+                               <button className="px-8 py-4 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 rounded-2xl font-black uppercase tracking-widest text-xs cursor-default">
+                                  Under Review
+                               </button>
+                            )}
+                         </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="py-20 text-center glass rounded-[3rem] border-2 border-dashed border-border">
+                       <p className="text-xl font-bold opacity-20">No active applications</p>
+                       <button onClick={()=>navigate('/customer/browse')} className="mt-4 text-blue-600 font-bold hover:underline">Start an application</button>
+                    </div>
+                  )}
+               </div>
             </div>
           )}
 

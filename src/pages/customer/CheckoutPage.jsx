@@ -1,12 +1,14 @@
 import React, { useState, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
 import { api } from "../../utils/api";
 import { useToast } from "../../hooks/use-toast";
 import { CreditCard, ShieldCheck, Lock, ChevronLeft } from "lucide-react";
 
 const CheckoutPage = () => {
     const { user } = useContext(AuthContext);
+    const queryClient = useQueryClient();
     const { state } = useLocation();
     const navigate = useNavigate();
     const { toast } = useToast();
@@ -30,15 +32,28 @@ const CheckoutPage = () => {
         try {
             const result = await api.post("/transactions/process", {
                 policyId: policy._id,
+                applicationId: applicationId,
                 amount: policy.premiumAmount,
                 paymentMethod: "Credit Card"
             }, user.token);
 
             if (result.success) {
-                toast.success({
-                    title: "Payment Successful",
-                    description: `Transaction ID: ${result.transaction.transactionId}. Policy SP-${result.userPolicy.policyNumber} is now active!`
+                toast({
+                    title: "Security Active!",
+                    description: `Policy SP-${result.userPolicy.policyNumber} is now live. Safe travels!`,
+                    variant: "success"
                 });
+                queryClient.invalidateQueries(["myPolicies"]);
+                queryClient.invalidateQueries(["myApplications"]);
+                
+                // Simulation of PDF Generation
+                setTimeout(() => {
+                    toast({
+                        title: "Document Ready",
+                        description: "Your policy PDF has been generated and sent to your email.",
+                    });
+                }, 2000);
+
                 navigate("/customer");
             }
         } catch (error) {
