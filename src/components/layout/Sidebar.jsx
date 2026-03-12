@@ -8,7 +8,8 @@ import {
     Settings,
     HelpCircle,
     CreditCard,
-    Activity
+    Activity,
+    DollarSign
 } from "lucide-react";
 
 const ROLE_LINKS = {
