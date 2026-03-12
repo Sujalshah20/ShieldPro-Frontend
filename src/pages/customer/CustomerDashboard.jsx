@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/customer.css";
 import { useNavigate } from "react-router-dom";
-import { User, Shield, CheckCircle, ClipboardList, Search, AlertCircle } from "lucide-react";
+import { User, Shield, CheckCircle, ClipboardList, Search, AlertCircle, Activity, Truck, Home, FileText, Globe } from "lucide-react";
 import { api } from "../../utils/api";
 import Toggle from "../../components/common/Toggle";
 import { CardSkeleton } from "../../components/common/Skeleton";
@@ -87,6 +87,28 @@ const CustomerDashboard = () => {
 
   // utility helpers
   const formatPrice = (n) => `₹${n.toLocaleString()}`;
+
+  const getPolicyIcon = (type) => {
+    switch(type) {
+        case 'Health': return <Activity className="w-6 h-6" />;
+        case 'Vehicle': case 'Auto': return <Truck className="w-6 h-6" />;
+        case 'Property': case 'Home': return <Home className="w-6 h-6" />;
+        case 'Life': return <Shield className="w-6 h-6" />;
+        case 'Travel': return <Globe className="w-6 h-6" />;
+        default: return <FileText className="w-6 h-6" />;
+    }
+  };
+
+  const getPolicyColor = (type) => {
+    switch(type) {
+        case 'Health': return 'red';
+        case 'Vehicle': case 'Auto': return 'orange';
+        case 'Property': case 'Home': return 'blue';
+        case 'Life': return 'gold';
+        case 'Travel': return 'teal';
+        default: return 'zinc';
+    }
+  };
 
   // filter available policies based on search and type
   const filteredPolicies = availablePolicies.filter(policy => {
@@ -223,14 +245,22 @@ const CustomerDashboard = () => {
                       <div key={p._id} className="group flex flex-col justify-between p-6 bg-white dark:bg-zinc-900 rounded-3xl border border-border hover:border-blue-500/50 hover:shadow-lg transition-all">
                         <div>
                           <div className="flex items-center justify-between mb-4">
-                            <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
+                            <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-lg ${
+                              getPolicyColor(p.policy?.policyType) === 'red' ? 'bg-red-100 text-red-600' :
+                              getPolicyColor(p.policy?.policyType) === 'orange' ? 'bg-orange-100 text-orange-600' :
+                              getPolicyColor(p.policy?.policyType) === 'blue' ? 'bg-blue-100 text-blue-600' :
+                              getPolicyColor(p.policy?.policyType) === 'teal' ? 'bg-teal-100 text-teal-600' :
+                              'bg-zinc-100 text-zinc-600'
+                            }`}>
                               {p.policy?.policyType}
                             </span>
-                            <Shield className="w-5 h-5 text-blue-600/30 group-hover:text-blue-600 transition-colors" />
+                            <div className="text-zinc-400 group-hover:text-gold transition-colors">
+                              {getPolicyIcon(p.policy?.policyType)}
+                            </div>
                           </div>
                           <h3 className="text-lg font-bold leading-tight mb-2">{p.policy?.policyName}</h3>
                           <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                            Secure your future with our {p.policy?.policyType?.toLowerCase()} plan.
+                            {p.policy?.description || `Your active ${p.policy?.policyType?.toLowerCase()} plan.`}
                           </p>
                         </div>
                         <div className="flex items-center justify-between border-t border-border pt-4 mt-4">
@@ -377,7 +407,9 @@ const CustomerDashboard = () => {
                     <option value="Life">Life Insurance</option>
                     <option value="Health">Health Insurance</option>
                     <option value="Vehicle">Vehicle Insurance</option>
-                    <option value="Property">Property Protection</option>
+                    <option value="Auto">Auto Guard</option>
+                    <option value="Property">Property & Home</option>
+                    <option value="Travel">Travel Secure</option>
                   </select>
                 </div>
               </div>
@@ -390,8 +422,14 @@ const CustomerDashboard = () => {
                     <div key={pol._id} className="group relative bg-white dark:bg-zinc-900 rounded-[32px] border border-border overflow-hidden hover:shadow-2xl hover:border-gold/50 transition-all duration-500">
                       <div className="p-8">
                         <div className="flex justify-between items-start mb-6">
-                          <div className="p-3 rounded-2xl bg-gold-50 dark:bg-gold-900/20 text-gold-600">
-                             <Shield className="w-6 h-6" />
+                          <div className={`p-3 rounded-2xl ${
+                              getPolicyColor(pol.policyType) === 'red' ? 'bg-red-50 dark:bg-red-900/20 text-red-600' :
+                              getPolicyColor(pol.policyType) === 'orange' ? 'bg-orange-50 dark:bg-orange-900/20 text-orange-600' :
+                              getPolicyColor(pol.policyType) === 'blue' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600' :
+                              getPolicyColor(pol.policyType) === 'teal' ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-600' :
+                              'bg-gold-50 dark:bg-gold-900/20 text-gold-600'
+                          }`}>
+                             {getPolicyIcon(pol.policyType)}
                           </div>
                           <div className="text-right">
                             <span className="text-2xl font-black">{formatPrice(isAnnual ? pol.premiumAmount : Math.floor(pol.premiumAmount/12))}</span>
@@ -400,8 +438,8 @@ const CustomerDashboard = () => {
                         </div>
                         
                         <h3 className="text-xl font-bold mb-3 tracking-tight group-hover:text-gold transition-colors">{pol.policyName}</h3>
-                        <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                          Comprehensive {pol.policyType?.toLowerCase()} coverage with premium support and fast payouts.
+                        <p className="text-sm text-muted-foreground leading-relaxed mb-6 line-clamp-2">
+                          {pol.description}
                         </p>
                         
                         <div className="space-y-3 mb-8">

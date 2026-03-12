@@ -6,8 +6,7 @@ import { useToast } from "../../hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
     ChevronLeft, ChevronRight, FileText, Upload, 
-    ShieldCheck, Activity, Truck, Home, CheckCircle2,
-    Lock, AlertCircle
+    CheckCircle2, Lock, AlertCircle, Globe
 } from "lucide-react";
 
 const ApplicationPage = () => {
@@ -143,13 +142,17 @@ const ApplicationPage = () => {
                         <div className="flex items-center gap-3 mb-6">
                              <div className={`p-4 rounded-3xl ${
                                 policy.policyType === 'Health' ? 'bg-red-100 text-red-600' :
-                                policy.policyType === 'Vehicle' ? 'bg-orange-100 text-orange-600' :
-                                'bg-gold/10 text-gold'
+                                policy.policyType === 'Vehicle' || policy.policyType === 'Auto' ? 'bg-orange-100 text-orange-600' :
+                                policy.policyType === 'Property' || policy.policyType === 'Home' ? 'bg-blue-100 text-blue-600' :
+                                policy.policyType === 'Life' ? 'bg-gold/10 text-gold' :
+                                policy.policyType === 'Travel' ? 'bg-teal-100 text-teal-600' :
+                                'bg-zinc-100 text-zinc-600'
                              }`}>
                                 {policy.policyType === 'Health' && <Activity size={32} />}
-                                {policy.policyType === 'Vehicle' && <Truck size={32} />}
-                                {policy.policyType === 'Property' && <Home size={32} />}
+                                {(policy.policyType === 'Vehicle' || policy.policyType === 'Auto') && <Truck size={32} />}
+                                {(policy.policyType === 'Property' || policy.policyType === 'Home') && <Home size={32} />}
                                 {policy.policyType === 'Life' && <FileText size={32} />}
+                                {policy.policyType === 'Travel' && <Globe size={32} />}
                              </div>
                              <div>
                                 <h3 className="text-2xl font-black">{policy.policyType} Details</h3>
@@ -158,10 +161,10 @@ const ApplicationPage = () => {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {policy.policyType === 'Vehicle' && (
+                            {(policy.policyType === 'Vehicle' || policy.policyType === 'Auto') && (
                                 <>
                                     <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Registration Number</label>
+                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">{policy.policyType === 'Auto' ? 'Vehicle VIN / Reg' : 'Registration Number'}</label>
                                         <input 
                                             placeholder="e.g. MH01-AB-1234"
                                             className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold uppercase transition-all"
@@ -230,6 +233,26 @@ const ApplicationPage = () => {
                                             <option value="Non-Smoker">Non-Smoker</option>
                                             <option value="Smoker">Smoker</option>
                                         </select>
+                                    </div>
+                                </>
+                            )}
+                            {policy.policyType === 'Travel' && (
+                                <>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Passport Number</label>
+                                        <input 
+                                            placeholder="e.g. Z1234567"
+                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold uppercase transition-all"
+                                            onChange={e => setFormData({...formData, passport: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Primary Destination</label>
+                                        <input 
+                                            placeholder="e.g. European Union"
+                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold transition-all"
+                                            onChange={e => setFormData({...formData, destination: e.target.value})}
+                                        />
                                     </div>
                                 </>
                             )}
