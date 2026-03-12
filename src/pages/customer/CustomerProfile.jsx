@@ -9,7 +9,7 @@ const CustomerProfile = () => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
 
-    const [form, setForm] = useState({ name: '', phone: '', address: '' });
+    const [form, setForm] = useState({ name: '', phone: '', address: '', dob: '', gender: '' });
 
     const { data: profileData, isLoading } = useQuery({
         queryKey: ['profile', user?.token],
@@ -23,7 +23,9 @@ const CustomerProfile = () => {
             setForm({
                 name: profileData.name || '',
                 phone: profileData.phone || '',
-                address: profileData.address || ''
+                address: profileData.address || '',
+                dob: profileData.dob || '',
+                gender: profileData.gender || ''
             });
             setProfile(profileData);
         }
@@ -93,12 +95,32 @@ const CustomerProfile = () => {
                                 placeholder="+1 (555) 000-0000"
                             />
                         </div>
+                        <div className="space-y-3">
+                            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Date of Birth</label>
+                            <input
+                                type="date"
+                                className="w-full px-6 py-4 bg-zinc-50 dark:bg-zinc-800 border border-border rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-semibold"
+                                name="dob" value={form.dob?.split('T')[0] || ""} onChange={handleChange}
+                            />
+                        </div>
+                        <div className="space-y-3">
+                            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Gender Identity</label>
+                            <select
+                                className="w-full px-6 py-4 bg-zinc-50 dark:bg-zinc-800 border border-border rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-semibold appearance-none"
+                                name="gender" value={form.gender || ""} onChange={handleChange}
+                            >
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
                         <div className="md:col-span-2 space-y-3">
                             <label className="text-xs font-black uppercase tracking-widest text-muted-foreground ml-1">Registered Address</label>
-                            <input
-                                className="w-full px-6 py-4 bg-zinc-50 dark:bg-zinc-800 border border-border rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-semibold"
+                            <textarea
+                                className="w-full px-6 py-4 bg-zinc-50 dark:bg-zinc-800 border border-border rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-semibold resize-none"
                                 name="address" value={form.address || ""} onChange={handleChange}
                                 placeholder="123 Luxury Ave, Suite 500"
+                                rows="3"
                             />
                         </div>
                     </div>
