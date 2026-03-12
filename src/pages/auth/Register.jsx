@@ -77,16 +77,15 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setError("");
         try {
             registerSchema.parse(formData);
             await register(formData);
             navigate("/login");
         } catch (err) {
-            if (err instanceof z.ZodError && err.errors?.length > 0) {
-                setError(err.errors[0].message);
-            } else {
-                setError(err.message || "Registration failed. Please try again.");
-            }
+            const zodMessage = err?.errors?.[0]?.message;
+            const apiMessage = err?.message;
+            setError(zodMessage || apiMessage || "Registration failed. Please try again.");
         } finally {
             setIsLoading(false);
         }
