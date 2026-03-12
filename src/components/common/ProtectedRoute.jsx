@@ -9,7 +9,13 @@ export default function ProtectedRoute({ children, role }) {
   }
 
   if (role && user.role !== role) {
-    return <Navigate to="/login" />;
+    // Redirect to their respective dashboard instead of login
+    const dashboardRedirects = {
+      admin: "/admin",
+      agent: "/agent",
+      customer: "/customer",
+    };
+    return <Navigate to={dashboardRedirects[user.role] || "/login"} />;
   }
 
   return children;
