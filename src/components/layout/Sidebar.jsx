@@ -7,7 +7,8 @@ import {
     FileText,
     Settings,
     HelpCircle,
-    CreditCard
+    CreditCard,
+    Activity
 } from "lucide-react";
 
 const ROLE_LINKS = {

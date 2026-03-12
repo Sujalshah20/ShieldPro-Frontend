@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/customer.css";
 import { useNavigate } from "react-router-dom";
-import { User, Shield, CheckCircle, ClipboardList, Search } from "lucide-react";
+import { User, Shield, CheckCircle, ClipboardList, Search, AlertCircle } from "lucide-react";
 import { api } from "../../utils/api";
 import Toggle from "../../components/common/Toggle";
 import { CardSkeleton } from "../../components/common/Skeleton";
