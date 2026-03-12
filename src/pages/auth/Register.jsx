@@ -82,10 +82,10 @@ const Register = () => {
             await register(formData);
             navigate("/login");
         } catch (err) {
-            if (err instanceof z.ZodError) {
+            if (err instanceof z.ZodError && err.errors?.length > 0) {
                 setError(err.errors[0].message);
             } else {
-                setError(err.message || "An unexpected error occurred.");
+                setError(err.message || "Registration failed. Please try again.");
             }
         } finally {
             setIsLoading(false);

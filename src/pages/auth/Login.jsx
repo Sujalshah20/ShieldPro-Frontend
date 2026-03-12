@@ -49,10 +49,10 @@ const Login = () => {
 
       navigate(roleRedirects[user.role] || "/login");
     } catch (err) {
-      if (err instanceof z.ZodError) {
+      if (err instanceof z.ZodError && err.errors?.length > 0) {
         setError(err.errors[0].message);
       } else {
-        setError(err.message || "An error occurred during login.");
+        setError(err.message || "Login failed. Please check your credentials.");
       }
     } finally {
       setIsLoading(false);
