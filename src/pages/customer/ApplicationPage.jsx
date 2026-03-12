@@ -76,7 +76,11 @@ const ApplicationPage = () => {
                 navigate("/customer/claims"); // Redirect to a page where they can see status
             }
         } catch (error) {
-            toast({ title: "Submission failed", description: error.message, variant: "destructive" });
+            toast({ 
+                title: "Submission failed", 
+                description: error?.errors?.[0]?.message || error?.message || "Please check your network and try again.", 
+                variant: "destructive" 
+            });
         } finally {
             setLoading(false);
         }
@@ -161,6 +165,7 @@ const ApplicationPage = () => {
                                         <input 
                                             placeholder="e.g. MH01-AB-1234"
                                             className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold uppercase transition-all"
+                                            value={formData.regNo || ""}
                                             onChange={e => setFormData({...formData, regNo: e.target.value})}
                                         />
                                     </div>
@@ -169,6 +174,7 @@ const ApplicationPage = () => {
                                         <input 
                                             placeholder="e.g. Tesla Model 3 (2023)"
                                             className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold transition-all"
+                                            value={formData.model || ""}
                                             onChange={e => setFormData({...formData, model: e.target.value})}
                                         />
                                     </div>

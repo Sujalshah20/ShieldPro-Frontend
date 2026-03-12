@@ -4,7 +4,11 @@ const API_URL = `${API_BASE_URL}/api`;
 const handleResponse = async (response) => {
     const data = await response.json();
     if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong');
+        // Throw structured error object that includes errors array if present
+        const error = new Error(data.message || 'Something went wrong');
+        error.errors = data.errors;
+        error.status = response.status;
+        throw error;
     }
     return data;
 };

@@ -2,12 +2,14 @@ import React, { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import "../../styles/agent.css";
-import { BentoGrid } from "../../components/lightswind/bento-grid";
-import { FileText, Clock, DollarSign, Activity, PieChart as PieIcon } from "lucide-react";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from "recharts";
-import { CardSkeleton, TableSkeleton } from "../../components/common/Skeleton";
-import { api, API_BASE_URL } from "../../utils/api";
-import { Button } from "@/components/lightswind/button";
+import { Link } from "react-router-dom";
+import { 
+  FileText, Clock, DollarSign, Activity, 
+  PieChart as PieIcon, Users, ShieldCheck 
+} from "lucide-react";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { TableSkeleton } from "../../components/common/Skeleton";
+import { api } from "../../utils/api";
 
 const AgentDashboard = () => {
   const { user } = useContext(AuthContext);

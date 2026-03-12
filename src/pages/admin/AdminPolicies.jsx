@@ -47,6 +47,13 @@ const AdminPolicies = () => {
         toast({ title: "Policy Initialized", description: "New insurance product is now live." });
         setIsAdding(false);
         setFormData({ policyName: "", policyType: "Health", premiumAmount: "", coverageAmount: "", durationYears: "", description: "" });
+    },
+    onError: (err) => {
+      toast({
+        title: "Creation Failed",
+        description: err?.errors?.[0]?.message || err?.message || "Could not create policy",
+        variant: "destructive"
+      });
     }
   });
 
@@ -55,6 +62,13 @@ const AdminPolicies = () => {
     onSuccess: () => {
         queryClient.invalidateQueries(['adminPolicies']);
         toast({ title: "Product Sunset", description: "Policy has been removed from the catalog." });
+    },
+    onError: (err) => {
+      toast({
+        title: "Deletion Failed",
+        description: err?.message || "Could not delete policy",
+        variant: "destructive"
+      });
     }
   });
 

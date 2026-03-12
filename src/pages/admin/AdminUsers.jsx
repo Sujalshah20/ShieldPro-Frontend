@@ -29,6 +29,13 @@ const AdminUsers = () => {
         enabled: !!user?.token && activeTab === 'reassignment'
     });
 
+    const queryClient = useQueryClient();
+    const [isAddingAgent, setIsAddingAgent] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "", email: "", password: "", phone: "", 
+        dob: "", gender: "Male", address: "", commissionRate: 10
+    });
+
     const createMutation = useMutation({
         mutationFn: (data) => api.post('/admin/agents', data, user.token),
         onSuccess: () => {
@@ -37,9 +44,12 @@ const AdminUsers = () => {
             setIsAddingAgent(false);
             setFormData({ name: "", email: "", password: "", phone: "", dob: "", gender: "Male", address: "", commissionRate: 10 });
         },
-        onError: (err) => toast({ title: "Registration Failed", description: err.message, variant: "destructive" })
+        onError: (err) => toast({ 
+            title: "Registration Failed", 
+            description: err?.errors?.[0]?.message || err?.message || "Something went wrong", 
+            variant: "destructive" 
+        })
     });
-
     const statusMutation = useMutation({
         mutationFn: (data) => api.put(`/admin/agents/${data.id}/status`, { status: data.status }, user.token),
         onSuccess: (data, variables) => {
@@ -47,6 +57,13 @@ const AdminUsers = () => {
             toast({ 
                 title: "Status Synchronized", 
                 description: `Agent account has been ${variables.status === 'active' ? 'activated' : 'suspended'}.` 
+            });
+        },
+        onError: (err) => {
+            toast({
+                title: "Status Update Failed",
+                description: err?.message || "Could not update agent status",
+                variant: "destructive"
             });
         }
     });
@@ -57,6 +74,13 @@ const AdminUsers = () => {
             queryClient.invalidateQueries(['adminCustomers']);
             toast({ title: "Portfolio Moved", description: "Customer has been reassigned to the selected agent." });
             setSelectedCustomer(null);
+        },
+        onError: (err) => {
+            toast({
+                title: "Reassignment Failed",
+                description: err?.message || "Could not reassign customer",
+                variant: "destructive"
+            });
         }
     });
 
@@ -64,13 +88,6 @@ const AdminUsers = () => {
         e.preventDefault();
         createMutation.mutate(formData);
     };
-
-    const queryClient = useQueryClient();
-    const [isAddingAgent, setIsAddingAgent] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "", email: "", password: "", phone: "", 
-        dob: "", gender: "Male", address: "", commissionRate: 10
-    });
 
     const totalPortfolio = agents?.reduce((acc, curr) => acc + (curr.stats?.earnings || 0), 0) || 0;
 
@@ -133,17 +150,23 @@ const AdminUsers = () => {
                         <h3 className="text-xl font-bold italic tracking-tight">System Identity Register</h3>
                     </div>
                 <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr className="bg-white/5 text-[10px] font-black uppercase tracking-widest opacity-40">
-                                <th className="px-8 py-6">Agent Identity</th>
-                                <th className="px-8 py-6">Performance</th>
-                                <th className="px-8 py-6">Commission</th>
-                                <th className="px-8 py-6">Status</th>
-                                <th className="px-8 py-6 text-right">Operational Control</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border/10">
+                    {agentsLoading ? (
+                        <div className="p-8">
+                            <TableSkeleton rows={5} cols={5} />
+                        </div>
+                    ) : (
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="bg-white/5 text-[10px] font-black uppercase tracking-widest opacity-40">
+                                    <th className="px-8 py-6">Agent Identity</th>
+                                    <th className="px-8 py-6">Performance</th>
+                                    <th className="px-8 py-6">Commission</th>
+                                    <th className="px-8 py-6">Status</th>
+                                    <th className="px-8 py-6 text-right">Operational Control</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-border/10">
+
                             {agents?.map((agent, idx) => (
                                 <motion.tr 
                                     initial={{ opacity: 0, y: 10 }}
@@ -218,7 +241,9 @@ const AdminUsers = () => {
                             ))}
                         </tbody>
                     </table>
+                    )}
                 </div>
+
             </div>
             </>
             ) : (
@@ -228,16 +253,22 @@ const AdminUsers = () => {
                         <p className="text-[10px] font-black uppercase opacity-40">Total Registered: {customers?.length || 0}</p>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
-                            <thead>
-                                <tr className="bg-white/5 text-[10px] font-black uppercase tracking-widest opacity-40">
-                                    <th className="px-8 py-6">Customer</th>
-                                    <th className="px-8 py-6">Current Strategist</th>
-                                    <th className="px-8 py-6">Status</th>
-                                    <th className="px-8 py-6 text-right">Reassignment</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-border/10">
+                        {customersLoading ? (
+                            <div className="p-8">
+                                <TableSkeleton rows={5} cols={4} />
+                            </div>
+                        ) : (
+                            <table className="w-full text-left">
+                                <thead>
+                                    <tr className="bg-white/5 text-[10px] font-black uppercase tracking-widest opacity-40">
+                                        <th className="px-8 py-6">Customer</th>
+                                        <th className="px-8 py-6">Current Strategist</th>
+                                        <th className="px-8 py-6">Status</th>
+                                        <th className="px-8 py-6 text-right">Reassignment</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-border/10">
+
                                 {customers?.map((customer, idx) => (
                                     <motion.tr 
                                         initial={{ opacity: 0, y: 10 }}
@@ -279,7 +310,9 @@ const AdminUsers = () => {
                                 ))}
                             </tbody>
                         </table>
+                        )}
                     </div>
+
                 </div>
             )}
 

@@ -37,7 +37,11 @@ const CustomerClaims = () => {
             setFiles([]);
         },
         onError: (err) => {
-            toast({ title: "Filing Failed", description: err.message, variant: "destructive" });
+            toast({ 
+                title: "Filing Failed", 
+                description: err?.errors?.[0]?.message || err?.message || "Submission failed", 
+                variant: "destructive" 
+            });
         }
     });
 

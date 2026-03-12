@@ -35,7 +35,11 @@ const AgentClients = () => {
             setSelectedPolicy("");
         },
         onError: (err) => {
-            toast({ title: "Application Failed", description: err.message, variant: "destructive" });
+            toast({ 
+                title: "Application Failed", 
+                description: err?.errors?.[0]?.message || err?.message || "Something went wrong", 
+                variant: "destructive" 
+            });
         }
     });
 

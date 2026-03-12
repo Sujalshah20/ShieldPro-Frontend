@@ -26,7 +26,12 @@ const AgentApplications = () => {
             queryClient.invalidateQueries(['agentApps']);
             toast({ title: "Remarks Saved", description: "Internal note has been updated." });
             setSelectedApp(null);
-        }
+        },
+        onError: (err) => toast({
+            title: "Update Failed",
+            description: err?.errors?.[0]?.message || err?.message || "Failed to save remarks",
+            variant: "destructive"
+        })
     });
 
     const flagMutation = useMutation({
@@ -34,8 +39,14 @@ const AgentApplications = () => {
         onSuccess: () => {
             queryClient.invalidateQueries(['agentApps']);
             toast({ title: "Priority Updated", description: "Application flag status changed." });
-        }
+        },
+        onError: (err) => toast({
+            title: "Flag Error",
+            description: err?.message || "Could not update flag status",
+            variant: "destructive"
+        })
     });
+
 
     if (isLoading) return <div className="p-8"><TableSkeleton rows={10} cols={6} /></div>;
 

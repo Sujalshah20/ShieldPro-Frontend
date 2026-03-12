@@ -15,6 +15,7 @@ const CheckoutPage = () => {
     const [loading, setLoading] = useState(false);
 
     const policy = state?.policy;
+    const applicationId = state?.applicationId;
 
     if (!policy) {
         return (
@@ -40,8 +41,7 @@ const CheckoutPage = () => {
             if (result.success) {
                 toast({
                     title: "Security Active!",
-                    description: `Policy SP-${result.userPolicy.policyNumber} is now live. Safe travels!`,
-                    variant: "success"
+                    description: `Policy ${result.userPolicy?.policyNumber || ''} is now live. Safe travels!`,
                 });
                 queryClient.invalidateQueries(["myPolicies"]);
                 queryClient.invalidateQueries(["myApplications"]);
@@ -57,9 +57,10 @@ const CheckoutPage = () => {
                 navigate("/customer");
             }
         } catch (error) {
-            toast.error({
+            toast({
                 title: "Payment Failed",
-                description: error.message || "An error occurred during payment."
+                description: error?.errors?.[0]?.message || error?.message || "An error occurred during payment.",
+                variant: "destructive"
             });
         } finally {
             setLoading(false);
