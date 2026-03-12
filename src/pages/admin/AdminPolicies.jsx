@@ -14,7 +14,7 @@ import {
 } from "@/components/lightswind/dropdown-menu";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Search, Filter, Shield, Activity, Truck, Home, FileText, Star, ArrowUpRight, Plus, X } from "lucide-react";
+import { Search, Filter, Shield, Activity, Truck, Home, FileText, Star, ArrowUpRight, Plus, X, Globe } from "lucide-react";
 import { TableSkeleton } from "../../components/common/Skeleton";
 import { useToast } from "../../hooks/use-toast";
 
@@ -75,10 +75,22 @@ const AdminPolicies = () => {
   const getPolicyIcon = (type) => {
     switch(type) {
         case 'Health': return <Activity size={24} />;
-        case 'Vehicle': return <Truck size={24} />;
+        case 'Vehicle': case 'Auto': return <Truck size={24} />;
         case 'Property': case 'Home': return <Home size={24} />;
         case 'Life': return <Shield size={24} />;
+        case 'Travel': return <Globe size={24} />;
         default: return <FileText size={24} />;
+    }
+  };
+
+  const getPolicyColor = (type) => {
+    switch(type) {
+        case 'Health': return 'red';
+        case 'Vehicle': case 'Auto': return 'orange';
+        case 'Property': case 'Home': return 'blue';
+        case 'Life': return 'gold';
+        case 'Travel': return 'teal';
+        default: return 'zinc';
     }
   };
 
@@ -121,7 +133,7 @@ const AdminPolicies = () => {
             <DropdownMenuContent className="glass-premium border-border/50 rounded-2xl p-2 min-w-[180px]">
               <DropdownMenuLabel className="text-[10px] font-black uppercase tracking-widest opacity-40 p-2">Category</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {["All", "Health", "Vehicle", "Home", "Life", "Auto", "Property"].map(type => (
+              {["All", "Health", "Vehicle", "Home", "Life", "Auto", "Property", "Travel"].map(type => (
                   <DropdownMenuItem key={type} className="rounded-xl font-bold cursor-pointer" onClick={() => setFilterType(type)}>
                       {type}
                   </DropdownMenuItem>
@@ -154,8 +166,10 @@ const AdminPolicies = () => {
             <div className="p-8">
               <div className="flex justify-between items-start mb-6">
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${
-                    policy.policyType === 'Health' ? 'bg-red-500/10 text-red-500' :
-                    policy.policyType === 'Vehicle' ? 'bg-orange-500/10 text-orange-500' :
+                    getPolicyColor(policy.policyType) === 'red' ? 'bg-red-500/10 text-red-500' :
+                    getPolicyColor(policy.policyType) === 'orange' ? 'bg-orange-500/10 text-orange-500' :
+                    getPolicyColor(policy.policyType) === 'blue' ? 'bg-blue-500/10 text-blue-500' :
+                    getPolicyColor(policy.policyType) === 'teal' ? 'bg-teal-500/10 text-teal-500' :
                     'bg-gold/10 text-gold'
                 }`}>
                   {getPolicyIcon(policy.policyType)}
