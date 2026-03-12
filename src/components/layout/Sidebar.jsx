@@ -56,14 +56,14 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 {/* Logo Section */}
                 <div className="p-8 flex items-center gap-4 border-b border-border/10">
                     <div className="relative group/logo">
-                        <div className="absolute inset-0 bg-blue-600 blur-xl opacity-20 group-hover/logo:opacity-40 transition-opacity" />
-                        <div className="relative p-2.5 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-lg ring-1 ring-white/20">
+                        <div className="absolute inset-0 bg-gold blur-xl opacity-20 group-hover/logo:opacity-40 transition-opacity" />
+                        <div className="relative p-2.5 bg-gradient-to-br from-gold to-amber-600 rounded-2xl shadow-lg ring-1 ring-white/20">
                             <ShieldCheck className="w-6 h-6 text-white" />
                         </div>
                     </div>
                     <div className="flex flex-col">
-                        <h2 className="text-xl font-black tracking-tight leading-none">
-                            Shield<span className="text-blue-600">Pro</span>
+                        <h2 className="text-xl font-black tracking-tight leading-none text-foreground">
+                            Shield<span className="text-gold">Pro</span>
                         </h2>
                         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mt-1 opacity-60">Insurance Suite</span>
                     </div>
@@ -86,8 +86,8 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 to={link.path}
                                 onClick={() => setIsOpen(false)}
                                 className={`group relative flex items-center gap-3.5 px-4 py-3.5 rounded-2xl transition-all duration-300 ${isActive
-                                        ? "bg-blue-600 text-white shadow-xl shadow-blue-500/20 font-bold"
-                                        : "text-zinc-500 hover:bg-zinc-800/5 dark:text-zinc-400 dark:hover:bg-white/5 hover:text-zinc-900 dark:hover:text-white hover:translate-x-1"
+                                        ? "bg-gold text-gold-foreground shadow-xl shadow-gold/20 font-bold"
+                                        : "text-zinc-500 hover:bg-gold/5 dark:text-zinc-400 dark:hover:bg-white/5 hover:text-zinc-900 dark:hover:text-white hover:translate-x-1"
                                     }`}
                             >
                                 <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? "scale-110" : "opacity-70 group-hover:opacity-100 group-hover:scale-110"}`} />
@@ -106,10 +106,10 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
                 {/* Footer Section */}
                 <div className="p-6">
-                    <div className="p-4 bg-zinc-900 dark:bg-zinc-800 rounded-2xl border border-white/5 shadow-inner">
-                        <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">Premium Support</p>
-                        <p className="text-xs text-white/70 leading-relaxed mb-3">Our agents are here to help you 24/7.</p>
-                        <button className="w-full py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-500 transition-colors">
+                    <div className="p-4 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-border shadow-sm">
+                        <p className="text-[10px] font-bold text-gold uppercase tracking-widest mb-1">Premium Support</p>
+                        <p className="text-xs text-muted-foreground leading-relaxed mb-3">Our agents are here to help you 24/7.</p>
+                        <button className="w-full py-2 bg-gold text-gold-foreground rounded-xl text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all">
                             Get Help
                         </button>
                     </div>

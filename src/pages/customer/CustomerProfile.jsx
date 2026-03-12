@@ -107,13 +107,13 @@ const CustomerProfile = () => {
     return (
         <div className="max-w-6xl mx-auto space-y-10 pb-20">
             {/* Header / Stats */}
-            <div className="relative overflow-hidden bg-blue-600 rounded-[40px] p-8 md:p-12 text-white shadow-2xl">
+            <div className="relative overflow-hidden bg-gradient-to-br from-gold to-amber-600 rounded-[40px] p-8 md:p-12 text-gold-foreground shadow-2xl">
                 <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
                     <div className="relative group">
-                        <div className="w-32 h-32 rounded-[2.5rem] bg-white text-blue-600 flex items-center justify-center text-5xl font-black shadow-xl overflow-hidden">
+                        <div className="w-32 h-32 rounded-[2.5rem] bg-white text-gold flex items-center justify-center text-5xl font-black shadow-xl overflow-hidden">
                              {form.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
                         </div>
-                        <button className="absolute -bottom-2 -right-2 p-3 bg-gold text-gold-foreground rounded-2xl shadow-lg border-4 border-blue-600 transition-transform hover:scale-110 active:scale-95">
+                        <button className="absolute -bottom-2 -right-2 p-3 bg-zinc-900 text-gold rounded-2xl shadow-lg border-4 border-amber-500 transition-transform hover:scale-110 active:scale-95">
                             <Camera size={18} />
                         </button>
                     </div>
@@ -124,17 +124,17 @@ const CustomerProfile = () => {
                              {completion === 100 && <span className="px-4 py-1.5 bg-green-400 text-green-900 rounded-full text-xs font-bold tracking-widest uppercase flex items-center gap-1"><CheckCircle2 size={12}/> Profile Complete</span>}
                         </div>
                         <h1 className="text-4xl md:text-5xl font-black tracking-tighter">{form.name || 'Set Your Name'}</h1>
-                        <p className="text-blue-100 font-medium opacity-80">{user.email}</p>
+                        <p className="opacity-80 font-medium">{user.email}</p>
                     </div>
 
                     <div className="w-full md:w-64 bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20">
                         <div className="flex justify-between items-end mb-3">
-                            <span className="text-xs font-bold uppercase tracking-widest opacity-80 text-blue-100">Profile Strength</span>
+                            <span className="text-xs font-bold uppercase tracking-widest opacity-80">Profile Strength</span>
                             <span className="text-2xl font-black">{completion}%</span>
                         </div>
                         <div className="h-2 w-full bg-white/20 rounded-full overflow-hidden">
                             <div 
-                                className="h-full bg-gold transition-all duration-1000 ease-out"
+                                className="h-full bg-white transition-all duration-1000 ease-out"
                                 style={{ width: `${completion}%` }}
                             />
                         </div>
@@ -142,8 +142,8 @@ const CustomerProfile = () => {
                 </div>
                 
                 {/* Decorative background shapes */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full -ml-20 -mb-20 blur-2xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-400/20 rounded-full -ml-20 -mb-20 blur-2xl pointer-events-none" />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -152,40 +152,40 @@ const CustomerProfile = () => {
                     {/* Basic Info */}
                     <div className="glass p-8 rounded-[3rem] border border-border">
                         <div className="flex items-center gap-3 mb-8">
-                            <div className="w-1.5 h-8 bg-blue-600 rounded-full" />
+                            <div className="w-1.5 h-8 bg-gold rounded-full" />
                             <h2 className="text-2xl font-bold tracking-tight">Identity & Contact</h2>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Full Name</label>
                                 <div className="relative group">
-                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                                    <input name="name" value={form.name} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-blue-600/20 transition-all font-semibold" />
+                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
+                                    <input name="name" value={form.name} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">National ID / Passport</label>
                                 <div className="relative group">
-                                    <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                                    <input name="nationalId" value={form.nationalId} onChange={handleChange} placeholder="Required for claims" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-blue-600/20 transition-all font-semibold" />
+                                    <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
+                                    <input name="nationalId" value={form.nationalId} onChange={handleChange} placeholder="Required for claims" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Phone Number</label>
                                 <div className="relative group">
-                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                                    <input name="phone" value={form.phone} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-blue-600/20 transition-all font-semibold" />
+                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
+                                    <input name="phone" value={form.phone} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Date of Birth</label>
-                                <input type="date" name="dob" value={form.dob?.split('T')[0] || ''} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-blue-600/20 transition-all font-semibold" />
+                                <input type="date" name="dob" value={form.dob?.split('T')[0] || ''} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
                             </div>
                             <div className="md:col-span-2 space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Residential Address</label>
                                 <div className="relative group">
-                                    <MapPin className="absolute left-4 top-4 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                                    <textarea name="address" value={form.address} onChange={handleChange} rows="3" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-blue-600/20 transition-all font-semibold resize-none" />
+                                    <MapPin className="absolute left-4 top-4 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
+                                    <textarea name="address" value={form.address} onChange={handleChange} rows="3" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold resize-none" />
                                 </div>
                             </div>
                         </div>
@@ -201,13 +201,13 @@ const CustomerProfile = () => {
                             <div className="space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Nominee Name</label>
                                 <div className="relative group">
-                                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={18} />
-                                    <input name="nominee.name" value={form.nominee.name} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
+                                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
+                                    <input name="nominee.name" value={form.nominee.name} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Relationship</label>
-                                <select name="nominee.relationship" value={form.nominee.relationship} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold cursor-pointer appearance-none">
+                                <select name="nominee.relationship" value={form.nominee.relationship} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold cursor-pointer appearance-none">
                                     <option value="">Select Relation</option>
                                     <option value="Spouse">Spouse</option>
                                     <option value="Child">Child</option>
@@ -223,17 +223,17 @@ const CustomerProfile = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="glass p-8 rounded-[3rem] border border-border">
                             <div className="flex items-center gap-3 mb-8">
-                                <Briefcase className="text-blue-600" size={24} />
+                                <Briefcase className="text-gold" size={24} />
                                 <h3 className="text-xl font-bold tracking-tight">Work Details</h3>
                             </div>
                             <div className="space-y-4">
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-black uppercase opacity-40 ml-1">Occupation</span>
-                                    <input name="employment.occupation" value={form.employment.occupation} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-semibold" />
+                                    <input name="employment.occupation" value={form.employment.occupation} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-semibold" />
                                 </div>
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-black uppercase opacity-40 ml-1">Annual Income</span>
-                                    <input name="employment.annualIncome" value={form.employment.annualIncome} onChange={handleChange} type="number" className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-semibold" />
+                                    <input name="employment.annualIncome" value={form.employment.annualIncome} onChange={handleChange} type="number" className="w-full px-4 py-3.5 rounded-xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-semibold" />
                                 </div>
                             </div>
                         </div>
@@ -246,11 +246,11 @@ const CustomerProfile = () => {
                             <div className="space-y-4">
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-black uppercase opacity-40 ml-1">A/C Number</span>
-                                    <input name="bankDetails.accountNumber" value={form.bankDetails.accountNumber} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-green-600/20 font-semibold" />
+                                    <input name="bankDetails.accountNumber" value={form.bankDetails.accountNumber} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-green-600/20 font-semibold" />
                                 </div>
                                 <div className="space-y-1">
                                     <span className="text-[10px] font-black uppercase opacity-40 ml-1">IFSC Code</span>
-                                    <input name="bankDetails.ifscCode" value={form.bankDetails.ifscCode} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-slate-50 dark:bg-zinc-800 border-none outline-none focus:ring-2 focus:ring-green-600/20 font-semibold uppercase" />
+                                    <input name="bankDetails.ifscCode" value={form.bankDetails.ifscCode} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-green-600/20 font-semibold uppercase" />
                                 </div>
                             </div>
                         </div>
@@ -258,7 +258,7 @@ const CustomerProfile = () => {
 
                     <button 
                         onClick={handleSave}
-                        className="w-full py-6 bg-blue-600 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-600/40 hover:bg-blue-700 hover:scale-[1.02] transform transition-all active:scale-100"
+                        className="w-full py-6 bg-gold text-gold-foreground rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-gold/40 hover:brightness-110 hover:scale-[1.02] transform transition-all active:scale-100"
                     >
                         Securely Save Profile
                     </button>
@@ -289,10 +289,10 @@ const CustomerProfile = () => {
                         <button className="w-full py-3 border border-border rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-zinc-50 dark:hover:bg-white/5 transition-all">Two-Factor Auth</button>
                     </div>
 
-                    <div className="p-8 bg-gradient-to-br from-indigo-600 to-blue-700 rounded-[3rem] text-white shadow-xl shadow-blue-600/20">
+                    <div className="p-8 bg-gradient-to-br from-gold to-amber-600 rounded-[3rem] text-gold-foreground shadow-xl shadow-gold/20">
                          <h3 className="text-xl font-bold mb-4">Support</h3>
                          <p className="text-sm opacity-80 mb-6 leading-relaxed">Need help updating sensitive data? Our concierge is available 24/7.</p>
-                         <button className="px-6 py-3 bg-white text-blue-600 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transform transition-all">Chat Now</button>
+                         <button className="px-6 py-3 bg-zinc-900 text-gold rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transform transition-all">Chat Now</button>
                     </div>
                 </div>
             </div>

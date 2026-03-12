@@ -161,7 +161,7 @@ const CustomerDashboard = () => {
                 onClick={() => navigate(`/customer/${tab === 'overview' ? '' : tab}`)}
                 className={`relative px-6 py-3 text-sm font-bold transition-all whitespace-nowrap ${
                   activeTab === tab 
-                  ? 'text-blue-600' 
+                  ? 'text-gold' 
                   : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
@@ -169,7 +169,7 @@ const CustomerDashboard = () => {
                 {activeTab === tab && (
                   <motion.div 
                     layoutId="activeTab" 
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full" 
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-gold rounded-t-full" 
                   />
                 )}
               </button>
@@ -273,9 +273,9 @@ const CustomerDashboard = () => {
                <div className="grid grid-cols-1 gap-4">
                   {myApplications.filter(a => a.status !== 'Paid').length > 0 ? (
                     myApplications.filter(a => a.status !== 'Paid').map(app => (
-                      <div key={app._id} className="glass p-6 md:p-8 rounded-[2.5rem] border border-border flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:border-blue-500/30">
+                      <div key={app._id} className="glass p-6 md:p-8 rounded-[2.5rem] border border-border flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:border-gold/30">
                          <div className="flex items-center gap-5">
-                            <div className="w-16 h-16 bg-blue-600/10 text-blue-600 rounded-3xl flex items-center justify-center shrink-0">
+                            <div className="w-16 h-16 bg-gold/10 text-gold rounded-3xl flex items-center justify-center shrink-0">
                                <Shield size={32} />
                             </div>
                             <div>
@@ -283,7 +283,7 @@ const CustomerDashboard = () => {
                                <div className="flex items-center gap-3 mt-1">
                                   <span className="text-xs font-bold uppercase tracking-widest opacity-40">{app.policy?.policyType}</span>
                                   <span className="w-1 h-1 bg-border rounded-full" />
-                                  <span className="text-xs font-bold text-blue-600">ID: #{app._id.slice(-6).toUpperCase()}</span>
+                                  <span className="text-xs font-bold text-gold">ID: #{app._id.slice(-6).toUpperCase()}</span>
                                </div>
                             </div>
                          </div>
@@ -304,7 +304,7 @@ const CustomerDashboard = () => {
                             {app.status === 'Approved' ? (
                                <button 
                                   onClick={() => navigate('/customer/checkout', { state: { policy: app.policy, applicationId: app._id } })}
-                                  className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all"
+                                  className="px-8 py-4 bg-gold text-gold-foreground rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-gold/30 hover:scale-105 active:scale-95 transition-all"
                                >
                                   Proceed to Payment
                                </button>
@@ -366,10 +366,10 @@ const CustomerDashboard = () => {
                   <CardSkeleton rows={2} cols={3} />
                 ) : filteredPolicies.length > 0 ? (
                   filteredPolicies.map(pol => (
-                    <div key={pol._id} className="group relative bg-white dark:bg-zinc-900 rounded-[32px] border border-border overflow-hidden hover:shadow-2xl hover:border-blue-500/50 transition-all duration-500">
+                    <div key={pol._id} className="group relative bg-white dark:bg-zinc-900 rounded-[32px] border border-border overflow-hidden hover:shadow-2xl hover:border-gold/50 transition-all duration-500">
                       <div className="p-8">
                         <div className="flex justify-between items-start mb-6">
-                          <div className="p-3 rounded-2xl bg-blue-50 dark:bg-blue-900/20 text-blue-600">
+                          <div className="p-3 rounded-2xl bg-gold-50 dark:bg-gold-900/20 text-gold-600">
                              <Shield className="w-6 h-6" />
                           </div>
                           <div className="text-right">
@@ -378,7 +378,7 @@ const CustomerDashboard = () => {
                           </div>
                         </div>
                         
-                        <h3 className="text-xl font-bold mb-3 tracking-tight group-hover:text-blue-600 transition-colors">{pol.policyName}</h3>
+                        <h3 className="text-xl font-bold mb-3 tracking-tight group-hover:text-gold transition-colors">{pol.policyName}</h3>
                         <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                           Comprehensive {pol.policyType?.toLowerCase()} coverage with premium support and fast payouts.
                         </p>

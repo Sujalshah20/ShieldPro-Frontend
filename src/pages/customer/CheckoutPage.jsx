@@ -71,7 +71,7 @@ const CheckoutPage = () => {
             <div className="max-w-4xl mx-auto">
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors mb-8"
+                    className="flex items-center gap-2 text-slate-500 hover:text-gold transition-colors mb-8"
                 >
                     <ChevronLeft size={20} />
                     <span className="font-medium">Back to Policies</span>
@@ -100,13 +100,13 @@ const CheckoutPage = () => {
                                 </div>
                                 <div className="flex justify-between items-center pt-6 text-xl font-bold">
                                     <span>Total Amount</span>
-                                    <span className="text-blue-600">₹{policy.premiumAmount}</span>
+                                    <span className="text-gold">₹{policy.premiumAmount}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4 p-4 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-900/30">
-                            <ShieldCheck className="text-blue-600 mt-1" size={24} />
+                        <div className="flex items-start gap-4 p-4 bg-gold/5 rounded-2xl border border-gold/10">
+                            <ShieldCheck className="text-gold mt-1" size={24} />
                             <div>
                                 <h4 className="font-bold">ShieldPro Protection</h4>
                                 <p className="text-sm opacity-70">Your payment and data are protected by industry-standard encryption.</p>
@@ -172,10 +172,10 @@ const CheckoutPage = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-200 dark:shadow-none transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
+                                className="w-full py-5 bg-gold text-gold-foreground font-bold rounded-2xl shadow-lg shadow-gold/30 hover:brightness-110 transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
                             >
                                 {loading ? (
-                                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white"></div>
+                                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-gold-foreground/30 border-t-gold-foreground"></div>
                                 ) : (
                                     <>Pay ₹{policy.premiumAmount}</>
                                 )}

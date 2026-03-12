@@ -91,8 +91,8 @@ const ApplicationPage = () => {
                         animate={{ opacity: 1, x: 0 }} 
                         className="space-y-8"
                     >
-                        <div className="flex items-center gap-4 p-6 bg-blue-50 dark:bg-blue-900/20 rounded-3xl border border-blue-100 dark:border-blue-800/30">
-                            <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shrink-0">
+                        <div className="flex items-center gap-4 p-6 bg-gold/5 rounded-3xl border border-gold/10">
+                            <div className="w-12 h-12 bg-gold rounded-2xl flex items-center justify-center text-gold-foreground shrink-0">
                                 <FileText size={24} />
                             </div>
                             <div>
@@ -140,7 +140,7 @@ const ApplicationPage = () => {
                              <div className={`p-4 rounded-3xl ${
                                 policy.policyType === 'Health' ? 'bg-red-100 text-red-600' :
                                 policy.policyType === 'Vehicle' ? 'bg-orange-100 text-orange-600' :
-                                'bg-blue-100 text-blue-600'
+                                'bg-gold/10 text-gold'
                              }`}>
                                 {policy.policyType === 'Health' && <Activity size={32} />}
                                 {policy.policyType === 'Vehicle' && <Truck size={32} />}
@@ -160,7 +160,7 @@ const ApplicationPage = () => {
                                         <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Registration Number</label>
                                         <input 
                                             placeholder="e.g. MH01-AB-1234"
-                                            className="w-full p-5 rounded-[1.5rem] bg-slate-50 dark:bg-white/10 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-bold uppercase transition-all"
+                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold uppercase transition-all"
                                             onChange={e => setFormData({...formData, regNo: e.target.value})}
                                         />
                                     </div>
@@ -168,7 +168,7 @@ const ApplicationPage = () => {
                                         <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Vehicle Model & Year</label>
                                         <input 
                                             placeholder="e.g. Tesla Model 3 (2023)"
-                                            className="w-full p-5 rounded-[1.5rem] bg-slate-50 dark:bg-white/10 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-bold transition-all"
+                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold transition-all"
                                             onChange={e => setFormData({...formData, model: e.target.value})}
                                         />
                                     </div>
@@ -295,12 +295,12 @@ const ApplicationPage = () => {
                         <div className="space-y-4">
                             <h3 className="text-4xl font-black tracking-tight">Ready to Submit?</h3>
                             <p className="max-w-lg mx-auto opacity-70 font-medium leading-relaxed">
-                                You are about to apply for the <span className="text-blue-600 font-bold">{policy.policyName}</span>. 
+                                You are about to apply for the <span className="text-gold font-bold">{policy.policyName}</span>. 
                                 Our agents will review your application and documents within 24-48 hours.
                             </p>
                         </div>
 
-                        <div className="max-w-sm mx-auto p-6 bg-slate-50 dark:bg-white/5 rounded-3xl space-y-3 border border-slate-100 dark:border-white/10">
+                        <div className="max-w-sm mx-auto p-6 bg-white dark:bg-zinc-900 rounded-3xl space-y-3 border border-border">
                             <div className="flex justify-between items-center text-sm">
                                 <span className="opacity-50 font-medium">Policy Premium</span>
                                 <span className="font-bold tracking-tight">₹{policy.premiumAmount.toLocaleString()} / year</span>
@@ -309,10 +309,10 @@ const ApplicationPage = () => {
                                 <span className="opacity-50 font-medium">Processing Fee</span>
                                 <span className="font-bold text-green-600">FREE</span>
                             </div>
-                            <div className="h-px bg-slate-200 dark:bg-white/10 my-2" />
+                            <div className="h-px bg-border my-2" />
                             <div className="flex justify-between items-center">
                                 <span className="font-black uppercase tracking-widest text-[10px]">Total Est.</span>
-                                <span className="text-xl font-black text-blue-600">₹{policy.premiumAmount.toLocaleString()}</span>
+                                <span className="text-xl font-black text-gold">₹{policy.premiumAmount.toLocaleString()}</span>
                             </div>
                         </div>
 
@@ -342,8 +342,8 @@ const ApplicationPage = () => {
                     <div className="flex items-center gap-4">
                         {[1, 2, 3, 4].map(s => (
                             <div key={s} className="flex-1 flex flex-col gap-3">
-                                <div className={`h-1.5 rounded-full transition-all duration-700 ${s <= step ? 'bg-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'bg-slate-200 dark:bg-white/10'}`} />
-                                <div className={`text-[10px] font-black uppercase tracking-widest text-center transition-colors ${s === step ? 'text-blue-600' : 'opacity-30'}`}>
+                                <div className={`h-1.5 rounded-full transition-all duration-700 ${s <= step ? 'bg-gold shadow-[0_0_15px_rgba(251,191,36,0.4)]' : 'bg-slate-200 dark:bg-white/10'}`} />
+                                <div className={`text-[10px] font-black uppercase tracking-widest text-center transition-colors ${s === step ? 'text-gold' : 'opacity-30'}`}>
                                     {s === 1 && 'Plan info'}
                                     {s === 2 && 'Details'}
                                     {s === 3 && 'Documents'}
@@ -378,10 +378,10 @@ const ApplicationPage = () => {
                             <button 
                                 onClick={handleSubmit}
                                 disabled={loading}
-                                className="flex-1 py-6 bg-blue-600 text-white rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-600/40 transform transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50 disabled:grayscale"
+                                className="flex-1 py-6 bg-gold text-gold-foreground rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-gold/40 transform transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50 disabled:grayscale"
                             >
                                 {loading ? (
-                                    <div className="animate-spin rounded-full h-6 w-6 border-4 border-white/30 border-t-white" />
+                                    <div className="animate-spin rounded-full h-6 w-6 border-4 border-gold-foreground/30 border-t-gold-foreground" />
                                 ) : (
                                     <>Submit Application <ShieldCheck size={20} /></>
                                 )}
