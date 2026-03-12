@@ -18,6 +18,7 @@ const ROLE_LINKS = {
         { name: "All Policies", path: "/admin/policies", icon: ShieldCheck },
         { name: "Applications", path: "/admin/applications", icon: FileText },
         { name: "Payouts", path: "/admin/commissions", icon: CreditCard },
+        { name: "Payments", path: "/admin/transactions", icon: DollarSign },
         { name: "Claims", path: "/admin/claims", icon: FileText },
         { name: "Settings", path: "/admin/settings", icon: Settings },
     ],

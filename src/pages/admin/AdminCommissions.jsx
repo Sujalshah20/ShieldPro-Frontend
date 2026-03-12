@@ -26,6 +26,24 @@ const AdminCommissions = () => {
         }
     });
 
+    const handleExport = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/export/commissions`, {
+                headers: { 'Authorization': `Bearer ${user.token}` }
+            });
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ShieldPro_Commissions_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } catch (error) {
+            console.error("Export failed", error);
+        }
+    };
+
     if (isLoading) return <div className="p-8"><TableSkeleton rows={10} cols={6} /></div>;
 
     const stats = {
@@ -41,7 +59,13 @@ const AdminCommissions = () => {
                     <h2 className="text-4xl font-black mb-2 tracking-tight">Commission <span className="text-gold">Payouts</span></h2>
                     <p className="opacity-70 font-medium text-lg">Manage agent earnings and verify platform profitability.</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-4 items-center">
+                     <button 
+                        onClick={handleExport}
+                        className="px-6 py-4 glass border border-gold/20 text-gold rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-gold hover:text-gold-foreground transition-all mr-4 flex items-center gap-2"
+                     >
+                        <Search size={14} /> Export Statement
+                     </button>
                      <div className="px-8 py-5 glass rounded-[2rem] border border-orange-500/20 text-center">
                         <p className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-1">Outstanding</p>
                         <p className="text-2xl font-black text-orange-500">₹{stats.totalOutstanding.toLocaleString()}</p>

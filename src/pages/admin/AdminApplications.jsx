@@ -106,10 +106,12 @@ const AdminApplications = () => {
                                             app.status === 'Approved' ? 'bg-green-500/10 text-green-500' :
                                             app.status === 'Paid' ? 'bg-blue-500/10 text-blue-500' :
                                             app.status === 'Rejected' ? 'bg-red-500/10 text-red-500' :
+                                            app.status === 'On Hold' ? 'bg-amber-500/10 text-amber-500' :
                                             'bg-orange-500/10 text-orange-500'
                                         }`}>
                                             {app.status === 'Approved' ? <CheckCircle size={12} /> : 
                                              app.status === 'Rejected' ? <XCircle size={12} /> : 
+                                             app.status === 'On Hold' ? <AlertCircle size={12} /> :
                                              <Clock size={12} />}
                                             {app.status}
                                         </span>
@@ -214,6 +216,12 @@ const AdminApplications = () => {
                                     className="flex-1 py-5 bg-red-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-red-500/20 hover:brightness-110 transition-all flex items-center justify-center gap-2"
                                 >
                                     <XCircle size={18} /> Reject Request
+                                </button>
+                                <button 
+                                    onClick={() => statusMutation.mutate({ id: selectedApp._id, status: 'On Hold', reason: rejectionReason })}
+                                    className="flex-1 py-5 bg-amber-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-amber-500/20 hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                                >
+                                    <AlertCircle size={18} /> Mark On Hold
                                 </button>
                                 <button 
                                     onClick={() => setSelectedApp(null)}

@@ -21,6 +21,7 @@ const AdminApplications = lazy(() => import("./pages/admin/AdminApplications"));
 const AdminClaims = lazy(() => import("./pages/admin/AdminClaims"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminCommissions = lazy(() => import("./pages/admin/AdminCommissions"));
+const AdminTransactions = lazy(() => import("./pages/admin/AdminTransactions"));
 const PolicyDetails = lazy(() => import("./pages/admin/PolicyDetails"));
 const AgentLayout = lazy(() => import("./pages/agent/AgentLayout"));
 const AgentDashboard = lazy(() => import("./pages/agent/AgentDashboard"));
@@ -111,6 +112,7 @@ function App() {
                     <Route path="policies" element={<AdminPolicies />} />
                     <Route path="applications" element={<AdminApplications />} />
                     <Route path="commissions" element={<AdminCommissions />} />
+                    <Route path="transactions" element={<AdminTransactions />} />
                     <Route path="claims" element={<AdminClaims />} />
                   </Route>
 
