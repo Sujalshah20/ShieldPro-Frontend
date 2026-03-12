@@ -17,13 +17,18 @@ const Home = lazy(() => import("./pages/Home"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminPolicies = lazy(() => import("./pages/admin/AdminPolicies"));
+const AdminApplications = lazy(() => import("./pages/admin/AdminApplications"));
 const AdminClaims = lazy(() => import("./pages/admin/AdminClaims"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
+const AdminCommissions = lazy(() => import("./pages/admin/AdminCommissions"));
 const PolicyDetails = lazy(() => import("./pages/admin/PolicyDetails"));
 const AgentLayout = lazy(() => import("./pages/agent/AgentLayout"));
 const AgentDashboard = lazy(() => import("./pages/agent/AgentDashboard"));
 const AgentPolicies = lazy(() => import("./pages/agent/AgentPolicies"));
 const AgentClaims = lazy(() => import("./pages/agent/AgentClaims"));
+const AgentClients = lazy(() => import("./pages/agent/AgentClients"));
+const AgentCommissions = lazy(() => import("./pages/agent/AgentCommissions"));
+const AgentApplications = lazy(() => import("./pages/agent/AgentApplications"));
 const CustomerLayout = lazy(() => import("./pages/customer/CustomerLayout"));
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const Checkout = lazy(() => import("./pages/customer/CheckoutPage"));
@@ -102,10 +107,11 @@ function App() {
                     }
                   >
                     <Route index element={<AdminDashboard />} />
-                    <Route path="policies" element={<AdminPolicies />} />
-                    <Route path="policies/:id" element={<PolicyDetails />} />
-                    <Route path="claims" element={<AdminClaims />} />
                     <Route path="users" element={<AdminUsers />} />
+                    <Route path="policies" element={<AdminPolicies />} />
+                    <Route path="applications" element={<AdminApplications />} />
+                    <Route path="commissions" element={<AdminCommissions />} />
+                    <Route path="claims" element={<AdminClaims />} />
                   </Route>
 
                   {/* -------- AGENT ROUTES -------- */}
@@ -119,6 +125,9 @@ function App() {
                   >
                     <Route index element={<AgentDashboard />} />
                     <Route path="policies" element={<AgentPolicies />} />
+                    <Route path="clients" element={<AgentClients />} />
+                    <Route path="applications" element={<AgentApplications />} />
+                    <Route path="commissions" element={<AgentCommissions />} />
                     <Route path="claims" element={<AgentClaims />} />
                   </Route>
 

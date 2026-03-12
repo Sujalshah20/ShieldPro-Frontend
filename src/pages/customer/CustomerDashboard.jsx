@@ -133,6 +133,27 @@ const CustomerDashboard = () => {
         </div>
       </section>
 
+      {/* Profile Completion Prompt */}
+      {(!profile?.nationalId || !profile?.nominee?.name || !profile?.bankDetails?.accountNumber) && (
+        <section className="bg-amber-500/10 border border-amber-500/20 rounded-[2.5rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-amber-500/5">
+           <div className="flex items-center gap-6 text-center md:text-left">
+              <div className="w-16 h-16 bg-amber-500/20 rounded-2xl flex items-center justify-center text-amber-500 shrink-0 animate-pulse">
+                 <AlertCircle size={32} />
+              </div>
+              <div>
+                 <h3 className="text-xl font-bold text-amber-500 tracking-tight">Complete Your Shield Profile</h3>
+                 <p className="opacity-70 font-medium">Adding your National ID and Nominee details ensures 2x faster claim processing.</p>
+              </div>
+           </div>
+           <button 
+              onClick={() => navigate('/customer/profile')}
+              className="px-8 py-4 bg-amber-500 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:brightness-110 transition-all shadow-lg shadow-amber-500/20 active:scale-95"
+           >
+              Update Profile Now
+           </button>
+        </section>
+      )}
+
       {/* QUICK STATS */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((s, idx) => (
