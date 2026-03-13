@@ -15,8 +15,9 @@ const MessagesPage = () => {
     const { data: users = [] } = useQuery({
         queryKey: ['chatUsers', user?.token],
         queryFn: async () => {
-            const allUsers = await api.get('/auth/users', user.token); // Need to implement this endpoint
-            return allUsers.filter(u => u._id !== user._id);
+            const allUsers = await api.get('/auth/users', user.token);
+            const userList = Array.isArray(allUsers) ? allUsers : [];
+            return userList.filter(u => u._id !== user._id);
         },
         enabled: !!user?.token
     });
@@ -45,12 +46,14 @@ const MessagesPage = () => {
         });
     };
 
-    const conversationMessages = selectedUser ? allMessages.filter(m =>
-        (m.sender._id === selectedUser._id && m.receiver._id === user._id) ||
-        (m.sender._id === user._id && m.receiver._id === selectedUser._id)
+    const safeAllMessages = Array.isArray(allMessages) ? allMessages : [];
+    const conversationMessages = selectedUser ? safeAllMessages.filter(m =>
+        (m.sender?._id === selectedUser._id && m.receiver?._id === user._id) ||
+        (m.sender?._id === user._id && m.receiver?._id === selectedUser._id)
     ).reverse() : [];
 
-    const filteredUsers = users.filter(u =>
+    const safeUsers = Array.isArray(users) ? users : [];
+    const filteredUsers = safeUsers.filter(u =>
         u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         u.role?.toLowerCase().includes(searchQuery.toLowerCase())
     );

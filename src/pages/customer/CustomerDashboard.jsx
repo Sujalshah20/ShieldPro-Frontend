@@ -59,10 +59,14 @@ const CustomerDashboard = () => {
 
     const loading = isAvailLoading || isMyPolLoading || isClaimsLoading;
 
+    const safeMyPolicies = Array.isArray(myPolicies) ? myPolicies : [];
+    const safeMyApplications = Array.isArray(myApplications) ? myApplications : [];
+    const safeMyClaims = Array.isArray(myClaims) ? myClaims : [];
+
     const stats = [
-        { title: "Active Policies", value: myPolicies.length, icon: Shield, color: "text-primary", bg: "bg-primary/5" },
-        { title: "Applications", value: myApplications.filter(a => a.status !== 'Paid').length, icon: Clock, color: "text-accent", bg: "bg-accent/5" },
-        { title: "Claims Filed", value: myClaims.length, icon: ClipboardList, color: "text-indigo-500", bg: "bg-indigo-500/5" }
+        { title: "Active Policies", value: safeMyPolicies.length, icon: Shield, color: "text-primary", bg: "bg-primary/5" },
+        { title: "Applications", value: safeMyApplications.filter(a => a.status !== 'Paid').length, icon: Clock, color: "text-accent", bg: "bg-accent/5" },
+        { title: "Claims Filed", value: safeMyClaims.length, icon: ClipboardList, color: "text-indigo-500", bg: "bg-indigo-500/5" }
     ];
 
     const handleBuy = (policy) => {
@@ -91,7 +95,8 @@ const CustomerDashboard = () => {
         }
     };
 
-    const filteredPolicies = availablePolicies.filter(policy => {
+    const safeAvailablePolicies = Array.isArray(availablePolicies) ? availablePolicies : [];
+    const filteredPolicies = safeAvailablePolicies.filter(policy => {
         const matchesSearch = policy.policyName?.toLowerCase().includes(searchQuery.toLowerCase());
         const policyType = (policy.policyType || "").toLowerCase();
         const selected = filterType.toLowerCase();
@@ -245,8 +250,8 @@ const CustomerDashboard = () => {
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                             {loading ? (
                                                 <CardSkeleton rows={1} cols={2} />
-                                            ) : myPolicies.length > 0 ? (
-                                                myPolicies.slice(0, 4).map(p => (
+                                            ) : safeMyPolicies.length > 0 ? (
+                                                safeMyPolicies.slice(0, 4).map(p => (
                                                     <div key={p._id} className="group p-8 bg-white dark:bg-zinc-900 rounded-[2.5rem] border border-border/50 hover:border-primary/50 hover:shadow-xl transition-all relative overflow-hidden">
                                                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:rotate-12 transition-transform">
                                                             {getPolicyIcon(p.policy?.policyType)}
@@ -281,9 +286,9 @@ const CustomerDashboard = () => {
                                             <TrendingUp className="text-indigo-500 w-6 h-6" /> Claims Status
                                         </h2>
                                         <div className="bg-white dark:bg-zinc-900 rounded-[3rem] border border-border/50 overflow-hidden shadow-sm">
-                                            {myClaims.length > 0 ? (
+                                            {safeMyClaims.length > 0 ? (
                                                 <div className="divide-y divide-border/30">
-                                                    {myClaims.slice(0, 4).map(claim => (
+                                                    {safeMyClaims.slice(0, 4).map(claim => (
                                                         <div key={claim._id} className="p-6 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors group">
                                                             <div className="flex items-center gap-5">
                                                                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center border border-border/50 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors">
@@ -429,8 +434,8 @@ const CustomerDashboard = () => {
                                     </div>
                                     
                                     <div className="grid grid-cols-1 gap-6">
-                                        {myApplications.filter(a => a.status !== 'Paid').length > 0 ? (
-                                            myApplications.filter(a => a.status !== 'Paid').map(app => (
+                                        {safeMyApplications.filter(a => a.status !== 'Paid').length > 0 ? (
+                                            safeMyApplications.filter(a => a.status !== 'Paid').map(app => (
                                                 <div key={app._id} className="bg-white dark:bg-zinc-900/50 p-8 md:p-10 rounded-[3.5rem] border border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 transition-all hover:border-accent/40 shadow-sm relative overflow-hidden group">
                                                     <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:scale-110 transition-transform">
                                                         <Clock size={120} />

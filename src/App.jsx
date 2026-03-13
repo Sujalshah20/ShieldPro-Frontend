@@ -40,6 +40,7 @@ const CustomerPolicies = lazy(() => import("./pages/customer/CustomerPolicies"))
 const CustomerClaims = lazy(() => import("./pages/customer/CustomerClaims"));
 
 const ApplicationPage = lazy(() => import("./pages/customer/ApplicationPage"));
+const MessagesPage = lazy(() => import("./pages/messages/MessagesPage"));
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -153,6 +154,9 @@ function App() {
                     <Route path="apply" element={<ApplicationPage />} />
                     <Route path="checkout" element={<Checkout />} />
                   </Route>
+
+                  {/* -------- MESSAGES ROUTE (shared) -------- */}
+                  <Route path="/messages" element={<ProtectedRoute role={null}><PageWrapper><MessagesPage /></PageWrapper></ProtectedRoute>} />
 
                   {/* -------- DEFAULT -------- */}
                   <Route path="*" element={<Navigate to="/login" replace />} />

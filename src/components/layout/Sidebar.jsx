@@ -21,7 +21,8 @@ import {
     ClipboardList,
     Briefcase,
     PieChart,
-    MessageSquare
+    MessageSquare,
+    Layout
 } from "lucide-react";
 
 const ROLE_LINKS = {

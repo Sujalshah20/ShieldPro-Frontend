@@ -33,7 +33,8 @@ const Header = ({ role, setMobileMenuOpen }) => {
         refetchInterval: 30000 // Poll every 30 seconds
     });
 
-    const unreadCount = notifications.filter(n => !n.isRead).length;
+    const safeNotifications = Array.isArray(notifications) ? notifications : [];
+    const unreadCount = safeNotifications.filter(n => !n.isRead).length;
 
     const markAllMutation = useMutation({
         mutationFn: () => api.put('/notifications/read-all', {}, user.token),
@@ -182,13 +183,13 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                         )}
                                     </div>
                                     <div className="max-h-[450px] overflow-y-auto no-scrollbar divide-y divide-border/30">
-                                        {notifications.length === 0 ? (
+                                        {safeNotifications.length === 0 ? (
                                             <div className="p-16 text-center">
                                                 <Activity size={40} className="mx-auto mb-4 opacity-10 text-primary" strokeWidth={3} />
                                                 <p className="text-[10px] font-black uppercase tracking-[4px] opacity-20">No new notifications</p>
                                             </div>
                                         ) : (
-                                            notifications.map(n => (
+                                            safeNotifications.map(n => (
                                                 <button
                                                     key={n._id}
                                                     onClick={() => markOneMutation.mutate(n._id)}
@@ -208,7 +209,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                             ))
                                         )}
                                     </div>
-                                    {notifications.length > 0 && (
+                                    {safeNotifications.length > 0 && (
                                         <div className="p-4 bg-zinc-50 dark:bg-white/5 text-center">
                                             <button className="text-[9px] font-black uppercase tracking-[3px] opacity-30 hover:opacity-100 transition-opacity">View All Notifications</button>
                                         </div>
