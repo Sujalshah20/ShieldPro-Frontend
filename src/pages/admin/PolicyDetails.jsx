@@ -9,8 +9,9 @@ import {
     IndianRupee, Activity, Truck, Home, 
     Globe, FileText, Zap, ShieldCheck,
     TrendingUp, AlertCircle, 
-    Activity as ActivityIcon, Layout, Box, Lock,
-    Eye, Download, Share2, Trash2, Edit3, ClipboardList
+    Layout, Box, Lock,
+    Eye, Download, Share2, Trash2, Edit3, ClipboardList,
+    Layers
 } from "lucide-react";
 import Reveal from "../../components/common/Reveal";
 import { TableSkeleton } from "../../components/common/Skeleton";
@@ -44,7 +45,7 @@ const PolicyDetails = () => {
     const getPolicyIcon = (type) => {
         const iconProps = { size: 36, strokeWidth: 3, className: "text-primary" };
         switch(type) {
-            case 'Health': return <ActivityIcon {...iconProps} />;
+            case 'Health': return <Activity {...iconProps} />;
             case 'Vehicle': case 'Auto': return <Truck {...iconProps} />;
             case 'Property': case 'Home': return <Home {...iconProps} />;
             case 'Life': return <Shield {...iconProps} />;

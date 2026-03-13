@@ -154,7 +154,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         </div>
                         
                         <div className="flex items-center gap-3 mb-4">
-                            <ActivityIcon size={14} className="text-primary animate-pulse" />
+                            <Activity size={14} className="text-primary animate-pulse" />
                             <p className="text-[10px] font-black text-primary uppercase tracking-[4px] italic">Client Support</p>
                         </div>
                         <p className="text-[11px] font-black text-white/50 uppercase tracking-[1px] leading-relaxed mb-6 italic">24/7 Professional Assistance. We are here to help.</p>
