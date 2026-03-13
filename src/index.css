@@ -75,12 +75,12 @@ html {
 }
 
 .dark {
-  --background: 160 35% 10%; /* #10221c */
+  --background: 222 47% 7%; /* Professional Blue-Black */
   --foreground: 210 40% 98%;
-  --card: 160 35% 12%;
+  --card: 222 47% 10%;
   --card-foreground: 210 40% 98%;
-  --border: 160 35% 20%;
-  --input: 160 35% 20%;
+  --border: 217 32% 17%;
+  --input: 217 32% 17%;
   --ring: 216 100% 50%;
 
   --gold: 21 100% 60%; /* Orange in dark theme */

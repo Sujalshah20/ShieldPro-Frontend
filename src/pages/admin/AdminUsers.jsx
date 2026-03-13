@@ -8,7 +8,8 @@ import {
     TrendingUp, Mail, Phone, MapPin, 
     X, CheckCircle, AlertCircle, IndianRupee,
     Briefcase, Fingerprint, Zap, Shield, Search,
-    Target, Cpu, Satellite, Lock, Activity
+    Target, Cpu, Satellite, Lock, Activity,
+    User, ShieldCheck as ShieldIcon, UserCheck as AgentIcon
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
@@ -44,13 +45,13 @@ const AdminUsers = () => {
         mutationFn: (data) => api.post('/admin/agents', data, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminAgents']);
-            toast({ title: "OPERATOR_ENLISTED", description: "Strategic asset profile has been successfully initialized." });
+            toast({ title: "AGENT REGISTERED", description: "New agent profile has been successfully created." });
             setIsAddingAgent(false);
             setFormData({ name: "", email: "", password: "", phone: "", dob: "", gender: "Male", address: "", commissionRate: 10 });
         },
         onError: (err) => toast({ 
-            title: "ENLISTMENT_FAILED", 
-            description: err?.errors?.[0]?.message || err?.message || "Protocol interruption detected.", 
+            title: "REGISTRATION FAILED", 
+            description: err?.errors?.[0]?.message || err?.message || "An error occurred during registration.", 
             variant: "destructive" 
         })
     });
@@ -60,14 +61,14 @@ const AdminUsers = () => {
         onSuccess: (data, variables) => {
             queryClient.invalidateQueries(['adminAgents']);
             toast({ 
-                title: "SYNC_COMPLETE", 
-                description: `Operator status transitioned to: ${variables.status.toUpperCase()}` 
+                title: "STATUS UPDATED", 
+                description: `Agent status changed to: ${variables.status.toUpperCase()}` 
             });
         },
         onError: (err) => {
             toast({
-                title: "SYNC_ERROR",
-                description: err?.message || "Control override failed.",
+                title: "UPDATE ERROR",
+                description: err?.message || "Failed to update agent status.",
                 variant: "destructive"
             });
         }
@@ -77,13 +78,13 @@ const AdminUsers = () => {
         mutationFn: (data) => api.put(`/admin/customers/${data.customerId}/reassign`, { agentId: data.agentId }, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminCustomers']);
-            toast({ title: "ASSET_REASSIGNED", description: "Entity portfolio has been mapped to new strategist nodes." });
+            toast({ title: "CUSTOMER REASSIGNED", description: "Customer has been successfully assigned to the new agent." });
             setSelectedCustomer(null);
         },
         onError: (err) => {
             toast({
-                title: "REASSIGNMENT_FAILURE",
-                description: err?.message || "Asset mapping logic error.",
+                title: "REASSIGNMENT FAILED",
+                description: err?.message || "Failed to reassign customer.",
                 variant: "destructive"
             });
         }
@@ -108,10 +109,10 @@ const AdminUsers = () => {
     );
 
     return (
-        <div className="admin-users p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+        <div className="admin-users p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
             {/* Background Atmosphere */}
             <div className="absolute top-0 right-0 p-20 opacity-[0.03] pointer-events-none">
-                 <Satellite size={600} className="animate-spin-slow" />
+                 <ShieldIcon size={600} className="animate-spin-slow" />
             </div>
 
             <Reveal width="100%" direction="down">
@@ -120,11 +121,11 @@ const AdminUsers = () => {
                         <div className="flex items-center gap-4 mb-3">
                              <div className="w-2 h-10 bg-primary rounded-full shadow-[0_0_15px_#0165FF]" />
                              <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
-                                ENTITY<span className="text-primary tracking-normal">_ROSTER</span>
+                                DIRECTORY<span className="text-primary tracking-normal">_MANAGEMENT</span>
                              </h1>
                         </div>
                         <p className="text-xs font-black opacity-30 uppercase tracking-[5px] ml-6 italic">
-                            Distributed workforce management & tactical acquisition metrics
+                            Manage your workforce of agents and customer assignments
                         </p>
                     </div>
                     {activeTab === 'agents' && (
@@ -132,7 +133,7 @@ const AdminUsers = () => {
                             onClick={() => setIsAddingAgent(true)}
                             className="h-16 px-10 bg-accent text-white rounded-2xl font-black uppercase tracking-[4px] text-[10px] flex items-center gap-5 shadow-2xl shadow-accent/40 hover:translate-y-[-5px] active:scale-95 transition-all group italic"
                         >
-                            <UserPlus size={18} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> ENLIST STRATEGIC NODE
+                            <UserPlus size={18} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> REGISTER NEW AGENT
                         </button>
                     )}
                 </div>
@@ -145,13 +146,13 @@ const AdminUsers = () => {
                         onClick={() => setActiveTab('agents')}
                         className={`px-10 py-5 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[3px] transition-all italic flex items-center gap-3 ${activeTab === 'agents' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-xl' : 'text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800'}`}
                     >
-                        <Lock size={14} className={activeTab === 'agents' ? 'text-primary' : 'opacity-20'} /> ELITE_FORCE_REGISTRY
+                        <ShieldIcon size={14} className={activeTab === 'agents' ? 'text-primary' : 'opacity-20'} /> AGENT_REGISTRY
                     </button>
                     <button 
                         onClick={() => setActiveTab('reassignment')}
                         className={`px-10 py-5 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[3px] transition-all italic flex items-center gap-3 ${activeTab === 'reassignment' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-xl' : 'text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800'}`}
                     >
-                        <Satellite size={14} className={activeTab === 'reassignment' ? 'text-accent' : 'opacity-20'} /> PORTFOLIO_REBALANCE
+                        <AgentIcon size={14} className={activeTab === 'reassignment' ? 'text-accent' : 'opacity-20'} /> CUSTOMER_REASSIGNMENT
                     </button>
                 </div>
                 
@@ -159,7 +160,7 @@ const AdminUsers = () => {
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
                     <input 
                         type="text" 
-                        placeholder="LOCATE_BIOMETRIC_ID..." 
+                        placeholder="SEARCH BY NAME OR EMAIL..." 
                         className="pl-16 pr-8 py-5 bg-white dark:bg-zinc-900/50 border border-border/50 rounded-[1.5rem] focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none w-full lg:w-96 transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
                         value={searchQuery} 
                         onChange={e=>setSearchQuery(e.target.value)} 
@@ -169,13 +170,13 @@ const AdminUsers = () => {
 
             {activeTab === 'agents' ? (
                 <>
-                {/* Tactical Performance Matrix */}
+                {/* Performance Matrix */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
                      {[
-                        { label: "Active_Service", value: agents?.filter(a => a.status === 'active').length, icon: ShieldCheck, color: "text-primary", bg: "bg-primary/10", tag: "STABLE" },
-                        { label: "Entity_Database", value: agents?.reduce((acc, curr) => acc + (curr.stats?.customers || 0), 0), icon: Users, color: "text-indigo-500", bg: "bg-indigo-500/10", tag: "EXPANDING" },
-                        { label: "Conversion_Yield", value: "72%", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10", tag: "OPTIMAL" },
-                        { label: "Net_Value_AUM", value: `₹${(totalPortfolio / 100000).toFixed(1)}L`, icon: IndianRupee, color: "text-accent", bg: "bg-accent/10", tag: "CRITICAL" }
+                        { label: "Active_Agents", value: agents?.filter(a => a.status === 'active').length, icon: ShieldCheck, color: "text-primary", bg: "bg-primary/10", tag: "ACTIVE" },
+                        { label: "Total_Customers", value: agents?.reduce((acc, curr) => acc + (curr.stats?.customers || 0), 0), icon: Users, color: "text-indigo-500", bg: "bg-indigo-500/10", tag: "GROWING" },
+                        { label: "Total_Policies", value: "72%", icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10", tag: "STABLE" },
+                        { label: "Total_Revenue", value: `₹${(totalPortfolio / 100000).toFixed(1)}L`, icon: IndianRupee, color: "text-accent", bg: "bg-accent/10", tag: "ACTUAL" }
                      ].map((stat, i) => (
                         <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
                             <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3rem] border border-border/50 shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all hover:translate-y-[-5px]">
@@ -201,15 +202,15 @@ const AdminUsers = () => {
                         <div className="p-10 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-zinc-50 dark:bg-white/[0.02]">
                             <div className="flex items-center gap-6">
                                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-lg border border-primary/20">
-                                    <Fingerprint size={28} strokeWidth={3} />
+                                    <AgentIcon size={28} strokeWidth={3} />
                                 </div>
                                 <div>
-                                    <h3 className="text-3xl font-black italic tracking-tighter uppercase leading-none">AGENT_IDENTITY_VAULT</h3>
-                                    <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] mt-2 italic ml-1">Live authorization registry</p>
+                                    <h3 className="text-3xl font-black italic tracking-tighter uppercase leading-none">AGENT_DIRECTORY</h3>
+                                    <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] mt-2 italic ml-1">Official list of registered insurance agents</p>
                                 </div>
                             </div>
                             <div className="flex flex-col items-end">
-                                <span className="text-[10px] font-black uppercase tracking-[3px] opacity-20">ACTIVE_NODES</span>
+                                <span className="text-[10px] font-black uppercase tracking-[3px] opacity-20">ACTIVE_AGENTS</span>
                                 <span className="text-2xl font-black italic text-primary">{filteredAgents?.length || 0}</span>
                             </div>
                         </div>
@@ -222,11 +223,11 @@ const AdminUsers = () => {
                                 <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                                     <thead>
                                         <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
-                                            <th className="px-12 py-8 tracking-[4px]">OPERATOR_BIOMETRICS</th>
-                                            <th className="px-12 py-8 text-center tracking-[4px]">ENGAGEMENT_VECTOR</th>
-                                            <th className="px-12 py-8 tracking-[4px]">YIELD_ALGORITHM</th>
-                                            <th className="px-12 py-8 text-center tracking-[4px]">SYNC_STATUS</th>
-                                            <th className="px-12 py-8 text-right tracking-[4px]">COMMAND_OVERRIDE</th>
+                                            <th className="px-12 py-8 tracking-[4px]">AGENT_INFORMATION</th>
+                                            <th className="px-12 py-8 text-center tracking-[4px]">PERFORMANCE_STATS</th>
+                                            <th className="px-12 py-8 tracking-[4px]">COMMISSION_RATE</th>
+                                            <th className="px-12 py-8 text-center tracking-[4px]">STATUS</th>
+                                            <th className="px-12 py-8 text-right tracking-[4px]">ACTIONS</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-border/10">
@@ -263,7 +264,7 @@ const AdminUsers = () => {
                                                 <div className="flex flex-col gap-3">
                                                     <div className="flex items-center justify-center gap-4 bg-zinc-100 dark:bg-white/5 py-2 px-4 rounded-xl border border-border/30">
                                                         <Users size={14} className="opacity-20 text-primary" strokeWidth={3} />
-                                                        <span className="font-black text-xs leading-none">{agent.stats?.customers} <span className="text-[9px] opacity-20 ml-1">ENTITIES</span></span>
+                                                        <span className="font-black text-xs leading-none">{agent.stats?.customers} <span className="text-[9px] opacity-20 ml-1">CUSTOMERS</span></span>
                                                     </div>
                                                     <div className="flex items-center justify-center gap-4 bg-zinc-100 dark:bg-white/5 py-2 px-4 rounded-xl border border-border/30">
                                                         <IndianRupee size={14} className="text-accent opacity-60" strokeWidth={3} />
@@ -274,7 +275,7 @@ const AdminUsers = () => {
                                             <td className="px-12 py-8">
                                                 <div className="flex flex-col gap-3">
                                                     <div className="flex items-center justify-between gap-4">
-                                                        <span className="text-[8px] font-black opacity-20 tracking-[2px]">LEVEL: ALPHA_7</span>
+                                                        <span className="text-[8px] font-black opacity-20 tracking-[2px]">LEVEL: BRONZE</span>
                                                         <span className="text-xs font-black italic text-primary">{agent.commissionRate}%</span>
                                                     </div>
                                                     <div className="w-32 h-2 bg-zinc-100 dark:bg-white/5 rounded-full overflow-hidden shadow-inner border border-border/30">
@@ -304,14 +305,14 @@ const AdminUsers = () => {
                                                             onClick={(e) => { e.stopPropagation(); statusMutation.mutate({ id: agent._id, status: 'suspended' }); }}
                                                             className="h-12 px-6 bg-zinc-900 dark:bg-zinc-800 text-white dark:text-zinc-500 rounded-xl text-[9px] font-black uppercase tracking-[3px] hover:bg-rose-600 dark:hover:bg-rose-600 hover:text-white transition-all shadow-lg active:scale-95 flex items-center gap-3 border border-white/5"
                                                         >
-                                                            TERMINATE <ShieldAlert size={14} strokeWidth={3} />
+                                                            SUSPEND <ShieldAlert size={14} strokeWidth={3} />
                                                         </button>
                                                     ) : (
                                                         <button 
                                                             onClick={(e) => { e.stopPropagation(); statusMutation.mutate({ id: agent._id, status: 'active' }); }}
                                                             className="h-12 px-6 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-[3px] hover:scale-105 transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center gap-3 italic"
                                                         >
-                                                            RESTORE <Zap size={14} strokeWidth={3} />
+                                                            ACTIVATE <Zap size={14} strokeWidth={3} />
                                                         </button>
                                                     )}
                                                 </div>
@@ -331,15 +332,15 @@ const AdminUsers = () => {
                         <div className="p-10 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-zinc-50 dark:bg-white/[0.02]">
                             <div className="flex items-center gap-6">
                                 <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-accent shadow-lg border border-accent/20">
-                                    <Target size={28} strokeWidth={3} />
+                                    <Users size={28} strokeWidth={3} />
                                 </div>
                                 <div>
-                                    <h3 className="text-3xl font-black italic tracking-tighter uppercase leading-none">ASSET_MAPPING_MATRIX</h3>
-                                    <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] mt-2 italic ml-1">Strategist rebalance protocol</p>
+                                    <h3 className="text-3xl font-black italic tracking-tighter uppercase leading-none">CUSTOMER_ASSIGNMENTS</h3>
+                                    <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] mt-2 italic ml-1">Manage customer and agent assignments</p>
                                 </div>
                             </div>
                             <div className="flex flex-col items-end">
-                                <span className="text-[10px] font-black uppercase tracking-[3px] opacity-20">ENTITY_COUNT</span>
+                                <span className="text-[10px] font-black uppercase tracking-[3px] opacity-20">CUSTOMER_COUNT</span>
                                 <span className="text-2xl font-black italic text-accent">{filteredCustomers?.length || 0}</span>
                             </div>
                         </div>
@@ -352,10 +353,10 @@ const AdminUsers = () => {
                                 <table className="w-full text-left font-black text-[10px] tracking-[3px] uppercase italic">
                                     <thead>
                                         <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
-                                            <th className="px-12 py-8 tracking-[4px]">PROTECTED_ENTITY</th>
-                                            <th className="px-12 py-8 tracking-[4px]">CURRENT_STRATEGIST</th>
-                                            <th className="px-12 py-8 text-center tracking-[4px]">SYNC_STATUS</th>
-                                            <th className="px-12 py-8 text-right tracking-[4px]">PROTOCOL_OVERRIDE</th>
+                                            <th className="px-12 py-8 tracking-[4px]">CUSTOMER_NAME</th>
+                                            <th className="px-12 py-8 tracking-[4px]">ASSIGNED_AGENT</th>
+                                            <th className="px-12 py-8 text-center tracking-[4px]">STATUS</th>
+                                            <th className="px-12 py-8 text-right tracking-[4px]">ACTIONS</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-border/10">
@@ -372,7 +373,7 @@ const AdminUsers = () => {
                                                 <div className="flex flex-col gap-2">
                                                     <span className="font-black text-xl italic tracking-tighter group-hover:text-primary transition-colors leading-none">{customer.name}</span>
                                                     <span className="text-[10px] opacity-30 tracking-[3px] lowercase font-black italic flex items-center gap-2">
-                                                        <Lock size={10} className="text-primary" /> {customer.email}
+                                                        <Mail size={10} className="text-primary" /> {customer.email}
                                                     </span>
                                                 </div>
                                             </td>
@@ -384,19 +385,19 @@ const AdminUsers = () => {
                                                         </div>
                                                         <div className="flex flex-col">
                                                             <span className="font-black text-sm italic leading-none mb-1">{customer.assignedAgent.name}</span>
-                                                            <span className="text-[8px] opacity-20 tracking-[2px]">OPERATOR_NODE_0{idx + 1}</span>
+                                                            <span className="text-[8px] opacity-20 tracking-[2px]">AGENT_ID_0{idx + 1}</span>
                                                         </div>
                                                     </div>
                                                 ) : (
                                                     <div className="flex items-center gap-4 bg-rose-500/5 px-4 py-3 rounded-2xl border border-rose-500/10 w-fit">
                                                         <div className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_#ef4444]" />
-                                                        <span className="text-[10px] opacity-40 italic font-black tracking-[3px]">UNMAPPED_ENTITY</span>
+                                                        <span className="text-[10px] opacity-40 italic font-black tracking-[3px]">UNASSIGNED</span>
                                                     </div>
                                                 )}
                                             </td>
                                             <td className="px-12 py-8 text-center">
                                                 <div className="px-5 py-2.5 bg-zinc-100 dark:bg-white/5 border border-border/30 rounded-2xl text-[9px] font-black uppercase tracking-[3px] opacity-40 italic w-fit mx-auto">
-                                                    {customer.status?.toUpperCase() || 'ACTIVE_SYNC'}
+                                                    {customer.status?.toUpperCase() || 'ACTIVE'}
                                                 </div>
                                             </td>
                                             <td className="px-12 py-8 text-right">
@@ -404,7 +405,7 @@ const AdminUsers = () => {
                                                     onClick={() => setSelectedCustomer(customer)}
                                                     className="h-14 px-8 bg-white dark:bg-zinc-900 border-2 border-primary/10 text-primary rounded-2xl text-[9px] font-black uppercase tracking-[4px] hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm active:scale-95 italic flex items-center gap-4 justify-end float-right group/btn"
                                                 >
-                                                    SHIFT_VECTOR <Satellite size={16} className="group-hover:rotate-45 transition-transform" />
+                                                    REASSIGN CUSTOMER <AgentIcon size={16} className="group-hover:rotate-45 transition-transform" />
                                                 </button>
                                             </td>
                                         </motion.tr>
@@ -432,11 +433,11 @@ const AdminUsers = () => {
                             
                             <div className="flex items-center gap-6 mb-12">
                                 <div className="w-16 h-16 bg-accent rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-accent/40">
-                                    <Target size={32} strokeWidth={3} />
+                                    <AgentIcon size={32} strokeWidth={3} />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h3 className="text-4xl font-black italic leading-none uppercase tracking-tighter">SHIFT_VECTOR</h3>
-                                    <p className="opacity-30 text-[10px] font-black uppercase tracking-[5px] mt-2 italic">Re-mapping entity: <span className="text-primary">{selectedCustomer.name}</span></p>
+                                    <h3 className="text-4xl font-black italic leading-none uppercase tracking-tighter">REASSIGN CUSTOMER</h3>
+                                    <p className="opacity-30 text-[10px] font-black uppercase tracking-[5px] mt-2 italic">Assigning customer: <span className="text-primary">{selectedCustomer.name}</span></p>
                                 </div>
                             </div>
 
@@ -459,10 +460,10 @@ const AdminUsers = () => {
                                                 <div className="flex items-center gap-5 mt-2 opacity-30">
                                                     <div className="flex items-center gap-2">
                                                         <Users size={12} strokeWidth={3} />
-                                                        <p className="text-[10px] font-black uppercase tracking-[3px]">{agent.stats?.customers} ACTIVE</p>
+                                                        <p className="text-[10px] font-black uppercase tracking-[3px]">{agent.stats?.customers} CUSTOMERS</p>
                                                     </div>
                                                     <div className="w-1.5 h-1.5 bg-zinc-400 rounded-full" />
-                                                    <p className="text-[10px] font-black uppercase tracking-[3px]">SECTOR_05</p>
+                                                    <p className="text-[10px] font-black uppercase tracking-[3px]">COMMISSION: {agent.commissionRate}%</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -475,7 +476,7 @@ const AdminUsers = () => {
                                 {agents?.filter(a => a.status === 'active' && a._id !== selectedCustomer.assignedAgent?._id).length === 0 && (
                                     <div className="py-20 text-center opacity-20 border-2 border-dashed border-border rounded-[3rem]">
                                         <Activity size={48} className="mx-auto mb-4" />
-                                        <p className="text-[11px] font-black uppercase tracking-[6px]">NO AVAILABLE OPERATORS</p>
+                                        <p className="text-[11px] font-black uppercase tracking-[6px]">NO AVAILABLE AGENTS</p>
                                     </div>
                                 )}
                             </div>
@@ -484,14 +485,14 @@ const AdminUsers = () => {
                                 onClick={() => setSelectedCustomer(null)}
                                 className="w-full mt-10 py-5 text-[10px] font-black uppercase tracking-[6px] text-zinc-400 hover:text-foreground transition-colors italic"
                             >
-                                ABORT_REASSIGNMENT [ESC]
+                                CANCEL REASSIGNMENT [ESC]
                             </button>
                         </motion.div>
                     </div>
                 )}
             </AnimatePresence>
 
-            {/* Tactical Enlistment Modal */}
+            {/* Registration Modal Chassis */}
             <AnimatePresence>
                 {isAddingAgent && (
                     <div className="fixed inset-0 z-[120] flex items-center justify-center p-8">
@@ -503,27 +504,27 @@ const AdminUsers = () => {
                             className="relative w-full max-w-5xl bg-white dark:bg-[#10221c] p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_100px_150px_rgba(0,0,0,0.6)] overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-24 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-1000">
-                                <Satellite size={400} className="text-accent animate-spin-slow" />
+                                <ShieldIcon size={400} className="text-accent animate-spin-slow" />
                             </div>
                             
                             <div className="relative z-10 flex flex-col mb-16">
                                 <div className="flex items-center gap-6 mb-4">
                                     <div className="w-16 h-16 bg-accent rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-accent/40">
-                                        <Zap size={32} strokeWidth={3} />
+                                        <User size={32} strokeWidth={3} />
                                     </div>
-                                    <h3 className="text-5xl font-black italic tracking-tighter uppercase leading-none">ONBOARD <span className="text-accent italic-none not-italic">ELITE_STRATEGIST</span></h3>
+                                    <h3 className="text-5xl font-black italic tracking-tighter uppercase leading-none">REGISTER <span className="text-accent italic-none not-italic">NEW_AGENT</span></h3>
                                 </div>
-                                <p className="opacity-30 text-xs font-black uppercase tracking-[8px] italic ml-20">Authorized strategic force expansion protocol_V4.8</p>
+                                <p className="opacity-30 text-xs font-black uppercase tracking-[8px] italic ml-20">Official insurance agent registration protocol</p>
                             </div>
 
                             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
                                 <div className="space-y-10">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">OPERATOR_IDENTITY</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">AGENT_NAME</label>
                                         <div className="relative group">
-                                            <Briefcase className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
+                                            <User size={16} className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                             <input 
-                                                placeholder="FULL_NAME_ENTROPY..."
+                                                placeholder="FULL NAME..."
                                                 className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                 value={formData.name}
                                                 onChange={e => setFormData({...formData, name: e.target.value})}
@@ -532,12 +533,12 @@ const AdminUsers = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">COMMS_CHANNEL (EMAIL)</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">EMAIL_ADDRESS</label>
                                         <div className="relative group">
                                             <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                             <input 
                                                 type="email"
-                                                placeholder="IDENTITY@SHIELDPRO.ORBIT"
+                                                placeholder="AGENT@SHIELDPRO.COM"
                                                 className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black text-xs uppercase tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                 value={formData.email}
                                                 onChange={e => setFormData({...formData, email: e.target.value})}
@@ -547,9 +548,9 @@ const AdminUsers = () => {
                                     </div>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">ENCRYPTION_KEY</label>
+                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">PASSWORD</label>
                                             <div className="relative group">
-                                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
+                                                <LockIcon className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                                 <input 
                                                     type="password"
                                                     placeholder="••••••••"
@@ -561,11 +562,11 @@ const AdminUsers = () => {
                                             </div>
                                         </div>
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">UPLINK_PULSE</label>
+                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">PHONE_NUMBER</label>
                                             <div className="relative group">
                                                 <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                                 <input 
-                                                    placeholder="+1.800.SHIELD"
+                                                    placeholder="+91-0000000000"
                                                     className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                     value={formData.phone}
                                                     onChange={e => setFormData({...formData, phone: e.target.value})}
@@ -578,11 +579,11 @@ const AdminUsers = () => {
 
                                 <div className="space-y-10">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">PHYSICAL_SECTOR_BASE</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">OFFICE_ADDRESS</label>
                                         <div className="relative group">
                                             <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                             <input 
-                                                placeholder="GLOBAL_HQ_ALPHA_GRID"
+                                                placeholder="ENTER FULL ADDRESS..."
                                                 className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                 value={formData.address}
                                                 onChange={e => setFormData({...formData, address: e.target.value})}
@@ -592,7 +593,7 @@ const AdminUsers = () => {
                                     </div>
                                     <div className="grid grid-cols-2 gap-8">
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">ENTITY_ORIGIN</label>
+                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">DATE_OF_BIRTH</label>
                                             <input 
                                                 type="date"
                                                 className="w-full h-[70px] bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black outline-none focus:border-accent shadow-sm transition-all"
@@ -602,7 +603,7 @@ const AdminUsers = () => {
                                             />
                                         </div>
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">STRATEGIC_YIELD (%)</label>
+                                            <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">COMMISSION_RATE (%)</label>
                                             <div className="relative">
                                                 <span className="absolute left-8 top-1/2 -translate-y-1/2 font-black text-2xl text-accent/40 leading-none group-hover:translate-x-1 transition-all">%</span>
                                                 <input 
@@ -621,15 +622,15 @@ const AdminUsers = () => {
                                             onClick={() => setIsAddingAgent(false)}
                                             className="h-20 px-10 bg-zinc-900 text-white dark:bg-zinc-800 rounded-[2rem] text-[10px] font-black uppercase tracking-[5px] hover:bg-zinc-800 transition-all active:scale-95 italic border border-white/5"
                                         >
-                                            ABORT_SYNC
+                                            CANCEL
                                         </button>
                                         <button 
                                             type="submit"
                                             disabled={createMutation.isLoading}
                                             className="flex-1 h-20 bg-accent text-white rounded-[2rem] text-xs font-black uppercase tracking-[6px] shadow-[0_20px_50px_rgba(255,90,0,0.4)] disabled:opacity-50 hover:translate-y-[-8px] active:scale-95 transition-all italic flex items-center justify-center gap-6 group"
                                         >
-                                            {createMutation.isLoading ? "AUTHORIZING..." : (
-                                                <>INITIALIZE_PROFILE <Target size={20} className="group-hover:rotate-180 transition-transform duration-1000" strokeWidth={3} /></>
+                                            {createMutation.isLoading ? "REGISTERING..." : (
+                                                <>CREATE_AGENT_PROFILE <AgentIcon size={20} className="group-hover:rotate-180 transition-transform duration-1000" strokeWidth={3} /></>
                                             )}
                                         </button>
                                     </div>
@@ -637,10 +638,10 @@ const AdminUsers = () => {
                             </form>
                             
                             <div className="mt-16 flex justify-center gap-12 opacity-10">
-                                 <Fingerprint size={28} />
-                                 <Cpu size={28} />
-                                 <Satellite size={28} />
-                                 <Lock size={28} />
+                                 <User size={28} />
+                                 <Activity size={28} />
+                                 <ShieldIcon size={28} />
+                                 <AgentIcon size={28} />
                             </div>
                         </motion.div>
                     </div>

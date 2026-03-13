@@ -60,16 +60,16 @@ const CustomerDashboard = () => {
     const loading = isAvailLoading || isMyPolLoading || isClaimsLoading;
 
     const stats = [
-        { title: "Active Shields", value: myPolicies.length, icon: Shield, color: "text-primary", bg: "bg-primary/5" },
-        { title: "Review Pipeline", value: myApplications.filter(a => a.status !== 'Paid').length, icon: Clock, color: "text-accent", bg: "bg-accent/5" },
+        { title: "Active Policies", value: myPolicies.length, icon: Shield, color: "text-primary", bg: "bg-primary/5" },
+        { title: "Applications", value: myApplications.filter(a => a.status !== 'Paid').length, icon: Clock, color: "text-accent", bg: "bg-accent/5" },
         { title: "Claims Filed", value: myClaims.length, icon: ClipboardList, color: "text-indigo-500", bg: "bg-indigo-500/5" }
     ];
 
     const handleBuy = (policy) => {
         if (!profile?.name || !profile?.phone) {
             toast({ 
-                title: "Incomplete Dossier", 
-                description: "Update your profile coordinates before deployment.",
+                title: "Complete Profile", 
+                description: "Please update your profile information before applying.",
                 variant: "destructive"
             });
             navigate("/customer/profile");
@@ -100,8 +100,8 @@ const CustomerDashboard = () => {
     });
 
     return (
-        <div className="customer-dashboard p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen space-y-12">
-            {/* COMMANDER HEADER */}
+        <div className="customer-dashboard p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen space-y-12">
+            {/* DASHBOARD HEADER */}
             <Reveal width="100%" direction="down">
                 <section className="relative overflow-hidden rounded-[3rem] bg-zinc-900 p-10 md:p-16 text-white shadow-2xl">
                     <div className="absolute inset-0 pointer-events-none">
@@ -112,7 +112,7 @@ const CustomerDashboard = () => {
                     <div className="relative z-10 max-w-3xl">
                         <div className="flex items-center gap-4 mb-6">
                             <div className="px-4 py-1.5 bg-primary/20 border border-primary/30 rounded-full text-[10px] font-black uppercase tracking-[3px] text-primary">
-                                Verified Operator
+                                Verified Member
                             </div>
                             <div className="text-[10px] font-black uppercase tracking-[3px] opacity-30">
                                 ID: #{user?._id?.slice(-6).toUpperCase() || 'SECURE'}
@@ -123,23 +123,23 @@ const CustomerDashboard = () => {
                             <span className="text-primary">{profile?.name?.split(' ')[0] || user?.name?.split(' ')[0] || 'MEMEBER'}</span>
                         </h1>
                         <p className="text-zinc-400 text-lg font-bold uppercase tracking-wider max-w-xl leading-relaxed opacity-80">
-                            Your global protection network is active and monitoring for threats.
+                            Your insurance portfolio is active and protecting your future.
                         </p>
                     </div>
 
                     <div className="mt-12 flex flex-wrap gap-6 relative z-10">
                          <div className="flex flex-col">
-                            <span className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-2">Network Status</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-2">System Status</span>
                             <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl backdrop-blur-md">
                                 <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" />
-                                <span className="text-xs font-black uppercase tracking-widest">Global Secure</span>
+                                <span className="text-xs font-black uppercase tracking-widest">Global Active</span>
                             </div>
                          </div>
                          <div className="flex flex-col">
-                            <span className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-2">Claim Speed</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest opacity-30 mb-2">Support Level</span>
                             <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-6 py-3 rounded-2xl backdrop-blur-md">
                                 <Zap size={16} className="text-accent" />
-                                <span className="text-xs font-black uppercase tracking-widest text-accent">Express Lane</span>
+                                <span className="text-xs font-black uppercase tracking-widest text-accent">Priority Support</span>
                             </div>
                          </div>
                     </div>
@@ -169,7 +169,7 @@ const CustomerDashboard = () => {
                 </Reveal>
             )}
 
-            {/* STRATEGIC OVERVIEW */}
+            {/* ACCOUNT OVERVIEW */}
             <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {stats.map((s, idx) => (
                     <Reveal key={s.title} width="100%" delay={idx * 0.1} direction="up">
@@ -203,7 +203,7 @@ const CustomerDashboard = () => {
                                     : 'text-zinc-400 hover:text-foreground'
                                 }`}
                             >
-                                {tab.replace('mypolicies','Shields').replace('browse','Arsenal').replace('overview', 'Log').replace('claims', 'Operations').replace('applications', 'Pipeline')}
+                                {tab.replace('mypolicies','Policies').replace('browse','Browse').replace('overview', 'Overview').replace('claims', 'Claims').replace('applications', 'Applications')}
                                 {activeTab === tab && (
                                     <motion.div 
                                         layoutId="activeTabUnderline" 
@@ -237,9 +237,9 @@ const CustomerDashboard = () => {
                                     <div className="lg:col-span-3 space-y-8">
                                         <div className="flex items-center justify-between">
                                             <h2 className="text-2xl font-black uppercase italic tracking-tight flex items-center gap-3">
-                                                <ShieldCheck className="text-primary w-6 h-6" /> Active Safeguards
+                                                <ShieldCheck className="text-primary w-6 h-6" /> Active Policies
                                             </h2>
-                                            <Link to="/customer/mypolicies" className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">Full Inventory</Link>
+                                            <Link to="/customer/mypolicies" className="text-[10px] font-black uppercase tracking-widest text-primary hover:underline">View All</Link>
                                         </div>
                                         
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -269,8 +269,8 @@ const CustomerDashboard = () => {
                                                 ))
                                             ) : (
                                                 <div className="col-span-full py-20 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-[3rem] border border-dashed border-border/50">
-                                                    <p className="text-sm font-black uppercase tracking-[5px] opacity-20">No active assets found</p>
-                                                    <button onClick={()=>navigate('/customer/browse')} className="mt-6 px-8 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl text-[10px] font-black uppercase tracking-widest">Browse Arsenal</button>
+                                                    <p className="text-sm font-black uppercase tracking-[5px] opacity-20">No active policies found</p>
+                                                    <button onClick={()=>navigate('/customer/browse')} className="mt-6 px-8 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl text-[10px] font-black uppercase tracking-widest">Explore Plans</button>
                                                 </div>
                                             )}
                                         </div>
@@ -278,7 +278,7 @@ const CustomerDashboard = () => {
                                     
                                     <div className="lg:col-span-2 space-y-8">
                                         <h2 className="text-2xl font-black uppercase italic tracking-tight flex items-center gap-3">
-                                            <TrendingUp className="text-indigo-500 w-6 h-6" /> Live Ops Feedback
+                                            <TrendingUp className="text-indigo-500 w-6 h-6" /> Claims Status
                                         </h2>
                                         <div className="bg-white dark:bg-zinc-900 rounded-[3rem] border border-border/50 overflow-hidden shadow-sm">
                                             {myClaims.length > 0 ? (
@@ -308,7 +308,7 @@ const CustomerDashboard = () => {
                                                     <div className="w-16 h-16 bg-zinc-50 dark:bg-zinc-800 rounded-2xl flex items-center justify-center">
                                                         <Activity className="opacity-10" size={32} />
                                                     </div>
-                                                    <p className="text-[10px] font-black uppercase tracking-[3px] opacity-20 italic">No operational feedback</p>
+                                                    <p className="text-[10px] font-black uppercase tracking-[3px] opacity-20 italic">No recent claims feedback</p>
                                                 </div>
                                             )}
                                         </div>
@@ -316,8 +316,8 @@ const CustomerDashboard = () => {
                                         <div className="bg-primary p-10 rounded-[3rem] shadow-2xl shadow-primary/30 relative overflow-hidden group border border-white/10">
                                             <div className="absolute top-[-10%] right-[-10%] w-40 h-40 bg-white/20 rounded-full blur-3xl group-hover:scale-110 transition-transform" />
                                             <Headphones size={32} className="text-white mb-6 opacity-40" />
-                                            <h3 className="text-white text-2xl font-black italic uppercase leading-tight mb-4">TACTICAL<br/>SUPPORT 24/7</h3>
-                                            <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-8">Direct line to elite protection handlers for immediate assistance.</p>
+                                            <h3 className="text-white text-2xl font-black italic uppercase leading-tight mb-4">CUSTOMER<br/>SUPPORT 24/7</h3>
+                                            <p className="text-white/60 text-[10px] font-black uppercase tracking-widest mb-8">Direct line to our dedicated insurance experts for immediate assistance.</p>
                                             <button className="w-full py-4 bg-white text-primary rounded-2xl font-black uppercase tracking-[3px] hover:translate-y-[-5px] active:scale-[0.95] transition-all">
                                                 Open Channel
                                             </button>
@@ -331,8 +331,8 @@ const CustomerDashboard = () => {
                                 <div className="space-y-10">
                                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
                                         <div>
-                                            <h2 className="text-3xl font-black uppercase italic tracking-tighter">PLAN <span className="text-primary">ARSENAL</span></h2>
-                                            <p className="text-xs font-bold opacity-40 uppercase tracking-[4px] mt-1">Select your strategic coverage assets</p>
+                                            <h2 className="text-3xl font-black uppercase italic tracking-tighter">INSURANCE <span className="text-primary">PLANS</span></h2>
+                                            <p className="text-xs font-bold opacity-40 uppercase tracking-[4px] mt-1">Select the best coverage for your needs</p>
                                         </div>
                                         
                                         <div className="flex flex-wrap items-center gap-4">
@@ -340,7 +340,7 @@ const CustomerDashboard = () => {
                                                 <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
                                                 <input 
                                                     type="text" 
-                                                    placeholder="LOCATE SYSTEM..." 
+                                                    placeholder="SEARCH PLANS..." 
                                                     className="pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-border/50 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none w-full md:w-80 transition-all font-bold text-xs uppercase tracking-widest shadow-sm" 
                                                     value={searchQuery} 
                                                     onChange={e=>setSearchQuery(e.target.value)} 
@@ -353,13 +353,13 @@ const CustomerDashboard = () => {
                                                     value={filterType}
                                                     onChange={e => setFilterType(e.target.value)}
                                                 >
-                                                    <option value="All">All Arsenals</option>
-                                                    <option value="Life">Biological Shield</option>
-                                                    <option value="Health">Vitals Guard</option>
-                                                    <option value="Vehicle">Fleet Armour</option>
-                                                    <option value="Auto">Tactical Drive</option>
-                                                    <option value="Property">Asset Base</option>
-                                                    <option value="Travel">Global Passage</option>
+                                                    <option value="All">All Categories</option>
+                                                    <option value="Life">Life Insurance</option>
+                                                    <option value="Health">Health Insurance</option>
+                                                    <option value="Vehicle">Auto Insurance</option>
+                                                    <option value="Auto">Vehicle Insurance</option>
+                                                    <option value="Property">Property Insurance</option>
+                                                    <option value="Travel">Travel Insurance</option>
                                                 </select>
                                                 <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
                                                     <TrendingUp size={14} />
@@ -391,7 +391,7 @@ const CustomerDashboard = () => {
                                                         </p>
                                                         
                                                         <div className="grid grid-cols-1 gap-4 mb-10">
-                                                            {['MAXIMUM DEFENSE', 'RAPID RESPONSE', 'GLOBAL RANGE'].map(feature => (
+                                                            {['MAXIMUM COVERAGE', 'QUICK SETTLEMENT', 'GLOBAL COVERAGE'].map(feature => (
                                                                 <div key={feature} className="flex items-center gap-4 text-[9px] font-black uppercase tracking-widest bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-xl border border-border/10">
                                                                     <div className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center p-1 shadow-lg shadow-emerald-500/20">
                                                                         <CheckCircle className="text-white w-full h-full" />
@@ -405,7 +405,7 @@ const CustomerDashboard = () => {
                                                             className="w-full py-5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-black uppercase tracking-[4px] text-xs hover:translate-y-[-5px] shadow-xl hover:shadow-primary/20 transition-all active:scale-95 group-hover:bg-primary group-hover:text-white" 
                                                             onClick={()=>handleBuy(pol)}
                                                         >
-                                                            PURCHASE SHIELD
+                                                            APPLY NOW
                                                         </button>
                                                     </div>
                                                 </div>
@@ -413,7 +413,7 @@ const CustomerDashboard = () => {
                                         )) : (
                                             <div className="col-span-full py-32 text-center">
                                                 <Search size={64} className="mx-auto text-zinc-200 mb-6 opacity-40" />
-                                                <p className="text-xl font-black uppercase tracking-[5px] opacity-20 italic">No matching assets in arsenal</p>
+                                                <p className="text-xl font-black uppercase tracking-[5px] opacity-20 italic">No matching plans found</p>
                                             </div>
                                         )}
                                     </div>
@@ -424,8 +424,8 @@ const CustomerDashboard = () => {
                             {activeTab === 'applications' && (
                                 <div className="space-y-10">
                                     <div className="flex items-center justify-between">
-                                        <h2 className="text-3xl font-black uppercase italic tracking-tighter">PROCUREMENT <span className="text-accent">PIPELINE</span></h2>
-                                        <p className="text-[10px] font-black uppercase tracking-[3px] opacity-30 italic">Target tracking & review status</p>
+                                        <h2 className="text-3xl font-black uppercase italic tracking-tighter">APPLICATION <span className="text-accent">TRACKING</span></h2>
+                                        <p className="text-[10px] font-black uppercase tracking-[3px] opacity-30 italic">Status and review progress</p>
                                     </div>
                                     
                                     <div className="grid grid-cols-1 gap-6">
@@ -471,7 +471,7 @@ const CustomerDashboard = () => {
                                                                 onClick={() => navigate('/customer/checkout', { state: { policy: app.policy, applicationId: app._id } })}
                                                                 className="px-10 py-5 bg-accent text-white rounded-[1.5rem] font-black uppercase tracking-[3px] text-xs shadow-2xl shadow-accent/20 hover:translate-y-[-5px] active:scale-95 transition-all"
                                                             >
-                                                                Finalise Procurement
+                                                                Complete Payment
                                                             </button>
                                                         ) : (
                                                             <div className="px-10 py-5 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 rounded-[1.5rem] font-black uppercase tracking-[3px] text-xs flex items-center gap-3">

@@ -17,35 +17,39 @@ import {
     Compass,
     Satellite,
     Cpu,
-    Lock
+    Lock,
+    ClipboardList,
+    Briefcase,
+    PieChart,
+    MessageSquare
 } from "lucide-react";
 
 const ROLE_LINKS = {
     admin: [
-        { name: "Command Center", path: "/admin", icon: LayoutDashboard },
-        { name: "Entity Roster", path: "/admin/users", icon: Users },
-        { name: "Asset Catalog", path: "/admin/policies", icon: ShieldCheck },
-        { name: "Deployment Queue", path: "/admin/applications", icon: FileText },
-        { name: "Payout Matrix", path: "/admin/commissions", icon: CreditCard },
-        { name: "FinOps Ledger", path: "/admin/transactions", icon: DollarSign },
-        { name: "Incident Log", path: "/admin/claims", icon: Activity },
-        { name: "System Protocols", path: "/admin/settings", icon: Settings },
+        { name: "Admin Dashboard", path: "/admin", icon: LayoutDashboard },
+        { name: "Users Directory", path: "/admin/users", icon: Users },
+        { name: "Insurance Policies", path: "/admin/policies", icon: ShieldCheck },
+        { name: "Policy Applications", path: "/admin/applications", icon: ClipboardList },
+        { name: "Agent Commissions", path: "/admin/commissions", icon: Briefcase },
+        { name: "Transaction Records", path: "/admin/transactions", icon: CreditCard },
+        { name: "Claims Management", path: "/admin/claims", icon: FileText },
+        { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     agent: [
-        { name: "Sector Overview", path: "/agent", icon: LayoutDashboard },
-        { name: "Client Assets", path: "/agent/clients", icon: Users },
-        { name: "Submission Pipeline", path: "/agent/applications", icon: FileText },
-        { name: "Active Safeguards", path: "/agent/policies", icon: ShieldCheck },
-        { name: "Yield Tracking", path: "/agent/commissions", icon: DollarSign },
-        { name: "Case Review", path: "/agent/claims", icon: Activity },
+        { name: "Agent Portal", path: "/agent", icon: LayoutDashboard },
+        { name: "Client Directory", path: "/agent/clients", icon: Users },
+        { name: "Submissions", path: "/agent/applications", icon: ClipboardList },
+        { name: "Active Policies", path: "/agent/policies", icon: ShieldCheck },
+        { name: "Commission Earnings", path: "/agent/commissions", icon: DollarSign },
+        { name: "Claims Review", path: "/agent/claims", icon: FileText },
     ],
     customer: [
-        { name: "Safehouse Hub", path: "/customer", icon: LayoutDashboard },
-        { name: "My Safeguards", path: "/customer/policies", icon: ShieldCheck },
-        { name: "Incident Reports", path: "/customer/claims", icon: Activity },
-        { name: "Identity Profile", path: "/customer/profile", icon: Users },
-        { name: "Hub Settings", path: "/customer/settings", icon: Settings },
-        { name: "Payment Portal", path: "/customer/checkout", icon: CreditCard },
+        { name: "Customer Home", path: "/customer", icon: LayoutDashboard },
+        { name: "My Policies", path: "/customer/policies", icon: ShieldCheck },
+        { name: "My Claims", path: "/customer/claims", icon: Activity },
+        { name: "Account Profile", path: "/customer/profile", icon: Users },
+        { name: "Account Settings", path: "/customer/settings", icon: Settings },
+        { name: "Buy Insurance", path: "/customer/checkout", icon: CreditCard },
     ]
 };
 
@@ -55,7 +59,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
     return (
         <>
-            {/* Tactical Overlay */}
+            {/* Professional Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -68,17 +72,17 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 )}
             </AnimatePresence>
 
-            {/* Tactical Chassis */}
+            {/* Sidebar Chassis */}
             <aside
                 className={`fixed md:sticky top-0 left-0 z-[70] h-screen w-80 bg-white dark:bg-[#0c1a15] border-r border-border transform transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) flex flex-col ${isOpen ? "translate-x-0 shadow-[50px_0_100px_rgba(0,0,0,0.2)]" : "-translate-x-full"} md:translate-x-0 group/sidebar overflow-hidden`}
             >
-                {/* Visual Architecture Flare */}
+                {/* Visual Depth Accents */}
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.03] dark:opacity-[0.05] z-0">
                     <div className="absolute top-10 left-[-100px] w-64 h-64 bg-primary rounded-full blur-[100px]" />
                     <div className="absolute bottom-40 right-[-100px] w-64 h-64 bg-accent rounded-full blur-[100px]" />
                 </div>
 
-                {/* Tactical Header */}
+                {/* Header Section */}
                 <div className="p-10 flex items-center gap-6 border-b border-border/50 relative z-10">
                     <div className="relative group/logo cursor-pointer" onClick={() => window.location.href = '/'}>
                         <div className="absolute inset-0 bg-primary blur-2xl opacity-20 group-hover/logo:opacity-60 transition-all duration-500 scale-150" />
@@ -88,20 +92,20 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     </div>
                     <div className="flex flex-col">
                         <h2 className="text-2xl font-black tracking-tighter leading-none text-foreground uppercase italic flex items-center gap-1">
-                            SECURE<span className="text-primary italic-none not-italic">SHIELD</span>
+                            SHIELD<span className="text-primary italic-none not-italic">PRO</span>
                         </h2>
                         <div className="flex items-center gap-2 mt-2">
                              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_#10b981]" />
-                             <span className="text-[9px] font-black uppercase tracking-[3px] text-muted-foreground opacity-40 italic">Elite Operation</span>
+                             <span className="text-[9px] font-black uppercase tracking-[3px] text-muted-foreground opacity-40 italic">Global Insurance</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Primary Navigation System */}
+                {/* Navigation Links */}
                 <nav className="flex-1 overflow-y-auto no-scrollbar py-10 px-6 space-y-2 relative z-10">
                     <div className="px-6 mb-8 flex items-center justify-between">
-                        <p className="text-[10px] font-black uppercase tracking-[4px] text-primary italic opacity-60">System Core</p>
-                        <Settings size={12} className="opacity-20" />
+                        <p className="text-[10px] font-black uppercase tracking-[4px] text-primary italic opacity-60">Main Menu</p>
+                        <PieChart size={12} className="opacity-20" />
                     </div>
                     
                     {links.map((link) => {
@@ -135,37 +139,37 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 )}
 
                                 {!isActive && (
-                                    <Zap size={10} className="absolute right-6 opacity-0 group-hover:opacity-20 transition-opacity" />
+                                    <Activity size={10} className="absolute right-6 opacity-0 group-hover:opacity-20 transition-opacity" />
                                 )}
                             </Link>
                         );
                     })}
                 </nav>
 
-                {/* Tactical Footer: Operator Dossier Preview */}
+                {/* Footer Section */}
                 <div className="p-8 relative z-10 border-t border-border/50 bg-zinc-50 dark:bg-white/[0.01]">
                     <div className="p-8 bg-zinc-900 dark:bg-zinc-800 rounded-[2.5rem] border border-white/5 shadow-2xl relative group/support overflow-hidden transition-all hover:translate-y-[-5px]">
                         <div className="absolute top-[-20%] right-[-10%] opacity-10 group-hover/support:scale-125 transition-transform duration-700">
-                             <Satellite size={100} className="text-primary rotate-12" />
+                             <MessageSquare size={100} className="text-primary rotate-12" />
                         </div>
                         
                         <div className="flex items-center gap-3 mb-4">
-                            <Compass size={14} className="text-primary animate-spin-slow" />
-                            <p className="text-[10px] font-black text-primary uppercase tracking-[4px] italic">Strategic Support</p>
+                            <ActivityIcon size={14} className="text-primary animate-pulse" />
+                            <p className="text-[10px] font-black text-primary uppercase tracking-[4px] italic">Client Support</p>
                         </div>
-                        <p className="text-[11px] font-black text-white/50 uppercase tracking-[1px] leading-relaxed mb-6 italic">24/7 Orbital Assistance established.</p>
+                        <p className="text-[11px] font-black text-white/50 uppercase tracking-[1px] leading-relaxed mb-6 italic">24/7 Professional Assistance. We are here to help.</p>
                         
                         <button className="w-full py-4 bg-white text-zinc-900 rounded-2xl text-[9px] font-black uppercase tracking-[4px] hover:bg-primary hover:text-white transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3">
-                            INITIALIZE COMMS <Target size={14} strokeWidth={3} />
+                            CONTACT SUPPORT <MessageSquare size={14} strokeWidth={3} />
                         </button>
                     </div>
 
                     <div className="mt-8 flex items-center justify-center gap-6 opacity-20">
-                         <Fingerprint size={16} />
+                         <ShieldCheck size={16} />
                          <div className="w-px h-4 bg-foreground" />
                          <Lock size={16} />
                          <div className="w-px h-4 bg-foreground" />
-                         <Cpu size={16} />
+                         <Layout size={16} />
                     </div>
                 </div>
             </aside>

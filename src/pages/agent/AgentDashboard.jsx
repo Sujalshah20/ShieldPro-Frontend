@@ -26,21 +26,21 @@ const AgentDashboard = () => {
     const statsCards = [
         {
             title: "Assigned Clients",
-            description: `${agentStats?.stats?.assignedCustomers || 0} Elite Portfolio`,
+            description: `${agentStats?.stats?.assignedCustomers || 0} Clients Managed`,
             icon: Users,
             color: "text-primary",
             bg: "bg-primary/5"
         },
         {
             title: "Pipeline Review",
-            description: `${agentStats?.stats?.pendingApplications || 0} Pending Clearance`,
+            description: `${agentStats?.stats?.pendingApplications || 0} Pending Review`,
             icon: Clock,
             color: "text-accent",
             bg: "bg-accent/5"
         },
         {
             title: "Live Safeguards",
-            description: `${agentStats?.stats?.activePolicies || 0} Active Shields`,
+            description: `${agentStats?.stats?.activePolicies || 0} Active Policies`,
             icon: ShieldCheck,
             color: "text-emerald-500",
             bg: "bg-emerald-500/5"
@@ -58,7 +58,7 @@ const AgentDashboard = () => {
     const THEME_COLORS = ["#FF5A00", "#10b981", "#ef4444"];
 
     return (
-        <div className="agent-dashboard p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen">
+        <div className="agent-dashboard p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen">
             <Reveal width="100%" direction="down">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>
@@ -69,7 +69,7 @@ const AgentDashboard = () => {
                              </h1>
                         </div>
                         <p className="text-sm font-bold opacity-40 uppercase tracking-[3px] ml-5">
-                            Client Portfolio & Claims Ordinance
+                            Client Portfolio & Claims Management
                         </p>
                     </div>
                 </div>
@@ -103,7 +103,7 @@ const AgentDashboard = () => {
                     </div>
                     <div className="relative z-10">
                         <h3 className="text-xl font-black uppercase tracking-tight italic flex items-center gap-3 mb-10">
-                            <PieIcon className="text-accent w-6 h-6" /> Claims Ordnance Distribution
+                            <PieIcon className="text-accent w-6 h-6" /> Claims Status Distribution
                         </h3>
                         <div className="h-[350px]">
                             <ResponsiveContainer width="100%" height="100%">
@@ -132,7 +132,7 @@ const AgentDashboard = () => {
                     </div>
                 </div>
 
-                {/* Tactical Operations */}
+                {/* System Actions */}
                 <div className="lg:col-span-2 space-y-8">
                     <div className="bg-white dark:bg-zinc-900/50 p-8 rounded-[3rem] border border-border/50 shadow-sm relative group overflow-hidden">
                          <div className="absolute top-[-10%] right-[-10%] w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-colors" />
@@ -146,8 +146,8 @@ const AgentDashboard = () => {
                                         <Users size={24} />
                                     </div>
                                     <div>
-                                        <p className="font-black text-xs uppercase tracking-widest">Manage Fleet</p>
-                                        <p className="text-[10px] font-bold opacity-40 uppercase tracking-widest mt-0.5">Assigned client database</p>
+                                        <p className="font-black text-xs uppercase tracking-widest">Manage Clients</p>
+                                        <p className="text-[10px] font-bold opacity-40 uppercase tracking-widest mt-0.5">Full customer database</p>
                                     </div>
                                 </div>
                                 <div className="opacity-0 group-hover/action:opacity-100 transition-opacity">
@@ -160,8 +160,8 @@ const AgentDashboard = () => {
                                         <ShieldCheck size={24} />
                                     </div>
                                     <div>
-                                        <p className="font-black text-xs uppercase tracking-widest">Tactical Recs</p>
-                                        <p className="text-[10px] font-bold opacity-40 uppercase tracking-widest mt-0.5">Policy engine deployment</p>
+                                        <p className="font-black text-xs uppercase tracking-widest">Recommendations</p>
+                                        <p className="text-[10px] font-bold opacity-40 uppercase tracking-widest mt-0.5">View available insurance plans</p>
                                     </div>
                                 </div>
                                 <div className="opacity-0 group-hover/action:opacity-100 transition-opacity">
@@ -173,10 +173,10 @@ const AgentDashboard = () => {
 
                     <div className="bg-primary p-10 rounded-[3rem] shadow-2xl shadow-primary/30 relative overflow-hidden group">
                          <div className="absolute bottom-[-20%] right-[-10%] w-40 h-40 bg-white/20 rounded-full blur-3xl group-hover:scale-110 transition-transform" />
-                         <h3 className="text-white text-2xl font-black italic uppercase leading-tight mb-4 relative z-10">UPGRADE TO<br/>GOLD STATUS</h3>
-                         <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-8 relative z-10">Unlock elite commission tiers and priority support for your top-tier clients.</p>
+                         <h3 className="text-white text-2xl font-black italic uppercase leading-tight mb-4 relative z-10">UPGRADE TO<br/>PREMIUM STATUS</h3>
+                         <p className="text-white/60 text-xs font-bold uppercase tracking-widest mb-8 relative z-10">Unlock higher commission tiers and priority support for your top clients.</p>
                          <button className="relative z-10 w-full py-4 bg-white text-primary rounded-2xl font-black uppercase tracking-[3px] hover:translate-y-[-5px] active:scale-[0.95] transition-all">
-                             Activate Elite
+                             Activate Premium
                          </button>
                     </div>
                 </div>

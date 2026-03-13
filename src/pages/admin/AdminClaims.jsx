@@ -5,9 +5,9 @@ import { api } from "../../utils/api";
 import { TableSkeleton } from "../../components/common/Skeleton";
 import { 
     FileText, User, ShieldCheck, CheckCircle, XCircle, 
-    Clock, AlertCircle, TrendingUp, IndianRupee,
+    Clock, AlertCircle, TrendingUp, IndianRupee, Mail,
     Briefcase, Fingerprint, Zap, Search, ShieldAlert,
-    BarChart3, Satellite, Cpu, Target, Activity, Lock,
+    BarChart3, Target, Activity, Lock,
     CreditCard, Layout, Eye, ArrowUpRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,13 +31,13 @@ const AdminClaims = () => {
         mutationFn: (data) => api.put(`/claims/${data.id}/status`, { status: data.status }, user.token),
         onSuccess: (data, variables) => {
             queryClient.invalidateQueries(['adminClaims']);
-            toast({ title: "INCIDENT_SYNC_COMPLETE", description: `Claim protocol transitioned to: ${variables.status.toUpperCase()}` });
+            toast({ title: "CLAIM_STATUS_UPDATED", description: `Claim status changed to: ${variables.status.toUpperCase()}` });
             setSelectedClaim(null);
         },
         onError: (err) => {
             toast({
-                title: "SYNC_FAILURE",
-                description: err?.message || "Control override failed.",
+                title: "UPDATE_FAILED",
+                description: err?.message || "Failed to update claim status.",
                 variant: "destructive"
             });
         }
@@ -59,8 +59,8 @@ const AdminClaims = () => {
     );
 
     return (
-        <div className="admin-claims p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
-            {/* Atmospheric Background Effects */}
+        <div className="admin-claims p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+            {/* Background Atmosphere */}
             <div className="absolute top-0 right-0 p-20 opacity-[0.03] pointer-events-none">
                 <Activity size={700} className="text-primary rotate-45" />
             </div>
@@ -71,18 +71,18 @@ const AdminClaims = () => {
                         <div className="flex items-center gap-4 mb-3">
                              <div className="w-2.5 h-10 bg-primary rounded-full shadow-[0_0_20px_#0165FF]" />
                              <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
-                                INCIDENT<span className="text-primary tracking-normal">_SETTLEMENT</span>
+                                CLAIMS<span className="text-primary tracking-normal">_MANAGEMENT</span>
                              </h1>
                         </div>
                         <p className="text-xs font-black opacity-30 uppercase tracking-[6px] ml-7 italic">
-                            Validate high-end incident reports & authorize deep-reserve disbursements
+                            Review and process insurance claims for settlement authorization
                         </p>
                     </div>
                     
                     <div className="px-12 py-8 bg-white dark:bg-zinc-900/50 rounded-[3rem] border-2 border-primary/10 shadow-3xl flex flex-col items-center group hover:border-primary/40 transition-all backdrop-blur-xl relative overflow-hidden">
                         <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <span className="text-[10px] font-black uppercase tracking-[5px] opacity-20 mb-2 italic relative z-10 flex items-center gap-3">
-                            <CreditCard size={14} className="text-primary" /> TOTAL_NET_DISBURSEMENT
+                            <CreditCard size={14} className="text-primary" /> TOTAL_CLAIM_PAYOUTS
                         </span>
                         <span className="text-5xl font-black text-primary tracking-tighter group-hover:scale-110 transition-transform relative z-10 italic leading-none">
                             ₹{(stats.totalVolume / 100000).toFixed(1)}L
@@ -91,12 +91,12 @@ const AdminClaims = () => {
                 </div>
             </Reveal>
 
-            {/* STRATEGIC METRICS MATRIX */}
+            {/* CLAIMS METRICS */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
                  {[
-                    { label: "INCIDENT_ALERTS", value: stats.pending, color: "text-orange-500", bg: "bg-orange-500/10", icon: ShieldAlert, tag: "URGENT" },
-                    { label: "SYNC_INVESTIGATION", value: stats.investigating, color: "text-accent", bg: "bg-accent/10", icon: Clock, tag: "ACTIVE" },
-                    { label: "LIQUIDITY_AUTHORIZED", value: stats.authorized, color: "text-emerald-500", bg: "bg-emerald-500/10", icon: CheckCircle, tag: "NOMINAL" }
+                    { label: "PENDING_CLAIMS", value: stats.pending, color: "text-orange-500", bg: "bg-orange-500/10", icon: ShieldAlert, tag: "URGENT" },
+                    { label: "UNDER_INVESTIGATION", value: stats.investigating, color: "text-accent", bg: "bg-accent/10", icon: Clock, tag: "ACTIVE" },
+                    { label: "APPROVED_CLAIMS", value: stats.authorized, color: "text-emerald-500", bg: "bg-emerald-500/10", icon: CheckCircle, tag: "FINISHED" }
                  ].map((stat, i) => (
                     <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
                         <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3.5rem] border border-border/50 flex flex-col justify-between group hover:border-primary/40 transition-all shadow-xl hover:translate-y-[-8px] relative overflow-hidden">
@@ -122,7 +122,7 @@ const AdminClaims = () => {
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
                     <input 
                         type="text" 
-                        placeholder="LOCATE_INCIDENT_COORDINATES..." 
+                        placeholder="SEARCH_BY_CLIENT_OR_DASHBOARD_ID..." 
                         className="pl-16 pr-8 h-18 bg-white dark:bg-zinc-900/50 border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
                         value={searchQuery} 
                         onChange={e=>setSearchQuery(e.target.value)} 
@@ -130,25 +130,25 @@ const AdminClaims = () => {
                 </div>
                 <div className="flex items-center gap-6 bg-white dark:bg-zinc-900/50 px-8 py-5 rounded-[1.5rem] border border-border/50 backdrop-blur-md">
                     <BarChart3 className="text-primary w-5 h-5 shadow-[0_0_10px_#0165FF]" />
-                    <span className="text-[10px] font-black uppercase tracking-[5px] opacity-30 italic">REAL_TIME_CLAIMS_LEDGER_SYNC</span>
+                    <span className="text-[10px] font-black uppercase tracking-[5px] opacity-30 italic">LIVE_CLAIMS_LEDGER_SYNC</span>
                 </div>
             </div>
 
-            {/* INVESTIGATION QUEUE MATRIX */}
+            {/* CLAIMS QUEUE */}
             <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
                 <div className="p-10 border-b border-border/50 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.02] relative">
                     <div className="absolute inset-0 bg-primary/5 opacity-[0.05] pointer-events-none group-hover:opacity-[0.1] transition-opacity" />
                     <div className="flex items-center gap-6 relative z-10">
                         <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-lg border border-primary/20">
-                            <Fingerprint size={28} strokeWidth={3} />
+                            <FileText size={28} strokeWidth={3} />
                         </div>
                         <div>
-                            <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none">INVESTIGATION_QUEUE</h3>
-                            <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] mt-2 italic ml-1">Incident validation & disbursement protocol</p>
+                            <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none">CLAIMS_PROCESSING_QUEUE</h3>
+                            <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] mt-2 italic ml-1">Validate and authorize insurance claim requests</p>
                         </div>
                     </div>
                     <div className="flex flex-col items-end relative z-10">
-                        <span className="text-[10px] font-black uppercase tracking-[3px] opacity-20">PENDING_NODES</span>
+                        <span className="text-[10px] font-black uppercase tracking-[3px] opacity-20">CLAIMS_COUNT</span>
                         <span className="text-2xl font-black italic text-primary">{filteredClaims?.length || 0}</span>
                     </div>
                 </div>
@@ -156,11 +156,11 @@ const AdminClaims = () => {
                     <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                         <thead>
                             <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
-                                <th className="px-12 py-8 tracking-[4px]">ENTITY_BIOMETRICS</th>
-                                <th className="px-12 py-8 tracking-[4px]">POLICY_NODE_LINK</th>
-                                <th className="px-12 py-8 tracking-[4px]">REQUESTED_LIQUIDITY</th>
-                                <th className="px-12 py-8 text-center tracking-[4px]">LIFECYCLE_STATUS</th>
-                                <th className="px-12 py-8 text-right tracking-[4px]">CONTROL_POINT</th>
+                                <th className="px-12 py-8 tracking-[4px]">CLIENT_INFORMATION</th>
+                                <th className="px-12 py-8 tracking-[4px]">INSURANCE_POLICY</th>
+                                <th className="px-12 py-8 tracking-[4px]">CLAIM_AMOUNT</th>
+                                <th className="px-12 py-8 text-center tracking-[4px]">STATUS</th>
+                                <th className="px-12 py-8 text-right tracking-[4px]">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border/10">
@@ -183,7 +183,7 @@ const AdminClaims = () => {
                                             <div>
                                                 <p className="text-xl font-black italic tracking-tighter uppercase group-hover:text-primary transition-colors leading-none mb-2">{claim.user?.name}</p>
                                                 <p className="text-[9px] opacity-30 tracking-[3px] flex items-center gap-3 mt-1 lowercase font-black italic">
-                                                    <Lock size={12} className="text-primary" /> {claim.user?.email}
+                                                    <Mail size={12} className="text-primary" /> {claim.user?.email}
                                                 </p>
                                             </div>
                                         </div>
@@ -196,7 +196,7 @@ const AdminClaims = () => {
                                             </div>
                                             <div className="flex items-center gap-3">
                                                 <div className="w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_5px_#0165FF]" />
-                                                <span className="text-[9px] opacity-30 tracking-[3px] lowercase">NODE_#{claim.userPolicy?.policyNumber}</span>
+                                                <span className="text-[9px] opacity-30 tracking-[3px] lowercase">POL: #{claim.userPolicy?.policyNumber}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -228,7 +228,7 @@ const AdminClaims = () => {
                                             onClick={() => setSelectedClaim(claim)}
                                             className="h-12 px-8 bg-zinc-900 dark:bg-zinc-800 text-white dark:text-zinc-500 rounded-xl text-[9px] font-black uppercase tracking-[3px] hover:bg-primary dark:hover:bg-primary hover:text-white transition-all shadow-xl active:scale-95 italic flex items-center gap-4 float-right group/btn"
                                         >
-                                            REVEAL_DAID <Eye size={16} strokeWidth={3} className="group-hover/btn:scale-110 transition-transform" />
+                                            VIEW_CLAIM_DETAILS <Eye size={16} strokeWidth={3} className="group-hover/btn:scale-110 transition-transform" />
                                         </button>
                                     </td>
                                 </motion.tr>
@@ -238,7 +238,7 @@ const AdminClaims = () => {
                 </div>
             </div>
 
-            {/* INCIDENT VALIDATION TERMINAL */}
+            {/* CLAIM REVIEW MODAL */}
             <AnimatePresence>
                 {selectedClaim && (
                     <div className="fixed inset-0 z-[120] flex items-center justify-center p-8">
@@ -259,16 +259,16 @@ const AdminClaims = () => {
                                         <div className="w-14 h-14 bg-orange-500 text-white rounded-2xl flex items-center justify-center shadow-2xl shadow-orange-500/30">
                                             <Target size={32} strokeWidth={3} />
                                         </div>
-                                        <h3 className="text-5xl font-black italic tracking-tighter uppercase leading-none">INCIDENT<span className="text-orange-500 italic-none not-italic">_VALIDATION</span></h3>
+                                        <h3 className="text-5xl font-black italic tracking-tighter uppercase leading-none">CLAIM<span className="text-orange-500 italic-none not-italic">_REVIEW</span></h3>
                                     </div>
-                                    <p className="text-xs font-black opacity-30 uppercase tracking-[8px] italic ml-20">Reference Protocol: {selectedClaim._id.toUpperCase()}</p>
+                                    <p className="text-xs font-black opacity-30 uppercase tracking-[8px] italic ml-20">REF: {selectedClaim._id.toUpperCase()}</p>
                                 </div>
                                 
                                 <div className="px-10 py-5 rounded-3xl bg-orange-500/10 text-orange-500 border-2 border-orange-500/30 flex items-center gap-6 shadow-[0_0_50px_rgba(249,115,22,0.15)] animate-pulse">
                                     <Clock size={32} strokeWidth={3} />
                                     <div className="flex flex-col">
-                                        <span className="font-black text-[10px] uppercase tracking-[4px] leading-tight opacity-40">WAITING_FOR_FINAL_SYNC</span>
-                                        <span className="font-black text-xl italic tracking-tighter uppercase">AUTHORIZED_OVERRIDE_REQUIRED</span>
+                                        <span className="font-black text-[10px] uppercase tracking-[4px] leading-tight opacity-40">WAITING_FOR_REVIEW</span>
+                                        <span className="font-black text-xl italic tracking-tighter uppercase">ADMIN_DECISION_REQUIRED</span>
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +276,7 @@ const AdminClaims = () => {
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20 relative z-10">
                                 <div className="space-y-12">
                                     <div className="p-12 bg-zinc-50 dark:bg-white/[0.02] rounded-[3.5rem] border-2 border-border/50 shadow-inner group hover:border-primary/50 transition-all">
-                                        <p className="text-[10px] font-black uppercase opacity-20 tracking-[6px] mb-8 italic">CLAIMANT_COORDINATION_DNA</p>
+                                        <p className="text-[10px] font-black uppercase opacity-20 tracking-[6px] mb-8 italic">CLIENT_INFORMATION</p>
                                         <div className="flex items-center gap-10">
                                             <div className="relative group/prof">
                                                 <div className="absolute inset-0 bg-primary blur-2xl opacity-0 group-hover/prof:opacity-20 transition-all" />
@@ -287,8 +287,8 @@ const AdminClaims = () => {
                                             <div>
                                                 <p className="font-black text-4xl italic tracking-tighter uppercase group-hover:text-primary transition-colors leading-none mb-3">{selectedClaim.user?.name}</p>
                                                 <div className="flex items-center gap-4 px-5 py-2.5 bg-zinc-900 text-white rounded-xl border border-white/5 w-fit">
-                                                    <Fingerprint size={14} className="text-primary" strokeWidth={3} />
-                                                    <p className="text-[10px] opacity-60 font-black tracking-[4px] uppercase italic">STATUS: ELITE_VERIFIED</p>
+                                                    <ShieldCheck size={14} className="text-primary" strokeWidth={3} />
+                                                    <p className="text-[10px] opacity-60 font-black tracking-[4px] uppercase italic">STATUS: PREMIUM_CLIENT</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -300,7 +300,7 @@ const AdminClaims = () => {
                                             <div className="w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-2xl">
                                                 <IndianRupee size={28} strokeWidth={3} />
                                             </div>
-                                            <p className="text-[10px] font-black uppercase text-primary tracking-[6px] italic">REQUESTED_LIQUIDITY_DISBURSEMENT</p>
+                                            <p className="text-[10px] font-black uppercase text-primary tracking-[6px] italic">REQUESTED_CLAIM_PAYOUT</p>
                                         </div>
                                         <div className="flex items-end gap-6 relative z-10">
                                             <span className="text-7xl font-black italic tracking-tighter uppercase text-primary leading-none">₹{selectedClaim.amount.toLocaleString()}</span>
@@ -318,15 +318,15 @@ const AdminClaims = () => {
                                     <div className="absolute top-[-20%] right-[-20%] w-[400px] h-[400px] bg-orange-500/10 rounded-full blur-[100px] opacity-0 group-hover/intel:opacity-100 transition-opacity duration-700 pointer-events-none" />
                                     <div className="flex items-center gap-6 mb-12">
                                         <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-orange-500 shadow-2xl border border-white/5">
-                                            <Zap size={32} strokeWidth={3} />
+                                            <FileText size={32} strokeWidth={3} />
                                         </div>
                                         <div className="flex flex-col">
-                                            <p className="text-[10px] font-black uppercase text-zinc-600 tracking-[5px] italic leading-tight">OFFICIAL_INCIDENT_REPORT_DECODED</p>
-                                            <p className="text-2xl font-black italic tracking-tighter uppercase mt-1">INTEL_FEED_NODE82</p>
+                                            <p className="text-[10px] font-black uppercase text-zinc-600 tracking-[5px] italic leading-tight">OFFICIAL_CLAIM_DESCRIPTION</p>
+                                            <p className="text-2xl font-black italic tracking-tighter uppercase mt-1">CLIENT_REPORT_DATA</p>
                                         </div>
                                     </div>
                                     <div className="flex-1 text-base italic opacity-80 leading-relaxed font-black uppercase tracking-[4px] h-[300px] overflow-y-auto no-scrollbar pr-10 border-l-2 border-orange-500/20 pl-12 text-zinc-400">
-                                        "{selectedClaim.description || "NO_OFFICIAL_REPORT_COORDINATES_PROVIDED. MANUAL_VERIFICATION_PROTOCOL_REQUIRED_FOR_THIS_INCIDENT_SETTLEMENT. SOURCE_NODE_FLAGGED."}"
+                                        "{selectedClaim.description || "NO DESCRIPTION PROVIDED BY THE CLIENT. MANUAL INVESTIGATION IS RECOMMENDED BEFORE APPROVAL."}"
                                     </div>
                                     <div className="mt-10 pt-10 border-t border-white/5 flex justify-between items-center bg-zinc-900/50 backdrop-blur-md">
                                         <div className="flex gap-4">
@@ -334,7 +334,7 @@ const AdminClaims = () => {
                                              <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
                                              <div className="w-2 h-2 rounded-full bg-zinc-700" />
                                         </div>
-                                        <span className="text-[9px] font-black opacity-20 uppercase tracking-[4px]">UPLINK_STABLE</span>
+                                        <span className="text-[9px] font-black opacity-20 uppercase tracking-[4px]">SYSTEM_STABLE</span>
                                     </div>
                                 </div>
                             </div>
@@ -344,19 +344,19 @@ const AdminClaims = () => {
                                     onClick={() => statusMutation.mutate({ id: selectedClaim._id, status: 'Investigation' })}
                                     className="h-24 bg-indigo-500/5 text-indigo-500 border-2 border-indigo-500/20 rounded-[2.5rem] font-black text-xs uppercase tracking-[5px] hover:bg-indigo-500 hover:text-white transition-all active:scale-95 shadow-xl italic flex items-center justify-center gap-6 group"
                                 >
-                                    <Satellite size={20} strokeWidth={3} className="group-hover:rotate-45 transition-transform" /> ELEVATE_INVESTIGATION
+                                    <Activity size={20} strokeWidth={3} className="group-hover:rotate-45 transition-transform" /> START_INVESTIGATION
                                 </button>
                                 <button 
                                     onClick={() => statusMutation.mutate({ id: selectedClaim._id, status: 'Approved' })}
                                     className="h-24 bg-emerald-500 text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[6px] shadow-[0_30px_60px_rgba(16,185,129,0.3)] hover:translate-y-[-10px] transition-all flex items-center justify-center gap-6 active:scale-95 italic group"
                                 >
-                                    <CheckCircle size={24} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> AUTHORIZE_DISBURSEMENT
+                                    <CheckCircle size={24} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> APPROVE_CLAIM
                                 </button>
                                 <button 
                                     onClick={() => statusMutation.mutate({ id: selectedClaim._id, status: 'Rejected' })}
                                     className="h-24 bg-rose-600 text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[6px] shadow-[0_30px_60px_rgba(225,29,72,0.3)] hover:translate-y-[-10px] transition-all flex items-center justify-center gap-6 active:scale-95 italic group"
                                 >
-                                    <XCircle size={24} strokeWidth={3} className="group-hover:-rotate-12 transition-transform" /> REJECT_INCIDENT
+                                    <XCircle size={24} strokeWidth={3} className="group-hover:-rotate-12 transition-transform" /> REJECT_CLAIM
                                 </button>
                             </div>
                             
@@ -364,7 +364,7 @@ const AdminClaims = () => {
                                 onClick={() => setSelectedClaim(null)}
                                 className="w-full mt-12 py-5 text-[10px] font-black uppercase tracking-[8px] text-zinc-400 hover:text-foreground transition-colors italic relative z-10"
                             >
-                                ABORT_CASE_ANALYSIS [ESC]
+                                CANCEL_REVIEW [ESC]
                             </button>
                         </motion.div>
                     </div>

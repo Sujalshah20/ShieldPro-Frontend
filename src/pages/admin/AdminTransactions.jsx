@@ -8,8 +8,8 @@ import {
     Calendar, User, Shield, Search, 
     Download, FileText, CheckCircle, XCircle,
     Activity, Fingerprint, Zap, BarChart3,
-    IndianRupee, TrendingUp, Filter, Satellite,
-    Cpu, Target, Lock, Layers, Eye
+    IndianRupee, TrendingUp, Filter, 
+    Layout, Briefcase, Lock, Layers, Eye, ShieldCheck
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Reveal from "../../components/common/Reveal";
@@ -39,10 +39,10 @@ const AdminTransactions = () => {
             document.body.appendChild(a);
             a.click();
             a.remove();
-            toast({ title: "LEDGER_EXPORT_SUCCESS", description: "Global financial statement has been successfully decentralized & downloaded." });
+            toast({ title: "TRANSACTION_REPORT_DOWNLOADED", description: "Financial statement has been successfully exported." });
         } catch (error) {
             console.error("Export failed", error);
-            toast({ title: "PROTOCOL_OVERRIDE_FAILED", description: "Ledger extraction protocol was interrupted.", variant: "destructive" });
+            toast({ title: "EXPORT_FAILED", description: "Financial report extraction failed.", variant: "destructive" });
         }
     };
 
@@ -62,25 +62,22 @@ const AdminTransactions = () => {
     );
 
     return (
-        <div className="admin-transactions p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
-            {/* Tactical Grid Background */}
+        <div className="admin-transactions p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+            {/* Professional Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '60px 60px' }} />
-            <div className="absolute top-[-20%] left-[-10%] opacity-[0.05] pointer-events-none animate-spin-slow">
-                <Cpu size={800} className="text-primary rotate-12" />
-            </div>
-
+            
             <Reveal width="100%" direction="down">
                 <div className="mb-16 flex flex-col xl:flex-row xl:items-end justify-between gap-10">
                     <div>
                         <div className="flex items-center gap-4 mb-3">
                              <div className="w-2.5 h-10 bg-primary rounded-full shadow-[0_0_20px_#0165FF]" />
                              <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
-                                FINOPS<span className="text-primary tracking-normal">_INTELLIGENCE</span>
+                                FINANCIAL<span className="text-primary tracking-normal">_ANALYTICS</span>
                              </h1>
                         </div>
                         <p className="text-xs font-black opacity-30 uppercase tracking-[6px] ml-7 italic">
-                            Real-time transaction matrix & decentralized revenue reconciliation
+                            Monitor real-time transactions and platform revenue reconciliation
                         </p>
                     </div>
                     
@@ -89,19 +86,19 @@ const AdminTransactions = () => {
                             onClick={handleExport}
                             className="h-20 px-12 bg-zinc-950 text-white dark:bg-zinc-900/80 rounded-[2rem] font-black text-[10px] uppercase tracking-[5px] hover:bg-primary hover:scale-105 transition-all flex items-center justify-center gap-5 shadow-2xl active:scale-95 italic border border-white/5"
                         >
-                            <Download size={20} strokeWidth={4} className="text-primary" /> EXPORT_GLOBAL_LEDGER
+                            <Download size={20} strokeWidth={4} className="text-primary" /> EXPORT_ALL_TRANSACTIONS
                         </button>
                     </div>
                 </div>
             </Reveal>
 
-            {/* STRATEGIC FINANCIAL METRICS */}
+            {/* FINANCIAL METRICS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
                 {[
-                    { label: "TOTAL_GROSS_YIELD", value: `₹${stats.totalRevenue.toLocaleString()}`, icon: CreditCard, trend: "+14.8%", up: true, color: "text-primary", bg: "bg-primary/10" },
-                    { label: "DIURNAL_FLUX", value: `₹${stats.todayRevenue.toLocaleString()}`, icon: Satellite, trend: "+6.2%", up: true, color: "text-accent", bg: "bg-accent/10" },
-                    { label: "NETWORK_INTEGRITY", value: `${((stats.successCount / (transactions?.length || 1)) * 100).toFixed(1)}%`, icon: Target, trend: "NOMINAL", up: true, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-                    { label: "MEAN_CONTRACT_VALUE", value: `₹${Number(stats.avgTicket).toLocaleString()}`, icon: TrendingUp, trend: "-1.4%", up: false, color: "text-indigo-500", bg: "bg-indigo-500/10" }
+                    { label: "TOTAL_REVENUE", value: `₹${stats.totalRevenue.toLocaleString()}`, icon: CreditCard, trend: "+14.8%", up: true, color: "text-primary", bg: "bg-primary/10" },
+                    { label: "TODAY_SALES", value: `₹${stats.todayRevenue.toLocaleString()}`, icon: Activity, trend: "+6.2%", up: true, color: "text-accent", bg: "bg-accent/10" },
+                    { label: "SUCCESS_RATE", value: `${((stats.successCount / (transactions?.length || 1)) * 100).toFixed(1)}%`, icon: CheckCircle, trend: "STABLE", up: true, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+                    { label: "AVERAGE_TICKET_SIZE", value: `₹${Number(stats.avgTicket).toLocaleString()}`, icon: TrendingUp, trend: "-1.4%", up: false, color: "text-indigo-500", bg: "bg-indigo-500/10" }
                 ].map((s, i) => (
                     <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
                         <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3.5rem] border border-border/50 group hover:border-primary/40 transition-all shadow-xl hover:translate-y-[-8px] relative overflow-hidden backdrop-blur-md">
@@ -133,18 +130,18 @@ const AdminTransactions = () => {
                     </div>
                     <div className="flex items-center gap-6 relative z-10">
                         <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary border border-primary/20 shadow-xl">
-                            <Fingerprint size={32} strokeWidth={3} />
+                            <FileText size={32} strokeWidth={3} />
                         </div>
                         <div>
-                            <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none">TRANSACTION_LEDGER_CMD</h3>
-                            <p className="text-[10px] font-black opacity-30 uppercase tracking-[5px] mt-2 italic ml-1">Universal financial audit for all protection entities</p>
+                            <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none">TRANSACTION_HISTORY</h3>
+                            <p className="text-[10px] font-black opacity-30 uppercase tracking-[5px] mt-2 italic ml-1">Comprehensive financial audit for all insurance transactions</p>
                         </div>
                     </div>
                     <div className="relative group w-full xl:w-[500px] relative z-10">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
                         <input 
                             type="text" 
-                            placeholder="LOCATE_BIOMETRIC_RECORD..." 
+                            placeholder="SEARCH_BY_TRANSACTION_ID_OR_CLIENT..." 
                             className="w-full h-18 pl-18 pr-8 bg-white dark:bg-zinc-900/30 border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm italic"
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
@@ -155,12 +152,12 @@ const AdminTransactions = () => {
                     <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                         <thead>
                             <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
-                                <th className="px-12 py-8 tracking-[4px]">PROTOCOL_ID</th>
-                                <th className="px-12 py-8 tracking-[4px]">CLIENT_DNA</th>
-                                <th className="px-12 py-8 tracking-[4px]">SAFEGUARD_ARTIFACT</th>
-                                <th className="px-12 py-8 text-center tracking-[4px]">CHANNEL_NODE</th>
-                                <th className="px-12 py-8 text-center tracking-[4px]">SETTLEMENT_YIELD</th>
-                                <th className="px-12 py-8 text-right tracking-[4px]">SYNC_INTEGRITY</th>
+                                <th className="px-12 py-8 tracking-[4px]">TRANSACTION_ID</th>
+                                <th className="px-12 py-8 tracking-[4px]">CLIENT_NAME</th>
+                                <th className="px-12 py-8 tracking-[4px]">POLICY_PLAN</th>
+                                <th className="px-12 py-8 text-center tracking-[4px]">PAYMENT_METHOD</th>
+                                <th className="px-12 py-8 text-center tracking-[4px]">AMOUNT</th>
+                                <th className="px-12 py-8 text-right tracking-[4px]">STATUS</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border/10">
@@ -213,7 +210,7 @@ const AdminTransactions = () => {
                                             txn.status === 'Success' ? 'bg-emerald-500/5 text-emerald-500 border-emerald-500/20' : 'bg-rose-500/5 text-rose-500 border-rose-500/20'
                                         }`}>
                                             <div className={`w-2.5 h-2.5 rounded-full ${txn.status === 'Success' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-rose-500 shadow-[0_0_8px_#ef4444]'}`} />
-                                            {txn.status === 'Success' ? 'FINALIZED' : 'INTERRUPTED'}
+                                            {txn.status === 'Success' ? 'SUCCESS' : 'FAILED'}
                                         </div>
                                     </td>
                                 </motion.tr>
@@ -225,8 +222,8 @@ const AdminTransactions = () => {
                                             <Zap size={120} className="mx-auto mb-8 opacity-5" />
                                             <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full" />
                                         </div>
-                                        <h3 className="text-4xl font-black uppercase italic tracking-tighter opacity-10">NULL_LEDGER_SYNC</h3>
-                                        <p className="opacity-10 max-w-sm mx-auto mt-6 font-black uppercase text-[10px] tracking-[6px] italic leading-loose">No strategic data points found for current filter parameters.</p>
+                                        <h3 className="text-4xl font-black uppercase italic tracking-tighter opacity-10">NO_TRANSACTIONS_FOUND</h3>
+                                        <p className="opacity-10 max-w-sm mx-auto mt-6 font-black uppercase text-[10px] tracking-[6px] italic leading-loose">No transactions found matching your search.</p>
                                     </td>
                                 </tr>
                             )}

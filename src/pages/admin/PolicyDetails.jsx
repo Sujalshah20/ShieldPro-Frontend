@@ -8,9 +8,9 @@ import {
     Paperclip, ArrowLeft, Shield, Clock, 
     IndianRupee, Activity, Truck, Home, 
     Globe, FileText, Zap, ShieldCheck,
-    TrendingUp, AlertCircle, Satellite,
-    Cpu, Target, Layers, Box, Lock,
-    Eye, Download, Share2, Trash2, Edit3
+    TrendingUp, AlertCircle, 
+    Activity as ActivityIcon, Layout, Box, Lock,
+    Eye, Download, Share2, Trash2, Edit3, ClipboardList
 } from "lucide-react";
 import Reveal from "../../components/common/Reveal";
 import { TableSkeleton } from "../../components/common/Skeleton";
@@ -33,18 +33,18 @@ const PolicyDetails = () => {
         mutationFn: () => api.delete(`/policies/${id}`, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminPolicies']);
-            toast({ title: "ARTIFACT_DECOMMISSIONED", description: "Security artifact has been successfully sunset from the global inventory." });
+            toast({ title: "POLICY_DELETED", description: "The policy has been successfully removed from the platform." });
             navigate('/admin/policies');
         },
         onError: () => {
-            toast({ title: "OVERRIDE_FAILED", description: "System level 7 authorization required for decommissioning.", variant: "destructive" });
+            toast({ title: "DELETE_FAILED", description: "There was an error deleting this policy. Please try again.", variant: "destructive" });
         }
     });
 
     const getPolicyIcon = (type) => {
         const iconProps = { size: 36, strokeWidth: 3, className: "text-primary" };
         switch(type) {
-            case 'Health': return <Activity {...iconProps} />;
+            case 'Health': return <ActivityIcon {...iconProps} />;
             case 'Vehicle': case 'Auto': return <Truck {...iconProps} />;
             case 'Property': case 'Home': return <Home {...iconProps} />;
             case 'Life': return <Shield {...iconProps} />;
@@ -61,26 +61,23 @@ const PolicyDetails = () => {
                 <div className="absolute inset-0 bg-rose-500 blur-3xl opacity-20 animate-pulse" />
                 <AlertCircle size={100} className="text-rose-500 relative z-10" strokeWidth={1} />
             </div>
-            <h2 className="text-4xl font-black uppercase italic tracking-tighter mb-4">ARTIFACT_NOT_LOCATED</h2>
-            <p className="text-[10px] font-black opacity-30 uppercase tracking-[8px] mb-12 italic">Target identification sequence failed. Artifact may have been phased out.</p>
+            <h2 className="text-4xl font-black uppercase italic tracking-tighter mb-4">POLICY_NOT_FOUND</h2>
+            <p className="text-[10px] font-black opacity-30 uppercase tracking-[8px] mb-12 italic">The requested insurance policy could not be identified.</p>
             <button 
                 onClick={() => navigate('/admin/policies')} 
                 className="h-16 px-12 bg-white text-black rounded-[1.5rem] font-black uppercase tracking-[5px] text-xs hover:bg-primary hover:text-white transition-all flex items-center gap-4 active:scale-95 italic"
             >
-                <ArrowLeft size={20} strokeWidth={4} /> RETURN_TO_INVENTORY
+                <ArrowLeft size={20} strokeWidth={4} /> BACK_TO_POLICIES
             </button>
         </div>
     );
 
     return (
-        <div className="admin-policy-details p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0a0f0d] min-h-screen relative overflow-hidden">
-            {/* Tactical Grid & HUD Background */}
+        <div className="admin-policy-details p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+            {/* Professional Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '60px 60px' }} />
-            <div className="absolute top-[-20%] right-[-10%] opacity-[0.05] pointer-events-none animate-spin-slow">
-                <Target size={1000} className="text-primary rotate-12" />
-            </div>
-
+            
             <Reveal width="100%" direction="down">
                 <div className="mb-16 flex flex-col xl:flex-row xl:items-center justify-between gap-10">
                     <div className="flex items-center gap-8">
@@ -94,14 +91,14 @@ const PolicyDetails = () => {
                         <div>
                              <div className="flex items-center gap-6 mb-3">
                                 <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter leading-none">
-                                    ARTIFACT<span className="text-primary tracking-normal">_DOSSIER</span>
+                                    POLICY<span className="text-primary tracking-normal">_DETAILS</span>
                                 </h1>
                                 <div className="px-6 py-2 bg-primary text-white rounded-full text-[10px] font-black uppercase tracking-[4px] italic shadow-lg shadow-primary/30">
                                     {policy.policyType}
                                 </div>
                              </div>
                              <p className="text-[10px] font-black opacity-30 uppercase tracking-[6px] ml-1 italic flex items-center gap-3">
-                                <Satellite size={14} className="text-primary" /> Global Asset Reference: <span className="text-foreground opacity-100">#{id.toUpperCase()}</span>
+                                <Activity size={14} className="text-primary" /> Global Policy Reference: <span className="text-foreground opacity-100">#{id.toUpperCase()}</span>
                              </p>
                         </div>
                     </div>
@@ -141,9 +138,9 @@ const PolicyDetails = () => {
 
                              <div className="space-y-6">
                                 {[
-                                    { label: "SYNC_PREMIUM", value: `₹${policy.premiumAmount?.toLocaleString()}`, sub: "/ ANNUM", icon: IndianRupee, color: "text-primary" },
-                                    { label: "STRATEGIC_COVER", value: `₹${policy.coverageAmount?.toLocaleString()}`, sub: "TOTAL_CEILING", icon: ShieldCheck, color: "text-accent" },
-                                    { label: "PROTOCOL_WINDOW", value: `${policy.durationYears} CYCLES`, sub: "ORBITAL_DURATION", icon: Clock, color: "text-indigo-500" }
+                                    { label: "ANNUAL_PREMIUM", value: `₹${policy.premiumAmount?.toLocaleString()}`, sub: "/ ANNUM", icon: IndianRupee, color: "text-primary" },
+                                    { label: "TOTAL_COVERAGE", value: `₹${policy.coverageAmount?.toLocaleString()}`, sub: "TOTAL_CAP", icon: ShieldCheck, color: "text-accent" },
+                                    { label: "POLICY_DURATION", value: `${policy.durationYears} YEARS`, sub: "CONTRACT_PERIOD", icon: Clock, color: "text-indigo-500" }
                                 ].map((stat, i) => (
                                     <div key={i} className="p-8 bg-zinc-50 dark:bg-white/[0.03] rounded-[2rem] border border-border/50 transition-all shadow-sm relative overflow-hidden group/item">
                                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover/item:translate-x-[100%] transition-transform duration-1000" />
@@ -168,18 +165,18 @@ const PolicyDetails = () => {
                                 <div className="p-3 bg-primary/20 rounded-xl text-primary border border-primary/30">
                                     <Zap size={24} strokeWidth={3} />
                                 </div>
-                                COMMAND_OVERRIDES
+                                ACTIONS
                             </h3>
                             
                             <div className="space-y-6 relative z-10">
                                 <button className="w-full h-18 bg-white text-black rounded-[1.5rem] font-black text-[11px] uppercase tracking-[5px] hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-4 active:scale-95 italic group/btn">
-                                    SYNCHRONIZE_UPDATE <TrendingUp size={18} strokeWidth={3} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                                    UPDATE_POLICY <TrendingUp size={18} strokeWidth={3} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                                 </button>
                                 <button 
                                     onClick={() => deleteMutation.mutate()}
                                     className="w-full h-18 bg-rose-600/10 text-rose-500 border-2 border-rose-500/20 rounded-[1.5rem] font-black text-[11px] uppercase tracking-[5px] hover:bg-rose-500 hover:text-white transition-all flex items-center justify-center gap-4 shadow-xl active:scale-95 italic group/del"
                                 >
-                                    SUNSET_ARTIFACT <Trash2 size={18} strokeWidth={3} className="group-hover/del:rotate-12 transition-transform" />
+                                    DELETE_POLICY <Trash2 size={18} strokeWidth={3} className="group-hover/del:rotate-12 transition-transform" />
                                 </button>
                             </div>
                          </div>
@@ -190,15 +187,15 @@ const PolicyDetails = () => {
                 <div className="xl:col-span-2 space-y-12">
                     <Reveal width="100%" direction="left">
                         <div className="bg-white dark:bg-zinc-900/50 p-12 lg:p-18 rounded-[5rem] border border-border/50 shadow-3xl min-h-[850px] flex flex-col relative overflow-hidden backdrop-blur-xl">
-                             <div className="absolute top-0 left-0 p-20 opacity-1[0.02] pointer-events-none">
+                             <div className="absolute top-0 left-0 p-20 opacity-[0.02] pointer-events-none">
                                 <Box size={400} />
                              </div>
                              
                              <div className="mb-16 relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-10">
                                 <div>
-                                    <h3 className="text-3xl font-black italic uppercase tracking-tighter mb-4 leading-none">Protocol <span className="text-primary italic-none not-italic font-black text-4xl">_Blueprints</span></h3>
+                                    <h3 className="text-3xl font-black italic uppercase tracking-tighter mb-4 leading-none">Policy <span className="text-primary italic-none not-italic font-black text-4xl">_Specifications</span></h3>
                                     <p className="text-[10px] opacity-30 font-black uppercase tracking-[6px] italic flex items-center gap-3">
-                                        <Layers size={14} className="text-primary" /> Comprehensive operational parameters & deployment scope
+                                        <Layers size={14} className="text-primary" /> Comprehensive operational parameters and coverage details
                                     </p>
                                 </div>
                                 <div className="flex -space-x-3">
@@ -211,13 +208,13 @@ const PolicyDetails = () => {
                              <div className="grid grid-cols-1 md:grid-cols-2 gap-20 relative z-10 flex-1">
                                 <div className="group/intel">
                                     <h4 className="text-[11px] font-black uppercase tracking-[5px] opacity-20 mb-10 flex items-center gap-4 italic group-hover/intel:opacity-50 transition-opacity">
-                                        <div className="w-2.5 h-2.5 bg-primary rounded-full shadow-[0_0_10px_#0165FF]" /> CONTRACTUAL_DNA
+                                        <div className="w-2.5 h-2.5 bg-primary rounded-full shadow-[0_0_10px_#0165FF]" /> TERMS_&_CONDITIONS
                                     </h4>
                                     <div className="relative">
                                         <div className="absolute left-[-30px] top-0 bottom-0 w-1 bg-primary/10 rounded-full" />
                                         <div className="prose prose-lg dark:prose-invert max-w-none">
                                              <p className="text-sm font-black opacity-60 uppercase tracking-[4px] leading-[2.8] italic whitespace-pre-wrap">
-                                                {policy.terms || "SYSTEM_REMARK: Standard baseline contractual protocols apply to this insurance artifact. Multi-level authorization required for manuscript overrides. Ensure all disbursement windows are synchronized with terrestrial market volatility."}
+                                                {policy.terms || "Note: This policy is governed by standard insurance regulations. Any modifications to the terms require administrative approval and verified sign-off. Ensure all coverage limits are clearly communicated to the client."}
                                              </p>
                                         </div>
                                     </div>
@@ -226,13 +223,13 @@ const PolicyDetails = () => {
                                 <div className="space-y-16">
                                     <div>
                                         <h4 className="text-[11px] font-black uppercase tracking-[5px] opacity-20 mb-10 flex items-center gap-4 italic">
-                                            <div className="w-2.5 h-2.5 bg-accent rounded-full shadow-[0_0_10px_#FF5A00]" /> ARTIFACT_DOSSIERS
+                                            <div className="w-2.5 h-2.5 bg-accent rounded-full shadow-[0_0_10px_#FF5A00]" /> POLICY_DOCUMENTS
                                         </h4>
                                         <div className="space-y-6">
                                             {[
-                                                { name: "CORE_AGREEMENT_P1.PDF", size: "2.4MB", type: "AUTHORIZED" },
-                                                { name: "YIELD_PROJECTIONS_XLS.DTA", size: "12KB", type: "ENCRYPTED" },
-                                                { name: "DISCLOSURE_PROTOCOL_V4.PDF", size: "8.1MB", type: "PUBLIC" }
+                                                { name: "POLICY_AGREEMENT.PDF", size: "2.4MB", type: "VERIFIED" },
+                                                { name: "COVERAGE_SUMMARY.PDF", size: "1.2MB", type: "CLIENT_COPY" },
+                                                { name: "TERMS_GUIDE.PDF", size: "812KB", type: "GENERAL" }
                                             ].map((doc, i) => (
                                                 <button key={i} className="w-full p-8 bg-zinc-50 dark:bg-white/[0.03] border-2 border-border/50 rounded-[2.5rem] flex items-center justify-between group/doc hover:border-primary hover:translate-y-[-8px] transition-all shadow-xl relative overflow-hidden">
                                                     <div className="absolute inset-y-0 right-0 w-1 bg-transparent group-hover/doc:bg-primary transition-colors" />
@@ -254,11 +251,11 @@ const PolicyDetails = () => {
                                     <div className="p-10 bg-zinc-950 text-white rounded-[3rem] border-2 border-white/5 relative overflow-hidden group/risk">
                                          <div className="absolute top-[-50%] right-[-30%] w-60 h-60 bg-primary/10 rounded-full blur-[100px] group-hover:scale-150 transition-transform" />
                                          <div className="flex items-center gap-6 mb-6 relative z-10">
-                                            <Radar size={24} className="text-primary animate-pulse" strokeWidth={3} />
-                                            <span className="text-[10px] font-black uppercase tracking-[5px] opacity-40 italic">RISK_SURVEILLANCE_REPORT</span>
+                                            <ClipboardList size={24} className="text-primary animate-pulse" strokeWidth={3} />
+                                            <span className="text-[10px] font-black uppercase tracking-[5px] opacity-40 italic">RISK_ASSESSMENT_SUMMARY</span>
                                          </div>
                                          <p className="text-[12px] font-black opacity-50 uppercase tracking-[4px] leading-relaxed italic relative z-10">
-                                            Optimized for Tier-1 risk vectors. Recommended for entities requiring mission-critical safeguard parameters. Operational priority: HIGH in domestic economic sectors.
+                                            Risk profile analysis indicates stable performance metrics. Recommended for clients seeking reliable long-term protection. Compliance status: FULLY VERIFIED.
                                          </p>
                                          <div className="mt-8 pt-8 border-t border-white/5 relative z-10 flex justify-between items-center">
                                             <span className="text-[9px] font-black uppercase tracking-[3px] text-primary">STABILITY_INDEX</span>
@@ -269,11 +266,11 @@ const PolicyDetails = () => {
                              </div>
 
                              <div className="mt-16 pt-12 border-t border-border/20 flex flex-wrap gap-12 items-center text-[10px] font-black uppercase tracking-[5px] opacity-10 relative z-10 italic">
-                                <span className="flex items-center gap-4"><Lock size={14} /> SECURE_ORBITAL_CACHE</span>
+                                <span className="flex items-center gap-4"><Lock size={14} /> SECURE_STORAGE</span>
                                 <div className="w-2 h-2 bg-zinc-400 rounded-full" />
-                                <span>VERIFIED_ARTIFACT_ID_#774</span>
+                                <span>VERIFIED_POLICY_ID_#774</span>
                                 <div className="w-2 h-2 bg-zinc-400 rounded-full" />
-                                <span className="flex items-center gap-4"><Cpu size={14} /> AUTHORIZED_BY_CENTRAL_COMMAND</span>
+                                <span className="flex items-center gap-4"><ShieldCheck size={14} /> VERIFIED_BY_ADMIN</span>
                              </div>
                         </div>
                     </Reveal>
