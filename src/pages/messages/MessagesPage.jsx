@@ -51,8 +51,8 @@ const MessagesPage = () => {
     ).reverse() : [];
 
     const filteredUsers = users.filter(u =>
-        u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        u.role.toLowerCase().includes(searchQuery.toLowerCase())
+        u.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        u.role?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (

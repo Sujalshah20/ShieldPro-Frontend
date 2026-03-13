@@ -99,13 +99,13 @@ const AdminUsers = () => {
 
     // Filter logic
     const filteredAgents = agents?.filter(agent => 
-        agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        agent.email.toLowerCase().includes(searchQuery.toLowerCase())
+        agent.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        agent.email?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const filteredCustomers = customers?.filter(customer =>
-        customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        customer.email.toLowerCase().includes(searchQuery.toLowerCase())
+        customer.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        customer.email?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -550,7 +550,7 @@ const AdminUsers = () => {
                                         <div className="space-y-4">
                                             <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">PASSWORD</label>
                                             <div className="relative group">
-                                                <LockIcon className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
+                                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                                 <input 
                                                     type="password"
                                                     placeholder="••••••••"

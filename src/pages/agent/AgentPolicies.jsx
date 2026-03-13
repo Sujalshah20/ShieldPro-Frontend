@@ -28,7 +28,7 @@ const AgentPolicies = () => {
   });
 
   const filteredPolicies = policies?.filter((policy) => {
-    const matchesSearch = policy.policyName.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = policy.policyName?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = filterType === "All" || policy.policyType === filterType;
     return matchesSearch && matchesType;
   });

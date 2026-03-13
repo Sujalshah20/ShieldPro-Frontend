@@ -57,8 +57,8 @@ const AdminTransactions = () => {
     };
 
     const filteredTxns = transactions?.filter(t => 
-        t.transactionId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t.user?.name.toLowerCase().includes(searchTerm.toLowerCase())
+        t.transactionId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        t.user?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (

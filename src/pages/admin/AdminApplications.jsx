@@ -54,9 +54,9 @@ const AdminApplications = () => {
     };
 
     const filteredApps = applications?.filter(app => 
-        app.user?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        app.policy?.policyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        app._id.toLowerCase().includes(searchQuery.toLowerCase())
+        app.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        app.policy?.policyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        app._id?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (

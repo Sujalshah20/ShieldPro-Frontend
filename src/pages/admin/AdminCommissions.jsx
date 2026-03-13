@@ -70,9 +70,9 @@ const AdminCommissions = () => {
     };
 
     const filteredComms = commissions?.filter(comm => 
-        comm.agent?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        comm.customer?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        comm.policy?.policyName.toLowerCase().includes(searchQuery.toLowerCase())
+        comm.agent?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        comm.customer?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        comm.policy?.policyName?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (

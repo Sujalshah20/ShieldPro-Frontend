@@ -53,9 +53,9 @@ const AdminClaims = () => {
     };
 
     const filteredClaims = claims?.filter(claim => 
-        claim.user?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        claim.userPolicy?.policy?.policyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        claim._id.toLowerCase().includes(searchQuery.toLowerCase())
+        claim.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        claim.userPolicy?.policy?.policyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        claim._id?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (

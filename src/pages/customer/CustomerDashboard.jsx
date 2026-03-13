@@ -92,7 +92,7 @@ const CustomerDashboard = () => {
     };
 
     const filteredPolicies = availablePolicies.filter(policy => {
-        const matchesSearch = policy.policyName.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = policy.policyName?.toLowerCase().includes(searchQuery.toLowerCase());
         const policyType = (policy.policyType || "").toLowerCase();
         const selected = filterType.toLowerCase();
         const matchesType = selected === "all" || policyType === selected;
