@@ -11,7 +11,7 @@ import {
 import "../../styles/customer.css";
 
 const CustomerProfile = () => {
-    const { user, profile: authProfile, setProfile: setAuthProfile } = useContext(AuthContext);
+    const { user, setProfile: setAuthProfile } = useContext(AuthContext);
     const { toast } = useToast();
     const queryClient = useQueryClient();
 
@@ -31,6 +31,7 @@ const CustomerProfile = () => {
 
     useEffect(() => {
         if (profileData) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setForm({
                 name: profileData.name || '',
                 phone: profileData.phone || '',
@@ -55,9 +56,8 @@ const CustomerProfile = () => {
                     bankName: profileData.bankDetails?.bankName || ''
                 }
             });
-            setAuthProfile(profileData);
         }
-    }, [profileData, setAuthProfile]);
+    }, [profileData]);
 
     // Calculate completion percentage
     const calculateCompletion = () => {

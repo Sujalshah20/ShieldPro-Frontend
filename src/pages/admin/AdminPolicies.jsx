@@ -14,321 +14,374 @@ import {
 } from "@/components/lightswind/dropdown-menu";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Search, Filter, Shield, Activity, Truck, Home, FileText, Star, ArrowUpRight, Plus, X, Globe } from "lucide-react";
+import { 
+    Search, Filter, Shield, Activity, Truck, 
+    Home, FileText, Star, ArrowUpRight, Plus, 
+    X, Globe, Zap, ShieldCheck, TrendingUp,
+    Database, Cpu, Satellite, Target, Box,
+    Layers, Layout, Command
+} from "lucide-react";
 import { TableSkeleton } from "../../components/common/Skeleton";
 import { useToast } from "../../hooks/use-toast";
+import Reveal from "../../components/common/Reveal";
 
 const AdminPolicies = () => {
-  const { user } = useContext(AuthContext);
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterType, setFilterType] = useState("All");
-  const [isAdding, setIsAdding] = useState(false);
-  const [formData, setFormData] = useState({
-    policyName: "",
-    policyType: "Health",
-    premiumAmount: "",
-    coverageAmount: "",
-    durationYears: "",
-    description: ""
-  });
+    const { user } = useContext(AuthContext);
+    const { toast } = useToast();
+    const queryClient = useQueryClient();
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filterType, setFilterType] = useState("All");
+    const [isAdding, setIsAdding] = useState(false);
+    const [formData, setFormData] = useState({
+        policyName: "",
+        policyType: "Health",
+        premiumAmount: "",
+        coverageAmount: "",
+        durationYears: "",
+        description: ""
+    });
 
-  const { data: policies, isLoading } = useQuery({
-    queryKey: ['adminPolicies', user?.token],
-    queryFn: () => api.get('/policies', user.token),
-    enabled: !!user?.token
-  });
+    const { data: policies, isLoading } = useQuery({
+        queryKey: ['adminPolicies', user?.token],
+        queryFn: () => api.get('/policies', user.token),
+        enabled: !!user?.token
+    });
 
-  const createMutation = useMutation({
-    mutationFn: (data) => api.post('/policies', data, user.token),
-    onSuccess: () => {
-        queryClient.invalidateQueries(['adminPolicies']);
-        toast({ title: "Policy Initialized", description: "New insurance product is now live." });
-        setIsAdding(false);
-        setFormData({ policyName: "", policyType: "Health", premiumAmount: "", coverageAmount: "", durationYears: "", description: "" });
-    },
-    onError: (err) => {
-      toast({
-        title: "Creation Failed",
-        description: err?.errors?.[0]?.message || err?.message || "Could not create policy",
-        variant: "destructive"
-      });
-    }
-  });
+    const createMutation = useMutation({
+        mutationFn: (data) => api.post('/policies', data, user.token),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['adminPolicies']);
+            toast({ title: "ARTIFACT_INITIALIZED", description: "Strategic protection asset has been deployed to the global catalog." });
+            setIsAdding(false);
+            setFormData({ policyName: "", policyType: "Health", premiumAmount: "", coverageAmount: "", durationYears: "", description: "" });
+        },
+        onError: (err) => {
+            toast({
+                title: "DEPLOYMENT_FAILED",
+                description: err?.errors?.[0]?.message || err?.message || "Asset initialization protocol interrupted.",
+                variant: "destructive"
+            });
+        }
+    });
 
-  const deleteMutation = useMutation({
-    mutationFn: (id) => api.delete(`/policies/${id}`, user.token),
-    onSuccess: () => {
-        queryClient.invalidateQueries(['adminPolicies']);
-        toast({ title: "Product Sunset", description: "Policy has been removed from the catalog." });
-    },
-    onError: (err) => {
-      toast({
-        title: "Deletion Failed",
-        description: err?.message || "Could not delete policy",
-        variant: "destructive"
-      });
-    }
-  });
+    const deleteMutation = useMutation({
+        mutationFn: (id) => api.delete(`/policies/${id}`, user.token),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['adminPolicies']);
+            toast({ title: "ASSET_DECOMMISSIONED", description: "Policy node has been purged from the operational matrix." });
+        },
+        onError: (err) => {
+            toast({
+                title: "PURGE_FAILURE",
+                description: err?.message || "Could not decouple asset from system grid.",
+                variant: "destructive"
+            });
+        }
+    });
 
-  const getPolicyIcon = (type) => {
-    switch(type) {
-        case 'Health': return <Activity size={24} />;
-        case 'Vehicle': case 'Auto': return <Truck size={24} />;
-        case 'Property': case 'Home': return <Home size={24} />;
-        case 'Life': return <Shield size={24} />;
-        case 'Travel': return <Globe size={24} />;
-        default: return <FileText size={24} />;
-    }
-  };
+    const getPolicyIcon = (type) => {
+        switch(type) {
+            case 'Health': return <Activity size={28} strokeWidth={2.5} />;
+            case 'Vehicle': case 'Auto': return <Truck size={28} strokeWidth={2.5} />;
+            case 'Property': case 'Home': return <Home size={28} strokeWidth={2.5} />;
+            case 'Life': return <Shield size={28} strokeWidth={2.5} />;
+            case 'Travel': return <Globe size={28} strokeWidth={2.5} />;
+            default: return <FileText size={28} strokeWidth={2.5} />;
+        }
+    };
 
-  const getPolicyColor = (type) => {
-    switch(type) {
-        case 'Health': return 'red';
-        case 'Vehicle': case 'Auto': return 'orange';
-        case 'Property': case 'Home': return 'blue';
-        case 'Life': return 'gold';
-        case 'Travel': return 'teal';
-        default: return 'zinc';
-    }
-  };
+    const getPolicyColor = (type) => {
+        switch(type) {
+            case 'Health': return 'rose';
+            case 'Vehicle': case 'Auto': return 'accent';
+            case 'Property': case 'Home': return 'primary';
+            case 'Life': return 'emerald';
+            case 'Travel': return 'indigo';
+            default: return 'zinc';
+        }
+    };
 
-  const filteredPolicies = policies?.filter((policy) => {
-    const matchesSearch = policy.policyName.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = filterType === "All" || policy.policyType === filterType;
-    return matchesSearch && matchesType;
-  });
+    const filteredPolicies = policies?.filter((policy) => {
+        const matchesSearch = policy.policyName.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesType = filterType === "All" || policy.policyType === filterType;
+        return matchesSearch && matchesType;
+    });
 
-  if (isLoading) return <div className="p-8"><TableSkeleton rows={10} cols={4} /></div>;
+    if (isLoading) return <div className="p-8"><TableSkeleton rows={10} cols={4} /></div>;
 
-  return (
-    <div className="p-8 premium-gradient min-h-screen">
-      <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-        <div>
-            <h1 className="text-4xl font-black mb-2 tracking-tight italic">
-                Product <span className="text-gold">Catalog</span>
-            </h1>
-            <p className="opacity-70 font-medium">Manage the system's insurance inventory and risk parameters.</p>
-        </div>
-        
-        <div className="flex items-center gap-4 w-full md:w-auto">
-          <div className="relative flex-1 md:w-80">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gold opacity-50" size={18} />
-            <Input
-              type="text"
-              placeholder="Search assets..."
-              className="pl-12 h-14 bg-white/5 border-border/50 rounded-2xl focus:border-gold transition-all font-bold"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="h-14 bg-white/5 border-border/50 rounded-2xl px-6 hover:bg-gold/10 hover:text-gold border flex gap-2 font-black uppercase text-[10px] tracking-widest">
-                <Filter size={14} /> {filterType}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="glass-premium border-border/50 rounded-2xl p-2 min-w-[180px]">
-              <DropdownMenuLabel className="text-[10px] font-black uppercase tracking-widest opacity-40 p-2">Category</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {["All", "Health", "Vehicle", "Home", "Life", "Auto", "Property", "Travel"].map(type => (
-                  <DropdownMenuItem key={type} className="rounded-xl font-bold cursor-pointer" onClick={() => setFilterType(type)}>
-                      {type}
-                  </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <button 
-            onClick={() => setIsAdding(true)}
-            className="h-14 px-8 bg-gold text-gold-foreground rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-3 shadow-2xl shadow-gold/30 hover:scale-105 active:scale-95 transition-all"
-          >
-            <Plus size={18} /> New Product
-          </button>
-        </div>
-      </div>
-
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        {filteredPolicies?.map((policy, idx) => (
-          <motion.div
-            key={policy._id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.05 }}
-            className="glass p-1 rounded-[2.5rem] border border-border/50 hover:border-gold/30 transition-all group overflow-hidden"
-          >
-            <div className="p-8">
-              <div className="flex justify-between items-start mb-6">
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${
-                    getPolicyColor(policy.policyType) === 'red' ? 'bg-red-500/10 text-red-500' :
-                    getPolicyColor(policy.policyType) === 'orange' ? 'bg-orange-500/10 text-orange-500' :
-                    getPolicyColor(policy.policyType) === 'blue' ? 'bg-blue-500/10 text-blue-500' :
-                    getPolicyColor(policy.policyType) === 'teal' ? 'bg-teal-500/10 text-teal-500' :
-                    'bg-gold/10 text-gold'
-                }`}>
-                  {getPolicyIcon(policy.policyType)}
-                </div>
-                <div className="flex flex-col items-end gap-2">
-                    <div className="px-3 py-1 bg-gold/5 border border-gold/10 rounded-full text-[10px] font-black uppercase tracking-widest text-gold italic">
-                        {policy.policyType}
-                    </div>
-                </div>
-              </div>
-
-              <h2 className="text-2xl font-black mb-3 group-hover:text-gold transition-colors leading-tight italic">
-                {policy.policyName}
-              </h2>
-              <p className="opacity-60 text-sm mb-8 line-clamp-2 font-medium leading-relaxed">
-                {policy.description}
-              </p>
-
-              <div className="space-y-4 mb-8">
-                  <div className="flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5">
-                      <span className="text-[10px] font-black opacity-30 uppercase tracking-widest">Premium</span>
-                      <span className="text-xl font-black text-gold">₹{policy.premiumAmount.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between items-center px-2">
-                       <span className="text-[10px] font-black opacity-30 uppercase tracking-widest">Coverage</span>
-                       <span className="text-sm font-bold">₹{policy.coverageAmount?.toLocaleString()}</span>
-                  </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 pt-4 border-t border-border/30">
-                <Link to={`/admin/policies/${policy._id}`} className="flex-1">
-                    <button className="w-full py-4 bg-white/5 border border-border/50 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                    Insights <ArrowUpRight size={14} />
-                    </button>
-                </Link>
-                <button 
-                    onClick={() => deleteMutation.mutate(policy._id)}
-                    className="flex-1 py-4 bg-red-500/10 text-red-500 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all flex items-center justify-center gap-2"
-                >
-                  Sunset <X size={14} />
-                </button>
-              </div>
+    return (
+        <div className="admin-policies p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+            {/* Orbital Background Elements */}
+            <div className="absolute top-[-10%] left-[-10%] opacity-[0.03] pointer-events-none">
+                <Database size={800} className="animate-spin-slow rotate-45" />
             </div>
-          </motion.div>
-        ))}
-      </motion.div>
 
-      {/* Add Policy Modal */}
-      <AnimatePresence>
-        {isAdding && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAdding(false)} className="absolute inset-0 bg-black/80 backdrop-blur-xl" />
-                <motion.div className="relative w-full max-w-2xl glass-premium p-12 rounded-[4rem] border border-white/20 shadow-2xl overflow-hidden">
-                    <div className="flex justify-between items-start mb-10">
-                        <div>
-                            <h3 className="text-4xl font-black italic tracking-tight">Birth <span className="text-gold">Policy</span></h3>
-                            <p className="text-xs opacity-40 uppercase tracking-[0.3em] font-black mt-1">Initialize System Asset</p>
+            <Reveal width="100%" direction="down">
+                <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-10">
+                    <div>
+                        <div className="flex items-center gap-4 mb-3">
+                             <div className="w-2.5 h-10 bg-primary rounded-full shadow-[0_0_20px_#0165FF]" />
+                             <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
+                                ASSET<span className="text-primary tracking-normal">_CATALOG</span>
+                             </h1>
                         </div>
-                        <div className="p-4 bg-gold/10 rounded-2xl text-gold">
-                            <Plus size={32} />
-                        </div>
+                        <p className="text-xs font-black opacity-30 uppercase tracking-[6px] ml-7 italic">
+                            System inventory orchestration & high-fidelity risk management
+                        </p>
                     </div>
-
-                    <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); createMutation.mutate(formData); }}>
-                        <div className="grid grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Product Name</label>
-                                <Input 
-                                    className="h-14 bg-white/5 border-border/50 rounded-2xl font-bold"
-                                    value={formData.policyName}
-                                    onChange={e => setFormData({...formData, policyName: e.target.value})}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Asset Class</label>
-                                <select 
-                                    className="w-full h-14 bg-zinc-900 border border-border/50 rounded-2xl px-4 font-bold outline-none focus:border-gold transition-all"
-                                    value={formData.policyType}
-                                    onChange={e => setFormData({...formData, policyType: e.target.value})}
-                                >
-                                    {["Life", "Health", "Vehicle", "Home", "Travel", "Auto", "Property"].map(t => <option key={t} value={t}>{t}</option>)}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Premium (₹)</label>
-                                <Input 
-                                    className="h-14 bg-white/5 border-border/50 rounded-2xl font-bold"
-                                    type="number"
-                                    value={formData.premiumAmount}
-                                    onChange={e => setFormData({...formData, premiumAmount: e.target.value})}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Coverage (₹)</label>
-                                <Input 
-                                    className="h-14 bg-white/5 border-border/50 rounded-2xl font-bold"
-                                    type="number"
-                                    value={formData.coverageAmount}
-                                    onChange={e => setFormData({...formData, coverageAmount: e.target.value})}
-                                    required
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Validity (Years)</label>
-                                <Input 
-                                    className="h-14 bg-white/5 border-border/50 rounded-2xl font-bold"
-                                    type="number"
-                                    value={formData.durationYears}
-                                    onChange={e => setFormData({...formData, durationYears: e.target.value})}
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Product Manifesto (Description)</label>
-                            <textarea 
-                                className="w-full h-32 bg-white/5 border border-border/50 rounded-2xl p-6 outline-none focus:border-gold transition-all font-medium no-scrollbar text-sm"
-                                value={formData.description}
-                                onChange={e => setFormData({...formData, description: e.target.value})}
-                                required
+                    
+                    <div className="flex flex-wrap items-center gap-6 w-full lg:w-auto">
+                        <div className="relative group flex-1 md:w-96">
+                            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-primary transition-colors" size={18} strokeWidth={3} />
+                            <Input
+                                type="text"
+                                placeholder="LOCATE_ASSET_DNA..."
+                                className="pl-16 h-16 bg-white dark:bg-zinc-900/50 border-border/50 rounded-[1.5rem] focus:border-primary focus:ring-8 focus:ring-primary/5 transition-all font-black uppercase text-[10px] tracking-[4px] shadow-sm backdrop-blur-md italic"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button className="h-16 bg-white dark:bg-zinc-900/50 border-border/50 rounded-[1.5rem] px-8 hover:bg-zinc-50 dark:hover:bg-zinc-800 border flex gap-4 font-black uppercase text-[10px] tracking-[4px] shadow-sm text-foreground backdrop-blur-md italic group">
+                                    <Filter size={16} className="text-primary group-hover:rotate-180 transition-transform" strokeWidth={3} /> {filterType}
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="bg-white dark:bg-zinc-900 border-border/50 rounded-[2rem] p-4 min-w-[240px] shadow-[0_40px_80px_rgba(0,0,0,0.2)]">
+                                <DropdownMenuLabel className="text-[9px] font-black uppercase tracking-[5px] opacity-20 p-4">Asset Classification</DropdownMenuLabel>
+                                <DropdownMenuSeparator className="bg-border/30" />
+                                {["All", "Health", "Vehicle", "Home", "Life", "Auto", "Property", "Travel"].map(type => (
+                                    <DropdownMenuItem key={type} className="rounded-xl font-black uppercase text-[10px] tracking-[4px] p-5 cursor-pointer hover:bg-primary/10 hover:text-primary transition-all italic" onClick={() => setFilterType(type)}>
+                                        {type}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
 
-                        <div className="flex gap-4 pt-6">
-                            <button 
-                                type="button"
-                                onClick={() => setIsAdding(false)}
-                                className="flex-1 py-5 bg-white/5 border border-border/50 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all font-black italic"
-                            >
-                                Cancel Sync
-                            </button>
-                            <button 
-                                type="submit"
-                                className="flex-2 py-5 bg-gold text-gold-foreground rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-2xl shadow-gold/20 font-black italic"
-                            >
-                                Deploy Asset
-                            </button>
+                        <button 
+                            onClick={() => setIsAdding(true)}
+                            className="h-16 px-10 bg-accent text-white rounded-[1.5rem] font-black uppercase tracking-[4px] text-[10px] flex items-center gap-5 shadow-2xl shadow-accent/40 hover:translate-y-[-5px] active:scale-95 transition-all italic group"
+                        >
+                            <Plus size={20} strokeWidth={4} className="group-hover:rotate-90 transition-transform duration-500" /> INITIALIZE_DEPLOYMENT
+                        </button>
+                    </div>
+                </div>
+            </Reveal>
+
+            {/* Catalog Matrix */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
+                {filteredPolicies?.map((policy, idx) => (
+                    <Reveal key={policy._id} width="100%" delay={idx * 0.05} direction="up">
+                        <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 hover:border-primary/50 transition-all group overflow-hidden shadow-sm hover:shadow-[0_60px_100px_-30px_rgba(0,0,0,0.2)] relative">
+                            {/* Card Accent Glow */}
+                            <div className="absolute top-0 right-0 p-10 opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none">
+                                <Box size={140} className="text-primary rotate-12" />
+                            </div>
+
+                            <div className="p-12 relative z-10">
+                                <div className="flex justify-between items-start mb-10">
+                                    <div className={`w-20 h-20 rounded-[2rem] flex items-center justify-center transition-all shadow-xl border border-white/10 group-hover:scale-110 duration-500 ${
+                                        getPolicyColor(policy.policyType) === 'rose' ? 'bg-rose-500/10 text-rose-500 shadow-rose-500/20' :
+                                        getPolicyColor(policy.policyType) === 'accent' ? 'bg-accent/10 text-accent shadow-accent/20' :
+                                        getPolicyColor(policy.policyType) === 'primary' ? 'bg-primary/10 text-primary shadow-primary/20' :
+                                        getPolicyColor(policy.policyType) === 'emerald' ? 'bg-emerald-500/10 text-emerald-500 shadow-emerald-500/20' :
+                                        getPolicyColor(policy.policyType) === 'indigo' ? 'bg-indigo-500/10 text-indigo-500 shadow-indigo-500/20' :
+                                        'bg-zinc-500/10 text-zinc-500 shadow-zinc-500/20'
+                                    }`}>
+                                        {getPolicyIcon(policy.policyType)}
+                                    </div>
+                                    <div className="flex flex-col items-end gap-3">
+                                        <div className="px-5 py-2 bg-zinc-100 dark:bg-white/5 border border-border/30 rounded-full text-[8px] font-black uppercase tracking-[3px] opacity-40 italic group-hover:opacity-100 transition-opacity">
+                                            SYNC_NODE_{idx + 1}
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/20" />
+                                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/20" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h2 className="text-3xl font-black mb-5 group-hover:text-primary transition-colors leading-none italic uppercase tracking-tighter">
+                                    {policy.policyName}
+                                </h2>
+                                <p className="opacity-30 text-[10px] mb-12 line-clamp-2 font-black leading-relaxed uppercase tracking-[3px] italic">
+                                    {policy.description}
+                                </p>
+
+                                <div className="space-y-4 mb-12">
+                                    <div className="flex justify-between items-center p-8 bg-zinc-50 dark:bg-white/[0.03] rounded-[2.5rem] border border-border/20 shadow-inner group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors">
+                                        <div className="flex flex-col">
+                                            <span className="text-[8px] font-black opacity-20 uppercase tracking-[4px] mb-1">CONTRACT_YIELD</span>
+                                            <span className="text-3xl font-black italic tracking-tighter text-primary">₹{policy.premiumAmount.toLocaleString()}</span>
+                                        </div>
+                                        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                                            <Zap size={20} strokeWidth={3} />
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between items-center px-8 py-2">
+                                         <div className="flex items-center gap-3">
+                                            <ShieldCheck size={14} className="opacity-20 text-emerald-500" />
+                                            <span className="text-[8px] font-black opacity-20 uppercase tracking-[4px]">TOTAL_SAFEGUARD</span>
+                                         </div>
+                                         <span className="text-sm font-black italic tracking-tighter">₹{(policy.coverageAmount / 100000).toFixed(1)}L</span>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-6">
+                                    <Link to={`/admin/policies/${policy._id}`} className="flex-1">
+                                        <button className="w-full h-16 bg-zinc-900 dark:bg-zinc-800 text-white dark:text-zinc-500 rounded-2xl font-black text-[9px] uppercase tracking-[4px] hover:bg-primary dark:hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-4 shadow-xl active:scale-95 italic group/btn">
+                                            VIEW_METRICS <TrendingUp size={16} strokeWidth={3} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                                        </button>
+                                    </Link>
+                                    <button 
+                                        onClick={() => deleteMutation.mutate(policy._id)}
+                                        className="flex-1 h-16 bg-white dark:bg-zinc-900 border-2 border-rose-500/10 text-rose-500 rounded-2xl font-black text-[9px] uppercase tracking-[4px] hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all flex items-center justify-center gap-4 active:scale-95 shadow-lg italic"
+                                    >
+                                        SUNSET_MODE <X size={16} strokeWidth={4} />
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </motion.div>
+                    </Reveal>
+                ))}
             </div>
-        )}
-      </AnimatePresence>
 
-      {filteredPolicies?.length === 0 && (
-          <div className="text-center py-32 glass rounded-[3rem] border-dashed">
-              <Shield size={64} className="mx-auto mb-6 opacity-10" />
-              <h3 className="text-2xl font-bold opacity-30">No matching assets found</h3>
-              <p className="opacity-20 max-w-xs mx-auto mt-2">Adjust system filters to locate the required insurance product.</p>
-          </div>
-      )}
-    </div>
-  );
+            {/* Asset Initialization Chassis */}
+            <AnimatePresence>
+                {isAdding && (
+                    <div className="fixed inset-0 z-[120] flex items-center justify-center p-8">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAdding(false)} className="absolute inset-0 bg-zinc-950/90 backdrop-blur-2xl" />
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.9, y: 50 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 50 }}
+                            className="relative w-full max-w-4xl bg-white dark:bg-[#10221c] p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_100px_150px_rgba(0,0,0,0.6)] overflow-hidden"
+                        >
+                            <div className="absolute top-0 right-0 p-24 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
+                                <Cpu size={400} className="text-accent rotate-12" />
+                            </div>
+
+                            <div className="relative z-10 flex flex-col mb-16">
+                                <div className="flex items-center gap-6 mb-4">
+                                    <div className="w-16 h-16 bg-accent rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-accent/40">
+                                        <Layers size={32} strokeWidth={3} />
+                                    </div>
+                                    <h3 className="text-5xl font-black italic tracking-tighter uppercase leading-none">INITIATE <span className="text-accent italic-none not-italic">PRODUCT_DNA</span></h3>
+                                </div>
+                                <p className="opacity-30 text-xs font-black uppercase tracking-[8px] italic ml-20">Authorized system asset deployment v2.2</p>
+                            </div>
+
+                            <form className="space-y-12 relative z-10" onSubmit={(e) => { e.preventDefault(); createMutation.mutate(formData); }}>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ARTIFACT_IDENTIFIER</label>
+                                        <div className="relative group">
+                                            <Layout className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
+                                            <Input 
+                                                placeholder="ELITE_SHIELD_V4"
+                                                className="h-20 bg-zinc-50 dark:bg-white/5 border-border/50 rounded-2xl px-16 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent shadow-sm focus:ring-8 focus:ring-accent/5 italic"
+                                                value={formData.policyName}
+                                                onChange={e => setFormData({...formData, policyName: e.target.value})}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ASSET_CLASSIFICATION</label>
+                                        <div className="relative">
+                                            <Command className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors pointer-events-none" />
+                                            <select 
+                                                className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all appearance-none cursor-pointer shadow-sm focus:ring-8 focus:ring-accent/5 italic"
+                                                value={formData.policyType}
+                                                onChange={e => setFormData({...formData, policyType: e.target.value})}
+                                            >
+                                                {["Life", "Health", "Vehicle", "Home", "Travel", "Auto", "Property"].map(t => <option key={t} value={t}>{t}</option>)}
+                                            </select>
+                                            <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none opacity-20">
+                                                <Target size={18} strokeWidth={3} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">UNIT_YIELD (₹)</label>
+                                        <Input 
+                                            className="h-20 bg-zinc-50 dark:bg-white/5 border-border/50 rounded-2xl font-black text-primary text-3xl tracking-tighter"
+                                            type="number"
+                                            value={formData.premiumAmount}
+                                            onChange={e => setFormData({...formData, premiumAmount: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">MAX_PROTECTION (₹)</label>
+                                        <Input 
+                                            className="h-20 bg-zinc-50 dark:bg-white/5 border-border/50 rounded-2xl font-black text-3xl tracking-tighter"
+                                            type="number"
+                                            value={formData.coverageAmount}
+                                            onChange={e => setFormData({...formData, coverageAmount: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">VALIIDITY_CYCLE (YRS)</label>
+                                        <Input 
+                                            className="h-20 bg-zinc-50 dark:bg-white/5 border-border/50 rounded-2xl font-black text-3xl tracking-tighter text-center"
+                                            type="number"
+                                            value={formData.durationYears}
+                                            onChange={e => setFormData({...formData, durationYears: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ARTIFACT_BLUEPRINT</label>
+                                    <textarea 
+                                        placeholder="DEFINE_PROTECTION_PARAMETERS & SCOPE_OF_DEPLOYMENT..."
+                                        className="w-full h-40 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-[2.5rem] p-10 outline-none focus:border-accent transition-all font-black uppercase no-scrollbar text-[11px] tracking-[4px] leading-relaxed shadow-sm focus:ring-8 focus:ring-accent/5 italic"
+                                        value={formData.description}
+                                        onChange={e => setFormData({...formData, description: e.target.value})}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="flex gap-8 pt-6">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setIsAdding(false)}
+                                        className="h-20 px-12 bg-zinc-900 text-white dark:bg-zinc-800 rounded-[2rem] text-[10px] font-black uppercase tracking-[6px] hover:bg-zinc-800 transition-all font-black italic active:scale-95 shadow-xl border border-white/5"
+                                    >
+                                        ABORT_DEPLOYMENT
+                                    </button>
+                                    <button 
+                                        type="submit"
+                                        className="flex-1 h-20 bg-accent text-white rounded-[2rem] text-xs font-black uppercase tracking-[7px] shadow-[0_25px_60px_rgba(255,90,0,0.4)] font-black italic hover:translate-y-[-8px] transition-all active:scale-95 flex items-center justify-center gap-6 group"
+                                    >
+                                        {createMutation.isLoading ? "AUTHORIZING..." : (
+                                            <>DEPLOY_ARTIFACT <Zap size={20} className="group-hover:scale-125 transition-transform" strokeWidth={3} /></>
+                                        )}
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {filteredPolicies?.length === 0 && (
+                <div className="text-center py-60 bg-white/50 dark:bg-zinc-900/30 border-4 border-dashed border-border/30 rounded-[6rem] backdrop-blur-sm relative">
+                    <Shield size={120} className="mx-auto mb-10 opacity-5" />
+                    <h3 className="text-4xl font-black uppercase italic tracking-tighter opacity-10">NULL_RESULT_DETECTED</h3>
+                    <p className="opacity-10 max-w-sm mx-auto mt-6 font-black uppercase text-[10px] tracking-[6px] italic leading-loose">Adjust system filters to locate matching protection assets in the orbital catalog.</p>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default AdminPolicies;

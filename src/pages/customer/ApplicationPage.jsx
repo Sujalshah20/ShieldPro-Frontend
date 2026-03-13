@@ -6,8 +6,12 @@ import { useToast } from "../../hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
     ChevronLeft, ChevronRight, FileText, Upload, 
-    CheckCircle2, Lock, AlertCircle, Globe
+    CheckCircle2, Lock, AlertCircle, Globe,
+    Shield, ShieldCheck, Zap, Activity,
+    Truck, Home, Target, Cpu, 
+    Satellite, Command, Layers, TrendingUp, Clock, Fingerprint
 } from "lucide-react";
+import Reveal from "../../components/common/Reveal";
 
 const ApplicationPage = () => {
     const { user, profile } = useContext(AuthContext);
@@ -24,7 +28,7 @@ const ApplicationPage = () => {
 
     useEffect(() => {
         if (!policy) {
-            navigate("/customer/browse");
+            navigate("/customer");
         }
     }, [policy, navigate]);
 
@@ -39,16 +43,15 @@ const ApplicationPage = () => {
             file: f, 
             name: f.name,
             type: f.type,
-            url: URL.createObjectURL(f) // Mock URL for preview
+            url: URL.createObjectURL(f) 
         }))]);
     };
 
     const handleSubmit = async () => {
-        // Check if profile is complete enough (National ID is required)
         if (!profile?.nationalId) {
             toast({ 
-                title: "Profile Incomplete", 
-                description: "You must add your National ID in your profile before applying for a policy.",
+                title: "IDENTITY_ERROR", 
+                description: "National identification node missing. Update profile architecture before deployment.",
                 variant: "destructive"
             });
             navigate("/customer/profile");
@@ -57,8 +60,6 @@ const ApplicationPage = () => {
 
         setLoading(true);
         try {
-            // In a real app, we'd upload files to S3/Cloudinary first
-            // Here we'll mock the document URLs
             const mockDocuments = files.map(f => ({ name: f.name, url: `https://storage.shieldpro.com/${f.name}` }));
 
             const application = await api.post("/applications", {
@@ -69,15 +70,15 @@ const ApplicationPage = () => {
 
             if (application._id) {
                 toast({ 
-                    title: "Application Submitted", 
-                    description: "Your insurance application is now under review by our agents." 
+                    title: "INITIALIZATION_SUCCESS", 
+                    description: "Strategic asset application has been queued for verification." 
                 });
-                navigate("/customer/claims"); // Redirect to a page where they can see status
+                navigate("/customer/claims"); 
             }
         } catch (error) {
             toast({ 
-                title: "Submission failed", 
-                description: error?.errors?.[0]?.message || error?.message || "Please check your network and try again.", 
+                title: "DEPLOYMENT_FAILED", 
+                description: error?.errors?.[0]?.message || error?.message || "Signal interruption during deployment protocol.", 
                 variant: "destructive" 
             });
         } finally {
@@ -92,42 +93,52 @@ const ApplicationPage = () => {
                     <motion.div 
                         initial={{ opacity: 0, x: 20 }} 
                         animate={{ opacity: 1, x: 0 }} 
-                        className="space-y-8"
+                        className="space-y-12"
                     >
-                        <div className="flex items-center gap-4 p-6 bg-gold/5 rounded-3xl border border-gold/10">
-                            <div className="w-12 h-12 bg-gold rounded-2xl flex items-center justify-center text-gold-foreground shrink-0">
-                                <FileText size={24} />
+                        <div className="flex items-center gap-6 p-8 bg-accent/5 rounded-[2.5rem] border border-accent/20">
+                            <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-accent/20">
+                                <FileText size={28} strokeWidth={3} />
                             </div>
                             <div>
-                                <h3 className="font-bold text-lg">Detailed Terms & Benefits</h3>
-                                <p className="text-sm opacity-60">Please review the plan details before proceeding.</p>
+                                <h3 className="text-xl font-black italic uppercase tracking-tighter">ARTIFACT_EXAMINATION</h3>
+                                <p className="text-[10px] font-black uppercase tracking-[3px] opacity-40 italic mt-1">Review strategic parameters before initializing deployment.</p>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {[
-                                { title: "Coverage", value: `₹${policy.coverageAmount.toLocaleString()}` },
-                                { title: "Premium", value: `₹${policy.premiumAmount.toLocaleString()} / year` },
-                                { title: "Duration", value: `${policy.durationYears} Years` },
-                                { title: "Policy Type", value: policy.policyType }
+                                { title: "CAPACITY", value: `₹${policy.coverageAmount.toLocaleString()}`, icon: Shield },
+                                { title: "UNIT_YIELD", value: `₹${policy.premiumAmount.toLocaleString()} / CYC`, icon: Zap },
+                                { title: "CYCLE_LIFE", value: `${policy.durationYears} YEARS`, icon: Clock },
+                                { title: "CLASSIFICATION", value: policy.policyType.toUpperCase(), icon: Target }
                             ].map(item => (
-                                <div key={item.title} className="p-4 bg-slate-50 dark:bg-white/5 rounded-2xl border border-slate-100 dark:border-white/10">
-                                    <div className="text-[10px] uppercase font-black opacity-40 mb-1">{item.title}</div>
-                                    <div className="font-bold text-lg">{item.value}</div>
+                                <div key={item.title} className="p-8 bg-zinc-50 dark:bg-white/5 rounded-[2rem] border border-border/50 group hover:border-accent/40 transition-all">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="text-[10px] uppercase font-black opacity-30 tracking-[4px] italic">{item.title}</div>
+                                        <item.icon size={16} className="text-accent opacity-20 group-hover:opacity-100 transition-opacity" />
+                                    </div>
+                                    <div className="font-black text-2xl italic tracking-tighter uppercase">{item.value}</div>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="p-6 bg-zinc-900 text-white rounded-3xl space-y-4">
-                            <h4 className="font-bold flex items-center gap-2">
-                                <ShieldCheck className="text-gold" size={18} />
-                                Why this plan?
+                        <div className="p-10 bg-zinc-950 text-white rounded-[3rem] border border-white/5 relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent" />
+                            <h4 className="text-xl font-black italic uppercase tracking-tighter mb-8 relative z-10 flex items-center gap-4">
+                                <ShieldCheck className="text-accent" size={20} strokeWidth={3} />
+                                PROTECTION_ADVANTAGES
                             </h4>
-                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm opacity-80">
-                                <li className="flex items-center gap-2"><CheckCircle2 className="text-green-400" size={14} /> Full Accident Support</li>
-                                <li className="flex items-center gap-2"><CheckCircle2 className="text-green-400" size={14} /> Cashless Payouts</li>
-                                <li className="flex items-center gap-2"><CheckCircle2 className="text-green-400" size={14} /> 24/7 Roadside Assist</li>
-                                <li className="flex items-center gap-2"><CheckCircle2 className="text-green-400" size={14} /> Tax Benefits (80C/D)</li>
+                            <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+                                {[
+                                    "FULL_INCIDENT_COORDINATION",
+                                    "ZERO_FRICTION_PAYOUTS",
+                                    "24/7_TACTICAL_ASSISTANCE",
+                                    "REGULATORY_YIELD_BENEFITS"
+                                ].map(benefit => (
+                                    <li key={benefit} className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[3px] italic opacity-60 group-hover:opacity-100 transition-opacity">
+                                        <CheckCircle2 className="text-emerald-500" size={14} strokeWidth={4} /> {benefit}
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </motion.div>
@@ -137,46 +148,46 @@ const ApplicationPage = () => {
                     <motion.div 
                         initial={{ opacity: 0, x: 20 }} 
                         animate={{ opacity: 1, x: 0 }}
-                        className="space-y-8"
+                        className="space-y-12"
                     >
-                        <div className="flex items-center gap-3 mb-6">
-                             <div className={`p-4 rounded-3xl ${
-                                policy.policyType === 'Health' ? 'bg-red-100 text-red-600' :
-                                policy.policyType === 'Vehicle' || policy.policyType === 'Auto' ? 'bg-orange-100 text-orange-600' :
-                                policy.policyType === 'Property' || policy.policyType === 'Home' ? 'bg-blue-100 text-blue-600' :
-                                policy.policyType === 'Life' ? 'bg-gold/10 text-gold' :
-                                policy.policyType === 'Travel' ? 'bg-teal-100 text-teal-600' :
-                                'bg-zinc-100 text-zinc-600'
-                             }`}>
-                                {policy.policyType === 'Health' && <Activity size={32} />}
-                                {(policy.policyType === 'Vehicle' || policy.policyType === 'Auto') && <Truck size={32} />}
-                                {(policy.policyType === 'Property' || policy.policyType === 'Home') && <Home size={32} />}
-                                {policy.policyType === 'Life' && <FileText size={32} />}
-                                {policy.policyType === 'Travel' && <Globe size={32} />}
+                        <div className="flex items-center gap-6 mb-12">
+                             <div className={`p-6 rounded-[2rem] shadow-xl ${
+                                policy.policyType === 'Health' ? 'bg-rose-500 shadow-rose-500/30' :
+                                policy.policyType === 'Vehicle' || policy.policyType === 'Auto' ? 'bg-accent shadow-accent/30' :
+                                policy.policyType === 'Property' || policy.policyType === 'Home' ? 'bg-primary shadow-primary/30' :
+                                policy.policyType === 'Life' ? 'bg-emerald-500 shadow-emerald-500/30' :
+                                policy.policyType === 'Travel' ? 'bg-indigo-500 shadow-indigo-500/30' :
+                                'bg-zinc-500 shadow-zinc-500/30'
+                             } text-white`}>
+                                {policy.policyType === 'Health' && <Activity size={32} strokeWidth={3} />}
+                                {(policy.policyType === 'Vehicle' || policy.policyType === 'Auto') && <Truck size={32} strokeWidth={3} />}
+                                {(policy.policyType === 'Property' || policy.policyType === 'Home') && <Home size={32} strokeWidth={3} />}
+                                {policy.policyType === 'Life' && <Zap size={32} strokeWidth={3} />}
+                                {policy.policyType === 'Travel' && <Globe size={32} strokeWidth={3} />}
                              </div>
                              <div>
-                                <h3 className="text-2xl font-black">{policy.policyType} Details</h3>
-                                <p className="opacity-60 font-medium">Please provide the required specific details.</p>
+                                <h3 className="text-3xl font-black italic uppercase tracking-tighter">{policy.policyType.toUpperCase()} DNA_ENCODING</h3>
+                                <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic mt-1 ml-1">Calibrate asset-specific operational parameters.</p>
                              </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                             {(policy.policyType === 'Vehicle' || policy.policyType === 'Auto') && (
                                 <>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">{policy.policyType === 'Auto' ? 'Vehicle VIN / Reg' : 'Registration Number'}</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ASSET_IDENTIFIER (VIN/REG)</label>
                                         <input 
-                                            placeholder="e.g. MH01-AB-1234"
-                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold uppercase transition-all"
+                                            placeholder="SIGNAL_CODE_X"
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             value={formData.regNo || ""}
                                             onChange={e => setFormData({...formData, regNo: e.target.value})}
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Vehicle Model & Year</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">CHASSIS_ARCHITECTURE</label>
                                         <input 
-                                            placeholder="e.g. Tesla Model 3 (2023)"
-                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold transition-all"
+                                            placeholder="MODEL_DESCRIPTOR..."
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             value={formData.model || ""}
                                             onChange={e => setFormData({...formData, model: e.target.value})}
                                         />
@@ -185,19 +196,19 @@ const ApplicationPage = () => {
                             )}
                             {policy.policyType === 'Health' && (
                                 <>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Any pre-existing conditions?</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">BIOMETRIC_ANOMALIES</label>
                                         <input 
-                                            placeholder="e.g. Diabetes, None"
-                                            className="w-full p-5 rounded-[1.5rem] bg-slate-50 dark:bg-white/10 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-bold transition-all"
+                                            placeholder="REPORT_EXISTING_LOGS..."
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, healthConditions: e.target.value})}
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Last Medical Checkup Date</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">LAST_ARCHITECTURE_SYNC</label>
                                         <input 
                                             type="date"
-                                            className="w-full p-5 rounded-[1.5rem] bg-slate-50 dark:bg-white/10 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-bold transition-all"
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, lastCheckup: e.target.value})}
                                         />
                                     </div>
@@ -205,52 +216,38 @@ const ApplicationPage = () => {
                             )}
                             {policy.policyType === 'Property' && (
                                 <>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Property Address</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">GEOGRAPHIC_COORDINATES</label>
                                         <input 
-                                            className="w-full p-5 rounded-[1.5rem] bg-slate-50 dark:bg-white/10 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-bold transition-all"
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, propAddress: e.target.value})}
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Property Value (Est)</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ASSET_VALUATION (₹)</label>
                                         <input 
                                             type="number"
-                                            className="w-full p-5 rounded-[1.5rem] bg-slate-50 dark:bg-white/10 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-bold transition-all"
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xl italic tracking-tighter outline-none focus:border-accent transition-all shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, propValue: e.target.value})}
                                         />
                                     </div>
                                 </>
                             )}
-                            {policy.policyType === 'Life' && (
-                                <>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Smoker / Non-Smoker</label>
-                                        <select 
-                                            className="w-full p-5 rounded-[1.5rem] bg-slate-50 dark:bg-white/10 border-none outline-none focus:ring-2 focus:ring-blue-600/20 font-bold transition-all"
-                                            onChange={e => setFormData({...formData, habits: e.target.value})}
-                                        >
-                                            <option value="Non-Smoker">Non-Smoker</option>
-                                            <option value="Smoker">Smoker</option>
-                                        </select>
-                                    </div>
-                                </>
-                            )}
                             {policy.policyType === 'Travel' && (
                                 <>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Passport Number</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">GLOBAL_PASSPORT_ID</label>
                                         <input 
-                                            placeholder="e.g. Z1234567"
-                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold uppercase transition-all"
+                                            placeholder="Z_PROTOCOL_IDENTIFIER"
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, passport: e.target.value})}
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-2">Primary Destination</label>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">PRIMARY_SECTOR_DESTINATION</label>
                                         <input 
-                                            placeholder="e.g. European Union"
-                                            className="w-full p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800 border border-border outline-none focus:ring-2 focus:ring-gold/20 font-bold transition-all"
+                                            placeholder="TARGET_ZONE..."
+                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, destination: e.target.value})}
                                         />
                                     </div>
@@ -264,46 +261,52 @@ const ApplicationPage = () => {
                     <motion.div 
                         initial={{ opacity: 0, x: 20 }} 
                         animate={{ opacity: 1, x: 0 }}
-                        className="space-y-8"
+                        className="space-y-12"
                     >
-                        <div className="flex flex-col items-center text-center space-y-4">
-                            <div className="w-20 h-20 bg-blue-600/10 text-blue-600 rounded-[2rem] flex items-center justify-center">
-                                <Upload size={40} />
+                        <div className="flex flex-col items-center text-center space-y-6">
+                            <div className="w-24 h-24 bg-accent/10 text-accent rounded-[2.5rem] flex items-center justify-center border-2 border-accent/20 shadow-xl shadow-accent/10 animate-pulse">
+                                <Upload size={40} strokeWidth={3} />
                             </div>
-                            <h3 className="text-3xl font-black">Identify & Verify</h3>
-                            <p className="max-w-md opacity-60 font-medium leading-relaxed">Please upload clear copies of the required documents for rapid processing and underwriting.</p>
+                            <h3 className="text-4xl font-black italic uppercase tracking-tighter leading-none">IDENTITY_SYNERGY</h3>
+                            <p className="max-w-md text-[10px] font-black uppercase tracking-[5px] opacity-40 italic leading-loose">Transmit encrypted artifact documentation for rapid verification & underwriting uplink.</p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="p-8 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-600/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all group relative">
-                                <input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleFileChange} />
-                                <Upload className="mb-4 text-slate-300 group-hover:text-blue-600 transition-colors" size={40} />
-                                <span className="font-bold">National ID / Passport</span>
-                                <span className="text-xs opacity-40">Drop PDF or Images here</span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="p-12 border-2 border-dashed border-border/50 rounded-[3rem] flex flex-col items-center justify-center text-center cursor-pointer hover:border-accent/40 hover:bg-accent/5 transition-all group relative overflow-hidden">
+                                <input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={handleFileChange} />
+                                <div className="absolute inset-0 opacity-[0.02] pointer-events-none transform group-hover:scale-110 transition-transform duration-1000">
+                                    <Fingerprint size={200} className="mx-auto" />
+                                </div>
+                                <Layers className="mb-6 text-zinc-300 group-hover:text-accent group-hover:rotate-12 transition-all" size={48} strokeWidth={2.5} />
+                                <span className="font-black uppercase tracking-[4px] italic text-xs mb-2">IDENTIFICATION_CORE</span>
+                                <span className="text-[9px] font-black opacity-30 uppercase tracking-[3px] italic">PASSPORT / NATIONAL_ID</span>
                             </div>
-                            <div className="p-8 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-600/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all group relative">
-                                <input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleFileChange} />
-                                <Upload className="mb-4 text-slate-300 group-hover:text-blue-600 transition-colors" size={40} />
-                                <span className="font-bold">Asset Documents</span>
-                                <span className="text-xs opacity-40">Registration certificate / Medical reports</span>
+                            <div className="p-12 border-2 border-dashed border-border/50 rounded-[3rem] flex flex-col items-center justify-center text-center cursor-pointer hover:border-accent/40 hover:bg-accent/5 transition-all group relative overflow-hidden">
+                                <input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={handleFileChange} />
+                                <div className="absolute inset-0 opacity-[0.02] pointer-events-none transform group-hover:scale-110 transition-transform duration-1000">
+                                    <Cpu size={200} className="mx-auto" />
+                                </div>
+                                <Zap className="mb-6 text-zinc-300 group-hover:text-accent group-hover:-rotate-12 transition-all" size={48} strokeWidth={2.5} />
+                                <span className="font-black uppercase tracking-[4px] italic text-xs mb-2">ASSET_SPECIFICATIONS</span>
+                                <span className="text-[9px] font-black opacity-30 uppercase tracking-[3px] italic">REG_DOCS / MED_REPORTS</span>
                             </div>
                         </div>
 
                         {files.length > 0 && (
-                            <div className="space-y-3">
-                                <h4 className="text-sm font-bold opacity-40 uppercase tracking-widest flex items-center gap-2">
-                                    Selected Documents ({files.length})
+                            <div className="space-y-4">
+                                <h4 className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-8 flex items-center gap-4">
+                                    UPLINK_QUEUE ({files.length} ARTIFACTS)
                                 </h4>
-                                <div className="space-y-2">
+                                <div className="space-y-3">
                                     {files.map((f, i) => (
-                                        <div key={i} className="p-4 bg-white dark:bg-zinc-800 rounded-2xl border border-border flex items-center justify-between">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-blue-100 text-blue-600 rounded-lg">
-                                                    <FileText size={16} />
+                                        <div key={i} className="p-6 bg-white dark:bg-zinc-800 rounded-3xl border border-border/50 flex items-center justify-between group hover:border-accent/30 transition-all">
+                                            <div className="flex items-center gap-6">
+                                                <div className="p-4 bg-accent/10 text-accent rounded-xl">
+                                                    <FileText size={20} strokeWidth={3} />
                                                 </div>
-                                                <span className="text-sm font-bold truncate max-w-[200px]">{f.name}</span>
+                                                <span className="text-xs font-black italic uppercase tracking-[3px] transition-colors">{f.name}</span>
                                             </div>
-                                            <CheckCircle2 className="text-green-500" size={18} />
+                                            <CheckCircle2 className="text-emerald-500 shadow-[0_0_10px_#10b981] rounded-full" size={20} strokeWidth={3} />
                                         </div>
                                     ))}
                                 </div>
@@ -316,38 +319,42 @@ const ApplicationPage = () => {
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.95 }} 
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-center space-y-8"
+                        className="text-center space-y-12"
                     >
-                        <div className="w-24 h-24 bg-gold rounded-full flex items-center justify-center text-gold-foreground mx-auto shadow-2xl shadow-gold/40">
-                             <ShieldCheck size={48} />
+                        <div className="relative inline-block mt-4">
+                            <div className="w-32 h-32 bg-accent rounded-[2.5rem] flex items-center justify-center text-white shadow-[0_30px_60px_rgba(255,90,0,0.4)] mx-auto relative z-10 group-hover:rotate-12 transition-transform duration-500">
+                                 <ShieldCheck size={64} strokeWidth={3} />
+                            </div>
+                            <div className="absolute inset-0 bg-accent/20 rounded-full blur-3xl animate-pulse" />
                         </div>
-                        <div className="space-y-4">
-                            <h3 className="text-4xl font-black tracking-tight">Ready to Submit?</h3>
-                            <p className="max-w-lg mx-auto opacity-70 font-medium leading-relaxed">
-                                You are about to apply for the <span className="text-gold font-bold">{policy.policyName}</span>. 
-                                Our agents will review your application and documents within 24-48 hours.
+                        
+                        <div className="space-y-6">
+                            <h3 className="text-5xl font-black tracking-tighter italic leading-none uppercase">AUTHORIZE <span className="text-accent italic-none not-italic">DEPLOYMENT?</span></h3>
+                            <p className="max-w-xl mx-auto text-xs font-black uppercase tracking-[5px] opacity-40 leading-loose italic">
+                                Initializing finalize protocol for <span className="text-accent opacity-100">{policy.policyName}</span>. 
+                                Security nodes will review artifact integrity within 24-48 cycles.
                             </p>
                         </div>
 
-                        <div className="max-w-sm mx-auto p-6 bg-white dark:bg-zinc-900 rounded-3xl space-y-3 border border-border">
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="opacity-50 font-medium">Policy Premium</span>
-                                <span className="font-bold tracking-tight">₹{policy.premiumAmount.toLocaleString()} / year</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="opacity-50 font-medium">Processing Fee</span>
-                                <span className="font-bold text-green-600">FREE</span>
-                            </div>
-                            <div className="h-px bg-border my-2" />
+                        <div className="max-w-md mx-auto p-10 bg-zinc-50 dark:bg-white/[0.03] rounded-[3rem] space-y-6 border border-border/50 shadow-inner">
                             <div className="flex justify-between items-center">
-                                <span className="font-black uppercase tracking-widest text-[10px]">Total Est.</span>
-                                <span className="text-xl font-black text-gold">₹{policy.premiumAmount.toLocaleString()}</span>
+                                <span className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic">UNIT_YIELD</span>
+                                <span className="text-2xl font-black italic tracking-tighter text-accent leading-none">₹{policy.premiumAmount.toLocaleString()} / CYC</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic">UPLINK_FEE</span>
+                                <span className="text-xs font-black text-emerald-500 uppercase tracking-[4px]">OPTIMIZED</span>
+                            </div>
+                            <div className="h-px bg-border/30 my-4" />
+                            <div className="flex justify-between items-center">
+                                <span className="font-black uppercase tracking-[6px] text-[11px] italic">TOTAL_COMMIT</span>
+                                <span className="text-4xl font-black text-accent italic tracking-tighter leading-none">₹{policy.premiumAmount.toLocaleString()}</span>
                             </div>
                         </div>
 
-                        <div className="flex items-start gap-4 p-4 max-w-lg mx-auto bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 rounded-2xl text-left border border-amber-100 dark:border-amber-900/30">
-                             <AlertCircle className="shrink-0 mt-1" size={20} />
-                             <p className="text-xs font-semibold leading-relaxed">By clicking submit, you declare that all information provided is accurate of your knowledge. Misrepresentation can lead to rejection of future claims.</p>
+                        <div className="flex items-start gap-6 p-8 max-w-xl mx-auto bg-rose-500/5 text-rose-500 rounded-[2.5rem] text-left border border-rose-500/10">
+                             <AlertCircle className="shrink-0 mt-1" size={24} strokeWidth={3} />
+                             <p className="text-[11px] font-black leading-relaxed uppercase tracking-[3px] italic opacity-80">By committing, you verify artifact precision. Encryption integrity is compromised if data is falsified according to system protocol 84.4.</p>
                         </div>
                     </motion.div>
                 );
@@ -356,75 +363,93 @@ const ApplicationPage = () => {
     };
 
     return (
-        <div className="min-h-screen pt-24 pb-20 px-4 premium-gradient">
-            <div className="max-w-4xl mx-auto">
-                {/* Stepper Header */}
-                <div className="mb-12">
-                    <button 
-                        onClick={() => step === 1 ? navigate(-1) : handleBack()}
-                        className="flex items-center gap-2 text-sm font-bold opacity-50 hover:opacity-100 transition-all mb-8 uppercase tracking-widest active:scale-95"
-                    >
-                        <ChevronLeft size={16} /> 
-                        {step === 1 ? 'Back to Policies' : 'Previous Step'}
-                    </button>
+        <div className="application-page p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+            {/* Orbital Background Elements */}
+            <div className="absolute top-[-10%] right-[-10%] opacity-[0.03] pointer-events-none">
+                <Satellite size={800} className="animate-spin-slow rotate-45" />
+            </div>
 
-                    <div className="flex items-center gap-4">
-                        {[1, 2, 3, 4].map(s => (
-                            <div key={s} className="flex-1 flex flex-col gap-3">
-                                <div className={`h-1.5 rounded-full transition-all duration-700 ${s <= step ? 'bg-gold shadow-[0_0_15px_rgba(251,191,36,0.4)]' : 'bg-slate-200 dark:bg-white/10'}`} />
-                                <div className={`text-[10px] font-black uppercase tracking-widest text-center transition-colors ${s === step ? 'text-gold' : 'opacity-30'}`}>
-                                    {s === 1 && 'Plan info'}
-                                    {s === 2 && 'Details'}
-                                    {s === 3 && 'Documents'}
-                                    {s === 4 && 'Complete'}
-                                </div>
+            <div className="max-w-5xl mx-auto relative z-10">
+                {/* Tactical Header */}
+                <Reveal width="100%" direction="down">
+                    <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-10">
+                        <div>
+                            <button 
+                                onClick={() => step === 1 ? navigate(-1) : handleBack()}
+                                className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[5px] text-accent hover:translate-x-[-10px] transition-all mb-8 italic"
+                            >
+                                <ChevronLeft size={16} strokeWidth={4} /> 
+                                {step === 1 ? 'ABORT_TO_CATALOG' : 'PREVIOUS_SEQUENCE'}
+                            </button>
+                            <div className="flex items-center gap-4 mb-3">
+                                 <div className="w-2.5 h-10 bg-accent rounded-full shadow-[0_0_20px_#FF5A00]" />
+                                 <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
+                                    ASSET<span className="text-accent tracking-normal">_INITIALIZATION</span>
+                                 </h1>
                             </div>
-                        ))}
-                    </div>
-                </div>
+                            <p className="text-xs font-black opacity-30 uppercase tracking-[6px] ml-7 italic">
+                                Constructing custom safeguard architecture node v9.2
+                            </p>
+                        </div>
 
-                {/* Content Area */}
-                <div className="glass p-8 md:p-12 rounded-[4rem] border-2 border-white/5 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none transform translate-x-10 -translate-y-10 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-1000">
-                         <ShieldCheck size={200} />
+                        <div className="flex items-center gap-4 w-full md:w-auto">
+                            {[1, 2, 3, 4].map(s => (
+                                <div key={s} className="flex-1 md:w-20 group relative">
+                                    <div className={`h-2 rounded-full transition-all duration-1000 ${s <= step ? 'bg-accent shadow-[0_0_15px_#FF5A00]' : 'bg-border/30 dark:bg-white/10'}`} />
+                                    <div className={`absolute -bottom-6 left-0 right-0 text-center text-[8px] font-black uppercase tracking-[3px] italic transition-colors ${s === step ? 'text-accent opacity-100' : 'opacity-20'}`}>
+                                        {s === 1 && 'SPECS'}
+                                        {s === 2 && 'DNA'}
+                                        {s === 3 && 'UPLINK'}
+                                        {s === 4 && 'COMMIT'}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </Reveal>
+
+                {/* Content Chassis */}
+                <div className="bg-white dark:bg-zinc-900/50 p-12 md:p-20 rounded-[5rem] border border-border/50 shadow-2xl relative overflow-hidden group backdrop-blur-md">
+                    <div className="absolute top-0 right-0 p-20 opacity-[0.02] pointer-events-none transform translate-x-10 -translate-y-10 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-1000">
+                         <ShieldCheck size={300} strokeWidth={1} />
                     </div>
 
                     <AnimatePresence mode="wait">
                         {renderStepContent()}
                     </AnimatePresence>
 
-                    {/* Footer Actions */}
-                    <div className="mt-12 flex gap-4">
+                    {/* Operational Actions */}
+                    <div className="mt-20 flex gap-8">
                         {step < 4 ? (
                             <button 
                                 onClick={handleNext}
-                                className="flex-1 py-5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-[2rem] font-black uppercase tracking-[0.2em] transform transition-all active:scale-95 flex items-center justify-center gap-3 group"
+                                className="flex-1 h-20 bg-zinc-950 text-white rounded-[2rem] font-black uppercase tracking-[6px] text-xs transform transition-all active:scale-95 flex items-center justify-center gap-6 group hover:bg-accent border-2 border-zinc-950 hover:border-accent italic"
                             >
-                                Continue Application
-                                <ChevronRight className="group-hover:translate-x-2 transition-transform" />
+                                PROCEED_INITIALIZATION
+                                <ChevronRight className="group-hover:translate-x-3 transition-transform" strokeWidth={4} />
                             </button>
                         ) : (
                             <button 
                                 onClick={handleSubmit}
                                 disabled={loading}
-                                className="flex-1 py-6 bg-gold text-gold-foreground rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-gold/40 transform transition-all active:scale-95 flex items-center justify-center gap-3 disabled:opacity-50 disabled:grayscale"
+                                className="flex-1 h-24 bg-accent text-white rounded-[2.5rem] font-black uppercase tracking-[8px] text-sm shadow-[0_30px_70px_rgba(255,90,0,0.4)] transform transition-all active:scale-95 flex items-center justify-center gap-6 disabled:opacity-50 disabled:grayscale italic"
                             >
                                 {loading ? (
-                                    <div className="animate-spin rounded-full h-6 w-6 border-4 border-gold-foreground/30 border-t-gold-foreground" />
+                                    <div className="animate-spin rounded-full h-8 w-8 border-4 border-white/30 border-t-white" />
                                 ) : (
-                                    <>Submit Application <ShieldCheck size={20} /></>
+                                    <>AUTHORIZE_SYSTEM_DEPLOYMENT <Zap size={24} strokeWidth={4} /></>
                                 )}
                             </button>
                         )}
                     </div>
                 </div>
                 
-                <div className="mt-8 flex justify-center gap-8 opacity-30">
-                    <div className="flex items-center gap-2 text-[10px] uppercase font-black tracking-widest">
-                        <Lock size={12} /> SSL Encrypted
+                <div className="mt-12 flex justify-center gap-16 opacity-[0.15]">
+                    <div className="flex items-center gap-4 text-[10px] uppercase font-black tracking-[4px] italic">
+                        <Lock size={14} strokeWidth={4} /> CODON_ENCRYPTION_ACTIVE
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] uppercase font-black tracking-widest">
-                        <ShieldCheck size={12} /> Verified Agency
+                    <div className="flex items-center gap-4 text-[10px] uppercase font-black tracking-[4px] italic">
+                        <ShieldCheck size={14} strokeWidth={4} /> AGENT_ID_VERIFIED
                     </div>
                 </div>
             </div>

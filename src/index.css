@@ -45,42 +45,46 @@ html {
 }
 
 :root {
-  --primary: 45 100% 50%; /* Gold */
-  --primary-foreground: 45 100% 10%;
-  --secondary: 210 40% 96.1%;
+  --primary: 216 100% 50%; /* Primary Blue - #0165FF */
+  --primary-foreground: 216 100% 98%;
+  --secondary: 214 36% 95%;
   --secondary-foreground: 222.2 47.4% 11.2%;
-  --accent: 45 100% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
-  --background: 210 40% 98.5%;
+  --accent: 21 100% 50%; /* Bold Orange - #FF5A00 */
+  --accent-foreground: 21 100% 98%;
+  --background: 214 36% 97%; /* #F4F7FB */
   --foreground: 222.2 84% 14.9%;
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 45 100% 50%;
+  --ring: 216 100% 50%;
   --radius: 1.5rem;
 
-  /* Premium Accent - Gold/Orange */
-  --gold: 45 100% 50%;
-  --gold-foreground: 45 100% 10%;
+  /* Premium Accent - Orange */
+  --orange: 21 100% 50%;
+  --orange-foreground: 21 100% 10%;
+  
+  /* Retaining gold for legacy if needed, but updating to orange */
+  --gold: 21 100% 50%;
+  --gold-foreground: 21 100% 10%;
 
   /* Legacy variable supports */
-  --p-blue: #2563eb;
+  --p-blue: #0165FF;
   --p-purple: #7c3aed;
-  --p-gold: #fbbf24;
+  --p-gold: #FF5A00;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
+  --background: 160 35% 10%; /* #10221c */
   --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
+  --card: 160 35% 12%;
   --card-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 48%;
+  --border: 160 35% 20%;
+  --input: 160 35% 20%;
+  --ring: 216 100% 50%;
 
-  --gold: 45 100% 60%;
-  --gold-foreground: 45 100% 10%;
+  --gold: 21 100% 60%; /* Orange in dark theme */
+  --gold-foreground: 21 100% 10%;
 }
 
 .dark .premium-gradient {
@@ -110,7 +114,6 @@ body {
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 1;
@@ -119,6 +122,24 @@ body {
   50% {
     opacity: .5;
   }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.02); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
 }
 
 /* Glassmorphism Utilities */

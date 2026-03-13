@@ -6,12 +6,18 @@ import { TableSkeleton } from "../../components/common/Skeleton";
 import { 
     CreditCard, ArrowUpRight, ArrowDownRight, 
     Calendar, User, Shield, Search, 
-    Download, FileText, CheckCircle, XCircle
+    Download, FileText, CheckCircle, XCircle,
+    Activity, Fingerprint, Zap, BarChart3,
+    IndianRupee, TrendingUp, Filter, Satellite,
+    Cpu, Target, Lock, Layers, Eye
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Reveal from "../../components/common/Reveal";
+import { useToast } from "../../hooks/use-toast";
 
 const AdminTransactions = () => {
     const { user } = useContext(AuthContext);
+    const { toast } = useToast();
     const [searchTerm, setSearchTerm] = useState("");
 
     const { data: transactions, isLoading } = useQuery({
@@ -19,6 +25,26 @@ const AdminTransactions = () => {
         queryFn: () => api.get('/transactions', user.token),
         enabled: !!user?.token
     });
+
+    const handleExport = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/export/transactions`, {
+                headers: { 'Authorization': `Bearer ${user.token}` }
+            });
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ShieldPro_Transactions_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            toast({ title: "LEDGER_EXPORT_SUCCESS", description: "Global financial statement has been successfully decentralized & downloaded." });
+        } catch (error) {
+            console.error("Export failed", error);
+            toast({ title: "PROTOCOL_OVERRIDE_FAILED", description: "Ledger extraction protocol was interrupted.", variant: "destructive" });
+        }
+    };
 
     if (isLoading) return <div className="p-8"><TableSkeleton rows={10} cols={6} /></div>;
 
@@ -35,143 +61,175 @@ const AdminTransactions = () => {
         t.user?.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleExport = async () => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/export/transactions`, {
-                headers: { 'Authorization': `Bearer ${user.token}` }
-            });
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ShieldPro_Transactions_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        } catch (error) {
-            console.error("Export failed", error);
-        }
-    };
-
     return (
-        <div className="p-8 premium-gradient min-h-screen">
-            <div className="mb-12 flex justify-between items-end">
-                <div>
-                    <h2 className="text-4xl font-black mb-2 tracking-tight">FinOps <span className="text-gold">Intelligence</span></h2>
-                    <p className="opacity-70 font-medium text-lg">System-wide transaction monitoring and revenue reconciliation.</p>
-                </div>
-                <div className="flex gap-4">
-                    <button 
-                        onClick={handleExport}
-                        className="flex items-center gap-2 px-6 py-3 glass border border-gold/20 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-gold/10 transition-all text-gold"
-                    >
-                        <Download size={14} /> Export XLS
-                    </button>
-                    <button className="flex items-center gap-2 px-6 py-3 glass border border-white/20 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">
-                        <FileText size={14} /> Monthly Statement
-                    </button>
-                </div>
+        <div className="admin-transactions p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+            {/* Tactical Grid Background */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+                 style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '60px 60px' }} />
+            <div className="absolute top-[-20%] left-[-10%] opacity-[0.05] pointer-events-none animate-spin-slow">
+                <Cpu size={800} className="text-primary rotate-12" />
             </div>
 
-            {/* Financial Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                {[
-                    { label: "Gross Revenue", value: `₹${stats.totalRevenue.toLocaleString()}`, icon: CreditCard, trend: "+12.4%", up: true },
-                    { label: "Daily Volume", value: `₹${stats.todayRevenue.toLocaleString()}`, icon: ArrowUpRight, trend: "+5.2%", up: true },
-                    { label: "Successful Txns", value: stats.successCount, icon: CheckCircle, trend: "99.8%", up: true },
-                    { label: "Average Premium", value: `₹${Number(stats.avgTicket).toLocaleString()}`, icon: Shield, trend: "-2.1%", up: false }
-                ].map((s, i) => (
-                    <div key={i} className="glass p-8 rounded-[3rem] border border-border/50">
-                        <div className="flex justify-between items-start mb-4">
-                            <div className="p-3 bg-white/5 rounded-2xl text-gold">
-                                <s.icon size={24} />
-                            </div>
-                            <span className={`text-[10px] font-black px-2 py-1 rounded-lg ${s.up ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}`}>
-                                {s.trend}
-                            </span>
+            <Reveal width="100%" direction="down">
+                <div className="mb-16 flex flex-col xl:flex-row xl:items-end justify-between gap-10">
+                    <div>
+                        <div className="flex items-center gap-4 mb-3">
+                             <div className="w-2.5 h-10 bg-primary rounded-full shadow-[0_0_20px_#0165FF]" />
+                             <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
+                                FINOPS<span className="text-primary tracking-normal">_INTELLIGENCE</span>
+                             </h1>
                         </div>
-                        <p className="text-[10px] font-black uppercase tracking-widest opacity-40 mb-1">{s.label}</p>
-                        <h4 className="text-3xl font-black tracking-tighter">{s.value}</h4>
+                        <p className="text-xs font-black opacity-30 uppercase tracking-[6px] ml-7 italic">
+                            Real-time transaction matrix & decentralized revenue reconciliation
+                        </p>
                     </div>
+                    
+                    <div className="flex flex-wrap gap-6">
+                        <button 
+                            onClick={handleExport}
+                            className="h-20 px-12 bg-zinc-950 text-white dark:bg-zinc-900/80 rounded-[2rem] font-black text-[10px] uppercase tracking-[5px] hover:bg-primary hover:scale-105 transition-all flex items-center justify-center gap-5 shadow-2xl active:scale-95 italic border border-white/5"
+                        >
+                            <Download size={20} strokeWidth={4} className="text-primary" /> EXPORT_GLOBAL_LEDGER
+                        </button>
+                    </div>
+                </div>
+            </Reveal>
+
+            {/* STRATEGIC FINANCIAL METRICS */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+                {[
+                    { label: "TOTAL_GROSS_YIELD", value: `₹${stats.totalRevenue.toLocaleString()}`, icon: CreditCard, trend: "+14.8%", up: true, color: "text-primary", bg: "bg-primary/10" },
+                    { label: "DIURNAL_FLUX", value: `₹${stats.todayRevenue.toLocaleString()}`, icon: Satellite, trend: "+6.2%", up: true, color: "text-accent", bg: "bg-accent/10" },
+                    { label: "NETWORK_INTEGRITY", value: `${((stats.successCount / (transactions?.length || 1)) * 100).toFixed(1)}%`, icon: Target, trend: "NOMINAL", up: true, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+                    { label: "MEAN_CONTRACT_VALUE", value: `₹${Number(stats.avgTicket).toLocaleString()}`, icon: TrendingUp, trend: "-1.4%", up: false, color: "text-indigo-500", bg: "bg-indigo-500/10" }
+                ].map((s, i) => (
+                    <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
+                        <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3.5rem] border border-border/50 group hover:border-primary/40 transition-all shadow-xl hover:translate-y-[-8px] relative overflow-hidden backdrop-blur-md">
+                            <div className="flex justify-between items-start mb-10 relative z-10">
+                                <div className={`p-5 ${s.bg} ${s.color} rounded-[1.5rem] group-hover:rotate-12 transition-all shadow-lg border border-white/10`}>
+                                    <s.icon size={26} strokeWidth={3} />
+                                </div>
+                                <div className={`flex items-center gap-2 text-[9px] font-black px-4 py-2 rounded-xl border ${
+                                    s.up ? 'bg-emerald-500/5 text-emerald-500 border-emerald-500/20 shadow-[0_0_10px_#10b98110]' : 'bg-rose-500/5 text-rose-500 border-rose-500/20'
+                                } italic`}>
+                                    {s.up ? <ArrowUpRight size={12} strokeWidth={4} /> : <ArrowDownRight size={12} strokeWidth={4} />}
+                                    {s.trend}
+                                </div>
+                            </div>
+                            <div className="relative z-10">
+                                <p className="text-[10px] font-black uppercase tracking-[5px] opacity-20 mb-3 italic">{s.label}</p>
+                                <h4 className="text-3xl xl:text-4xl font-black tracking-tighter italic uppercase leading-none">{s.value}</h4>
+                            </div>
+                            <div className={`absolute -right-10 -bottom-10 w-40 h-40 ${s.bg} rounded-full blur-[60px] opacity-10 group-hover:opacity-30 transition-all`} />
+                        </div>
+                    </Reveal>
                 ))}
             </div>
 
-            <div className="glass rounded-[3rem] border border-border/50 overflow-hidden shadow-2xl">
-                <div className="p-8 border-b border-border/10 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white/5">
-                    <h3 className="text-xl font-bold italic">Transaction Ledger</h3>
-                    <div className="relative group w-full md:w-96">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30 group-focus-within:opacity-100 transition-opacity" />
+            <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
+                <div className="p-12 border-b border-border/50 flex flex-col xl:flex-row xl:items-center justify-between gap-10 relative overflow-hidden bg-zinc-50 dark:bg-white/[0.02]">
+                    <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
+                        <Activity size={200} className="rotate-12" />
+                    </div>
+                    <div className="flex items-center gap-6 relative z-10">
+                        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary border border-primary/20 shadow-xl">
+                            <Fingerprint size={32} strokeWidth={3} />
+                        </div>
+                        <div>
+                            <h3 className="text-3xl font-black italic uppercase tracking-tighter leading-none">TRANSACTION_LEDGER_CMD</h3>
+                            <p className="text-[10px] font-black opacity-30 uppercase tracking-[5px] mt-2 italic ml-1">Universal financial audit for all protection entities</p>
+                        </div>
+                    </div>
+                    <div className="relative group w-full xl:w-[500px] relative z-10">
+                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
                         <input 
                             type="text" 
-                            placeholder="Find by Transaction ID or Client Name..." 
-                            className="w-full pl-12 pr-6 py-4 bg-white/5 border border-border/50 rounded-2xl outline-none focus:border-gold transition-all font-medium text-sm"
+                            placeholder="LOCATE_BIOMETRIC_RECORD..." 
+                            className="w-full h-18 pl-18 pr-8 bg-white dark:bg-zinc-900/30 border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm italic"
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
                         />
                     </div>
                 </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                <div className="overflow-x-auto no-scrollbar">
+                    <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                         <thead>
-                            <tr className="bg-white/5 text-[10px] font-black uppercase tracking-widest opacity-40">
-                                <th className="px-8 py-6">ID / Timestamp</th>
-                                <th className="px-8 py-6">Client Identity</th>
-                                <th className="px-8 py-6">Policy Context</th>
-                                <th className="px-8 py-6">Method</th>
-                                <th className="px-8 py-6">Amount</th>
-                                <th className="px-8 py-6 text-right">Status</th>
+                            <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
+                                <th className="px-12 py-8 tracking-[4px]">PROTOCOL_ID</th>
+                                <th className="px-12 py-8 tracking-[4px]">CLIENT_DNA</th>
+                                <th className="px-12 py-8 tracking-[4px]">SAFEGUARD_ARTIFACT</th>
+                                <th className="px-12 py-8 text-center tracking-[4px]">CHANNEL_NODE</th>
+                                <th className="px-12 py-8 text-center tracking-[4px]">SETTLEMENT_YIELD</th>
+                                <th className="px-12 py-8 text-right tracking-[4px]">SYNC_INTEGRITY</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border/10">
                             {filteredTxns?.map((txn, idx) => (
                                 <motion.tr 
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     key={txn._id} 
-                                    className="hover:bg-white/5 transition-colors group text-sm"
+                                    className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-all group cursor-pointer"
                                 >
-                                    <td className="px-8 py-6">
-                                        <div className="flex flex-col">
-                                            <span className="font-bold text-gold uppercase tracking-tighter">{txn.transactionId}</span>
-                                            <span className="text-[10px] opacity-40 flex items-center gap-1 mt-1">
-                                                <Calendar size={10} /> {new Date(txn.paymentDate).toLocaleString()}
-                                            </span>
+                                    <td className="px-12 py-8">
+                                        <div className="flex flex-col gap-2">
+                                            <span className="font-black text-xl italic tracking-tighter text-primary group-hover:translate-x-3 transition-transform duration-500 leading-none">{txn.transactionId.toUpperCase()}</span>
+                                            <div className="flex items-center gap-3 opacity-30 text-[8px] font-black tracking-[2px]">
+                                                <Calendar size={12} className="text-primary" /> {new Date(txn.paymentDate).toLocaleString().toUpperCase()}
+                                            </div>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
-                                                <User size={14} />
+                                    <td className="px-12 py-8">
+                                        <div className="flex items-center gap-5">
+                                            <div className="w-14 h-14 rounded-2xl bg-zinc-900 border border-white/5 flex items-center justify-center text-primary font-black italic text-xl shadow-xl group-hover:scale-110 transition-transform">
+                                                {txn.user?.name?.charAt(0)}
                                             </div>
                                             <div className="flex flex-col">
-                                                <span className="font-bold">{txn.user?.name}</span>
-                                                <span className="text-[10px] opacity-40 uppercase tracking-widest">{txn.user?.email}</span>
+                                                <span className="text-sm font-black italic tracking-tighter leading-none mb-1">{txn.user?.name}</span>
+                                                <span className="text-[8px] opacity-20 lowercase tracking-[2px] font-black"><Lock size={10} className="inline mr-1" /> {txn.user?.email}</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <div className="flex items-center gap-2">
-                                            <Shield size={14} className="text-gold/50" />
-                                            <span className="font-medium">{txn.policy?.policyName}</span>
+                                    <td className="px-12 py-8">
+                                        <div className="flex items-center gap-4 bg-zinc-100 dark:bg-white/5 px-4 py-2.5 rounded-xl border border-border/30 w-fit">
+                                            <Shield size={16} className="text-primary opacity-60" strokeWidth={3} />
+                                            <span className="text-[10px] font-black italic tracking-tighter opacity-80 uppercase leading-none">{txn.policy?.policyName}</span>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 bg-white/5 rounded-lg border border-white/10">
-                                            {txn.paymentMethod}
+                                    <td className="px-12 py-8 text-center">
+                                        <span className="text-[9px] font-black uppercase tracking-[4px] px-5 py-2.5 bg-zinc-950 text-white rounded-xl border border-white/10 shadow-lg italic">
+                                            {txn.paymentMethod || 'SECURE_GATEWAY'}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-6 font-black text-lg">₹{txn.amount.toLocaleString()}</td>
-                                    <td className="px-8 py-6 text-right">
-                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest inline-flex items-center gap-2 ${
-                                            txn.status === 'Success' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'
+                                    <td className="px-12 py-8">
+                                        <div className="flex items-center justify-center gap-4 px-6 py-3 bg-primary/5 rounded-2xl border border-primary/20 w-fit mx-auto">
+                                            <IndianRupee size={18} className="text-primary" strokeWidth={3} />
+                                            <span className="text-3xl font-black italic tracking-tighter uppercase leading-none">₹{txn.amount.toLocaleString()}</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-12 py-8 text-right">
+                                        <div className={`px-6 py-2.5 rounded-2xl text-[9px] font-black tracking-[4px] inline-flex items-center gap-4 border shadow-inner ${
+                                            txn.status === 'Success' ? 'bg-emerald-500/5 text-emerald-500 border-emerald-500/20' : 'bg-rose-500/5 text-rose-500 border-rose-500/20'
                                         }`}>
-                                            {txn.status === 'Success' ? <CheckCircle size={12} /> : <XCircle size={12} />}
-                                            {txn.status}
-                                        </span>
+                                            <div className={`w-2.5 h-2.5 rounded-full ${txn.status === 'Success' ? 'bg-emerald-500 shadow-[0_0_8px_#10b981]' : 'bg-rose-500 shadow-[0_0_8px_#ef4444]'}`} />
+                                            {txn.status === 'Success' ? 'FINALIZED' : 'INTERRUPTED'}
+                                        </div>
                                     </td>
                                 </motion.tr>
                             ))}
+                            {filteredTxns?.length === 0 && (
+                                <tr>
+                                    <td colSpan={6} className="px-12 py-40 text-center">
+                                        <div className="relative inline-block">
+                                            <Zap size={120} className="mx-auto mb-8 opacity-5" />
+                                            <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full" />
+                                        </div>
+                                        <h3 className="text-4xl font-black uppercase italic tracking-tighter opacity-10">NULL_LEDGER_SYNC</h3>
+                                        <p className="opacity-10 max-w-sm mx-auto mt-6 font-black uppercase text-[10px] tracking-[6px] italic leading-loose">No strategic data points found for current filter parameters.</p>
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
