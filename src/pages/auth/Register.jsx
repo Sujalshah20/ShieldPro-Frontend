@@ -6,7 +6,7 @@ import {
     Shield, User, Mail, Lock, Phone, Calendar, 
     MapPin, Users, ArrowRight, ArrowLeft, CheckCircle2, 
     AlertCircle, Info, ShieldCheck, Zap, Fingerprint,
-    Compass, Globe
+    Compass, Globe, ChevronDown
 } from "lucide-react";
 import { z } from "zod";
 import Reveal from "../../components/common/Reveal";
@@ -102,64 +102,64 @@ const Register = () => {
                         className="space-y-6"
                     >
                         <div className="space-y-4">
-                            <label className="text-[10px] font-black text-primary uppercase tracking-[4px] italic ml-1">PHASE 01: IDENTITY SETUP</label>
+                            <label className="text-[10px] font-black text-primary uppercase tracking-[4px] italic ml-1">PHASE 01: OPERATOR IDENTITY</label>
                             <div className="relative group">
-                                <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                                <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input
                                     name="name"
                                     type="text"
                                     placeholder="FULL LEGAL NAME"
-                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg shadow-sm"
                                     value={formData.name}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div className="relative group">
-                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input
                                     name="email"
                                     type="email"
-                                    placeholder="SECURE EMAIL ADDRESS"
-                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    placeholder="AUTH EMAIL ADDRESS"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg shadow-sm"
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div className="relative group">
-                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input
                                     name="password"
                                     type="password"
-                                    placeholder="ENCRYPTED PASSWORD"
-                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    placeholder="SECURE PASSWORD"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg shadow-sm"
                                     value={formData.password}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div className="px-1 pt-2">
-                                <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden flex gap-1 shadow-inner">
+                                <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden flex gap-1 shadow-inner">
                                     <div 
                                         className={`h-full transition-all duration-700 ${
                                             passStrength <= 25 ? 'bg-rose-500 w-1/4 shadow-[0_0_10px_rgba(244,63,94,0.4)]' : 
-                                            passStrength <= 50 ? 'bg-orange-500 w-2/4 shadow-[0_0_10px_rgba(249,115,22,0.4)]' : 
-                                            passStrength <= 75 ? 'bg-amber-500 w-3/4 shadow-[0_0_10px_rgba(245,158,11,0.4)]' : 'bg-emerald-500 w-full shadow-[0_0_10px_rgba(16,185,129,0.4)]'
+                                            passStrength <= 50 ? 'bg-amber-500 w-2/4 shadow-[0_0_10px_rgba(245,158,11,0.4)]' : 
+                                            passStrength <= 75 ? 'bg-primary w-3/4 shadow-[0_0_10px_rgba(0,126,168,0.4)]' : 'bg-emerald-500 w-full shadow-[0_0_10px_rgba(16,185,129,0.4)]'
                                         }`}
                                         style={{ width: `${passStrength}%` }}
                                     />
                                 </div>
                                 <div className="flex justify-between items-center mt-3">
-                                    <p className="text-[9px] font-black uppercase tracking-[2px] opacity-40 flex items-center gap-2 italic">
+                                    <p className="text-[9px] font-black uppercase tracking-[2px] text-slate-400 flex items-center gap-2 italic">
                                         <ShieldCheck className="w-3 h-3 text-primary" strokeWidth={3} />
-                                        Entropy Level: {passStrength <= 25 ? 'Low' : passStrength <= 50 ? 'Moderate' : passStrength <= 75 ? 'High' : 'Maximum'}
+                                        SECURITY STRENGTH: {passStrength <= 25 ? 'VULNERABLE' : passStrength <= 50 ? 'MODERATE' : passStrength <= 75 ? 'ROBUST' : 'MAXIMUM'}
                                     </p>
                                     <span className="text-[9px] font-black text-primary opacity-60">{passStrength}%</span>
                                 </div>
                             </div>
                         </div>
-                        <button type="button" onClick={nextStep} className="w-full py-5 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-[4px] shadow-2xl shadow-primary/20 hover:translate-y-[-5px] transition-all flex items-center justify-center gap-3 active:scale-95">
+                        <button type="button" onClick={nextStep} className="w-full py-5 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-[4px] shadow-2xl shadow-primary/20 hover:bg-header-bg transition-all flex items-center justify-center gap-4 active:scale-95">
                             NEXT PHASE <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
                         </button>
                     </motion.div>
@@ -173,35 +173,35 @@ const Register = () => {
                         className="space-y-6"
                     >
                         <div className="space-y-4">
-                            <label className="text-[10px] font-black text-primary uppercase tracking-[4px] italic ml-1">PHASE 02: PERSONAL PARAMETERS</label>
+                            <label className="text-[10px] font-black text-primary uppercase tracking-[4px] italic ml-1">PHASE 02: PERSONAL ATTRIBUTES</label>
                             <div className="relative group">
-                                <Phone className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                                <Phone className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input
                                     name="phone"
                                     type="tel"
                                     placeholder="CONTACT NUMBER"
-                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg shadow-sm"
                                     value={formData.phone}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div className="relative group">
-                                <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                                <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <input
                                     name="dob"
                                     type="date"
-                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg shadow-sm"
                                     value={formData.dob}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div className="relative group">
-                                <Users className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                                <Users className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <select
                                     name="gender"
-                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest appearance-none cursor-pointer shadow-sm"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg appearance-none cursor-pointer shadow-sm"
                                     value={formData.gender}
                                     onChange={handleInputChange}
                                 >
@@ -209,14 +209,14 @@ const Register = () => {
                                     <option value="Female">FEMALE OPERATOR</option>
                                     <option value="Other">OTHER CLASSIFICATION</option>
                                 </select>
-                                <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30 pointer-events-none" />
+                                <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 opacity-30 pointer-events-none" />
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white border border-border/50 rounded-2xl flex items-center justify-center hover:bg-zinc-50 transition-all shadow-sm active:scale-95">
-                                <ArrowLeft className="w-5 h-5 text-primary" strokeWidth={3} />
+                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white border border-slate-200 rounded-2xl flex items-center justify-center hover:bg-slate-50 transition-all shadow-sm active:scale-95">
+                                <ArrowLeft className="w-6 h-6 text-primary" strokeWidth={3} />
                             </button>
-                            <button type="button" onClick={nextStep} className="flex-1 py-5 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-[4px] shadow-2xl shadow-primary/20 hover:translate-y-[-5px] transition-all flex items-center justify-center gap-3 active:scale-95">
+                            <button type="button" onClick={nextStep} className="flex-1 py-5 bg-primary text-white rounded-2xl font-black text-[10px] uppercase tracking-[4px] shadow-2xl shadow-primary/20 hover:bg-header-bg transition-all flex items-center justify-center gap-4 active:scale-95">
                                 CONTINUE <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" strokeWidth={3} />
                             </button>
                         </div>
@@ -231,14 +231,14 @@ const Register = () => {
                         className="space-y-6"
                     >
                         <div className="space-y-4">
-                            <label className="text-[10px] font-black text-primary uppercase tracking-[4px] italic ml-1">PHASE 03: GEOSPATIAL COORDINATES</label>
+                            <label className="text-[10px] font-black text-primary uppercase tracking-[4px] italic ml-1">PHASE 03: DEPLOYMENT ZONE</label>
                             <div className="relative group">
-                                <MapPin className="absolute left-6 top-6 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
+                                <MapPin className="absolute left-6 top-6 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                 <textarea
                                     name="address"
                                     placeholder="RESIDENTIAL HEADQUARTERS ADDRESS"
                                     rows="4"
-                                    className="w-full bg-zinc-50 border border-border/50 rounded-[2rem] px-14 py-6 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest resize-none no-scrollbar shadow-sm"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-[2rem] px-14 py-6 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg resize-none no-scrollbar shadow-sm"
                                     value={formData.address}
                                     onChange={handleInputChange}
                                     required
@@ -246,11 +246,11 @@ const Register = () => {
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white border border-border/50 rounded-2xl flex items-center justify-center hover:bg-zinc-50 transition-all shadow-sm active:scale-95">
-                                <ArrowLeft className="w-5 h-5 text-primary" strokeWidth={3} />
+                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white border border-slate-200 rounded-2xl flex items-center justify-center hover:bg-slate-50 transition-all shadow-sm active:scale-95">
+                                <ArrowLeft className="w-6 h-6 text-primary" strokeWidth={3} />
                             </button>
-                            <button type="submit" disabled={isLoading} className="flex-1 py-5 bg-accent text-white rounded-2xl font-black text-xs uppercase tracking-[4px] shadow-2xl shadow-accent/20 hover:translate-y-[-5px] transition-all flex items-center justify-center gap-3 active:scale-95">
-                                {isLoading ? "SYNCHRONIZING..." : "INITIALIZE ACCOUNT"}
+                            <button type="submit" disabled={isLoading} className="flex-1 py-5 bg-accent text-header-bg rounded-2xl font-black text-[10px] uppercase tracking-[4px] shadow-2xl shadow-accent/20 hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-4 active:scale-95">
+                                {isLoading ? "ENCRYPTING..." : "INITIALIZE SHIELD"}
                                 {!isLoading && <CheckCircle2 className="w-5 h-5" strokeWidth={3} />}
                             </button>
                         </div>
@@ -262,72 +262,72 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-white flex items-center justify-center p-6 relative overflow-hidden">
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
+        <div className="min-h-screen w-full bg-background-main flex items-center justify-center p-6 relative overflow-hidden font-display">
+            {/* Ambient Background */}
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
                 <HeroScene />
             </div>
             
-            <div className="auth-container w-full max-w-4xl flex flex-col md:flex-row bg-white/40 backdrop-blur-3xl rounded-[4rem] border border-white/20 shadow-[0_80px_100px_-20px_rgba(0,0,0,0.1)] overflow-hidden relative z-10 transition-all duration-700">
-                 {/* Left Panel: High-Tech Branding */}
-                 <div className="hidden md:flex md:w-5/12 bg-primary p-16 flex-col justify-between relative overflow-hidden">
-                    <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-                        <Compass size={280} className="text-white animate-spin-slow" />
+            <div className="auth-container w-full max-w-5xl flex flex-col md:flex-row bg-white/70 backdrop-blur-3xl rounded-[3rem] border border-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] overflow-hidden relative z-10 transition-all duration-700">
+                 {/* Left Panel: Brand Asset */}
+                 <div className="hidden md:flex md:w-[45%] bg-header-bg p-16 flex-col justify-between relative overflow-hidden">
+                    <div className="absolute top-0 right-[-10%] opacity-10 pointer-events-none scale-150">
+                        <Compass size={300} className="text-primary animate-spin-slow" />
                     </div>
                     
                     <div className="relative z-10">
-                        <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-2xl flex items-center justify-center mb-8 border border-white/30">
-                            <Shield size={32} className="text-white" strokeWidth={3} />
+                        <div className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mb-12 border border-white/10 shadow-xl shadow-primary/20">
+                            <Shield size={40} className="text-white" strokeWidth={2.5} />
                         </div>
-                        <h2 className="text-4xl font-black italic tracking-tighter text-white uppercase leading-none mb-4">
-                            SECURE<br/><span className="text-white/40">SHIELD</span>
+                        <h2 className="text-5xl font-black tracking-tighter text-white uppercase leading-none mb-6">
+                            SECURE<br/><span className="text-primary">SHIELD</span>
                         </h2>
-                        <div className="h-1 w-12 bg-accent rounded-full mb-8 shadow-[0_0_15px_rgba(255,90,0,0.6)]" />
-                        <p className="text-sm font-bold text-white/60 uppercase tracking-[3px] leading-relaxed">
+                        <div className="h-1.5 w-16 bg-accent rounded-full mb-10" />
+                        <p className="text-sm font-bold text-slate-400 uppercase tracking-[4px] leading-loose">
                             DEPLOYING NEXT-GENERATION PROTECTION PROTOCOLS FOR GLOBAL ASSET SECURITY.
                         </p>
                     </div>
                     
-                    <div className="relative z-10 space-y-6">
-                        <div className="flex items-center gap-4 group">
-                             <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white border border-white/10 group-hover:bg-white group-hover:text-primary transition-all">
-                                <Fingerprint size={20} strokeWidth={3} />
+                    <div className="relative z-10 space-y-8">
+                        <div className="flex items-center gap-6 group">
+                             <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-white border border-white/5 group-hover:bg-primary group-hover:border-primary/50 transition-all transform group-hover:rotate-12 shadow-sm">
+                                <Fingerprint size={24} strokeWidth={2} />
                              </div>
-                             <span className="text-[10px] font-black uppercase tracking-[3px] text-white/50">Biometric Integrity</span>
+                             <span className="text-[10px] font-black uppercase tracking-[4px] text-slate-500">BIOMETRIC INTEGRITY</span>
                         </div>
-                        <div className="flex items-center gap-4 group">
-                             <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-white border border-white/10 group-hover:bg-white group-hover:text-primary transition-all">
-                                <Globe size={20} strokeWidth={3} />
+                        <div className="flex items-center gap-6 group">
+                             <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-white border border-white/5 group-hover:bg-primary group-hover:border-primary/50 transition-all transform group-hover:rotate-[-12deg] shadow-sm">
+                                <Globe size={24} strokeWidth={2} />
                              </div>
-                             <span className="text-[10px] font-black uppercase tracking-[3px] text-white/50">Orbital Network Reach</span>
+                             <span className="text-[10px] font-black uppercase tracking-[4px] text-slate-500">GLOBAL NETWORK REACH</span>
                         </div>
                     </div>
                  </div>
 
-                 {/* Right Panel: Interactive Form */}
+                 {/* Right Panel: Operator Registration */}
                  <div className="flex-1 p-12 md:p-20">
                     <Reveal width="100%" direction="down">
-                        <div className="flex justify-between items-center mb-12">
-                            <div>
-                                <h1 className="text-3xl font-black italic tracking-tighter text-foreground uppercase">JOIN <span className="text-primary italic-none not-italic">SHIELDPRO</span></h1>
-                                <p className="text-[10px] opacity-30 font-black uppercase tracking-[4px] mt-2">Initialize operator enlistment sequence</p>
-                            </div>
+                        <div className="flex flex-col mb-16">
+                            <h1 className="text-4xl font-black tracking-tighter text-header-bg uppercase leading-none">JOIN <span className="text-primary">SECURE SHIELD</span></h1>
+                            <p className="text-[10px] text-slate-400 font-black uppercase tracking-[5px] mt-4">Initialize operator enlistment sequence</p>
                         </div>
 
-                        {/* Step Tracks */}
-                        <div className="flex gap-3 mb-12">
+                        {/* Progress Tracker */}
+                        <div className="flex gap-4 mb-16">
                             {[1, 2, 3].map(i => (
-                                <div key={i} className="flex-1 h-2 rounded-full bg-zinc-100 overflow-hidden relative border border-border/20 shadow-inner">
+                                <div key={i} className="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden relative shadow-inner">
                                     <motion.div 
                                         initial={{ width: 0 }}
                                         animate={{ width: step >= i ? '100%' : '0%' }}
                                         className={`h-full ${step > i ? 'bg-primary' : step === i ? 'bg-primary animate-pulse' : 'bg-transparent'}`}
+                                        transition={{ duration: 0.8 }}
                                     />
                                 </div>
                             ))}
                         </div>
                     </Reveal>
 
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="relative">
                         <AnimatePresence mode="wait">
                             {renderStep()}
                         </AnimatePresence>
@@ -336,32 +336,30 @@ const Register = () => {
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="flex items-center gap-4 text-rose-500 bg-rose-500/10 p-5 rounded-2xl border border-rose-500/20 text-[10px] font-black uppercase tracking-[2px] mt-10 shadow-sm"
+                                className="flex items-center gap-6 text-rose-500 bg-rose-50 p-6 rounded-2xl border border-rose-100 text-[9px] font-black uppercase tracking-[3px] mt-12 shadow-xl"
                             >
-                                <AlertCircle className="w-5 h-5 flex-shrink-0" strokeWidth={3} />
+                                <AlertCircle className="w-6 h-6 flex-shrink-0" strokeWidth={3} />
                                 {error}
                             </motion.div>
                         )}
                     </form>
 
-                    <div className="mt-12 flex flex-col md:flex-row items-center justify-between gap-6">
-                        <p className="text-[10px] font-black uppercase tracking-[3px] opacity-30 italic">
-                            Already enlisted? <Link to="/login" className="text-primary hover:underline ml-2">AUTHENTICATE HERE</Link>
+                    <div className="mt-16 pt-12 border-t border-slate-50 flex flex-col md:flex-row items-center justify-between gap-8">
+                        <p className="text-[10px] font-black uppercase tracking-[4px] text-slate-400">
+                            Already enlisted? <Link to="/login" className="text-primary hover:text-header-bg transition-colors ml-3 underline decoration-primary/20 hover:decoration-header-bg/40 underline-offset-4">AUTHENTICATE HERE</Link>
                         </p>
-                        <div className="flex items-center gap-4 opacity-10">
-                            <Zap size={20} />
-                            <div className="w-px h-6 bg-foreground" />
-                            <Fingerprint size={20} />
+                        <div className="flex items-center gap-6 opacity-20 transform hover:scale-110 transition-transform cursor-help">
+                            <Zap size={20} className="text-primary" />
+                            <div className="w-px h-8 bg-slate-300" />
+                            <Fingerprint size={20} className="text-header-bg" />
                         </div>
                     </div>
                  </div>
             </div>
             
-            {/* Visual Flare */}
-            <div className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-30 z-[1]">
-                <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/3 w-[300px] h-[300px] bg-accent/20 rounded-full blur-[100px] animate-pulse-slow" />
-            </div>
+            {/* Ambient Glare */}
+            <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] animate-pulse-slow" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px] animate-pulse-slow" />
         </div>
     );
 };

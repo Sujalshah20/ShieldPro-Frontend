@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Secure Shield Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007ea8",
+                        "sidebar-nav": "#003249",
+                        "card-accent": "#9ad1d4",
+                        "background-main": "#ccdbdc",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f1e23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-main dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Sidebar -->
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto p-8">
+<!-- Header -->
+<header class="bg-white dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 -mx-8 -mt-8 mb-8 px-8 py-4 flex flex-col space-y-4">
+<div class="flex justify-between items-center">
+<div class="flex items-center space-x-8">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-icons text-white text-base">security</span>
+</div>
+<span class="text-lg font-bold tracking-tight text-sidebar-nav dark:text-white">SECURE SHIELD</span>
+</div>
+<nav class="hidden md:flex items-center space-x-6">
+<a class="text-primary font-semibold text-sm" href="#">Dashboard</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Policy Management</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Claims</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Clients</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-4">
+<div class="relative">
+<span class="material-icons absolute left-3 top-2 text-slate-400 text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-background-light dark:bg-background-dark border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-xs w-48" placeholder="Search records..." type="text"/>
+</div>
+<button class="bg-primary text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-all shadow-sm flex items-center space-x-2">
+<span class="material-icons text-sm">add</span>
+<span>New Policy</span>
+</button>
+</div>
+<div class="flex items-center space-x-3 pl-6 border-l border-slate-200 dark:border-slate-700">
+<div class="text-right">
+<p class="text-xs font-bold text-slate-900 dark:text-white">Marcus Chen</p>
+<p class="text-[10px] text-slate-500">Admin</p>
+</div>
+<img alt="Admin" class="w-8 h-8 rounded-full" data-alt="Portrait of a professional male administrator" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAymgcIcqp2TJC7126DLc94m1WX8Lrs43KwGSLDvvfk0CYuo0MOyyJWTibf5MTV87OieDdh7zkMyWE-uyOsazlaajt7OZWW7L4zQBNCcso28YgfoS0kWF_5852H3wRgBS0tcFx6ZRfn74ESRQtFgPpWKSbAdIGs4guOoq6FFFPDu75NAv2Un2iZfW_44vhwhHm14ot3Vf7cqBI2--yEr2-QqL6swKYihV6ofwJbRO7Up5S3jbL1dHbPTucm3NAvIgZr9e16rmD6zyBj"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Stat Cards -->
+<div class="mb-8">
+<h1 class="text-2xl font-bold text-sidebar-nav dark:text-white">Admin Overview</h1>
+<p class="text-slate-600 dark:text-slate-400">Welcome back, Marcus. Here's what's happening today.</p>
+</div><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-card-accent p-6 rounded-xl shadow-sm border border-slate-200/50 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-icons text-primary text-3xl">verified_user</span>
+<span class="text-xs font-bold text-primary px-2 py-1 bg-white/50 rounded-full">+12.5%</span>
+</div>
+<div class="mt-4"><p class="text-sidebar-nav/60 text-sm font-medium">Total Premiums Written</p><h3 class="text-3xl font-bold text-sidebar-nav">$4.82M</h3></div>
+</div>
+<div class="bg-card-accent p-6 rounded-xl shadow-sm border border-slate-200/50 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-icons text-primary text-3xl">account_balance_wallet</span>
+<span class="text-xs font-bold text-primary px-2 py-1 bg-white/50 rounded-full">+8.2%</span>
+</div>
+<div class="mt-4"><p class="text-sidebar-nav/60 text-sm font-medium">Loss Ratio</p><h3 class="text-3xl font-bold text-sidebar-nav">62.4%</h3></div>
+</div>
+<div class="bg-card-accent p-6 rounded-xl shadow-sm border border-slate-200/50 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-icons text-primary text-3xl">pending_actions</span>
+<span class="text-xs font-bold text-red-600 px-2 py-1 bg-white/50 rounded-full">-3.1%</span>
+</div>
+<div class="mt-4"><p class="text-sidebar-nav/60 text-sm font-medium">Pending Claims</p><h3 class="text-3xl font-bold text-sidebar-nav">156</h3></div>
+</div>
+<div class="bg-card-accent p-6 rounded-xl shadow-sm border border-slate-200/50 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<span class="material-icons text-primary text-3xl">sentiment_satisfied_alt</span>
+<span class="text-xs font-bold text-primary px-2 py-1 bg-white/50 rounded-full">98%</span>
+</div>
+<div class="mt-4"><p class="text-sidebar-nav/60 text-sm font-medium">Active Policies</p><h3 class="text-3xl font-bold text-sidebar-nav">12,842</h3></div>
+</div>
+</div>
+<!-- Policy Management Table -->
+<div class="bg-white dark:bg-background-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<h2 class="text-lg font-bold text-sidebar-nav dark:text-white">Policy Management</h2>
+<div class="flex space-x-2">
+<button class="px-3 py-1.5 text-sm bg-background-light dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 transition-colors">
+                        All Policies
+                    </button>
+<button class="px-3 py-1.5 text-sm bg-background-light dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-50 transition-colors">
+                        Filter
+                    </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-background-light dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4 font-semibold">Policy ID</th>
+<th class="px-6 py-4 font-semibold">Client Name</th>
+<th class="px-6 py-4 font-semibold">Type</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold">Premium</th>
+<th class="px-6 py-4 font-semibold">Renewal Date</th>
+<th class="px-6 py-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-sidebar-nav dark:text-white">POL-88219</td>
+<td class="px-6 py-4 text-sm">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">JD</div>
+<span class="text-slate-700 dark:text-slate-300">Jane Doe</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Auto</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Active</span>
+</td>
+<td class="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">$2,450.00</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Oct 12, 2024</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons text-xl">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-sidebar-nav dark:text-white">POL-88220</td>
+<td class="px-6 py-4 text-sm">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">RK</div>
+<span class="text-slate-700 dark:text-slate-300">Robert King</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Life</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-700 rounded-full">Pending</span>
+</td>
+<td class="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">$4,820.00</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Nov 05, 2024</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons text-xl">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-sidebar-nav dark:text-white">POL-88221</td>
+<td class="px-6 py-4 text-sm">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">LM</div>
+<span class="text-slate-700 dark:text-slate-300">Linda Meyer</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Health</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full">Active</span>
+</td>
+<td class="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">$1,150.00</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Sep 18, 2024</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons text-xl">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4 text-sm font-medium text-sidebar-nav dark:text-white">POL-88222</td>
+<td class="px-6 py-4 text-sm">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">AT</div>
+<span class="text-slate-700 dark:text-slate-300">Arthur Taylor</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Auto</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 text-xs font-semibold bg-red-100 text-red-700 rounded-full">Expired</span>
+</td>
+<td class="px-6 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">$6,200.00</td>
+<td class="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Aug 30, 2024</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons text-xl">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+<span>Showing 1 to 4 of 284 results</span>
+<div class="flex space-x-2">
+<button class="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 transition-colors disabled:opacity-50">Previous</button>
+<button class="px-3 py-1 bg-primary text-white border border-primary rounded hover:bg-primary/90 transition-colors">Next</button>
+</div>
+</div>
+</div>
+<!-- Secondary Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+<!-- Recent Activity -->
+<div class="lg:col-span-2 bg-white dark:bg-background-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
+<h2 class="text-lg font-bold text-sidebar-nav dark:text-white mb-6">Recent Activity</h2>
+<div class="space-y-6">
+<div class="flex space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+<span class="material-icons">add_task</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-slate-100">New Claim Filed: #CLM-9021</p>
+<p class="text-xs text-slate-500">2 hours ago by System</p>
+<div class="mt-2 p-3 bg-background-light dark:bg-slate-800/50 rounded-lg text-xs text-slate-600 dark:text-slate-400">
+                                Property damage report received for Policy POL-88210. Initial assessment required.
+                            </div>
+</div>
+</div>
+<div class="flex space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+<span class="material-icons">assignment_turned_in</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-slate-100">Policy Renewed: Jane Doe</p>
+<p class="text-xs text-slate-500">5 hours ago by Automatic Renewal</p>
+</div>
+</div>
+<div class="flex space-x-4">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600">
+<span class="material-icons">contact_mail</span>
+</div>
+<div>
+<p class="text-sm font-medium text-slate-900 dark:text-slate-100">Message from Client: Robert King</p>
+<p class="text-xs text-slate-500">Yesterday at 4:30 PM</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Distribution -->
+<div class="bg-white dark:bg-background-dark rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 flex flex-col">
+<h2 class="text-lg font-bold text-sidebar-nav dark:text-white mb-6">Queue Status</h2>
+<div class="flex-1 space-y-4">
+<div>
+<div class="flex justify-between text-xs font-bold text-slate-500 uppercase mb-1">
+<span>Verification</span>
+<span>78%</span>
+</div>
+<div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full">
+<div class="h-full bg-primary rounded-full" style="width: 78%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold text-slate-500 uppercase mb-1">
+<span>Underwriting</span>
+<span>42%</span>
+</div>
+<div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full">
+<div class="h-full bg-card-accent rounded-full" style="width: 42%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold text-slate-500 uppercase mb-1">
+<span>Approval</span>
+<span>91%</span>
+</div>
+<div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full">
+<div class="h-full bg-sidebar-nav rounded-full" style="width: 91%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Chart Preview" class="w-full h-full object-cover" data-alt="Data visualization chart with blue bars" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJLNWp8rsYVvvf4My0nInCTmXZMCh_3ZdPRE6MvDUflSQdPur9B3ZTIvFuIZoCNjVKDt83eDUNkyKMdzeJqd1pFVo84OgrrRtQ60Nyf7SGZqiu5xlzKhiV-fD7z2VdGzaqrhV6CzZQWmXtxDmsZWjg4BQfzDxP8xfmdRinsrNmhNHMDZvblBctyii-sU3jH5fqdPskpxD5iEPEx6kQulsYQkrC8h5F-zjAmCHf4b9gdsZrj-uCxOQEXVNOiSdmRmbyVT7zs1486m5b"/>
+</div>
+<div>
+<p class="text-sm font-bold text-sidebar-nav dark:text-white">Monthly Analytics</p>
+<p class="text-xs text-primary font-medium hover:underline cursor-pointer">View full report</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

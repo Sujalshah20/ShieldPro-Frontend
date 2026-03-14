@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#007ea7",
+                        "header-bg": "#003249",
+                        "background-light": "#ccdbdc",
+                        "accent-shadow": "#9ad1d4",
+                        "background-dark": "#0f1e23",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light font-display text-slate-900">
+<header class="bg-header-bg text-white sticky top-0 z-50 shadow-md">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">shield</span>
+<h2 class="text-xl font-extrabold tracking-tight">Secure Shield</h2>
+</div>
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Features</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Solutions</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+                    Get Started
+                </button>
+</div>
+</div>
+</header>
+<main>
+<section class="relative overflow-hidden pt-20 pb-24 lg:pt-32 lg:pb-40">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center gap-16">
+<div class="flex-1 text-center lg:text-left">
+<h1 class="text-slate-900 text-5xl lg:text-7xl font-black leading-[1.1] mb-8 tracking-tight">Uncompromising <span class="text-primary">Protection</span> for Your Digital &amp; Physical Assets</h1>
+<p class="text-slate-700 text-lg lg:text-xl leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0">Experience bespoke insurance solutions designed for the modern world. Our comprehensive coverage ensures your most valuable assets remain protected against every eventuality.</p>
+<div class="flex flex-wrap justify-center lg:justify-start gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all shadow-xl shadow-primary/30">
+                            Start Free Trial
+                        </button>
+<button class="bg-white hover:bg-slate-50 text-header-bg px-8 py-4 rounded-xl text-lg font-bold transition-all border border-slate-200">
+                            View Demo
+                        </button>
+</div>
+</div>
+<div class="flex-1 w-full max-w-xl lg:max-w-none">
+<div class="relative aspect-square bg-gradient-to-br from-primary/10 to-transparent rounded-3xl flex items-center justify-center p-8">
+<div class="w-full h-full rounded-2xl bg-cover bg-center shadow-2xl" data-alt="3D abstract digital shield representation with glowing edges" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDYtoP02xHuwykDSVzFmQYGUUVLEBXiMOqJVdMuiZskdbdkQmrHZ51UejClSxVKm80tjVg_TbktgEHP-Os62Sy5ph7xhXQ-WXdXdZzTr54iTZHIK9JFudqfSoBiGEK0d49pgT5bSmIaRc-qyww5a_BZEIHAlumqUfY1TQH9H-HpMyin7c7nb8qTSEjBZ6aPQT8KPuWC2QbUqO5zPvK4wM6wij3zXMJTOuVwNcv6Zbgr4PlcfnrMAWKg_eH6MjI-4brwIOSIFz4IxlU2');">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white/50 py-24">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 text-center mb-16">
+<h2 class="text-4xl font-bold text-header-bg mb-4">Comprehensive Risk Management</h2>
+<div class="w-20 h-1.5 bg-primary mx-auto rounded-full mb-6"></div>
+<p class="text-slate-600 text-lg max-w-3xl mx-auto leading-relaxed">Our framework is built on decades of actuarial expertise to mitigate evolving risks and ensure financial stability for your estate. We don't just insure; we provide peace of mind.</p>
+</div>
+</section>
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<div class="flex flex-col gap-4 mb-16">
+<h3 class="text-primary font-bold tracking-widest uppercase text-sm">Capabilities</h3>
+<h2 class="text-4xl lg:text-5xl font-black text-header-bg">Premium Insurance Benefits</h2>
+<p class="text-slate-600 text-lg">Bespoke coverage options tailored to safeguard your lifestyle and global interests.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="group bg-white p-10 rounded-2xl shadow-xl shadow-accent-shadow/40 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white">speed</span>
+</div>
+<h4 class="text-xl font-bold text-header-bg mb-4">Instant Quote Generation</h4>
+<p class="text-slate-600 leading-relaxed">Get tailored premium estimates in seconds using our AI-driven underwriting engine, designed for immediate clarity.</p>
+</div>
+<div class="group bg-white p-10 rounded-2xl shadow-xl shadow-accent-shadow/40 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white">support_agent</span>
+</div>
+<h4 class="text-xl font-bold text-header-bg mb-4">24/7 Concierge Claims</h4>
+<p class="text-slate-600 leading-relaxed">Experience white-glove service with dedicated claims specialists available around the clock to expedite your recovery.</p>
+</div>
+<div class="group bg-white p-10 rounded-2xl shadow-xl shadow-accent-shadow/40 border border-slate-100 hover:-translate-y-2 transition-transform duration-300">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-8 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white">language</span>
+</div>
+<h4 class="text-xl font-bold text-header-bg mb-4">Global Coverage Network</h4>
+<p class="text-slate-600 leading-relaxed">Unmatched protection that follows you anywhere in the world, backed by a network of top-tier international partners.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-header-bg text-white">
+<div class="max-w-5xl mx-auto px-6 text-center">
+<h2 class="text-4xl font-bold mb-8">Ready to secure your future?</h2>
+<p class="text-slate-300 text-lg mb-12">Join over 5,000 discerning policyholders who trust Secure Shield for their personalized protection needs.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-xl text-lg font-bold transition-all">
+                        Get Started Now
+                    </button>
+<button class="bg-transparent hover:bg-white/10 text-white px-10 py-4 rounded-xl text-lg font-bold transition-all border border-white/20">
+                        Speak to Sales
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-header-bg text-slate-400 py-16 border-t border-white/10">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12">
+<div class="col-span-2">
+<div class="flex items-center gap-3 text-white mb-6">
+<span class="material-symbols-outlined text-primary text-2xl">shield</span>
+<h2 class="text-lg font-bold tracking-tight">Secure Shield</h2>
+</div>
+<p class="text-sm leading-relaxed mb-6">The world's premier insurance partner for high-net-worth individuals and global enterprises.</p>
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-lg">public</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-lg">share</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Product</h4>
+<ul class="space-y-4 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Features</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Pricing</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Security</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Company</h4>
+<ul class="space-y-4 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">About</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Support</h4>
+<ul class="space-y-4 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Docs</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">API</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-white font-bold mb-6">Legal</h4>
+<ul class="space-y-4 text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 lg:px-12 mt-16 pt-8 border-t border-white/5 text-xs flex flex-col md:flex-row justify-between gap-4">
+<p>© 2024 Secure Shield Inc. All rights reserved.</p>
+<p>Designed for absolute resilience and uncompromising safety.</p>
+</div>
+</footer>
+</body></html>

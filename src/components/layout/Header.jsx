@@ -7,7 +7,7 @@ import {
     Menu, Bell, Search,
     Settings, User as UserIcon, LogOut, ChevronDown,
     CheckCheck, Info, AlertTriangle, XCircle, CheckCircle,
-    Layout, Activity, ShieldCheck
+    Layout, Activity, ShieldCheck, Shield
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -80,50 +80,47 @@ const Header = ({ role, setMobileMenuOpen }) => {
 
     return (
         <header
-            className={`sticky top-0 z-40 transition-all duration-500 ${isScrolled
-                    ? "bg-white/80 backdrop-blur-2xl border-b border-border shadow-2xl"
-                    : "bg-transparent border-b border-transparent"
-                }`}
+            className={`sticky top-0 z-40 transition-all duration-500 bg-white border-b border-slate-200 ${isScrolled ? "shadow-lg py-2" : "py-4"}`}
         >
-            <div className="flex items-center justify-between px-8 py-5">
+            <div className="flex items-center justify-between px-8">
                 {/* Left Side: Navigation Context */}
                 <div className="flex items-center gap-6">
                     <button
                         onClick={() => setMobileMenuOpen(prev => !prev)}
-                        className="p-3 rounded-2xl bg-white border border-border shadow-sm hover:scale-110 active:scale-95 transition-all md:hidden"
+                        className="p-3 rounded-xl bg-slate-50 border border-slate-200 shadow-sm md:hidden"
                     >
                         <Menu size={20} className="text-primary" strokeWidth={3} />
                     </button>
 
-                    <div className="hidden sm:flex items-center gap-4">
-                        <div className="flex items-center gap-2 group cursor-pointer" onClick={() => navigate(`/${role}`)}>
-                            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
-                                <Layout size={18} strokeWidth={3} />
+                    <div className="hidden sm:flex items-center gap-5">
+                        <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate(`/${role}`)}>
+                            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
+                                <Shield size={18} strokeWidth={3} />
                             </div>
                             <div className="flex flex-col">
-                                <span className="text-[10px] font-black uppercase tracking-[3px] opacity-30 italic leading-none">{roleName} PORTAL</span>
-                                <span className="text-sm font-black italic uppercase tracking-tighter">SHIELD PRO</span>
+                                <span className="text-[10px] font-black uppercase tracking-[3px] text-slate-400 leading-none">{roleName} PORTAL</span>
+                                <span className="text-sm font-black uppercase tracking-tight text-header-bg">SECURE SHIELD</span>
                             </div>
                         </div>
-                        <div className="h-6 w-px bg-border/50 mx-2" />
-                        <div className="flex items-center gap-2">
-                             <span className="text-[9px] font-black uppercase tracking-[3px] opacity-20 italic">Location:</span>
-                             <span className="text-[11px] font-black uppercase tracking-[2px] text-primary italic">
+                        <div className="h-6 w-px bg-slate-200 mx-2" />
+                        <nav className="flex items-center gap-2">
+                             <span className="text-[10px] font-black uppercase tracking-[2px] text-slate-400">Section:</span>
+                             <span className="text-[11px] font-black uppercase tracking-[2px] text-primary">
                                 {pathnames.length > 1 ? pathnames[pathnames.length - 1] : 'Dashboard'}
                              </span>
-                        </div>
+                        </nav>
                     </div>
                 </div>
 
-                {/* Center: Global Search */}
+                {/* Center: Search */}
                 <div className="hidden md:flex flex-1 max-w-lg mx-12">
                     <div className="relative w-full group">
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" strokeWidth={3} />
+                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                         <input
                             type="text"
                             value={searchTerm}
-                            placeholder="SEARCH_POLICIES_OR_CLIENTS..."
-                            className="w-full bg-zinc-50 border border-border/50 rounded-2xl pl-16 pr-6 py-4 text-xs font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm"
+                            placeholder="SEARCH RECORDS..."
+                            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-16 pr-6 py-3 text-xs font-bold uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-header-bg"
                             onChange={e => setSearchTerm(e.target.value)}
                             onKeyDown={e => {
                                 if (e.key === 'Enter') navigate(`/customer/browse?search=${encodeURIComponent(searchTerm)}`);
@@ -133,16 +130,23 @@ const Header = ({ role, setMobileMenuOpen }) => {
                 </div>
 
                 {/* Right Side: Controls */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6">
+                    {/* New Policy Link for Admin/Agent */}
+                    {(role === 'admin' || role === 'agent') && (
+                        <button className="hidden lg:flex items-center gap-3 bg-primary text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-header-bg transition-all shadow-lg shadow-primary/20">
+                            <ShieldCheck size={16} /> NEW POLICY
+                        </button>
+                    )}
+
                     {/* Notifications */}
                     <div className="relative" ref={notifRef}>
                         <button
                             onClick={() => { setShowNotifications(!showNotifications); setShowProfileMenu(false); }}
-                            className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all relative group border ${showNotifications ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-zinc-50 border-border/50 hover:bg-zinc-100'}`}
+                            className={`w-12 h-12 flex items-center justify-center rounded-xl transition-all relative group border ${showNotifications ? 'bg-header-bg text-white border-header-bg' : 'bg-slate-50 border-slate-200 hover:border-primary'}`}
                         >
-                            <Bell size={20} className={showNotifications ? 'text-white' : 'text-zinc-400 group-hover:text-primary'} strokeWidth={3} />
+                            <Bell size={20} className={showNotifications ? 'text-white' : 'text-slate-400 group-hover:text-primary'} />
                             {unreadCount > 0 && (
-                                <span className="absolute -top-1 -right-1 min-w-[20px] h-[20px] bg-accent text-white text-[9px] font-black rounded-full flex items-center justify-center px-1.5 border-2 border-white shadow-sm animate-bounce">
+                                <span className="absolute -top-1 -right-1 min-w-[20px] h-[20px] bg-primary text-white text-[9px] font-black rounded-full flex items-center justify-center px-1.5 border-2 border-white shadow-sm">
                                     {unreadCount}
                                 </span>
                             )}
@@ -154,54 +158,42 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                     initial={{ opacity: 0, y: 15, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                                    className="absolute right-0 mt-4 w-96 bg-white border border-border rounded-[2.5rem] shadow-2xl overflow-hidden z-50 origin-top-right backdrop-blur-3xl"
+                                    className="absolute right-0 mt-4 w-96 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-50 origin-top-right"
                                 >
-                                    <div className="p-8 border-b border-border/50 flex items-center justify-between bg-zinc-50/50">
-                                        <div>
-                                            <h3 className="text-sm font-black italic uppercase tracking-widest">System Notifications</h3>
-                                            <p className="text-[10px] opacity-30 font-black uppercase tracking-[2px] mt-1">Updates on policies and claims</p>
-                                        </div>
+                                    <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                                        <h3 className="text-xs font-black uppercase tracking-widest text-header-bg">Notifications</h3>
                                         {unreadCount > 0 && (
                                             <button
                                                 onClick={() => markAllMutation.mutate()}
-                                                className="px-4 py-2 bg-primary/10 text-primary rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all flex items-center gap-2 border border-primary/20"
+                                                className="text-[9px] font-black uppercase tracking-widest text-primary hover:underline transition-all"
                                             >
-                                                <CheckCheck size={12} strokeWidth={3} /> CLEAR ALL
+                                                Clear All
                                             </button>
                                         )}
                                     </div>
-                                    <div className="max-h-[450px] overflow-y-auto no-scrollbar divide-y divide-border/30">
+                                    <div className="max-h-[400px] overflow-y-auto no-scrollbar divide-y divide-slate-100 font-display">
                                         {safeNotifications.length === 0 ? (
-                                            <div className="p-16 text-center">
-                                                <Activity size={40} className="mx-auto mb-4 opacity-10 text-primary" strokeWidth={3} />
-                                                <p className="text-[10px] font-black uppercase tracking-[4px] opacity-20">No new notifications</p>
+                                            <div className="p-12 text-center">
+                                                <Info size={32} className="mx-auto mb-4 opacity-10" />
+                                                <p className="text-[10px] font-black uppercase tracking-[4px] opacity-20 text-slate-400">No new alerts</p>
                                             </div>
                                         ) : (
                                             safeNotifications.map(n => (
                                                 <button
                                                     key={n._id}
                                                     onClick={() => markOneMutation.mutate(n._id)}
-                                                    className={`w-full text-left p-6 flex items-start gap-4 hover:bg-zinc-50 transition-all group ${!n.isRead ? 'bg-primary/[0.03]' : ''}`}
+                                                    className={`w-full text-left p-6 flex items-start gap-4 hover:bg-slate-50 transition-all ${!n.isRead ? 'bg-primary/5' : ''}`}
                                                 >
                                                     {notifIcon(n.type)}
                                                     <div className="flex-1 min-w-0">
-                                                        <p className={`text-xs font-black uppercase tracking-tighter mb-1 ${!n.isRead ? 'text-primary' : 'text-zinc-500'}`}>{n.title}</p>
-                                                        <p className="text-[11px] opacity-60 font-medium leading-relaxed mb-3">{n.message}</p>
-                                                        <div className="flex items-center gap-3 opacity-30">
-                                                            <Activity size={10} />
-                                                            <span className="text-[9px] font-black uppercase tracking-[2px]">{new Date(n.createdAt).toLocaleTimeString()}</span>
-                                                        </div>
+                                                        <p className={`text-xs font-bold uppercase mb-1 ${!n.isRead ? 'text-header-bg' : 'text-slate-500'}`}>{n.title}</p>
+                                                        <p className="text-[11px] text-slate-500 leading-relaxed mb-1">{n.message}</p>
+                                                        <span className="text-[9px] font-bold text-slate-400 uppercase">{new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                     </div>
-                                                    {!n.isRead && <div className="w-2 h-2 rounded-full bg-accent flex-shrink-0 mt-4 shadow-[0_0_10px_rgba(255,90,0,0.5)]" />}
                                                 </button>
                                             ))
                                         )}
                                     </div>
-                                    {safeNotifications.length > 0 && (
-                                        <div className="p-4 bg-zinc-50 text-center">
-                                            <button className="text-[9px] font-black uppercase tracking-[3px] opacity-30 hover:opacity-100 transition-opacity">View All Notifications</button>
-                                        </div>
-                                    )}
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -211,16 +203,15 @@ const Header = ({ role, setMobileMenuOpen }) => {
                     <div className="relative">
                         <button
                             onClick={() => { setShowProfileMenu(!showProfileMenu); setShowNotifications(false); }}
-                            className={`flex items-center gap-4 p-2 pr-5 rounded-2xl transition-all border ${showProfileMenu ? 'bg-zinc-900 border-primary shadow-lg' : 'bg-white border-border hover:border-primary/50 shadow-sm'}`}
+                            className={`flex items-center gap-3 pl-3 pr-4 py-1.5 rounded-xl transition-all border ${showProfileMenu ? 'bg-slate-50 border-primary' : 'bg-white border-slate-200 hover:border-slate-300'}`}
                         >
-                            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-black text-lg italic shadow-lg shadow-primary/20">
+                            <div className="hidden lg:block text-right">
+                                <p className="text-xs font-bold text-header-bg leading-none mb-1">{formattedName}</p>
+                                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">{roleName}</p>
+                            </div>
+                            <div className="w-10 h-10 rounded-lg bg-header-bg flex items-center justify-center text-white font-bold text-base shadow-sm">
                                 {formattedName.charAt(0)}
                             </div>
-                            <div className="hidden lg:block text-left">
-                                <div className={`text-xs font-black uppercase tracking-tighter leading-none mb-1 ${showProfileMenu ? 'text-white' : 'text-foreground'}`}>{formattedName}</div>
-                                <div className={`text-[9px] font-black uppercase tracking-[3px] italic leading-none opacity-40 ${showProfileMenu ? 'text-primary' : 'text-foreground'}`}>{roleName}</div>
-                            </div>
-                            <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showProfileMenu ? 'rotate-180 text-primary' : 'text-zinc-400'}`} strokeWidth={3} />
                         </button>
 
                         <AnimatePresence>
@@ -229,38 +220,21 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                     initial={{ opacity: 0, y: 15, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                                    className="absolute right-0 mt-4 w-72 bg-white border border-border rounded-[2.5rem] shadow-2xl overflow-hidden z-50 origin-top-right p-3"
+                                    className="absolute right-0 mt-4 w-64 bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden z-50 origin-top-right p-2 font-display"
                                 >
-                                    <div className="p-4 mb-2 bg-zinc-50 rounded-[1.5rem] border border-border/50 text-center">
-                                        <div className="w-16 h-16 bg-primary rounded-2xl mx-auto mb-4 flex items-center justify-center text-white text-2xl font-black italic shadow-xl shadow-primary/20">
-                                            {formattedName.charAt(0)}
-                                        </div>
-                                        <p className="text-sm font-black uppercase tracking-tighter mb-1">{formattedName}</p>
-                                        <p className="text-[9px] font-black uppercase tracking-[4px] text-primary italic">{roleName} Account</p>
-                                    </div>
-
                                     <div className="space-y-1">
-                                        <button onClick={() => { navigate(`/${role}/profile`); setShowProfileMenu(false); }} className="w-full flex items-center justify-between px-6 py-4 text-[10px] font-black uppercase tracking-[3px] rounded-2xl hover:bg-primary hover:text-white transition-all group">
-                                            <div className="flex items-center gap-4">
-                                                <UserIcon size={16} className="text-primary group-hover:text-white transition-colors" /> MY_PROFILE
-                                            </div>
-                                            <Activity size={12} className="opacity-20" />
+                                        <button onClick={() => { navigate(`/${role}/profile`); setShowProfileMenu(false); }} className="w-full flex items-center gap-4 px-5 py-4 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-primary rounded-xl transition-all">
+                                            <UserIcon size={16} /> Profile Information
                                         </button>
-                                        <button onClick={() => { navigate(`/${role}/settings`); setShowProfileMenu(false); }} className="w-full flex items-center justify-between px-6 py-4 text-[10px] font-black uppercase tracking-[3px] rounded-2xl hover:bg-primary hover:text-white transition-all group">
-                                            <div className="flex items-center gap-4">
-                                                <Settings size={16} className="text-primary group-hover:text-white transition-colors" /> SETTINGS
-                                            </div>
-                                            <Activity size={12} className="opacity-20" />
+                                        <button onClick={() => { navigate(`/${role}/settings`); setShowProfileMenu(false); }} className="w-full flex items-center gap-4 px-5 py-4 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-primary rounded-xl transition-all">
+                                            <Settings size={16} /> System Settings
                                         </button>
-                                        <div className="h-px bg-border/50 my-2 mx-6" />
+                                        <div className="h-px bg-slate-100 my-2 mx-4" />
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full flex items-center justify-between px-6 py-5 text-[10px] font-black uppercase tracking-[4px] rounded-2xl bg-rose-500/5 hover:bg-rose-500 text-rose-500 hover:text-white transition-all group shadow-sm"
+                                            className="w-full flex items-center gap-4 px-5 py-4 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
                                         >
-                                            <div className="flex items-center gap-4">
-                                                <LogOut size={16} strokeWidth={3} /> LOGOUT
-                                            </div>
-                                            <ShieldCheck size={16} strokeWidth={3} className="opacity-20" />
+                                            <LogOut size={16} /> Account Logout
                                         </button>
                                     </div>
                                 </motion.div>

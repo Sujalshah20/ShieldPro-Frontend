@@ -7,7 +7,8 @@ import {
     Clock, ArrowUpRight, Zap, Target,
     Fingerprint, Cpu, BarChart3,
     IndianRupee, AlertCircle, Box, Layers,
-    Command, Layout, ClipboardList, ShieldCheck
+    Command, Layout, ClipboardList, ShieldCheck,
+    ReceiptText, HandCoins, HeartPulse
 } from "lucide-react";
 import Globe from "../../components/lightswind/globe";
 import { api } from "../../utils/api";
@@ -19,7 +20,6 @@ import {
 } from "recharts";
 import { TableSkeleton } from "../../components/common/Skeleton";
 import Reveal from "../../components/common/Reveal";
-import { Button } from "@/components/lightswind/button";
 import { motion } from "framer-motion";
 
 const AdminDashboard = () => {
@@ -38,42 +38,42 @@ const AdminDashboard = () => {
 
     const statsCards = [
         {
-            title: "DASHBOARD_SUMMARY",
-            description: "Live monitoring of platform operations",
+            title: "GLOBAL OPERATIONS",
+            description: "Live monitoring of Secure Shield assets",
             icon: GlobeIcon,
             className: "col-span-1 md:col-span-2 row-span-2 overflow-hidden",
-            background: <div className="absolute inset-0 flex items-center justify-center opacity-60"><Globe className="w-full h-full" /></div>
+            background: <div className="absolute inset-0 flex items-center justify-center opacity-40"><Globe className="w-full h-full" /></div>
         },
         {
-            title: "TOTAL_COLLECTIONS",
+            title: "PREMIUMS WRITTEN",
             description: `₹${statsData?.stats?.totalRevenue?.toLocaleString() || 0}`,
             icon: IndianRupee,
-            className: "col-span-1",
+            className: "col-span-1 bg-card-accent/20",
             background: <div className="absolute inset-0 bg-primary/5 overflow-hidden">
                 <div className="absolute top-[-20%] right-[-20%] w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-pulse" />
             </div>
         },
         {
-            title: "ACTIVE_POLICIES",
-            description: `${statsData?.stats?.activePolicies || 0} Policies`,
+            title: "ACTIVE POLICIES",
+            description: `${statsData?.stats?.activePolicies || 0} Portfolios`,
             icon: Shield,
-            className: "col-span-1",
+            className: "col-span-1 bg-card-accent/20",
             background: <div className="absolute inset-0 bg-accent/5 overflow-hidden">
                  <div className="absolute bottom-[-20%] left-[-20%] w-40 h-40 bg-accent/20 rounded-full blur-3xl animate-pulse" />
             </div>
         },
         {
-            title: "TOTAL_CUSTOMERS",
-            description: `${statsData?.stats?.totalCustomers || 0} Registered`,
-            icon: Users,
-            className: "col-span-1",
+            title: "LOSS RATIO",
+            description: `62.4%`,
+            icon: Activity,
+            className: "col-span-1 bg-card-accent/20",
             background: <div className="absolute inset-0 bg-indigo-500/5" />
         },
         {
-            title: "AGENT_DIRECTORY",
-            description: `${statsData?.stats?.totalAgents || 0} Active Agents`,
-            icon: UserCheck,
-            className: "col-span-1",
+            title: "PENDING CLAIMS",
+            description: `156 Requests`,
+            icon: ClipboardList,
+            className: "col-span-1 bg-card-accent/20",
             background: <div className="absolute inset-0 bg-emerald-500/5" />
         }
     ];
@@ -81,48 +81,48 @@ const AdminDashboard = () => {
     const chartData = statsData?.charts?.policyDistribution || [];
     const performanceData = statsData?.charts?.performanceData || [];
 
-    const THEME_COLORS = ["#0165FF", "#FF5A00", "#8b5cf6", "#10b981", "#ef4444"];
+    const THEME_COLORS = ["#007ea8", "#9ad1d4", "#003249", "#10b981", "#ef4444"];
 
     return (
-        <div className="admin-dashboard p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
-            {/* Professional Grid Overlay */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-                 style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
+        <div className="admin-dashboard p-6 md:p-10 bg-background-main min-h-screen relative overflow-hidden font-display">
+            {/* Global Perspective Protocol */}
+            <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
+                 style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #007ea8 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
             
             <Reveal width="100%" direction="down">
                 <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-10 mb-16">
                     <div>
                         <div className="flex items-center gap-4 mb-3">
-                             <div className="w-2.5 h-10 bg-primary rounded-full shadow-[0_0_20px_#0165FF]" />
-                             <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
-                                ADMIN<span className="text-primary tracking-normal">_DASHBOARD</span>
+                             <div className="w-2.5 h-10 bg-primary rounded-full shadow-lg shadow-primary/40" />
+                             <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-header-bg">
+                                ADMIN<span className="text-primary tracking-normal">_OVERVIEW</span>
                              </h1>
                         </div>
-                        <p className="text-xs font-black opacity-30 uppercase tracking-[6px] ml-7 italic">
-                            Comprehensive platform administration & real-time monitoring
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-[6px] ml-7">
+                            Welcome back, {user?.name}. Here's the current mission status.
                         </p>
                     </div>
                     
-                    <div className="flex flex-wrap items-center gap-6 bg-white backdrop-blur-md shadow-2xl border border-border/50 px-10 py-6 rounded-[2.5rem] relative">
+                    <div className="flex flex-wrap items-center gap-6 bg-white shadow-xl border border-slate-200 px-10 py-6 rounded-3xl relative">
                          <div className="absolute -top-3 -right-3">
                             <Activity size={20} className="text-primary animate-bounce" />
                          </div>
                          <div className="flex flex-col items-center">
-                            <span className="text-[9px] font-black uppercase tracking-[4px] opacity-20 mb-2 italic">SERVER_STATUS</span>
+                            <span className="text-[9px] font-black uppercase tracking-[4px] opacity-40 mb-2">NETWORK_STATUS</span>
                             <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]" />
-                                <span className="text-xs font-black italic tracking-tighter uppercase">SYSTEM_ACTIVE</span>
+                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/40" />
+                                <span className="text-xs font-bold uppercase text-header-bg">OPS_ACTIVE</span>
                             </div>
                          </div>
-                         <div className="w-px h-10 bg-border/20" />
+                         <div className="w-px h-10 bg-slate-200" />
                          <div className="flex flex-col items-center">
-                            <span className="text-[9px] font-black uppercase tracking-[4px] opacity-20 mb-2 italic">RESPONSE_TIME</span>
-                            <span className="text-xs font-black italic tracking-tighter uppercase text-primary">0.0042 MS</span>
+                            <span className="text-[9px] font-black uppercase tracking-[4px] opacity-40 mb-2">LATENCY</span>
+                            <span className="text-xs font-bold uppercase text-primary">4.2 MS</span>
                          </div>
-                         <div className="w-px h-10 bg-border/20" />
+                         <div className="w-px h-10 bg-slate-200" />
                          <div className="flex flex-col items-center min-w-[120px]">
-                            <span className="text-[9px] font-black uppercase tracking-[4px] opacity-20 mb-2 italic">UPTIME_RELIABILITY</span>
-                            <span className="text-xs font-black italic tracking-tighter uppercase text-accent">99.99%</span>
+                            <span className="text-[9px] font-black uppercase tracking-[4px] opacity-40 mb-2">RELIABILITY</span>
+                            <span className="text-xs font-bold uppercase text-header-bg">99.99%</span>
                          </div>
                     </div>
                 </div>
@@ -136,28 +136,28 @@ const AdminDashboard = () => {
             {/* Analytics Section */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-12 mb-16">
                 <Reveal width="100%" direction="up" delay={0.1} className="xl:col-span-2">
-                    <div className="bg-white p-12 rounded-[4rem] border border-border/50 shadow-2xl relative overflow-hidden backdrop-blur-md group">
-                        <div className="absolute top-0 right-0 p-16 opacity-[0.03] pointer-events-none group-hover:scale-125 transition-transform duration-1000">
-                            <Activity size={300} className="text-primary" />
+                    <div className="bg-white p-12 rounded-[2.5rem] border border-slate-200 shadow-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-16 opacity-[0.05] pointer-events-none group-hover:scale-125 transition-transform duration-1000">
+                            <TrendingUp size={300} className="text-primary" />
                         </div>
                         
                         <div className="flex flex-col md:flex-row md:items-center justify-between mb-16 relative z-10 gap-8">
                             <div>
-                                <h3 className="text-3xl font-black uppercase tracking-tighter italic flex items-center gap-6 leading-none">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary border border-primary/20 shadow-lg">
+                                <h3 className="text-3xl font-black uppercase tracking-tight text-header-bg flex items-center gap-6 leading-none">
+                                    <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
                                         <TrendingUp size={24} strokeWidth={3} />
                                     </div>
-                                    REVENUE_&_GROWTH
+                                    REVENUE_INTELLIGENCE
                                 </h3>
-                                <p className="text-[10px] font-black opacity-30 uppercase tracking-[5px] mt-4 italic ml-1 flex items-center gap-3">
-                                    <Activity size={12} className="text-primary" /> Track business growth and revenue performance metrics
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[5px] mt-4 ml-1 flex items-center gap-3">
+                                    <Activity size={12} className="text-primary" /> Live business yield and growth performance
                                 </p>
                             </div>
                             <div className="flex flex-col items-end">
-                                <div className="flex items-center gap-3 text-emerald-500 bg-emerald-500/10 px-6 py-3 rounded-2xl text-xs font-black border border-emerald-500/20 shadow-[0_0_20px_rgba(16,185,129,0.1)] italic">
-                                    <ArrowUpRight className="w-5 h-5" strokeWidth={4} /> +12.8% GROWTH_RATE
+                                <div className="flex items-center gap-3 text-emerald-600 bg-emerald-50 px-6 py-3 rounded-xl text-xs font-black border border-emerald-100">
+                                    <ArrowUpRight className="w-5 h-5" strokeWidth={4} /> +12.5% M/M
                                 </div>
-                                <span className="text-[8px] font-black opacity-20 uppercase tracking-[3px] mt-2 mr-2">LAST_MONTH_SUMMARY</span>
+                                <span className="text-[8px] font-black text-slate-400 uppercase tracking-[3px] mt-2 mr-2">ANNUAL_VECTOR</span>
                             </div>
                         </div>
                         
@@ -166,18 +166,18 @@ const AdminDashboard = () => {
                                 <AreaChart data={performanceData}>
                                     <defs>
                                         <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#0165FF" stopOpacity={0.5}/>
-                                            <stop offset="95%" stopColor="#0165FF" stopOpacity={0}/>
+                                            <stop offset="5%" stopColor="#007ea8" stopOpacity={0.6}/>
+                                            <stop offset="95%" stopColor="#007ea8" stopOpacity={0}/>
                                         </linearGradient>
                                     </defs>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.03)" />
-                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 9, fontWeight: 900, fill: '#64748b', letterSpacing: '2px', textTransform: 'uppercase'}} dy={15} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{fontSize: 9, fontWeight: 900, fill: '#64748b'}} />
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.05)" />
+                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 9, fontWeight: 700, fill: '#64748b', letterSpacing: '1px'}} dy={15} />
+                                    <YAxis axisLine={false} tickLine={false} tick={{fontSize: 9, fontWeight: 700, fill: '#64748b'}} />
                                     <Tooltip 
-                                        cursor={{ stroke: '#0165FF', strokeWidth: 2, strokeDasharray: '5 5' }}
-                                        contentStyle={{ borderRadius: '32px', border: '1px solid rgba(1, 101, 255, 0.2)', boxShadow: '0 40px 80px -20px rgba(0,0,0,0.3)', fontWeight: 'black', background: 'rgba(12, 26, 21, 0.95)', textTransform: 'uppercase', fontSize: '10px', color: '#fff', backdropBlur: '10px' }}
+                                        cursor={{ stroke: '#007ea8', strokeWidth: 2, strokeDasharray: '5 5' }}
+                                        contentStyle={{ borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)', fontWeight: 'bold', background: '#fff' }}
                                     />
-                                    <Area type="monotone" dataKey="value" stroke="#0165FF" strokeWidth={8} fillOpacity={1} fill="url(#colorValue)" animationDuration={2500} />
+                                    <Area type="monotone" dataKey="value" stroke="#007ea8" strokeWidth={6} fillOpacity={1} fill="url(#colorValue)" animationDuration={2000} />
                                 </AreaChart>
                             </ResponsiveContainer>
                         </div>
@@ -185,17 +185,16 @@ const AdminDashboard = () => {
                 </Reveal>
 
                 <Reveal width="100%" direction="up" delay={0.2}>
-                    <div className="bg-white p-12 rounded-[4rem] border border-border/50 shadow-2xl flex flex-col h-full relative overflow-hidden group backdrop-blur-md">
-                        <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="absolute bottom-[-10%] right-[-10%] opacity-[0.02] pointer-events-none group-hover:scale-150 transition-transform duration-1000">
-                            <Box size={250} />
+                    <div className="bg-white p-12 rounded-[2.5rem] border border-slate-200 shadow-2xl flex flex-col h-full relative overflow-hidden group">
+                        <div className="absolute bottom-[-10%] right-[-10%] opacity-[0.03] pointer-events-none group-hover:scale-150 transition-transform duration-1000">
+                            <ShieldCheck size={250} className="text-primary" />
                         </div>
                         
-                        <h3 className="text-3xl font-black uppercase tracking-tighter italic flex items-center gap-6 mb-16 relative z-10 leading-none">
-                            <div className="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center text-accent border border-accent/20 shadow-lg">
+                        <h3 className="text-3xl font-black uppercase tracking-tight text-header-bg flex items-center gap-6 mb-16 relative z-10 leading-none">
+                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary border border-primary/20 shadow-md">
                                 <Layout size={24} strokeWidth={3} />
                             </div>
-                            POLICY_TYPE_RATIO
+                            POLICY_MIX
                         </h3>
                         
                         <div className="flex-1 min-h-[320px] relative z-10">
@@ -205,166 +204,130 @@ const AdminDashboard = () => {
                                         data={chartData}
                                         cx="50%"
                                         cy="50%"
-                                        innerRadius={100}
-                                        outerRadius={135}
-                                        paddingAngle={8}
+                                        innerRadius={90}
+                                        outerRadius={120}
+                                        paddingAngle={6}
                                         dataKey="value"
-                                        animationDuration={2000}
-                                        stroke="none"
+                                        animationDuration={1500}
+                                        stroke="white"
+                                        strokeWidth={4}
                                     >
                                         {chartData.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={THEME_COLORS[index % THEME_COLORS.length]} />
                                         ))}
                                     </Pie>
                                     <Tooltip />
-                                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: '10px', fontWeight: '900', paddingTop: '40px', textTransform: 'uppercase', opacity: 0.4, letterSpacing: '2px' }} />
+                                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: '9px', fontWeight: '800', paddingTop: '30px', textTransform: 'uppercase', opacity: 0.6 }} />
                                 </PieChart>
                             </ResponsiveContainer>
                         </div>
 
-                        <div className="mt-12 pt-12 border-t border-border/20 grid grid-cols-2 gap-10 relative z-10">
+                        <div className="mt-12 pt-12 border-t border-slate-100 grid grid-cols-2 gap-10 relative z-10">
                              <div className="text-center group-hover:translate-x-2 transition-transform">
-                                <p className="text-[9px] font-black opacity-30 uppercase tracking-[4px] mb-3 italic">PROCESSING_RATE</p>
-                                <p className="text-3xl font-black italic tracking-tighter text-indigo-500">98.42%</p>
+                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[3px] mb-3">CONVERSION</p>
+                                <p className="text-3xl font-black tracking-tight text-primary">88.4%</p>
                              </div>
                              <div className="text-center group-hover:translate-x-[-2px] transition-transform">
-                                <p className="text-[9px] font-black opacity-30 uppercase tracking-[4px] mb-3 italic">SYSTEM_HEALTH</p>
-                                <p className="text-3xl font-black italic tracking-tighter text-primary">99.98%</p>
+                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[3px] mb-3">RETENTION</p>
+                                <p className="text-3xl font-black tracking-tight text-header-bg">96.2%</p>
                              </div>
                         </div>
                     </div>
                 </Reveal>
             </div>
 
-            {/* REAL_TIME_ACTIVITY */}
+            {/* REAL_TIME_OPS */}
             <Reveal width="100%" direction="up" delay={0.3}>
-                <div className="bg-white rounded-[4.5rem] border border-border/50 shadow-[0_60px_100px_rgba(0,0,0,0.4)] overflow-hidden mb-16 backdrop-blur-xl">
-                    <div className="px-12 py-12 border-b border-border/50 flex flex-col xl:flex-row xl:items-center justify-between gap-10 bg-zinc-50 relative">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+                <div className="bg-white rounded-[3rem] border border-slate-200 shadow-2xl overflow-hidden mb-16">
+                    <div className="px-12 py-10 border-b border-slate-100 flex flex-col xl:flex-row xl:items-center justify-between gap-10 bg-slate-50 relative">
                         <div className="flex items-center gap-8 relative z-10">
                             <div className="relative">
-                                <div className="absolute inset-0 bg-indigo-500 blur-xl opacity-20 animate-pulse" />
-                                <div className="relative w-16 h-16 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-indigo-600/30 border border-white/10">
+                                <div className="absolute inset-0 bg-primary/20 blur-xl opacity-40 animate-pulse" />
+                                <div className="relative w-16 h-16 bg-header-bg rounded-2xl flex items-center justify-center text-white shadow-xl shadow-header-bg/20 border border-white/10">
                                     <Activity size={32} strokeWidth={3} />
                                 </div>
                             </div>
                             <div>
-                                <h3 className="text-3xl font-black uppercase tracking-tighter italic flex items-center gap-4 leading-none">
-                                    REAL_TIME_ACTIVITY
+                                <h3 className="text-3xl font-black uppercase tracking-tight text-header-bg leading-none">
+                                    MISSION_LOG
                                 </h3>
-                                <p className="text-[10px] font-black opacity-30 uppercase tracking-[6px] mt-3 italic flex items-center gap-3 ml-1">
-                                    <BarChart3 size={12} className="text-indigo-500" /> Monitor latest transactions and system events
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[5px] mt-3 flex items-center gap-3">
+                                    <BarChart3 size={12} className="text-primary" /> REAL-TIME PLATFORM OPERATIONS FEED
                                 </p>
                             </div>
                         </div>
                         <div className="flex items-center gap-6">
-                            <div className="px-6 py-3 bg-white rounded-2xl border border-border/50 shadow-inner flex items-center gap-4">
+                            <div className="px-6 py-3 bg-white rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
                                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
-                                <span className="text-[9px] font-black uppercase tracking-[3px] opacity-40">FEED_ACTIVE</span>
+                                <span className="text-[9px] font-black uppercase tracking-[3px] text-slate-400">SYNC_ACTIVE</span>
                             </div>
-                            <button className="px-10 py-5 bg-zinc-950 text-white rounded-[1.5rem] text-[10px] font-black uppercase tracking-[4px] hover:bg-primary transition-all shadow-2xl active:scale-95 italic border border-white/5">
-                                VIEW_LOGS
+                            <button className="px-10 py-4 bg-header-bg text-white rounded-xl text-[10px] font-black uppercase tracking-[4px] hover:bg-primary transition-all shadow-xl active:scale-95">
+                                EXPORT_LOGS
                             </button>
                         </div>
                     </div>
                     
                     <div className="p-10 space-y-6">
                         {statsData?.recentActivities?.length === 0 ? (
-                            <div className="py-40 text-center relative">
-                                <div className="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none">
-                                    <ClipboardList size={400} className="animate-pulse" />
-                                </div>
-                                <AlertCircle size={80} className="mx-auto opacity-10 mb-8" />
-                                <h4 className="text-4xl font-black uppercase italic tracking-tighter opacity-10">NO_RECENT_ACTIVITY</h4>
-                                <p className="text-[10px] font-black uppercase tracking-[8px] opacity-10 mt-6 italic">Waiting for incoming platform events.</p>
+                            <div className="py-32 text-center opacity-40">
+                                <AlertCircle size={64} className="mx-auto mb-6 text-slate-300" />
+                                <p className="text-[10px] font-black uppercase tracking-[6px] italic text-slate-400">Waiting for incoming platform events...</p>
                             </div>
                         ) : (
                             statsData?.recentActivities?.map((activity, index) => (
                                 <motion.div 
                                     key={index} 
-                                    initial={{ opacity: 0, x: -30 }} 
+                                    initial={{ opacity: 0, x: -20 }} 
                                     animate={{ opacity: 1, x: 0 }} 
-                                    transition={{ delay: index * 0.08 }}
-                                    className="flex flex-col lg:flex-row lg:items-center justify-between p-8 rounded-[3rem] bg-zinc-50/50 border border-border/30 hover:border-primary/50 hover:bg-white transition-all group cursor-pointer shadow-xl relative overflow-hidden"
+                                    transition={{ delay: index * 0.05 }}
+                                    className="px-8 py-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary/30 hover:bg-white transition-all group cursor-pointer shadow-sm relative overflow-hidden"
                                 >
-                                    <div className="absolute inset-y-0 left-0 w-1 bg-transparent group-hover:bg-primary transition-colors" />
-                                    <div className="flex items-center gap-10">
-                                        <div className="relative">
-                                            <div className={`absolute inset-0 blur-2xl opacity-0 group-hover:opacity-20 transition-opacity ${
-                                                activity.type === 'new_user' ? 'bg-indigo-500' :
-                                                activity.type === 'new_policy' ? 'bg-primary' :
-                                                'bg-accent'
-                                            }`} />
-                                            <div className={`w-20 h-20 rounded-[2rem] shadow-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 border-2 border-white/10 ${
-                                                activity.type === 'new_user' ? 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20 shadow-indigo-500/10' :
-                                                activity.type === 'new_policy' ? 'bg-primary/10 text-primary border-primary/20 shadow-primary/10' :
-                                                'bg-accent/10 text-accent border-accent/20 shadow-accent/10'
-                                            }`}>
-                                                {activity.type === 'new_user' && <Users size={32} strokeWidth={3} />}
-                                                {activity.type === 'new_policy' && <Shield size={32} strokeWidth={3} />}
-                                                {activity.type === 'new_claim' && <FileText size={32} strokeWidth={3} />}
-                                            </div>
+                                    <div className="flex items-center gap-8">
+                                        <div className={`w-16 h-16 rounded-xl shadow-md flex items-center justify-center transition-all duration-500 ${
+                                            activity.type === 'new_user' ? 'bg-primary/10 text-primary border border-primary/20' :
+                                            activity.type === 'new_policy' ? 'bg-header-bg text-white shadow-lg' :
+                                            'bg-card-accent/20 text-header-bg border border-card-accent/40'
+                                        }`}>
+                                            {activity.type === 'new_user' && <Users size={28} />}
+                                            {activity.type === 'new_policy' && <Shield size={28} />}
+                                            {activity.type === 'new_claim' && <FileText size={28} />}
                                         </div>
-                                        <div>
-                                            <div className="flex flex-wrap items-center gap-4 mb-3">
-                                                <span className={`text-[10px] font-black uppercase tracking-[3px] px-3 py-1 rounded-lg italic shadow-sm ${
-                                                    activity.type === 'new_user' ? 'bg-indigo-600 text-white' :
-                                                    activity.type === 'new_policy' ? 'bg-primary text-white' :
-                                                    'bg-accent text-white'
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-4 mb-2">
+                                                <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${
+                                                    activity.type === 'new_user' ? 'bg-primary text-white' :
+                                                    activity.type === 'new_policy' ? 'bg-header-bg text-white' :
+                                                    'bg-card-accent text-header-bg'
                                                 }`}>
                                                     {activity.type.replace('_', ' ')}
                                                 </span>
-                                                <p className="font-black text-2xl italic uppercase tracking-tighter group-hover:text-primary transition-colors leading-none">{activity.description}</p>
+                                                <p className="font-bold text-lg text-header-bg group-hover:text-primary transition-colors leading-none">{activity.description}</p>
                                             </div>
-                                            <div className="flex items-center gap-6 opacity-30">
-                                                <div className="flex items-center gap-3">
-                                                    <Clock size={12} className="text-primary" />
-                                                    <p className="text-[10px] font-black uppercase tracking-[4px] italic">{new Date(activity.date).toLocaleTimeString().toUpperCase()} [LOCAL]</p>
-                                                </div>
-                                                <div className="w-2 h-2 bg-zinc-400/20 rounded-full" />
-                                                <p className="text-[10px] font-black uppercase tracking-[4px] italic">INSTANCE_01</p>
-                                                <div className="w-2 h-2 bg-zinc-400/20 rounded-full" />
-                                                <span className="text-[10px] font-black text-emerald-500/50 uppercase tracking-[3px]">STATUS_OK</span>
+                                            <div className="flex items-center gap-4 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                                <Clock size={12} /> {new Date(activity.date).toLocaleTimeString()} • SYSTEM_UPLINK • SECURE
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="mt-8 lg:mt-0 flex items-center gap-8 bg-zinc-100 p-4 rounded-2xl group-hover:bg-white transition-colors">
-                                         <div className="flex -space-x-4">
-                                            {[1,2,3].map(i => (
-                                                <div key={i} className="w-10 h-10 rounded-2xl border-4 border-white bg-zinc-200 overflow-hidden shadow-lg relative group/av">
-                                                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i * 123}`} alt="operator" className="w-full h-full object-cover" />
-                                                </div>
-                                            ))}
-                                            <div className="w-10 h-10 rounded-2xl border-4 border-white bg-primary flex items-center justify-center text-[10px] font-black text-white italic shadow-lg">+4</div>
-                                         </div>
-                                         <button className="h-14 px-10 bg-white border-2 border-border/50 text-zinc-400 group-hover:text-primary group-hover:border-primary/50 group-hover:shadow-xl group-hover:shadow-primary/10 rounded-2xl font-black text-[10px] uppercase tracking-[4px] transition-all flex items-center gap-4 italic active:scale-95">
-                                            VIEW_DETAILS <ArrowUpRight size={16} strokeWidth={4} className="group-hover:scale-125 transition-transform" />
-                                         </button>
+                                        <button className="hidden lg:flex items-center gap-3 text-[10px] font-black uppercase tracking-[3px] text-slate-400 hover:text-primary transition-colors">
+                                            DETAILS <ArrowUpRight size={14} />
+                                        </button>
                                     </div>
                                 </motion.div>
                             ))
                         )}
                     </div>
 
-                    <div className="p-12 bg-zinc-950 border-t border-white/5 flex flex-col xl:flex-row items-center justify-between gap-10">
+                    <div className="p-10 bg-header-bg border-t border-white/5 flex flex-col xl:flex-row items-center justify-between gap-10">
                         <div className="flex items-center gap-6">
-                            <div className="relative">
-                                <div className="absolute inset-0 bg-primary blur-xl opacity-40 animate-pulse" />
-                                <div className="relative w-4 h-4 bg-primary rounded-full shadow-[0_0_15px_#0165FF]" />
-                            </div>
-                            <p className="text-xs font-black text-white/50 uppercase tracking-[6px] italic">System Status: Connected @ PRIMARY_INSTANCE_01</p>
+                            <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-lg shadow-emerald-500/40" />
+                            <p className="text-[10px] font-black text-white/40 uppercase tracking-[6px]">Secure Shield Infrastructure: VERSION_X.4.2_OPS</p>
                         </div>
-                        <div className="flex flex-wrap items-center gap-12 text-[10px] font-black uppercase tracking-[4px] text-white/30">
-                            <span className="flex items-center gap-4 italic group cursor-pointer hover:text-primary transition-colors">
-                                <ShieldCheck size={18} className="text-primary" /> STABLE
+                        <div className="flex items-center gap-10 text-[10px] font-black uppercase tracking-[4px] text-white/30">
+                            <span className="flex items-center gap-3">
+                                <ShieldCheck size={16} className="text-primary" /> VALIDATED
                             </span>
-                            <span className="flex items-center gap-4 italic group cursor-pointer hover:text-accent transition-colors">
-                                <Activity size={18} className="text-accent" /> BACKUP_ACTIVE
-                            </span>
-                            <div className="w-px h-8 bg-white/10" />
-                            <div className="flex items-center gap-4">
-                                <Layout size={18} />
-                                <span>VERSION_1.0</span>
+                            <div className="w-px h-6 bg-white/10" />
+                            <div className="flex items-center gap-3">
+                                <Layout size={16} /> DATA_CLUSTER_ALPHA
                             </div>
                         </div>
                     </div>

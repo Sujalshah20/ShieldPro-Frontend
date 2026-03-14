@@ -45,36 +45,28 @@ html {
 }
 
 :root {
-  --primary: 216 100% 50%; /* Primary Blue - #0165FF */
-  --primary-foreground: 216 100% 98%;
-  --secondary: 214 36% 95%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
-  --accent: 21 100% 50%; /* Bold Orange - #FF5A00 */
-  --accent-foreground: 21 100% 98%;
-  --background: 214 36% 97%; /* #F4F7FB */
-  --foreground: 222.2 84% 14.9%;
+  --primary: 195 100% 33%; /* #007ea8 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 198 100% 14%; /* #003249 */
+  --secondary-foreground: 0 0% 100%;
+  --accent: 183 33% 72%; /* #9ad1d4 */
+  --accent-foreground: 198 100% 10%;
+  --background: 186 16% 83%; /* #ccdbdc */
+  --foreground: 222 47% 11%;
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 216 100% 50%;
-  --radius: 1.5rem;
+  --card-foreground: 222 47% 5%;
+  --border: 186 20% 75%;
+  --input: 186 20% 75%;
+  --ring: 195 100% 33%;
+  --radius: 0.5rem;
 
-  /* Premium Accent - Orange */
-  --orange: 21 100% 50%;
-  --orange-foreground: 21 100% 10%;
-  
-  /* Retaining gold for legacy if needed, but updating to orange */
-  --gold: 21 100% 50%;
-  --gold-foreground: 21 100% 10%;
-
-  /* Legacy variable supports */
-  --p-blue: #0165FF;
-  --p-purple: #7c3aed;
-  --p-gold: #FF5A00;
+  /* Legacy variable naming update */
+  --sidebar-bg: 198 100% 14%;
+  --p-blue: #007ea8;
+  --p-navy: #003249;
+  --p-mint: #9ad1d4;
+  --p-gold: #007ea8; /* Redirect gold to new primary */
 }
-
-
 
 * {
   border-color: hsl(var(--border));
@@ -87,7 +79,7 @@ body {
   min-height: 100vh;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
