@@ -75,10 +75,10 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
             {/* Sidebar Chassis */}
             <aside
-                className={`fixed md:sticky top-0 left-0 z-[70] h-screen w-80 bg-white dark:bg-[#0c1a15] border-r border-border transform transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) flex flex-col ${isOpen ? "translate-x-0 shadow-[50px_0_100px_rgba(0,0,0,0.2)]" : "-translate-x-full"} md:translate-x-0 group/sidebar overflow-hidden`}
+                className={`fixed md:sticky top-0 left-0 z-[70] h-screen w-80 bg-white border-r border-border transform transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) flex flex-col ${isOpen ? "translate-x-0 shadow-[50px_0_100px_rgba(0,0,0,0.2)]" : "-translate-x-full"} md:translate-x-0 group/sidebar overflow-hidden`}
             >
                 {/* Visual Depth Accents */}
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.03] dark:opacity-[0.05] z-0">
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.03] z-0">
                     <div className="absolute top-10 left-[-100px] w-64 h-64 bg-primary rounded-full blur-[100px]" />
                     <div className="absolute bottom-40 right-[-100px] w-64 h-64 bg-accent rounded-full blur-[100px]" />
                 </div>
@@ -87,7 +87,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 <div className="p-10 flex items-center gap-6 border-b border-border/50 relative z-10">
                     <div className="relative group/logo cursor-pointer" onClick={() => window.location.href = '/'}>
                         <div className="absolute inset-0 bg-primary blur-2xl opacity-20 group-hover/logo:opacity-60 transition-all duration-500 scale-150" />
-                        <div className="relative w-14 h-14 bg-zinc-900 dark:bg-zinc-800 rounded-[1.25rem] flex items-center justify-center shadow-2xl border border-white/10 group-hover:rotate-[360deg] transition-all duration-1000 ease-in-out">
+                        <div className="relative w-14 h-14 bg-zinc-900 rounded-[1.25rem] flex items-center justify-center shadow-2xl border border-white/10 group-hover:rotate-[360deg] transition-all duration-1000 ease-in-out">
                             <Shield className="w-7 h-7 text-primary" strokeWidth={3} />
                         </div>
                     </div>
@@ -121,8 +121,8 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 to={link.path}
                                 onClick={() => setIsOpen(false)}
                                 className={`group relative flex items-center gap-5 px-6 py-5 rounded-[1.5rem] transition-all duration-500 ${isActive
-                                        ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_40px_-10px_rgba(255,255,255,0.1)] scale-[1.03] z-10"
-                                        : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/[0.03] hover:translate-x-2"
+                                        ? "bg-zinc-900 text-white shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)](255,255,255,0.1)] scale-[1.03] z-10"
+                                        : "text-zinc-500 hover:bg-zinc-50 hover:translate-x-2"
                                     }`}
                             >
                                 <div className={`flex items-center justify-center transition-all duration-500 ${isActive ? "scale-110" : "group-hover:scale-110"}`}>
@@ -148,8 +148,8 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 </nav>
 
                 {/* Footer Section */}
-                <div className="p-8 relative z-10 border-t border-border/50 bg-zinc-50 dark:bg-white/[0.01]">
-                    <div className="p-8 bg-zinc-900 dark:bg-zinc-800 rounded-[2.5rem] border border-white/5 shadow-2xl relative group/support overflow-hidden transition-all hover:translate-y-[-5px]">
+                <div className="p-8 relative z-10 border-t border-border/50 bg-zinc-50">
+                    <div className="p-8 bg-zinc-900 rounded-[2.5rem] border border-white/5 shadow-2xl relative group/support overflow-hidden transition-all hover:translate-y-[-5px]">
                         <div className="absolute top-[-20%] right-[-10%] opacity-10 group-hover/support:scale-125 transition-transform duration-700">
                              <MessageSquare size={100} className="text-primary rotate-12" />
                         </div>

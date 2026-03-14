@@ -76,7 +76,7 @@ const CustomerClaims = () => {
     if (isLoading) return <div className="p-8"><TableSkeleton rows={8} cols={5} /></div>;
 
     return (
-        <div className="customer-claims p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+        <div className="customer-claims p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Tactical Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #FF5A00 1px, transparent 0)`, backgroundSize: '50px 50px' }} />
@@ -111,7 +111,7 @@ const CustomerClaims = () => {
             <div className="grid grid-cols-1 gap-10">
                 {myClaims?.map((claim, idx) => (
                     <Reveal key={claim._id} width="100%" delay={idx * 0.05} direction="up">
-                        <div className="bg-white dark:bg-zinc-900/50 rounded-[3rem] border border-border/50 hover:border-accent/30 transition-all flex flex-col xl:flex-row items-center justify-between gap-12 p-10 group relative overflow-hidden shadow-sm">
+                        <div className="bg-white rounded-[3rem] border border-border/50 hover:border-accent/30 transition-all flex flex-col xl:flex-row items-center justify-between gap-12 p-10 group relative overflow-hidden shadow-sm">
                             <div className="flex flex-col md:flex-row items-center gap-10 w-full xl:w-auto">
                                  <div className={`w-24 h-24 rounded-[2.5rem] flex items-center justify-center shrink-0 border-2 transition-all group-hover:scale-110 duration-500 ${
                                     claim.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-xl shadow-emerald-500/10' :
@@ -153,7 +153,7 @@ const CustomerClaims = () => {
                 ))}
 
                 {myClaims?.length === 0 && (
-                    <div className="py-40 text-center bg-white/50 dark:bg-zinc-900/30 border-4 border-dashed border-border/30 rounded-[6rem] backdrop-blur-sm relative overflow-hidden">
+                    <div className="py-40 text-center bg-white/50 border-4 border-dashed border-border/30 rounded-[6rem] backdrop-blur-sm relative overflow-hidden">
                         <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
                             <Cpu size={500} className="mx-auto" />
                         </div>
@@ -173,7 +173,7 @@ const CustomerClaims = () => {
                             initial={{ opacity: 0, scale: 0.9, y: 50 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                            className="relative w-full max-w-3xl bg-white dark:bg-[#10221c] p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_100px_150px_rgba(0,0,0,0.6)] overflow-hidden"
+                            className="relative w-full max-w-3xl bg-white p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_100px_150px_rgba(0,0,0,0.6)] overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-24 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
                                 <Shield size={400} className="text-accent rotate-12" />
@@ -195,7 +195,7 @@ const CustomerClaims = () => {
                                     <div className="relative group">
                                         <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                         <select 
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all appearance-none cursor-pointer shadow-sm focus:ring-8 focus:ring-accent/5 italic"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-16 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all appearance-none cursor-pointer shadow-sm focus:ring-8 focus:ring-accent/5 italic"
                                             value={formData.userPolicyId}
                                             onChange={e => setFormData({...formData, userPolicyId: e.target.value})}
                                             required
@@ -217,7 +217,7 @@ const CustomerClaims = () => {
                                             <TrendingUp className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                             <input 
                                                 type="number" 
-                                                className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 font-black text-xl italic tracking-tighter outline-none focus:border-accent shadow-sm focus:ring-8 focus:ring-accent/5"
+                                                className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-16 font-black text-xl italic tracking-tighter outline-none focus:border-accent shadow-sm focus:ring-8 focus:ring-accent/5"
                                                 value={formData.amount}
                                                 onChange={e => setFormData({...formData, amount: e.target.value})}
                                                 required
@@ -233,7 +233,7 @@ const CustomerClaims = () => {
                                                 className="absolute inset-0 opacity-0 cursor-pointer z-10" 
                                                 onChange={handleFileChange}
                                             />
-                                            <div className="h-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl flex items-center justify-center gap-4 group-hover:border-accent transition-all px-6">
+                                            <div className="h-full bg-zinc-50 border border-border/50 rounded-2xl flex items-center justify-center gap-4 group-hover:border-accent transition-all px-6">
                                                 <Upload size={18} className="text-accent opacity-40 group-hover:opacity-100 transition-opacity" />
                                                 <span className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic">INJECT_ARTIFACTS</span>
                                                 {files.length > 0 && <span className="ml-2 px-3 py-1 bg-accent text-white rounded-lg text-[10px] font-black">{files.length}</span>}
@@ -245,7 +245,7 @@ const CustomerClaims = () => {
                                 <div className="space-y-4">
                                     <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ANOMALY_NARRATIVE</label>
                                     <textarea 
-                                        className="w-full h-40 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-[2.5rem] p-10 outline-none focus:border-accent transition-all font-black uppercase no-scrollbar text-[11px] tracking-[4px] leading-relaxed shadow-sm focus:ring-8 focus:ring-accent/5 italic"
+                                        className="w-full h-40 bg-zinc-50 border border-border/50 rounded-[2.5rem] p-10 outline-none focus:border-accent transition-all font-black uppercase no-scrollbar text-[11px] tracking-[4px] leading-relaxed shadow-sm focus:ring-8 focus:ring-accent/5 italic"
                                         placeholder="PROVIDE_DETAILED_SEQUENCE_OF_INCIDENTS..."
                                         value={formData.description}
                                         onChange={e => setFormData({...formData, description: e.target.value})}
@@ -270,7 +270,7 @@ const CustomerClaims = () => {
                                     <button 
                                         type="button"
                                         onClick={() => setIsFiling(false)}
-                                        className="h-20 px-12 bg-zinc-900 text-white dark:bg-zinc-800 rounded-[2rem] text-[10px] font-black uppercase tracking-[6px] hover:bg-zinc-800 transition-all font-black italic active:scale-95 shadow-xl border border-white/5"
+                                        className="h-20 px-12 bg-zinc-900 text-white rounded-[2rem] text-[10px] font-black uppercase tracking-[6px] hover:bg-zinc-800 transition-all font-black italic active:scale-95 shadow-xl border border-white/5"
                                     >
                                         ABORT_SIGNAL
                                     </button>

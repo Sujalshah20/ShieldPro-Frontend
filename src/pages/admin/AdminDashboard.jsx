@@ -49,7 +49,7 @@ const AdminDashboard = () => {
             description: `₹${statsData?.stats?.totalRevenue?.toLocaleString() || 0}`,
             icon: IndianRupee,
             className: "col-span-1",
-            background: <div className="absolute inset-0 bg-primary/5 dark:bg-primary/10 overflow-hidden">
+            background: <div className="absolute inset-0 bg-primary/5 overflow-hidden">
                 <div className="absolute top-[-20%] right-[-20%] w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-pulse" />
             </div>
         },
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
             description: `${statsData?.stats?.activePolicies || 0} Policies`,
             icon: Shield,
             className: "col-span-1",
-            background: <div className="absolute inset-0 bg-accent/5 dark:bg-accent/10 overflow-hidden">
+            background: <div className="absolute inset-0 bg-accent/5 overflow-hidden">
                  <div className="absolute bottom-[-20%] left-[-20%] w-40 h-40 bg-accent/20 rounded-full blur-3xl animate-pulse" />
             </div>
         },
@@ -67,14 +67,14 @@ const AdminDashboard = () => {
             description: `${statsData?.stats?.totalCustomers || 0} Registered`,
             icon: Users,
             className: "col-span-1",
-            background: <div className="absolute inset-0 bg-indigo-500/5 dark:bg-indigo-500/10" />
+            background: <div className="absolute inset-0 bg-indigo-500/5" />
         },
         {
             title: "AGENT_DIRECTORY",
             description: `${statsData?.stats?.totalAgents || 0} Active Agents`,
             icon: UserCheck,
             className: "col-span-1",
-            background: <div className="absolute inset-0 bg-emerald-500/5 dark:bg-emerald-500/10" />
+            background: <div className="absolute inset-0 bg-emerald-500/5" />
         }
     ];
 
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
     const THEME_COLORS = ["#0165FF", "#FF5A00", "#8b5cf6", "#10b981", "#ef4444"];
 
     return (
-        <div className="admin-dashboard p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-dashboard p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Professional Grid Overlay */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
                         </p>
                     </div>
                     
-                    <div className="flex flex-wrap items-center gap-6 bg-white dark:bg-zinc-900/50 backdrop-blur-md shadow-2xl border border-border/50 px-10 py-6 rounded-[2.5rem] relative">
+                    <div className="flex flex-wrap items-center gap-6 bg-white backdrop-blur-md shadow-2xl border border-border/50 px-10 py-6 rounded-[2.5rem] relative">
                          <div className="absolute -top-3 -right-3">
                             <Activity size={20} className="text-primary animate-bounce" />
                          </div>
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
             {/* Analytics Section */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-12 mb-16">
                 <Reveal width="100%" direction="up" delay={0.1} className="xl:col-span-2">
-                    <div className="bg-white dark:bg-zinc-900/50 p-12 rounded-[4rem] border border-border/50 shadow-2xl relative overflow-hidden backdrop-blur-md group">
+                    <div className="bg-white p-12 rounded-[4rem] border border-border/50 shadow-2xl relative overflow-hidden backdrop-blur-md group">
                         <div className="absolute top-0 right-0 p-16 opacity-[0.03] pointer-events-none group-hover:scale-125 transition-transform duration-1000">
                             <Activity size={300} className="text-primary" />
                         </div>
@@ -185,7 +185,7 @@ const AdminDashboard = () => {
                 </Reveal>
 
                 <Reveal width="100%" direction="up" delay={0.2}>
-                    <div className="bg-white dark:bg-zinc-900/50 p-12 rounded-[4rem] border border-border/50 shadow-2xl flex flex-col h-full relative overflow-hidden group backdrop-blur-md">
+                    <div className="bg-white p-12 rounded-[4rem] border border-border/50 shadow-2xl flex flex-col h-full relative overflow-hidden group backdrop-blur-md">
                         <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div className="absolute bottom-[-10%] right-[-10%] opacity-[0.02] pointer-events-none group-hover:scale-150 transition-transform duration-1000">
                             <Box size={250} />
@@ -238,8 +238,8 @@ const AdminDashboard = () => {
 
             {/* REAL_TIME_ACTIVITY */}
             <Reveal width="100%" direction="up" delay={0.3}>
-                <div className="bg-white dark:bg-zinc-900/50 rounded-[4.5rem] border border-border/50 shadow-[0_60px_100px_rgba(0,0,0,0.4)] overflow-hidden mb-16 backdrop-blur-xl">
-                    <div className="px-12 py-12 border-b border-border/50 flex flex-col xl:flex-row xl:items-center justify-between gap-10 bg-zinc-50 dark:bg-white/[0.02] relative">
+                <div className="bg-white rounded-[4.5rem] border border-border/50 shadow-[0_60px_100px_rgba(0,0,0,0.4)] overflow-hidden mb-16 backdrop-blur-xl">
+                    <div className="px-12 py-12 border-b border-border/50 flex flex-col xl:flex-row xl:items-center justify-between gap-10 bg-zinc-50 relative">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
                         <div className="flex items-center gap-8 relative z-10">
                             <div className="relative">
@@ -258,7 +258,7 @@ const AdminDashboard = () => {
                             </div>
                         </div>
                         <div className="flex items-center gap-6">
-                            <div className="px-6 py-3 bg-white dark:bg-zinc-900/80 rounded-2xl border border-border/50 shadow-inner flex items-center gap-4">
+                            <div className="px-6 py-3 bg-white rounded-2xl border border-border/50 shadow-inner flex items-center gap-4">
                                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
                                 <span className="text-[9px] font-black uppercase tracking-[3px] opacity-40">FEED_ACTIVE</span>
                             </div>
@@ -285,7 +285,7 @@ const AdminDashboard = () => {
                                     initial={{ opacity: 0, x: -30 }} 
                                     animate={{ opacity: 1, x: 0 }} 
                                     transition={{ delay: index * 0.08 }}
-                                    className="flex flex-col lg:flex-row lg:items-center justify-between p-8 rounded-[3rem] bg-zinc-50/50 dark:bg-white/[0.03] border border-border/30 hover:border-primary/50 hover:bg-white dark:hover:bg-zinc-800 transition-all group cursor-pointer shadow-xl relative overflow-hidden"
+                                    className="flex flex-col lg:flex-row lg:items-center justify-between p-8 rounded-[3rem] bg-zinc-50/50 border border-border/30 hover:border-primary/50 hover:bg-white transition-all group cursor-pointer shadow-xl relative overflow-hidden"
                                 >
                                     <div className="absolute inset-y-0 left-0 w-1 bg-transparent group-hover:bg-primary transition-colors" />
                                     <div className="flex items-center gap-10">
@@ -328,16 +328,16 @@ const AdminDashboard = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="mt-8 lg:mt-0 flex items-center gap-8 bg-zinc-100 dark:bg-white/5 p-4 rounded-2xl group-hover:bg-white dark:group-hover:bg-zinc-900 transition-colors">
+                                    <div className="mt-8 lg:mt-0 flex items-center gap-8 bg-zinc-100 p-4 rounded-2xl group-hover:bg-white transition-colors">
                                          <div className="flex -space-x-4">
                                             {[1,2,3].map(i => (
-                                                <div key={i} className="w-10 h-10 rounded-2xl border-4 border-white dark:border-zinc-800 bg-zinc-200 dark:bg-zinc-700 overflow-hidden shadow-lg relative group/av">
+                                                <div key={i} className="w-10 h-10 rounded-2xl border-4 border-white bg-zinc-200 overflow-hidden shadow-lg relative group/av">
                                                     <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i * 123}`} alt="operator" className="w-full h-full object-cover" />
                                                 </div>
                                             ))}
-                                            <div className="w-10 h-10 rounded-2xl border-4 border-white dark:border-zinc-800 bg-primary flex items-center justify-center text-[10px] font-black text-white italic shadow-lg">+4</div>
+                                            <div className="w-10 h-10 rounded-2xl border-4 border-white bg-primary flex items-center justify-center text-[10px] font-black text-white italic shadow-lg">+4</div>
                                          </div>
-                                         <button className="h-14 px-10 bg-white dark:bg-zinc-900 border-2 border-border/50 text-zinc-400 group-hover:text-primary group-hover:border-primary/50 group-hover:shadow-xl group-hover:shadow-primary/10 rounded-2xl font-black text-[10px] uppercase tracking-[4px] transition-all flex items-center gap-4 italic active:scale-95">
+                                         <button className="h-14 px-10 bg-white border-2 border-border/50 text-zinc-400 group-hover:text-primary group-hover:border-primary/50 group-hover:shadow-xl group-hover:shadow-primary/10 rounded-2xl font-black text-[10px] uppercase tracking-[4px] transition-all flex items-center gap-4 italic active:scale-95">
                                             VIEW_DETAILS <ArrowUpRight size={16} strokeWidth={4} className="group-hover:scale-125 transition-transform" />
                                          </button>
                                     </div>
@@ -346,7 +346,7 @@ const AdminDashboard = () => {
                         )}
                     </div>
 
-                    <div className="p-12 bg-zinc-950 dark:bg-zinc-900 border-t border-white/5 flex flex-col xl:flex-row items-center justify-between gap-10">
+                    <div className="p-12 bg-zinc-950 border-t border-white/5 flex flex-col xl:flex-row items-center justify-between gap-10">
                         <div className="flex items-center gap-6">
                             <div className="relative">
                                 <div className="absolute inset-0 bg-primary blur-xl opacity-40 animate-pulse" />

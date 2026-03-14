@@ -112,7 +112,7 @@ const ApplicationPage = () => {
                                 { title: "CYCLE_LIFE", value: `${policy.durationYears} YEARS`, icon: Clock },
                                 { title: "CLASSIFICATION", value: policy.policyType.toUpperCase(), icon: Target }
                             ].map(item => (
-                                <div key={item.title} className="p-8 bg-zinc-50 dark:bg-white/5 rounded-[2rem] border border-border/50 group hover:border-accent/40 transition-all">
+                                <div key={item.title} className="p-8 bg-zinc-50 rounded-[2rem] border border-border/50 group hover:border-accent/40 transition-all">
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="text-[10px] uppercase font-black opacity-30 tracking-[4px] italic">{item.title}</div>
                                         <item.icon size={16} className="text-accent opacity-20 group-hover:opacity-100 transition-opacity" />
@@ -178,7 +178,7 @@ const ApplicationPage = () => {
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ASSET_IDENTIFIER (VIN/REG)</label>
                                         <input 
                                             placeholder="SIGNAL_CODE_X"
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             value={formData.regNo || ""}
                                             onChange={e => setFormData({...formData, regNo: e.target.value})}
                                         />
@@ -187,7 +187,7 @@ const ApplicationPage = () => {
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">CHASSIS_ARCHITECTURE</label>
                                         <input 
                                             placeholder="MODEL_DESCRIPTOR..."
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             value={formData.model || ""}
                                             onChange={e => setFormData({...formData, model: e.target.value})}
                                         />
@@ -200,7 +200,7 @@ const ApplicationPage = () => {
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">BIOMETRIC_ANOMALIES</label>
                                         <input 
                                             placeholder="REPORT_EXISTING_LOGS..."
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, healthConditions: e.target.value})}
                                         />
                                     </div>
@@ -208,7 +208,7 @@ const ApplicationPage = () => {
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">LAST_ARCHITECTURE_SYNC</label>
                                         <input 
                                             type="date"
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, lastCheckup: e.target.value})}
                                         />
                                     </div>
@@ -219,7 +219,7 @@ const ApplicationPage = () => {
                                     <div className="space-y-4">
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">GEOGRAPHIC_COORDINATES</label>
                                         <input 
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, propAddress: e.target.value})}
                                         />
                                     </div>
@@ -227,7 +227,7 @@ const ApplicationPage = () => {
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ASSET_VALUATION (₹)</label>
                                         <input 
                                             type="number"
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xl italic tracking-tighter outline-none focus:border-accent transition-all shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xl italic tracking-tighter outline-none focus:border-accent transition-all shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, propValue: e.target.value})}
                                         />
                                     </div>
@@ -239,7 +239,7 @@ const ApplicationPage = () => {
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">GLOBAL_PASSPORT_ID</label>
                                         <input 
                                             placeholder="Z_PROTOCOL_IDENTIFIER"
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, passport: e.target.value})}
                                         />
                                     </div>
@@ -247,7 +247,7 @@ const ApplicationPage = () => {
                                         <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">PRIMARY_SECTOR_DESTINATION</label>
                                         <input 
                                             placeholder="TARGET_ZONE..."
-                                            className="w-full h-20 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                             onChange={e => setFormData({...formData, destination: e.target.value})}
                                         />
                                     </div>
@@ -299,7 +299,7 @@ const ApplicationPage = () => {
                                 </h4>
                                 <div className="space-y-3">
                                     {files.map((f, i) => (
-                                        <div key={i} className="p-6 bg-white dark:bg-zinc-800 rounded-3xl border border-border/50 flex items-center justify-between group hover:border-accent/30 transition-all">
+                                        <div key={i} className="p-6 bg-white rounded-3xl border border-border/50 flex items-center justify-between group hover:border-accent/30 transition-all">
                                             <div className="flex items-center gap-6">
                                                 <div className="p-4 bg-accent/10 text-accent rounded-xl">
                                                     <FileText size={20} strokeWidth={3} />
@@ -336,7 +336,7 @@ const ApplicationPage = () => {
                             </p>
                         </div>
 
-                        <div className="max-w-md mx-auto p-10 bg-zinc-50 dark:bg-white/[0.03] rounded-[3rem] space-y-6 border border-border/50 shadow-inner">
+                        <div className="max-w-md mx-auto p-10 bg-zinc-50 rounded-[3rem] space-y-6 border border-border/50 shadow-inner">
                             <div className="flex justify-between items-center">
                                 <span className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic">UNIT_YIELD</span>
                                 <span className="text-2xl font-black italic tracking-tighter text-accent leading-none">₹{policy.premiumAmount.toLocaleString()} / CYC</span>
@@ -363,7 +363,7 @@ const ApplicationPage = () => {
     };
 
     return (
-        <div className="application-page p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+        <div className="application-page p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Orbital Background Elements */}
             <div className="absolute top-[-10%] right-[-10%] opacity-[0.03] pointer-events-none">
                 <Satellite size={800} className="animate-spin-slow rotate-45" />
@@ -395,7 +395,7 @@ const ApplicationPage = () => {
                         <div className="flex items-center gap-4 w-full md:w-auto">
                             {[1, 2, 3, 4].map(s => (
                                 <div key={s} className="flex-1 md:w-20 group relative">
-                                    <div className={`h-2 rounded-full transition-all duration-1000 ${s <= step ? 'bg-accent shadow-[0_0_15px_#FF5A00]' : 'bg-border/30 dark:bg-white/10'}`} />
+                                    <div className={`h-2 rounded-full transition-all duration-1000 ${s <= step ? 'bg-accent shadow-[0_0_15px_#FF5A00]' : 'bg-border/30'}`} />
                                     <div className={`absolute -bottom-6 left-0 right-0 text-center text-[8px] font-black uppercase tracking-[3px] italic transition-colors ${s === step ? 'text-accent opacity-100' : 'opacity-20'}`}>
                                         {s === 1 && 'SPECS'}
                                         {s === 2 && 'DNA'}
@@ -409,7 +409,7 @@ const ApplicationPage = () => {
                 </Reveal>
 
                 {/* Content Chassis */}
-                <div className="bg-white dark:bg-zinc-900/50 p-12 md:p-20 rounded-[5rem] border border-border/50 shadow-2xl relative overflow-hidden group backdrop-blur-md">
+                <div className="bg-white p-12 md:p-20 rounded-[5rem] border border-border/50 shadow-2xl relative overflow-hidden group backdrop-blur-md">
                     <div className="absolute top-0 right-0 p-20 opacity-[0.02] pointer-events-none transform translate-x-10 -translate-y-10 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-1000">
                          <ShieldCheck size={300} strokeWidth={1} />
                     </div>

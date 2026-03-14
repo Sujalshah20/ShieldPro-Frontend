@@ -6,11 +6,11 @@ const Toggle = ({ isOn, onToggle, labelLeft = "", labelRight = "" }) => {
         <div className="flex items-center gap-4">
             {labelLeft && <span className={`text-sm font-medium ${!isOn ? "text-blue-600" : "opacity-50"}`}>{labelLeft}</span>}
             <div
-                className="w-14 h-8 flex items-center bg-slate-200 dark:bg-white/10 rounded-full p-1 cursor-pointer transition-colors duration-300"
+                className="w-14 h-8 flex items-center bg-slate-200 rounded-full p-1 cursor-pointer transition-colors duration-300"
                 onClick={onToggle}
             >
                 <motion.div
-                    className="w-6 h-6 bg-white dark:bg-blue-500 rounded-full shadow-md"
+                    className="w-6 h-6 bg-white rounded-full shadow-md"
                     layout
                     transition={{
                         type: "spring",

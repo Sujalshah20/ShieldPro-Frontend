@@ -60,7 +60,7 @@ const AdminApplications = () => {
     );
 
     return (
-        <div className="admin-applications p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-applications p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Professional Grid Background */}
             <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
@@ -85,7 +85,7 @@ const AdminApplications = () => {
                             { label: "FLAGGED_APPLICATIONS", value: stats.flagged, color: "text-rose-500", bg: "bg-rose-500/10", icon: AlertCircle },
                             { label: "TOTAL_APPLICATIONS", value: stats.active_sync, color: "text-primary", bg: "bg-primary/10", icon: ClipboardList }
                          ].map((item, i) => (
-                             <div key={i} className="px-10 py-6 bg-white dark:bg-zinc-900/50 rounded-[2.5rem] border border-border/50 shadow-sm flex flex-col items-center min-w-[180px] group hover:border-primary/40 transition-all backdrop-blur-md relative overflow-hidden">
+                             <div key={i} className="px-10 py-6 bg-white rounded-[2.5rem] border border-border/50 shadow-sm flex flex-col items-center min-w-[180px] group hover:border-primary/40 transition-all backdrop-blur-md relative overflow-hidden">
                                 <div className={`absolute -right-4 -top-4 w-16 h-16 ${item.bg} rounded-full blur-2xl opacity-40 group-hover:scale-150 transition-transform`} />
                                 <span className="text-[9px] font-black uppercase tracking-[4px] opacity-30 mb-2 italic relative z-10 flex items-center gap-2">
                                     <item.icon size={12} className={item.color} /> {item.label}
@@ -106,13 +106,13 @@ const AdminApplications = () => {
                     <input 
                         type="text" 
                         placeholder="SEARCH_BY_CLIENT_OR_PLAN_NAME..." 
-                        className="pl-16 pr-8 h-18 bg-white dark:bg-zinc-900/50 border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
+                        className="pl-16 pr-8 h-18 bg-white border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
                         value={searchQuery} 
                         onChange={e=>setSearchQuery(e.target.value)} 
                     />
                 </div>
 
-                <div className="flex items-center gap-6 bg-white dark:bg-zinc-900/50 px-8 py-4 rounded-2xl border border-border/50 backdrop-blur-md">
+                <div className="flex items-center gap-6 bg-white px-8 py-4 rounded-2xl border border-border/50 backdrop-blur-md">
                     <span className="text-[10px] font-black uppercase tracking-[4px] opacity-20 italic">DATABASE_SYNC:</span>
                     <div className="px-5 py-2.5 bg-emerald-500/5 text-emerald-500 rounded-xl border border-emerald-500/20 text-[9px] font-black uppercase tracking-[3px] flex items-center gap-3">
                          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]" />
@@ -122,8 +122,8 @@ const AdminApplications = () => {
             </div>
 
             {/* APPLICATIONS LIST */}
-            <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
-                <div className="p-10 border-b border-border/50 lg:flex lg:justify-between lg:items-center relative overflow-hidden bg-zinc-50 dark:bg-white/[0.02]">
+            <div className="bg-white rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
+                <div className="p-10 border-b border-border/50 lg:flex lg:justify-between lg:items-center relative overflow-hidden bg-zinc-50">
                     <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
                         <Layers size={200} className="rotate-12" />
                     </div>
@@ -152,7 +152,7 @@ const AdminApplications = () => {
                 <div className="overflow-x-auto no-scrollbar">
                     <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                         <thead>
-                            <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
+                            <tr className="bg-zinc-100 text-[9px] opacity-40">
                                 <th className="px-12 py-8 tracking-[4px]">APPLICANT_INFORMATION</th>
                                 <th className="px-12 py-8 tracking-[4px]">INSURANCE_PLAN</th>
                                 <th className="px-12 py-8 text-center tracking-[4px]">STATUS</th>
@@ -168,7 +168,7 @@ const AdminApplications = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     key={app._id} 
-                                    className={`hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-all group cursor-pointer ${app.isFlagged ? 'bg-rose-500/[0.03]' : ''}`}
+                                    className={`hover:bg-zinc-50 transition-all group cursor-pointer ${app.isFlagged ? 'bg-rose-500/[0.03]' : ''}`}
                                 >
                                     <td className="px-12 py-8">
                                         <div className="flex items-center gap-6">
@@ -241,7 +241,7 @@ const AdminApplications = () => {
                                                 </div>
                                              </div>
                                         ) : (
-                                            <div className="flex items-center gap-4 bg-zinc-100 dark:bg-white/5 px-4 py-2 rounded-xl border border-border/30 w-fit">
+                                            <div className="flex items-center gap-4 bg-zinc-100 px-4 py-2 rounded-xl border border-border/30 w-fit">
                                                 <Zap size={14} className="text-primary opacity-40" strokeWidth={3} />
                                                 <span className="text-[9px] font-black uppercase tracking-[3px] italic opacity-40">DIRECT_SUBMISSION</span>
                                             </div>
@@ -271,7 +271,7 @@ const AdminApplications = () => {
                             initial={{ opacity: 0, scale: 0.9, y: 50 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                            className="relative w-full max-w-6xl bg-white dark:bg-[#10221c] p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_120px_200px_rgba(0,0,0,0.6)] overflow-hidden"
+                            className="relative w-full max-w-6xl bg-white p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_120px_200px_rgba(0,0,0,0.6)] overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-24 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
                                 {selectedApp.isFlagged ? (
@@ -307,7 +307,7 @@ const AdminApplications = () => {
 
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20 relative z-10">
                                 <div className="space-y-10">
-                                    <div className="p-12 bg-zinc-50 dark:bg-white/[0.02] rounded-[3.5rem] border-2 border-border/50 shadow-inner group hover:border-primary/50 transition-all relative overflow-hidden">
+                                    <div className="p-12 bg-zinc-50 rounded-[3.5rem] border-2 border-border/50 shadow-inner group hover:border-primary/50 transition-all relative overflow-hidden">
                                         <p className="text-[10px] font-black uppercase opacity-30 tracking-[5px] italic mb-8">CLIENT_PROFILE</p>
                                         <div className="flex items-center gap-10">
                                             <div className="relative group/prof">
@@ -332,7 +332,7 @@ const AdminApplications = () => {
                                         </div>
                                     </div>
                                     
-                                    <div className="p-12 bg-zinc-50 dark:bg-white/[0.02] rounded-[3.5rem] border-2 border-border/50 shadow-inner group hover:border-primary/50 transition-all relative overflow-hidden">
+                                    <div className="p-12 bg-zinc-50 rounded-[3.5rem] border-2 border-border/50 shadow-inner group hover:border-primary/50 transition-all relative overflow-hidden">
                                         <p className="text-[10px] font-black uppercase opacity-30 tracking-[5px] italic mb-8">REQUESTED_PLAN</p>
                                         <div className="flex lg:flex-row flex-col items-center lg:items-center gap-6 mb-10 lg:justify-start justify-center">
                                             <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center text-accent shadow-lg border border-accent/20">
@@ -342,7 +342,7 @@ const AdminApplications = () => {
                                                 <p className="text-3xl font-black italic tracking-tighter uppercase group-hover:text-accent transition-colors leading-none mt-1">{selectedApp.policy?.policyName}</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between p-8 bg-white dark:bg-zinc-900 border-2 border-border/30 rounded-[2rem] shadow-xl group-hover:shadow-primary/5 transition-all">
+                                        <div className="flex items-center justify-between p-8 bg-white border-2 border-border/30 rounded-[2rem] shadow-xl group-hover:shadow-primary/5 transition-all">
                                             <div className="flex flex-col items-start">
                                                 <span className="text-[10px] font-black opacity-20 uppercase tracking-[4px] mb-1">PREMIUM_AMOUNT</span>
                                                 <span className="text-3xl font-black text-primary italic tracking-tighter leading-none">₹{selectedApp.policy?.premiumAmount.toLocaleString()}</span>
@@ -385,7 +385,7 @@ const AdminApplications = () => {
                             <div className="space-y-6 mb-16 relative z-10">
                                 <label className="text-[10px] font-black uppercase tracking-[6px] text-primary italic block px-8">ADMIN_DECISION_NOTES</label>
                                 <textarea 
-                                    className="w-full h-40 bg-zinc-50 dark:bg-white/5 border-2 border-border/50 rounded-[3rem] p-12 outline-none focus:border-primary transition-all font-black uppercase text-xs tracking-[5px] no-scrollbar shadow-xl focus:ring-12 focus:ring-primary/5 italic"
+                                    className="w-full h-40 bg-zinc-50 border-2 border-border/50 rounded-[3rem] p-12 outline-none focus:border-primary transition-all font-black uppercase text-xs tracking-[5px] no-scrollbar shadow-xl focus:ring-12 focus:ring-primary/5 italic"
                                     placeholder="Add any internal notes for this decision..."
                                     value={rejectionReason}
                                     onChange={(e) => setRejectionReason(e.target.value)}
@@ -413,7 +413,7 @@ const AdminApplications = () => {
                                 </button>
                                 <button 
                                     onClick={() => setSelectedApp(null)}
-                                    className="px-14 h-24 bg-zinc-900 text-white dark:bg-zinc-800 rounded-[2.5rem] font-black text-xs uppercase tracking-[6px] hover:bg-zinc-800 transition-all shadow-2xl active:scale-95 italic border border-white/5"
+                                    className="px-14 h-24 bg-zinc-900 text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[6px] hover:bg-zinc-800 transition-all shadow-2xl active:scale-95 italic border border-white/5"
                                 >
                                     CANCEL
                                 </button>

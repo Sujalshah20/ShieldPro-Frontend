@@ -50,15 +50,15 @@ const Home = () => {
     };
 
     return (
-        <div className="relative min-h-screen bg-white dark:bg-[#10221c] text-foreground overflow-x-hidden selection:bg-primary/30">
+        <div className="relative min-h-screen bg-white text-foreground overflow-x-hidden selection:bg-primary/30">
             <AnimatedBackground>
             {/* Nav Protocol */}
-            <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${mobileMenuOpen ? 'bg-white dark:bg-[#10221c]' : 'bg-transparent backdrop-blur-xl border-b border-border/10 h-24 flex items-center shadow-lg'}`}>
+            <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${mobileMenuOpen ? 'bg-white' : 'bg-transparent backdrop-blur-xl border-b border-border/10 h-24 flex items-center shadow-lg'}`}>
                 <div className="max-w-[1400px] mx-auto w-full px-8 flex justify-between items-center">
                     <Link to="/" className="flex items-center gap-5 group">
                         <div className="relative">
                             <div className="absolute inset-0 bg-primary blur-xl opacity-20 group-hover:opacity-60 transition-all duration-500 scale-150" />
-                            <div className="relative bg-zinc-900 dark:bg-zinc-800 p-2.5 rounded-2xl shadow-xl border border-white/10 group-hover:rotate-[360deg] transition-all duration-1000">
+                            <div className="relative bg-zinc-900 p-2.5 rounded-2xl shadow-xl border border-white/10 group-hover:rotate-[360deg] transition-all duration-1000">
                                 <Shield className="w-6 h-6 text-primary" strokeWidth={3} />
                             </div>
                         </div>
@@ -77,10 +77,10 @@ const Home = () => {
 
                     <div className="flex items-center gap-6">
                         <Link to="/login" className="hidden sm:block text-[11px] font-black uppercase tracking-[4px] opacity-40 hover:opacity-100 hover:text-primary transition-all italic">LOGIN</Link>
-                        <Link to="/register" className="h-14 px-10 bg-primary hover:bg-zinc-900 dark:hover:bg-zinc-800 text-white rounded-2xl text-[11px] font-black uppercase tracking-[4px] transition-all shadow-[0_20px_40px_-5px_rgba(255,184,0,0.3)] flex items-center justify-center active:scale-95 italic">
+                        <Link to="/register" className="h-14 px-10 bg-primary hover:bg-zinc-900 text-white rounded-2xl text-[11px] font-black uppercase tracking-[4px] transition-all shadow-[0_20px_40px_-5px_rgba(255,184,0,0.3)] flex items-center justify-center active:scale-95 italic">
                             SIGN UP
                         </Link>
-                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-3 bg-zinc-100 dark:bg-white/5 rounded-2xl border border-border">
+                        <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-3 bg-zinc-100 rounded-2xl border border-border">
                             <Menu size={24} className="text-primary" />
                         </button>
                     </div>
@@ -90,14 +90,14 @@ const Home = () => {
             {/* Hero Alpha Section */}
             <section className="relative pt-48 pb-40 px-8 overflow-hidden min-h-screen flex items-center justify-center">
                 {/* Orbital Atmosphere */}
-                <div className="absolute inset-0 z-0 pointer-events-none opacity-40 dark:opacity-60">
+                <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
                     <HeroScene />
                 </div>
                 
                 <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-24 items-center relative z-10 w-full">
                     <div className="text-left flex flex-col items-start">
                         <Reveal direction="down">
-                            <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-zinc-900 dark:bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-[5px] text-white italic mb-10 shadow-2xl">
+                            <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-zinc-900 border border-white/10 text-[10px] font-black uppercase tracking-[5px] text-white italic mb-10 shadow-2xl">
                                 <Activity className="w-4 h-4 text-primary animate-pulse" strokeWidth={3} />
                                 CONNECTED // SECURE_PLATFORM_LIVE
                             </div>
@@ -123,7 +123,7 @@ const Home = () => {
                                     GET STARTED
                                     <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" strokeWidth={3} />
                                 </Link>
-                                <button className="h-20 px-10 bg-white dark:bg-zinc-800 border border-border hover:border-primary/50 text-foreground font-black text-xs uppercase tracking-[5px] rounded-[2rem] hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all active:scale-95 italic">
+                                <button className="h-20 px-10 bg-white border border-border hover:border-primary/50 text-foreground font-black text-xs uppercase tracking-[5px] rounded-[2rem] hover:bg-zinc-50 transition-all active:scale-95 italic">
                                     LEARN MORE
                                 </button>
                             </div>
@@ -169,11 +169,11 @@ const Home = () => {
                                     </div>
 
                                     {/* HUD Nodes */}
-                                    <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute -top-10 left-1/4 p-6 bg-white dark:bg-zinc-800 border-2 border-primary/40 rounded-3xl shadow-2xl flex flex-col items-center">
+                                    <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute -top-10 left-1/4 p-6 bg-white border-2 border-primary/40 rounded-3xl shadow-2xl flex flex-col items-center">
                                          <Zap size={24} className="text-primary mb-2" strokeWidth={3} />
                                          <span className="text-[8px] font-black uppercase tracking-[2px]">Core Integrity</span>
                                     </motion.div>
-                                    <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute -bottom-10 right-1/4 p-6 bg-white dark:bg-zinc-800 border-2 border-accent/40 rounded-3xl shadow-2xl flex flex-col items-center">
+                                    <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute -bottom-10 right-1/4 p-6 bg-white border-2 border-accent/40 rounded-3xl shadow-2xl flex flex-col items-center">
                                          <LineChart size={24} className="text-accent mb-2" strokeWidth={3} />
                                          <span className="text-[8px] font-black uppercase tracking-[2px]">Yield Vector</span>
                                     </motion.div>
@@ -185,7 +185,7 @@ const Home = () => {
             </section>
 
             {/* Sector Blueprints Section */}
-            <section id="roles" className="py-40 bg-zinc-50 dark:bg-transparent border-y border-border/5 px-8 relative overflow-hidden">
+            <section id="roles" className="py-40 bg-zinc-50 border-y border-border/5 px-8 relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-20 opacity-5 pointer-events-none">
                     <ShieldCheck size={400} className="animate-spin-slow" />
                 </div>
@@ -200,7 +200,7 @@ const Home = () => {
                     </div>
 
                     <div className="flex justify-center mb-24">
-                        <div className="inline-flex p-2 bg-white dark:bg-zinc-900 rounded-[2.5rem] border border-border shadow-xl">
+                        <div className="inline-flex p-2 bg-white rounded-[2.5rem] border border-border shadow-xl">
                             {Object.keys(roleContent).map((role) => (
                                 <button 
                                     key={role}
@@ -220,7 +220,7 @@ const Home = () => {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 1.05 }}
                             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                            className="grid lg:grid-cols-2 gap-20 items-center p-12 bg-white dark:bg-zinc-900 border border-border rounded-[4rem] shadow-2xl relative overflow-hidden"
+                            className="grid lg:grid-cols-2 gap-20 items-center p-12 bg-white border border-border rounded-[4rem] shadow-2xl relative overflow-hidden"
                         >
                             <div className="absolute top-0 left-0 p-12 opacity-5 pointer-events-none">
                                 <Cpu size={200} />
@@ -251,7 +251,7 @@ const Home = () => {
                                 <div className="space-y-10">
                                     {roleContent[activeRole].features.map((feat, idx) => (
                                         <div key={idx} className="flex gap-8 group">
-                                            <div className="flex-shrink-0 w-16 h-16 bg-zinc-50 dark:bg-zinc-800 rounded-[1.5rem] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all transform group-hover:scale-110 shadow-sm group-hover:shadow-xl group-hover:shadow-primary/20">
+                                            <div className="flex-shrink-0 w-16 h-16 bg-zinc-50 rounded-[1.5rem] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all transform group-hover:scale-110 shadow-sm group-hover:shadow-xl group-hover:shadow-primary/20">
                                                 <feat.icon size={28} strokeWidth={3} />
                                             </div>
                                             <div>
@@ -268,7 +268,7 @@ const Home = () => {
             </section>
 
             {/* Tactical Parameter Grid */}
-            <section id="features" className="py-40 px-8 relative overflow-hidden bg-white dark:bg-[#0c1a15]">
+            <section id="features" className="py-40 px-8 relative overflow-hidden bg-white">
                 <div className="max-w-[1400px] mx-auto relative z-10">
                     <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-32">
                         <div className="max-w-3xl">
@@ -282,7 +282,7 @@ const Home = () => {
                              <div className="flex flex-col items-center gap-6">
                                 <div className="flex -space-x-4">
                                     {[1,2,3,4,5].map(i => (
-                                        <div key={i} className="w-12 h-12 rounded-full border-4 border-white dark:border-[#0c1a15] bg-zinc-100 dark:bg-zinc-800" />
+                                        <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-zinc-100" />
                                     ))}
                                 </div>
                                 <span className="text-[9px] font-black uppercase tracking-[3px] opacity-30 italic">Trusted by 25k+ Insurance Professionals</span>
@@ -300,7 +300,7 @@ const Home = () => {
                             { icon: Headphones, title: "24/7 SUPPORT", desc: "Priority technical assistance and dedicated support for all our premium partners." }
                         ].map((feat, idx) => (
                             <Reveal key={idx} delay={idx * 0.1} direction="up">
-                                <div className="p-12 rounded-[3.5rem] bg-zinc-50 dark:bg-white/[0.02] border border-border/50 hover:border-primary/50 transition-all group hover:bg-white dark:hover:bg-zinc-900 shadow-sm hover:shadow-2xl">
+                                <div className="p-12 rounded-[3.5rem] bg-zinc-50 border border-border/50 hover:border-primary/50 transition-all group hover:bg-white shadow-sm hover:shadow-2xl">
                                     <div className="w-16 h-16 bg-primary/10 rounded-[1.5rem] flex items-center justify-center mb-10 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
                                         <feat.icon size={28} strokeWidth={3} />
                                     </div>
@@ -314,13 +314,13 @@ const Home = () => {
             </section>
 
             {/* Global Yield Section */}
-            <section className="py-40 bg-white dark:bg-[#10221c] px-8 relative overflow-hidden">
+            <section className="py-40 bg-white px-8 relative overflow-hidden">
                 <div className="absolute bottom-0 left-0 w-full h-[500px] bg-primary/5 blur-[150px] pointer-events-none" />
                 
                 <div className="max-w-[1400px] mx-auto relative z-10">
                     <div className="grid lg:grid-cols-2 gap-32 items-center">
                         <div className="order-2 lg:order-1 relative">
-                            <div className="aspect-square bg-zinc-900 dark:bg-white/5 rounded-[4rem] flex flex-col items-center justify-center overflow-hidden border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.2)] relative group">
+                            <div className="aspect-square bg-zinc-900 rounded-[4rem] flex flex-col items-center justify-center overflow-hidden border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.2)] relative group">
                                 <div className="absolute inset-0 opacity-10 group-hover:opacity-30 transition-opacity">
                                     <Globe className="w-full h-full p-20 animate-spin-slow" />
                                 </div>
@@ -365,7 +365,7 @@ const Home = () => {
 
             {/* Strategic Initialization Footer */}
             <section className="py-40 px-8">
-                <div className="max-w-[1200px] mx-auto bg-zinc-900 dark:bg-zinc-800 text-white p-20 md:p-32 rounded-[5rem] text-center relative overflow-hidden border border-white/10 shadow-[0_100px_100px_-50px_rgba(0,0,0,0.5)]">
+                <div className="max-w-[1200px] mx-auto bg-zinc-900 text-white p-20 md:p-32 rounded-[5rem] text-center relative overflow-hidden border border-white/10 shadow-[0_100px_100px_-50px_rgba(0,0,0,0.5)]">
                     <div className="absolute inset-0 bg-primary/10 animate-pulse-slow pointer-events-none backdrop-blur-3xl" />
                     <div className="absolute top-0 left-0 p-16 opacity-5 pointer-events-none">
                         <Lock size={300} className="rotate-12" />
@@ -395,7 +395,7 @@ const Home = () => {
             </section>
 
             {/* Terminal Footer */}
-            <footer className="pt-40 pb-20 border-t border-border/10 bg-white dark:bg-[#0c1a15] px-8 relative overflow-hidden">
+            <footer className="pt-40 pb-20 border-t border-border/10 bg-white px-8 relative overflow-hidden">
                 <div className="max-w-[1400px] mx-auto relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-20 mb-32">
                         <div className="col-span-1 lg:col-span-2">
@@ -408,7 +408,7 @@ const Home = () => {
                             <p className="opacity-40 max-w-sm mb-12 font-black uppercase tracking-[3px] italic leading-relaxed text-xs">The most trusted partner in high-end insurance infrastructure. Secure protection designed for modern professionals.</p>
                             <div className="flex gap-6">
                                 {[ShieldCheck, Globe, Activity, Headphones].map((Icon, i) => (
-                                    <div key={i} className="w-14 h-14 rounded-2xl bg-zinc-50 dark:bg-white/5 border border-border flex items-center justify-center hover:bg-primary transition-all cursor-pointer group shadow-sm">
+                                    <div key={i} className="w-14 h-14 rounded-2xl bg-zinc-50 border border-border flex items-center justify-center hover:bg-primary transition-all cursor-pointer group shadow-sm">
                                         <Icon size={24} className="text-zinc-400 group-hover:text-white transition-colors" />
                                     </div>
                                 ))}

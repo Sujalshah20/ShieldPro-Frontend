@@ -74,7 +74,7 @@ const PolicyDetails = () => {
     );
 
     return (
-        <div className="admin-policy-details p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-policy-details p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Professional Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '60px 60px' }} />
@@ -84,7 +84,7 @@ const PolicyDetails = () => {
                     <div className="flex items-center gap-8">
                         <button 
                             onClick={() => navigate('/admin/policies')}
-                            className="w-20 h-20 bg-white dark:bg-zinc-900 rounded-[2rem] flex items-center justify-center text-primary border-2 border-border/50 shadow-2xl hover:translate-x-[-8px] transition-all active:scale-90 group relative"
+                            className="w-20 h-20 bg-white rounded-[2rem] flex items-center justify-center text-primary border-2 border-border/50 shadow-2xl hover:translate-x-[-8px] transition-all active:scale-90 group relative"
                         >
                             <div className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-5 transition-opacity rounded-[2rem]" />
                             <ArrowLeft size={32} strokeWidth={4} />
@@ -105,10 +105,10 @@ const PolicyDetails = () => {
                     </div>
                     
                     <div className="flex gap-6">
-                        <button className="h-16 w-16 bg-white dark:bg-zinc-900 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-primary border border-border/50 shadow-xl transition-all active:scale-90">
+                        <button className="h-16 w-16 bg-white rounded-2xl flex items-center justify-center text-zinc-400 hover:text-primary border border-border/50 shadow-xl transition-all active:scale-90">
                             <Share2 size={24} strokeWidth={3} />
                         </button>
-                        <button className="h-16 w-16 bg-white dark:bg-zinc-900 rounded-2xl flex items-center justify-center text-zinc-400 hover:text-accent border border-border/50 shadow-xl transition-all active:scale-90">
+                        <button className="h-16 w-16 bg-white rounded-2xl flex items-center justify-center text-zinc-400 hover:text-accent border border-border/50 shadow-xl transition-all active:scale-90">
                             <Edit3 size={24} strokeWidth={3} />
                         </button>
                     </div>
@@ -119,7 +119,7 @@ const PolicyDetails = () => {
                 {/* Left Column: Visual Chassis */}
                 <div className="xl:col-span-1 space-y-12">
                     <Reveal width="100%" direction="right">
-                        <div className="bg-white dark:bg-zinc-900/50 p-12 rounded-[4rem] border border-border/50 shadow-3xl relative overflow-hidden group backdrop-blur-md">
+                        <div className="bg-white p-12 rounded-[4rem] border border-border/50 shadow-3xl relative overflow-hidden group backdrop-blur-md">
                              <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none group-hover:scale-150 transition-transform duration-1000">
                                 {getPolicyIcon(policy.policyType)}
                              </div>
@@ -143,7 +143,7 @@ const PolicyDetails = () => {
                                     { label: "TOTAL_COVERAGE", value: `₹${policy.coverageAmount?.toLocaleString()}`, sub: "TOTAL_CAP", icon: ShieldCheck, color: "text-accent" },
                                     { label: "POLICY_DURATION", value: `${policy.durationYears} YEARS`, sub: "CONTRACT_PERIOD", icon: Clock, color: "text-indigo-500" }
                                 ].map((stat, i) => (
-                                    <div key={i} className="p-8 bg-zinc-50 dark:bg-white/[0.03] rounded-[2rem] border border-border/50 transition-all shadow-sm relative overflow-hidden group/item">
+                                    <div key={i} className="p-8 bg-zinc-50 rounded-[2rem] border border-border/50 transition-all shadow-sm relative overflow-hidden group/item">
                                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-100%] group-hover/item:translate-x-[100%] transition-transform duration-1000" />
                                          <p className="text-[10px] font-black uppercase tracking-[5px] opacity-20 mb-3 italic">{stat.label}</p>
                                          <div className="flex items-end gap-3">
@@ -187,7 +187,7 @@ const PolicyDetails = () => {
                 {/* Right Column: Deep Intel */}
                 <div className="xl:col-span-2 space-y-12">
                     <Reveal width="100%" direction="left">
-                        <div className="bg-white dark:bg-zinc-900/50 p-12 lg:p-18 rounded-[5rem] border border-border/50 shadow-3xl min-h-[850px] flex flex-col relative overflow-hidden backdrop-blur-xl">
+                        <div className="bg-white p-12 lg:p-18 rounded-[5rem] border border-border/50 shadow-3xl min-h-[850px] flex flex-col relative overflow-hidden backdrop-blur-xl">
                              <div className="absolute top-0 left-0 p-20 opacity-[0.02] pointer-events-none">
                                 <Box size={400} />
                              </div>
@@ -201,7 +201,7 @@ const PolicyDetails = () => {
                                 </div>
                                 <div className="flex -space-x-3">
                                     {[1,2,3,4].map(i => (
-                                        <div key={i} className="w-12 h-12 rounded-2xl border-4 border-white dark:border-zinc-900 bg-zinc-800 flex items-center justify-center text-[10px] font-black text-white italic">0{i}</div>
+                                        <div key={i} className="w-12 h-12 rounded-2xl border-4 border-white bg-zinc-800 flex items-center justify-center text-[10px] font-black text-white italic">0{i}</div>
                                     ))}
                                 </div>
                              </div>
@@ -213,7 +213,7 @@ const PolicyDetails = () => {
                                     </h4>
                                     <div className="relative">
                                         <div className="absolute left-[-30px] top-0 bottom-0 w-1 bg-primary/10 rounded-full" />
-                                        <div className="prose prose-lg dark:prose-invert max-w-none">
+                                        <div className="prose prose-lg max-w-none">
                                              <p className="text-sm font-black opacity-60 uppercase tracking-[4px] leading-[2.8] italic whitespace-pre-wrap">
                                                 {policy.terms || "Note: This policy is governed by standard insurance regulations. Any modifications to the terms require administrative approval and verified sign-off. Ensure all coverage limits are clearly communicated to the client."}
                                              </p>
@@ -232,7 +232,7 @@ const PolicyDetails = () => {
                                                 { name: "COVERAGE_SUMMARY.PDF", size: "1.2MB", type: "CLIENT_COPY" },
                                                 { name: "TERMS_GUIDE.PDF", size: "812KB", type: "GENERAL" }
                                             ].map((doc, i) => (
-                                                <button key={i} className="w-full p-8 bg-zinc-50 dark:bg-white/[0.03] border-2 border-border/50 rounded-[2.5rem] flex items-center justify-between group/doc hover:border-primary hover:translate-y-[-8px] transition-all shadow-xl relative overflow-hidden">
+                                                <button key={i} className="w-full p-8 bg-zinc-50 border-2 border-border/50 rounded-[2.5rem] flex items-center justify-between group/doc hover:border-primary hover:translate-y-[-8px] transition-all shadow-xl relative overflow-hidden">
                                                     <div className="absolute inset-y-0 right-0 w-1 bg-transparent group-hover/doc:bg-primary transition-colors" />
                                                     <div className="flex items-center gap-6">
                                                         <div className="w-14 h-14 bg-zinc-900 rounded-2xl flex items-center justify-center text-primary border border-white/5 shadow-inner">

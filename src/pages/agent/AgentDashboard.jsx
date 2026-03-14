@@ -58,7 +58,7 @@ const AgentDashboard = () => {
     const THEME_COLORS = ["#FF5A00", "#10b981", "#ef4444"];
 
     return (
-        <div className="agent-dashboard p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen">
+        <div className="agent-dashboard p-6 md:p-10 bg-[#F4F7FB] min-h-screen">
             <Reveal width="100%" direction="down">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>
@@ -79,7 +79,7 @@ const AgentDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 {statsCards.map((card, idx) => (
                     <Reveal key={idx} width="100%" delay={idx * 0.1} direction="up">
-                        <div className={`p-8 rounded-[2.5rem] border border-border/50 bg-white dark:bg-zinc-900/50 shadow-sm relative overflow-hidden group hover:border-accent/30 transition-all`}>
+                        <div className={`p-8 rounded-[2.5rem] border border-border/50 bg-white shadow-sm relative overflow-hidden group hover:border-accent/30 transition-all`}>
                             <div className={`absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 group-hover:opacity-10 transition-transform ${card.color}`}>
                                 <card.icon size={80} />
                             </div>
@@ -97,7 +97,7 @@ const AgentDashboard = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 {/* Distribution Analysis */}
-                <div className="lg:col-span-3 bg-white dark:bg-zinc-900/50 p-8 rounded-[3rem] border border-border/50 shadow-sm relative overflow-hidden">
+                <div className="lg:col-span-3 bg-white p-8 rounded-[3rem] border border-border/50 shadow-sm relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-10 opacity-5">
                          <Target className="w-40 h-40" />
                     </div>
@@ -134,13 +134,13 @@ const AgentDashboard = () => {
 
                 {/* System Actions */}
                 <div className="lg:col-span-2 space-y-8">
-                    <div className="bg-white dark:bg-zinc-900/50 p-8 rounded-[3rem] border border-border/50 shadow-sm relative group overflow-hidden">
+                    <div className="bg-white p-8 rounded-[3rem] border border-border/50 shadow-sm relative group overflow-hidden">
                          <div className="absolute top-[-10%] right-[-10%] w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-colors" />
                          <h3 className="text-xl font-black uppercase tracking-tight italic flex items-center gap-3 mb-8">
                             <Zap className="text-primary w-6 h-6" /> System Actions
                          </h3>
                          <div className="grid grid-cols-1 gap-4">
-                            <Link to="/agent/clients" className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-800 rounded-3xl border border-border/50 hover:bg-white dark:hover:bg-zinc-700 hover:shadow-xl transition-all group/action">
+                            <Link to="/agent/clients" className="flex items-center justify-between p-6 bg-zinc-50 rounded-3xl border border-border/50 hover:bg-white hover:shadow-xl transition-all group/action">
                                 <div className="flex items-center gap-5">
                                     <div className="p-3 bg-primary/10 text-primary rounded-xl group-hover/action:bg-primary group-hover/action:text-white transition-colors">
                                         <Users size={24} />
@@ -154,7 +154,7 @@ const AgentDashboard = () => {
                                     <TrendingUp className="text-primary" />
                                 </div>
                             </Link>
-                            <Link to="/agent/policies" className="flex items-center justify-between p-6 bg-zinc-50 dark:bg-zinc-800 rounded-3xl border border-border/50 hover:bg-white dark:hover:bg-zinc-700 hover:shadow-xl transition-all group/action">
+                            <Link to="/agent/policies" className="flex items-center justify-between p-6 bg-zinc-50 rounded-3xl border border-border/50 hover:bg-white hover:shadow-xl transition-all group/action">
                                 <div className="flex items-center gap-5">
                                     <div className="p-3 bg-accent/10 text-accent rounded-xl group-hover/action:bg-accent group-hover/action:text-white transition-colors">
                                         <ShieldCheck size={24} />

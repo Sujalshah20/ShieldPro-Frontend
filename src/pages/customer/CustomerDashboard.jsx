@@ -105,7 +105,7 @@ const CustomerDashboard = () => {
     });
 
     return (
-        <div className="customer-dashboard p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen space-y-12">
+        <div className="customer-dashboard p-6 md:p-10 bg-[#F4F7FB] min-h-screen space-y-12">
             {/* DASHBOARD HEADER */}
             <Reveal width="100%" direction="down">
                 <section className="relative overflow-hidden rounded-[3rem] bg-zinc-900 p-10 md:p-16 text-white shadow-2xl">
@@ -178,7 +178,7 @@ const CustomerDashboard = () => {
             <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {stats.map((s, idx) => (
                     <Reveal key={s.title} width="100%" delay={idx * 0.1} direction="up">
-                        <div className="bg-white dark:bg-zinc-900/50 p-8 rounded-[2.5rem] border border-border/50 shadow-sm relative overflow-hidden group hover:border-primary/30 transition-all">
+                        <div className="bg-white p-8 rounded-[2.5rem] border border-border/50 shadow-sm relative overflow-hidden group hover:border-primary/30 transition-all">
                              <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 group-hover:opacity-10 transition-transform">
                                 <s.icon size={80} className={s.color} />
                             </div>
@@ -220,7 +220,7 @@ const CustomerDashboard = () => {
                     </nav>
                     
                     {activeTab === 'browse' && (
-                        <div className="flex items-center gap-6 bg-white dark:bg-zinc-900 p-2 rounded-2xl border border-border/50">
+                        <div className="flex items-center gap-6 bg-white p-2 rounded-2xl border border-border/50">
                             <Toggle isOn={isAnnual} onToggle={() => setIsAnnual(!isAnnual)} labelLeft="Monthly" labelRight="Annual" />
                         </div>
                     )}
@@ -252,7 +252,7 @@ const CustomerDashboard = () => {
                                                 <CardSkeleton rows={1} cols={2} />
                                             ) : safeMyPolicies.length > 0 ? (
                                                 safeMyPolicies.slice(0, 4).map(p => (
-                                                    <div key={p._id} className="group p-8 bg-white dark:bg-zinc-900 rounded-[2.5rem] border border-border/50 hover:border-primary/50 hover:shadow-xl transition-all relative overflow-hidden">
+                                                    <div key={p._id} className="group p-8 bg-white rounded-[2.5rem] border border-border/50 hover:border-primary/50 hover:shadow-xl transition-all relative overflow-hidden">
                                                         <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:rotate-12 transition-transform">
                                                             {getPolicyIcon(p.policy?.policyType)}
                                                         </div>
@@ -273,9 +273,9 @@ const CustomerDashboard = () => {
                                                     </div>
                                                 ))
                                             ) : (
-                                                <div className="col-span-full py-20 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-[3rem] border border-dashed border-border/50">
+                                                <div className="col-span-full py-20 text-center bg-zinc-50 rounded-[3rem] border border-dashed border-border/50">
                                                     <p className="text-sm font-black uppercase tracking-[5px] opacity-20">No active policies found</p>
-                                                    <button onClick={()=>navigate('/customer/browse')} className="mt-6 px-8 py-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl text-[10px] font-black uppercase tracking-widest">Explore Plans</button>
+                                                    <button onClick={()=>navigate('/customer/browse')} className="mt-6 px-8 py-3 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest">Explore Plans</button>
                                                 </div>
                                             )}
                                         </div>
@@ -285,13 +285,13 @@ const CustomerDashboard = () => {
                                         <h2 className="text-2xl font-black uppercase italic tracking-tight flex items-center gap-3">
                                             <TrendingUp className="text-indigo-500 w-6 h-6" /> Claims Status
                                         </h2>
-                                        <div className="bg-white dark:bg-zinc-900 rounded-[3rem] border border-border/50 overflow-hidden shadow-sm">
+                                        <div className="bg-white rounded-[3rem] border border-border/50 overflow-hidden shadow-sm">
                                             {safeMyClaims.length > 0 ? (
                                                 <div className="divide-y divide-border/30">
                                                     {safeMyClaims.slice(0, 4).map(claim => (
-                                                        <div key={claim._id} className="p-6 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors group">
+                                                        <div key={claim._id} className="p-6 flex items-center justify-between hover:bg-zinc-50 transition-colors group">
                                                             <div className="flex items-center gap-5">
-                                                                <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center border border-border/50 group-hover:bg-white dark:group-hover:bg-zinc-700 transition-colors">
+                                                                <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center border border-border/50 group-hover:bg-white transition-colors">
                                                                     <ClipboardList className="w-5 h-5 opacity-40" />
                                                                 </div>
                                                                 <div>
@@ -310,7 +310,7 @@ const CustomerDashboard = () => {
                                                 </div>
                                             ) : (
                                                 <div className="p-20 text-center flex flex-col items-center gap-4">
-                                                    <div className="w-16 h-16 bg-zinc-50 dark:bg-zinc-800 rounded-2xl flex items-center justify-center">
+                                                    <div className="w-16 h-16 bg-zinc-50 rounded-2xl flex items-center justify-center">
                                                         <Activity className="opacity-10" size={32} />
                                                     </div>
                                                     <p className="text-[10px] font-black uppercase tracking-[3px] opacity-20 italic">No recent claims feedback</p>
@@ -346,7 +346,7 @@ const CustomerDashboard = () => {
                                                 <input 
                                                     type="text" 
                                                     placeholder="SEARCH PLANS..." 
-                                                    className="pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-border/50 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none w-full md:w-80 transition-all font-bold text-xs uppercase tracking-widest shadow-sm" 
+                                                    className="pl-14 pr-6 py-4 bg-white border border-border/50 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none w-full md:w-80 transition-all font-bold text-xs uppercase tracking-widest shadow-sm" 
                                                     value={searchQuery} 
                                                     onChange={e=>setSearchQuery(e.target.value)} 
                                                 />
@@ -354,7 +354,7 @@ const CustomerDashboard = () => {
                                             
                                             <div className="relative group">
                                                 <select
-                                                    className="appearance-none pl-6 pr-12 py-4 bg-white dark:bg-zinc-900 border border-border/50 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all cursor-pointer font-black text-[10px] uppercase tracking-widest shadow-sm"
+                                                    className="appearance-none pl-6 pr-12 py-4 bg-white border border-border/50 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all cursor-pointer font-black text-[10px] uppercase tracking-widest shadow-sm"
                                                     value={filterType}
                                                     onChange={e => setFilterType(e.target.value)}
                                                 >
@@ -378,10 +378,10 @@ const CustomerDashboard = () => {
                                             <CardSkeleton rows={2} cols={3} />
                                         ) : filteredPolicies.length > 0 ? (
                                             filteredPolicies.map(pol => (
-                                                <div key={pol._id} className="group relative bg-white dark:bg-zinc-900 rounded-[3rem] border border-border/50 overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] hover:border-primary/50 transition-all duration-700">
+                                                <div key={pol._id} className="group relative bg-white rounded-[3rem] border border-border/50 overflow-hidden hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] hover:border-primary/50 transition-all duration-700">
                                                     <div className="p-10">
                                                         <div className="flex justify-between items-start mb-8">
-                                                            <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800 border border-border/50 group-hover:bg-primary group-hover:text-white transition-all group-hover:scale-110 shadow-sm">
+                                                            <div className="p-4 rounded-2xl bg-zinc-50 border border-border/50 group-hover:bg-primary group-hover:text-white transition-all group-hover:scale-110 shadow-sm">
                                                                 {getPolicyIcon(pol.policyType)}
                                                             </div>
                                                             <div className="text-right">
@@ -397,7 +397,7 @@ const CustomerDashboard = () => {
                                                         
                                                         <div className="grid grid-cols-1 gap-4 mb-10">
                                                             {['MAXIMUM COVERAGE', 'QUICK SETTLEMENT', 'GLOBAL COVERAGE'].map(feature => (
-                                                                <div key={feature} className="flex items-center gap-4 text-[9px] font-black uppercase tracking-widest bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-xl border border-border/10">
+                                                                <div key={feature} className="flex items-center gap-4 text-[9px] font-black uppercase tracking-widest bg-zinc-50 p-3 rounded-xl border border-border/10">
                                                                     <div className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center p-1 shadow-lg shadow-emerald-500/20">
                                                                         <CheckCircle className="text-white w-full h-full" />
                                                                     </div>
@@ -407,7 +407,7 @@ const CustomerDashboard = () => {
                                                         </div>
 
                                                         <button 
-                                                            className="w-full py-5 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-2xl font-black uppercase tracking-[4px] text-xs hover:translate-y-[-5px] shadow-xl hover:shadow-primary/20 transition-all active:scale-95 group-hover:bg-primary group-hover:text-white" 
+                                                            className="w-full py-5 bg-zinc-900 text-white rounded-2xl font-black uppercase tracking-[4px] text-xs hover:translate-y-[-5px] shadow-xl hover:shadow-primary/20 transition-all active:scale-95 group-hover:bg-primary group-hover:text-white" 
                                                             onClick={()=>handleBuy(pol)}
                                                         >
                                                             APPLY NOW
@@ -436,12 +436,12 @@ const CustomerDashboard = () => {
                                     <div className="grid grid-cols-1 gap-6">
                                         {safeMyApplications.filter(a => a.status !== 'Paid').length > 0 ? (
                                             safeMyApplications.filter(a => a.status !== 'Paid').map(app => (
-                                                <div key={app._id} className="bg-white dark:bg-zinc-900/50 p-8 md:p-10 rounded-[3.5rem] border border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 transition-all hover:border-accent/40 shadow-sm relative overflow-hidden group">
+                                                <div key={app._id} className="bg-white p-8 md:p-10 rounded-[3.5rem] border border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 transition-all hover:border-accent/40 shadow-sm relative overflow-hidden group">
                                                     <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:scale-110 transition-transform">
                                                         <Clock size={120} />
                                                     </div>
                                                     <div className="flex items-center gap-8 relative z-10">
-                                                        <div className="w-20 h-20 bg-zinc-50 dark:bg-zinc-800 text-accent rounded-[2rem] border border-border/50 flex items-center justify-center shrink-0 shadow-sm group-hover:bg-accent group-hover:text-white transition-all">
+                                                        <div className="w-20 h-20 bg-zinc-50 text-accent rounded-[2rem] border border-border/50 flex items-center justify-center shrink-0 shadow-sm group-hover:bg-accent group-hover:text-white transition-all">
                                                             <Shield size={36} />
                                                         </div>
                                                         <div>
@@ -479,7 +479,7 @@ const CustomerDashboard = () => {
                                                                 Complete Payment
                                                             </button>
                                                         ) : (
-                                                            <div className="px-10 py-5 bg-zinc-100 dark:bg-zinc-800 text-zinc-400 rounded-[1.5rem] font-black uppercase tracking-[3px] text-xs flex items-center gap-3">
+                                                            <div className="px-10 py-5 bg-zinc-100 text-zinc-400 rounded-[1.5rem] font-black uppercase tracking-[3px] text-xs flex items-center gap-3">
                                                                 <Clock size={16} />
                                                                 Analysis In Progress
                                                             </div>
@@ -488,7 +488,7 @@ const CustomerDashboard = () => {
                                                 </div>
                                             ))
                                         ) : (
-                                            <div className="py-40 text-center bg-white dark:bg-zinc-900/50 rounded-[4rem] border-2 border-dashed border-border/50">
+                                            <div className="py-40 text-center bg-white rounded-[4rem] border-2 border-dashed border-border/50">
                                                 <ClipboardList size={64} className="mx-auto text-zinc-200 mb-6 opacity-40" />
                                                 <p className="text-xl font-black uppercase tracking-[5px] opacity-20 italic">No procurement targets</p>
                                                 <button onClick={()=>navigate('/customer/browse')} className="mt-8 text-primary font-black uppercase tracking-widest text-[10px] hover:underline">Initialise First Target</button>

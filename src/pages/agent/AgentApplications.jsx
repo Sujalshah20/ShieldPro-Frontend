@@ -126,7 +126,7 @@ const AgentApplications = () => {
                                     <td className="px-8 py-6">
                                         <button 
                                             onClick={() => flagMutation.mutate(app._id)}
-                                            className={`p-2 rounded-lg transition-all ${app.isFlagged ? 'bg-red-500 text-white' : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}
+                                            className={`p-2 rounded-lg transition-all ${app.isFlagged ? 'bg-red-500 text-white' : 'text-zinc-500 hover:bg-zinc-100'}`}
                                         >
                                             <AlertCircle size={18} />
                                         </button>

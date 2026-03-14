@@ -63,12 +63,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white dark:bg-[#10221c] flex items-center justify-center p-6 relative overflow-hidden">
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-20 dark:opacity-40">
+    <div className="min-h-screen w-full bg-white flex items-center justify-center p-6 relative overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
         <HeroScene />
       </div>
 
-      <div className="auth-container w-full max-w-5xl flex flex-col md:flex-row bg-white/40 dark:bg-[#10221c]/40 backdrop-blur-3xl rounded-[4rem] border border-white/20 shadow-[0_80px_100px_-20px_rgba(0,0,0,0.1)] overflow-hidden relative z-10 transition-all duration-700">
+      <div className="auth-container w-full max-w-5xl flex flex-col md:flex-row bg-white/40 backdrop-blur-3xl rounded-[4rem] border border-white/20 shadow-[0_80px_100px_-20px_rgba(0,0,0,0.1)] overflow-hidden relative z-10 transition-all duration-700">
           
           {/* Left Panel: High-Tech Branding (Matches Register) */}
           <div className="hidden md:flex md:w-5/12 bg-primary p-20 flex-col justify-between relative overflow-hidden">
@@ -129,7 +129,7 @@ const Login = () => {
                               <input
                                   type="email"
                                   placeholder="ENTER SECURE EMAIL..."
-                                  className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                  className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
                                   value={email}
                                   onChange={(e) => setEmail(e.target.value)}
                                   required
@@ -155,7 +155,7 @@ const Login = () => {
                               <input
                                   type="password"
                                   placeholder="ENTER ENCRYPTED KEY..."
-                                  className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                  className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
                                   value={password}
                                   onChange={(e) => setPassword(e.target.value)}
                                   required
@@ -182,13 +182,13 @@ const Login = () => {
                   {/* High-Tech Captcha */}
                   <div 
                     onClick={() => setIsCaptchaVerified(!isCaptchaVerified)}
-                    className={`h-20 border-2 rounded-3xl flex items-center justify-between px-8 cursor-pointer transition-all duration-500 overflow-hidden relative group ${isCaptchaVerified ? 'border-emerald-500/50 bg-emerald-500/[0.03] shadow-lg shadow-emerald-500/5' : 'border-border/30 bg-zinc-50 dark:bg-white/5 hover:border-primary/30'}`}
+                    className={`h-20 border-2 rounded-3xl flex items-center justify-between px-8 cursor-pointer transition-all duration-500 overflow-hidden relative group ${isCaptchaVerified ? 'border-emerald-500/50 bg-emerald-500/[0.03] shadow-lg shadow-emerald-500/5' : 'border-border/30 bg-zinc-50 hover:border-primary/30'}`}
                   >
                         {isCaptchaVerified && (
                             <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} className="absolute left-0 bottom-0 h-1 bg-emerald-500" />
                         )}
                         <div className="flex items-center gap-6 relative z-10">
-                            <div className={`w-8 h-8 rounded-xl border-2 flex items-center justify-center transition-all duration-500 ${isCaptchaVerified ? 'bg-emerald-500 border-emerald-500 shadow-xl shadow-emerald-500/30 rotate-[360deg]' : 'border-zinc-300 dark:border-zinc-700 group-hover:border-primary'}`}>
+                            <div className={`w-8 h-8 rounded-xl border-2 flex items-center justify-center transition-all duration-500 ${isCaptchaVerified ? 'bg-emerald-500 border-emerald-500 shadow-xl shadow-emerald-500/30 rotate-[360deg]' : 'border-zinc-300 group-hover:border-primary'}`}>
                                 {isCaptchaVerified && <CheckCircle2 className="w-5 h-5 text-white stroke-[4px]" />}
                             </div>
                             <div>
@@ -235,7 +235,7 @@ const Login = () => {
                   
                   <div className="flex gap-6">
                         {['GOOGLE', 'FACEBOOK'].map(id => (
-                            <button key={id} onClick={() => handleSocialLogin(id)} className="w-12 h-12 bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-xl flex items-center justify-center grayscale hover:grayscale-0 transition-all hover:scale-110 active:scale-90">
+                            <button key={id} onClick={() => handleSocialLogin(id)} className="w-12 h-12 bg-zinc-50 border border-border/50 rounded-xl flex items-center justify-center grayscale hover:grayscale-0 transition-all hover:scale-110 active:scale-90">
                                 {id === 'GOOGLE' ? <Chrome size={18} className="text-rose-500" /> : <Facebook size={18} className="text-blue-600" />}
                             </button>
                         ))}
@@ -245,7 +245,7 @@ const Login = () => {
       </div>
       
       {/* Visual Ambiance */}
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-40 dark:opacity-10 z-[1]">
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-40 z-[1]">
           <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] animate-pulse-slow" />
           <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-accent/20 rounded-full blur-[100px] animate-pulse" />
       </div>
@@ -265,7 +265,7 @@ const Login = () => {
                     initial={{ opacity: 0, scale: 0.9, y: 30 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                    className="relative w-full max-w-lg bg-white dark:bg-[#10221c] p-12 md:p-16 rounded-[4rem] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.5)] overflow-hidden"
+                    className="relative w-full max-w-lg bg-white p-12 md:p-16 rounded-[4rem] border border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.5)] overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 p-16 opacity-5 pointer-events-none">
                         <Target size={200} className="text-primary rotate-45" />
@@ -281,7 +281,7 @@ const Login = () => {
                                 <input 
                                     type="email" 
                                     placeholder="REGISTERED EMAIL..." 
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-5 outline-none focus:border-primary transition-all font-black text-xs uppercase tracking-widest"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-5 outline-none focus:border-primary transition-all font-black text-xs uppercase tracking-widest"
                                 />
                             </div>
                             <button 

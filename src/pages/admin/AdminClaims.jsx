@@ -59,7 +59,7 @@ const AdminClaims = () => {
     );
 
     return (
-        <div className="admin-claims p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-claims p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Background Atmosphere */}
             <div className="absolute top-0 right-0 p-20 opacity-[0.03] pointer-events-none">
                 <Activity size={700} className="text-primary rotate-45" />
@@ -79,7 +79,7 @@ const AdminClaims = () => {
                         </p>
                     </div>
                     
-                    <div className="px-12 py-8 bg-white dark:bg-zinc-900/50 rounded-[3rem] border-2 border-primary/10 shadow-3xl flex flex-col items-center group hover:border-primary/40 transition-all backdrop-blur-xl relative overflow-hidden">
+                    <div className="px-12 py-8 bg-white rounded-[3rem] border-2 border-primary/10 shadow-3xl flex flex-col items-center group hover:border-primary/40 transition-all backdrop-blur-xl relative overflow-hidden">
                         <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <span className="text-[10px] font-black uppercase tracking-[5px] opacity-20 mb-2 italic relative z-10 flex items-center gap-3">
                             <CreditCard size={14} className="text-primary" /> TOTAL_CLAIM_PAYOUTS
@@ -99,12 +99,12 @@ const AdminClaims = () => {
                     { label: "APPROVED_CLAIMS", value: stats.authorized, color: "text-emerald-500", bg: "bg-emerald-500/10", icon: CheckCircle, tag: "FINISHED" }
                  ].map((stat, i) => (
                     <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
-                        <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3.5rem] border border-border/50 flex flex-col justify-between group hover:border-primary/40 transition-all shadow-xl hover:translate-y-[-8px] relative overflow-hidden">
+                        <div className="bg-white p-10 rounded-[3.5rem] border border-border/50 flex flex-col justify-between group hover:border-primary/40 transition-all shadow-xl hover:translate-y-[-8px] relative overflow-hidden">
                             <div className="flex items-center justify-between mb-8 relative z-10">
                                 <div className={`p-5 ${stat.bg} ${stat.color} rounded-[1.5rem] group-hover:rotate-12 transition-all shadow-lg border border-white/10`}>
                                     <stat.icon size={28} strokeWidth={3} />
                                 </div>
-                                <span className="text-[9px] font-black opacity-40 uppercase tracking-[3px] px-3 py-1 bg-zinc-100 dark:bg-white/5 rounded-md italic">{stat.tag}</span>
+                                <span className="text-[9px] font-black opacity-40 uppercase tracking-[3px] px-3 py-1 bg-zinc-100 rounded-md italic">{stat.tag}</span>
                             </div>
                             <div className="relative z-10">
                                 <p className="text-[10px] font-black uppercase tracking-[5px] opacity-20 mb-2 italic">{stat.label}</p>
@@ -123,20 +123,20 @@ const AdminClaims = () => {
                     <input 
                         type="text" 
                         placeholder="SEARCH_BY_CLIENT_OR_DASHBOARD_ID..." 
-                        className="pl-16 pr-8 h-18 bg-white dark:bg-zinc-900/50 border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
+                        className="pl-16 pr-8 h-18 bg-white border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
                         value={searchQuery} 
                         onChange={e=>setSearchQuery(e.target.value)} 
                     />
                 </div>
-                <div className="flex items-center gap-6 bg-white dark:bg-zinc-900/50 px-8 py-5 rounded-[1.5rem] border border-border/50 backdrop-blur-md">
+                <div className="flex items-center gap-6 bg-white px-8 py-5 rounded-[1.5rem] border border-border/50 backdrop-blur-md">
                     <BarChart3 className="text-primary w-5 h-5 shadow-[0_0_10px_#0165FF]" />
                     <span className="text-[10px] font-black uppercase tracking-[5px] opacity-30 italic">LIVE_CLAIMS_LEDGER_SYNC</span>
                 </div>
             </div>
 
             {/* CLAIMS QUEUE */}
-            <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
-                <div className="p-10 border-b border-border/50 flex items-center justify-between bg-zinc-50 dark:bg-white/[0.02] relative">
+            <div className="bg-white rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
+                <div className="p-10 border-b border-border/50 flex items-center justify-between bg-zinc-50 relative">
                     <div className="absolute inset-0 bg-primary/5 opacity-[0.05] pointer-events-none group-hover:opacity-[0.1] transition-opacity" />
                     <div className="flex items-center gap-6 relative z-10">
                         <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-lg border border-primary/20">
@@ -155,7 +155,7 @@ const AdminClaims = () => {
                 <div className="overflow-x-auto no-scrollbar">
                     <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                         <thead>
-                            <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
+                            <tr className="bg-zinc-100 text-[9px] opacity-40">
                                 <th className="px-12 py-8 tracking-[4px]">CLIENT_INFORMATION</th>
                                 <th className="px-12 py-8 tracking-[4px]">INSURANCE_POLICY</th>
                                 <th className="px-12 py-8 tracking-[4px]">CLAIM_AMOUNT</th>
@@ -170,7 +170,7 @@ const AdminClaims = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     key={claim._id} 
-                                    className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-all group cursor-pointer"
+                                    className="hover:bg-zinc-50 transition-all group cursor-pointer"
                                 >
                                     <td className="px-12 py-8">
                                         <div className="flex items-center gap-6">
@@ -201,7 +201,7 @@ const AdminClaims = () => {
                                         </div>
                                     </td>
                                     <td className="px-12 py-8">
-                                        <div className="flex items-center gap-4 bg-zinc-100 dark:bg-white/5 py-3 px-6 rounded-[1.25rem] border border-border/30 w-fit">
+                                        <div className="flex items-center gap-4 bg-zinc-100 py-3 px-6 rounded-[1.25rem] border border-border/30 w-fit">
                                             <IndianRupee size={16} className="text-primary opacity-60" strokeWidth={3} />
                                             <span className="text-2xl font-black italic tracking-tighter uppercase leading-none">₹{claim.amount.toLocaleString()}</span>
                                         </div>
@@ -226,7 +226,7 @@ const AdminClaims = () => {
                                     <td className="px-12 py-8 text-right">
                                         <button 
                                             onClick={() => setSelectedClaim(claim)}
-                                            className="h-12 px-8 bg-zinc-900 dark:bg-zinc-800 text-white dark:text-zinc-500 rounded-xl text-[9px] font-black uppercase tracking-[3px] hover:bg-primary dark:hover:bg-primary hover:text-white transition-all shadow-xl active:scale-95 italic flex items-center gap-4 float-right group/btn"
+                                            className="h-12 px-8 bg-zinc-900 text-white rounded-xl text-[9px] font-black uppercase tracking-[3px] hover:bg-primary hover:text-white transition-all shadow-xl active:scale-95 italic flex items-center gap-4 float-right group/btn"
                                         >
                                             VIEW_CLAIM_DETAILS <Eye size={16} strokeWidth={3} className="group-hover/btn:scale-110 transition-transform" />
                                         </button>
@@ -247,7 +247,7 @@ const AdminClaims = () => {
                             initial={{ opacity: 0, scale: 0.9, y: 50 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                            className="relative w-full max-w-6xl bg-white dark:bg-[#10221c] p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_120px_200px_rgba(0,0,0,0.6)] overflow-hidden"
+                            className="relative w-full max-w-6xl bg-white p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_120px_200px_rgba(0,0,0,0.6)] overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-24 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
                                 <ShieldAlert size={500} className="text-orange-500 animate-pulse-slow" />
@@ -275,7 +275,7 @@ const AdminClaims = () => {
 
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20 relative z-10">
                                 <div className="space-y-12">
-                                    <div className="p-12 bg-zinc-50 dark:bg-white/[0.02] rounded-[3.5rem] border-2 border-border/50 shadow-inner group hover:border-primary/50 transition-all">
+                                    <div className="p-12 bg-zinc-50 rounded-[3.5rem] border-2 border-border/50 shadow-inner group hover:border-primary/50 transition-all">
                                         <p className="text-[10px] font-black uppercase opacity-20 tracking-[6px] mb-8 italic">CLIENT_INFORMATION</p>
                                         <div className="flex items-center gap-10">
                                             <div className="relative group/prof">

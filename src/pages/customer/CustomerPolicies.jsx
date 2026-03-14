@@ -46,7 +46,7 @@ const CustomerPolicies = () => {
     if (isLoading) return <div className="p-8"><TableSkeleton rows={5} cols={4} /></div>;
 
     return (
-        <div className="customer-policies p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+        <div className="customer-policies p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Tactical Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #FF5A00 1px, transparent 0)`, backgroundSize: '50px 50px' }} />
@@ -69,7 +69,7 @@ const CustomerPolicies = () => {
                         </p>
                     </div>
                     
-                    <div className="px-10 py-6 bg-white dark:bg-zinc-900/50 rounded-[2.5rem] border border-accent/20 shadow-2xl flex items-center gap-8 backdrop-blur-md">
+                    <div className="px-10 py-6 bg-white rounded-[2.5rem] border border-accent/20 shadow-2xl flex items-center gap-8 backdrop-blur-md">
                         <div className="flex flex-col">
                             <span className="text-[10px] font-black uppercase tracking-[4px] opacity-40 italic leading-none">DEPLOYED_NODES</span>
                             <span className="text-3xl font-black italic tracking-tighter text-accent leading-none mt-2">{myPolicies.length}</span>
@@ -83,7 +83,7 @@ const CustomerPolicies = () => {
             </Reveal>
 
             {myPolicies.length === 0 ? (
-                <div className="text-center py-60 bg-white/50 dark:bg-zinc-900/30 border-4 border-dashed border-border/30 rounded-[6rem] backdrop-blur-sm relative overflow-hidden">
+                <div className="text-center py-60 bg-white/50 border-4 border-dashed border-border/30 rounded-[6rem] backdrop-blur-sm relative overflow-hidden">
                     <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
                         <Target size={500} className="mx-auto" />
                     </div>
@@ -95,7 +95,7 @@ const CustomerPolicies = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
                     {myPolicies.map((p, idx) => (
                         <Reveal key={p._id} width="100%" delay={idx * 0.05} direction="up">
-                            <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 hover:border-accent/50 transition-all group overflow-hidden shadow-sm hover:shadow-[0_60px_100px_-30px_rgba(0,0,0,0.2)] relative">
+                            <div className="bg-white rounded-[4rem] border border-border/50 hover:border-accent/50 transition-all group overflow-hidden shadow-sm hover:shadow-[0_60px_100px_-30px_rgba(0,0,0,0.2)] relative">
                                 {/* Card Accent Glow */}
                                 <div className="absolute top-0 right-0 p-10 opacity-0 group-hover:opacity-10 transition-opacity pointer-events-none">
                                     <Target size={140} className="text-accent rotate-12" />
@@ -114,7 +114,7 @@ const CustomerPolicies = () => {
                                             {getPolicyIcon(p.policy?.policyType)}
                                         </div>
                                         <div className="flex flex-col items-end gap-3">
-                                            <div className="px-5 py-2 bg-zinc-100 dark:bg-white/5 border border-border/30 rounded-full text-[8px] font-black uppercase tracking-[3px] opacity-40 italic group-hover:opacity-100 transition-opacity">
+                                            <div className="px-5 py-2 bg-zinc-100 border border-border/30 rounded-full text-[8px] font-black uppercase tracking-[3px] opacity-40 italic group-hover:opacity-100 transition-opacity">
                                                 NODE_#{p.policyNumber}
                                             </div>
                                             <div className="flex gap-2">
@@ -133,7 +133,7 @@ const CustomerPolicies = () => {
                                     </p>
 
                                     <div className="space-y-4 mb-12">
-                                        <div className="flex justify-between items-center p-8 bg-zinc-50 dark:bg-white/[0.03] rounded-[2.5rem] border border-border/20 shadow-inner group-hover:bg-white dark:group-hover:bg-zinc-800 transition-colors">
+                                        <div className="flex justify-between items-center p-8 bg-zinc-50 rounded-[2.5rem] border border-border/20 shadow-inner group-hover:bg-white transition-colors">
                                             <div className="flex flex-col">
                                                 <span className="text-[8px] font-black opacity-20 uppercase tracking-[4px] mb-1">SAFEGUARD_VALUE</span>
                                                 <span className="text-3xl font-black italic tracking-tighter text-accent">₹{(p.policy?.coverageAmount / 100000).toFixed(1)}L</span>
@@ -160,7 +160,7 @@ const CustomerPolicies = () => {
                                         </div>
                                     </div>
 
-                                    <button className="w-full h-16 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-[1.5rem] font-black text-[10px] uppercase tracking-[4px] shadow-2xl hover:bg-accent dark:hover:bg-accent hover:text-white transition-all flex items-center justify-center gap-4 active:scale-95 italic group/btn">
+                                    <button className="w-full h-16 bg-zinc-900 text-white rounded-[1.5rem] font-black text-[10px] uppercase tracking-[4px] shadow-2xl hover:bg-accent hover:text-white transition-all flex items-center justify-center gap-4 active:scale-95 italic group/btn">
                                         REVEAL_ASSET_DNA <ArrowUpRight size={18} strokeWidth={3} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
                                     </button>
                                 </div>

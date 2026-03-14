@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
 import { 
     Settings, Shield, Lock, Bell, 
-    Monitor, Moon, Sun, Zap,
+    Monitor, Sun, Zap,
     Cpu, Target, Activity, Fingerprint,
     Command, Radar, Layout, Info,
     Power, AlertTriangle, RefreshCcw, Save,
@@ -13,7 +12,6 @@ import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
 
 const CustomerSettings = () => {
-    const { theme, toggleTheme } = useTheme();
     const { toast } = useToast();
     const [notifications, setNotifications] = useState({
         email: true,
@@ -34,7 +32,7 @@ const CustomerSettings = () => {
     };
 
     return (
-        <div className="customer-settings p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#10221c] min-h-screen relative overflow-hidden">
+        <div className="customer-settings p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Tactical Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #FF5A00 1px, transparent 0)`, backgroundSize: '50px 50px' }} />
@@ -73,12 +71,12 @@ const CustomerSettings = () => {
                             className={`p-8 rounded-[2rem] border transition-all cursor-pointer group relative overflow-hidden ${
                                 item.active 
                                 ? 'bg-accent text-white border-accent shadow-2xl shadow-accent/30 translate-x-4' 
-                                : 'bg-white dark:bg-zinc-900/50 border-border/50 hover:border-accent/40 hover:translate-x-2'
+                                : 'bg-white border-border/50 hover:border-accent/40 hover:translate-x-2'
                             }`}
                         >
                             <div className="relative z-10 flex items-center justify-between">
                                 <div className="flex items-center gap-6">
-                                    <div className={`p-4 rounded-xl border ${item.active ? 'bg-white/10 border-white/20' : 'bg-zinc-50 dark:bg-white/5 border-border/50'}`}>
+                                    <div className={`p-4 rounded-xl border ${item.active ? 'bg-white/10 border-white/20' : 'bg-zinc-50 border-border/50'}`}>
                                         <item.icon size={22} strokeWidth={item.active ? 3 : 2} />
                                     </div>
                                     <span className="text-[10px] font-black uppercase tracking-[4px] italic">{item.label}</span>
@@ -111,8 +109,8 @@ const CustomerSettings = () => {
 
                 {/* Configuration Matrix */}
                 <div className="xl:col-span-2 space-y-12">
-                    <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 shadow-2xl overflow-hidden backdrop-blur-md">
-                        <div className="p-12 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-zinc-50 dark:bg-white/[0.02]">
+                    <div className="bg-white rounded-[4rem] border border-border/50 shadow-2xl overflow-hidden backdrop-blur-md">
+                        <div className="p-12 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-zinc-50">
                              <div className="flex items-center gap-8">
                                 <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center text-accent border border-accent/20 shadow-xl">
                                     <Fingerprint size={32} strokeWidth={3} />
@@ -129,23 +127,21 @@ const CustomerSettings = () => {
                         </div>
 
                         <div className="p-12 space-y-16">
-                            {/* Appearance Toggle */}
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 p-10 bg-zinc-50/50 dark:bg-white/[0.02] rounded-[3rem] border border-border/30 hover:border-accent/40 transition-all group">
+                            {/* Appearance — Light Mode Active */}
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 p-10 bg-zinc-50/50 rounded-[3rem] border border-border/30 hover:border-accent/40 transition-all group">
                                 <div className="flex items-center gap-8">
                                     <div className="p-6 rounded-[2rem] bg-accent shadow-accent/30 shadow-2xl text-white">
-                                        {theme === 'dark' ? <Moon size={28} strokeWidth={4} /> : <Sun size={28} strokeWidth={4} />}
+                                        {/* Sun icon removed, replaced with a static Monitor icon */}
+                                        <Monitor size={28} strokeWidth={4} />
                                     </div>
                                     <div>
                                         <h4 className="text-2xl font-black italic tracking-tighter uppercase leading-none mb-2">CHROMATIC_ENGINE</h4>
-                                        <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic">Toggle between High-Contrast Dark and Precision Light modes.</p>
+                                        <p className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic">Precision Light Mode — Active &amp; Locked.</p>
                                     </div>
                                 </div>
-                                <button 
-                                    onClick={toggleTheme}
-                                    className="h-16 px-12 bg-zinc-950 text-white rounded-2xl font-black text-[10px] uppercase tracking-[5px] transition-all italic border-2 border-zinc-950 hover:bg-accent hover:border-accent flex items-center gap-4"
-                                >
-                                    SWITCH_SPECTRUM <RefreshCcw size={18} />
-                                </button>
+                                <div className="h-12 px-10 bg-zinc-100 text-zinc-400 rounded-2xl font-black text-[10px] uppercase tracking-[5px] italic border-2 border-zinc-200 flex items-center gap-3 cursor-default select-none">
+                                    LIGHT_MODE <Monitor size={16} />
+                                </div>
                             </div>
 
                             {/* Notification Consoles */}
@@ -164,18 +160,18 @@ const CustomerSettings = () => {
                                             className={`p-8 rounded-[2rem] border-2 cursor-pointer transition-all flex items-center justify-between group ${
                                                 channel.value 
                                                 ? 'bg-accent/5 border-accent shadow-xl shadow-accent/10' 
-                                                : 'bg-white dark:bg-zinc-900 border-border/30 hover:border-accent/40'
+                                                : 'bg-white border-border/30 hover:border-accent/40'
                                             }`}
                                         >
                                             <div className="flex items-center gap-6">
                                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center border-2 transition-all ${
-                                                    channel.value ? 'bg-accent text-white border-accent' : 'bg-zinc-50 dark:bg-white/5 border-border/50 text-zinc-400 group-hover:text-accent'
+                                                    channel.value ? 'bg-accent text-white border-accent' : 'bg-zinc-50 border-border/50 text-zinc-400 group-hover:text-accent'
                                                 }`}>
                                                     <channel.icon size={20} strokeWidth={3} />
                                                 </div>
                                                 <span className={`text-[10px] font-black uppercase tracking-[3px] italic ${channel.value ? 'text-accent' : 'opacity-40'}`}>{channel.label}</span>
                                             </div>
-                                            <div className={`w-10 h-6 rounded-full relative transition-all ${channel.value ? 'bg-accent' : 'bg-zinc-200 dark:bg-zinc-800'}`}>
+                                            <div className={`w-10 h-6 rounded-full relative transition-all ${channel.value ? 'bg-accent' : 'bg-zinc-200'}`}>
                                                 <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${channel.value ? 'left-5' : 'left-1'}`} />
                                             </div>
                                         </div>
@@ -184,7 +180,7 @@ const CustomerSettings = () => {
                             </div>
                         </div>
 
-                        <div className="p-12 bg-zinc-50 dark:bg-white/[0.02] border-t border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10">
+                        <div className="p-12 bg-zinc-50 border-t border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10">
                              <div className="flex items-center gap-6">
                                 <RefreshCcw size={20} className="text-accent opacity-40 animate-spin-slow" />
                                 <span className="text-[10px] font-black uppercase tracking-[5px] opacity-20 italic">Awaiting protocol commit...</span>

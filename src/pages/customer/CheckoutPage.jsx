@@ -25,7 +25,7 @@ const CheckoutPage = () => {
 
     if (!policy) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-[#F4F7FB] dark:bg-[#0c1a15]">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-[#F4F7FB]">
                 <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center text-accent mb-8">
                     <ShieldCheck size={40} />
                 </div>
@@ -76,7 +76,7 @@ const CheckoutPage = () => {
     };
 
     return (
-        <div className="checkout-page p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="checkout-page p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Professional Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #FF5A00 1px, transparent 0)`, backgroundSize: '50px 50px' }} />
@@ -111,7 +111,7 @@ const CheckoutPage = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
                     {/* Left Column: Order Metadata */}
                     <div className="lg:col-span-2 space-y-8">
-                        <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3rem] border border-border/50 shadow-2xl relative overflow-hidden group backdrop-blur-md">
+                        <div className="bg-white p-10 rounded-[3rem] border border-border/50 shadow-2xl relative overflow-hidden group backdrop-blur-md">
                             <div className="absolute top-0 right-0 p-10 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
                                 <ShieldCheck size={200} className="text-accent" />
                             </div>
@@ -160,7 +160,7 @@ const CheckoutPage = () => {
                     </div>
 
                     {/* Right Column: Payment Details */}
-                    <div className="lg:col-span-3 bg-white dark:bg-zinc-900/50 p-12 md:p-16 rounded-[4rem] border border-border/50 shadow-2xl relative overflow-hidden backdrop-blur-md">
+                    <div className="lg:col-span-3 bg-white p-12 md:p-16 rounded-[4rem] border border-border/50 shadow-2xl relative overflow-hidden backdrop-blur-md">
                         <div className="flex items-center justify-between mb-16 pb-8 border-b border-border/30">
                             <div>
                                 <h2 className="text-3xl font-black italic uppercase tracking-tighter mb-2">CARD_DETAILS</h2>
@@ -179,7 +179,7 @@ const CheckoutPage = () => {
                                     type="text"
                                     placeholder="ENTER_NAME"
                                     required
-                                    className="w-full h-20 bg-zinc-50 dark:bg-white/10 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                    className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                 />
                             </div>
 
@@ -190,7 +190,7 @@ const CheckoutPage = () => {
                                         type="text"
                                         placeholder="0000 0000 0000 0000"
                                         required
-                                        className="w-full h-20 bg-zinc-50 dark:bg-white/10 border border-border/50 rounded-2xl pl-16 px-8 font-black text-xs uppercase tracking-[6px] outline-none focus:border-accent transition-all shadow-sm focus:ring-8 focus:ring-accent/5"
+                                        className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl pl-16 px-8 font-black text-xs uppercase tracking-[6px] outline-none focus:border-accent transition-all shadow-sm focus:ring-8 focus:ring-accent/5"
                                     />
                                     <CreditCard className="absolute left-6 top-1/2 -translate-y-1/2 text-accent/30 group-focus-within:text-accent transition-colors" size={20} strokeWidth={3} />
                                 </div>
@@ -203,7 +203,7 @@ const CheckoutPage = () => {
                                         type="text"
                                         placeholder="MM / YY"
                                         required
-                                        className="w-full h-20 bg-zinc-50 dark:bg-white/10 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[6px] outline-none focus:border-accent transition-all text-center italic shadow-sm focus:ring-8 focus:ring-accent/5"
+                                        className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xs uppercase tracking-[6px] outline-none focus:border-accent transition-all text-center italic shadow-sm focus:ring-8 focus:ring-accent/5"
                                     />
                                 </div>
                                 <div className="space-y-4">
@@ -212,7 +212,7 @@ const CheckoutPage = () => {
                                         type="password"
                                         placeholder="***"
                                         required
-                                        className="w-full h-20 bg-zinc-50 dark:bg-white/10 border border-border/50 rounded-2xl px-8 font-black text-xl tracking-[10px] outline-none focus:border-accent transition-all text-center shadow-sm focus:ring-8 focus:ring-accent/5"
+                                        className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black text-xl tracking-[10px] outline-none focus:border-accent transition-all text-center shadow-sm focus:ring-8 focus:ring-accent/5"
                                     />
                                 </div>
                             </div>

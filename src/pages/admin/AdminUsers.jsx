@@ -109,7 +109,7 @@ const AdminUsers = () => {
     );
 
     return (
-        <div className="admin-users p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-users p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Background Atmosphere */}
             <div className="absolute top-0 right-0 p-20 opacity-[0.03] pointer-events-none">
                  <ShieldIcon size={600} className="animate-spin-slow" />
@@ -141,16 +141,16 @@ const AdminUsers = () => {
 
             {/* TAB SELECTOR & COMMAND BAR */}
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8 mb-16">
-                <div className="flex gap-4 bg-white dark:bg-zinc-900/50 p-2 rounded-[2rem] border border-border/50 shadow-sm w-full lg:w-auto backdrop-blur-md">
+                <div className="flex gap-4 bg-white p-2 rounded-[2rem] border border-border/50 shadow-sm w-full lg:w-auto backdrop-blur-md">
                     <button 
                         onClick={() => setActiveTab('agents')}
-                        className={`px-10 py-5 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[3px] transition-all italic flex items-center gap-3 ${activeTab === 'agents' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-xl' : 'text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800'}`}
+                        className={`px-10 py-5 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[3px] transition-all italic flex items-center gap-3 ${activeTab === 'agents' ? 'bg-zinc-900 text-white shadow-xl' : 'text-zinc-500 hover:bg-zinc-50'}`}
                     >
                         <ShieldIcon size={14} className={activeTab === 'agents' ? 'text-primary' : 'opacity-20'} /> AGENT_REGISTRY
                     </button>
                     <button 
                         onClick={() => setActiveTab('reassignment')}
-                        className={`px-10 py-5 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[3px] transition-all italic flex items-center gap-3 ${activeTab === 'reassignment' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 shadow-xl' : 'text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800'}`}
+                        className={`px-10 py-5 rounded-[1.5rem] text-[10px] font-black uppercase tracking-[3px] transition-all italic flex items-center gap-3 ${activeTab === 'reassignment' ? 'bg-zinc-900 text-white shadow-xl' : 'text-zinc-500 hover:bg-zinc-50'}`}
                     >
                         <AgentIcon size={14} className={activeTab === 'reassignment' ? 'text-accent' : 'opacity-20'} /> CUSTOMER_REASSIGNMENT
                     </button>
@@ -161,7 +161,7 @@ const AdminUsers = () => {
                     <input 
                         type="text" 
                         placeholder="SEARCH BY NAME OR EMAIL..." 
-                        className="pl-16 pr-8 py-5 bg-white dark:bg-zinc-900/50 border border-border/50 rounded-[1.5rem] focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none w-full lg:w-96 transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
+                        className="pl-16 pr-8 py-5 bg-white border border-border/50 rounded-[1.5rem] focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none w-full lg:w-96 transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm backdrop-blur-md italic" 
                         value={searchQuery} 
                         onChange={e=>setSearchQuery(e.target.value)} 
                     />
@@ -179,13 +179,13 @@ const AdminUsers = () => {
                         { label: "Total_Revenue", value: `₹${(totalPortfolio / 100000).toFixed(1)}L`, icon: IndianRupee, color: "text-accent", bg: "bg-accent/10", tag: "ACTUAL" }
                      ].map((stat, i) => (
                         <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
-                            <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3rem] border border-border/50 shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all hover:translate-y-[-5px]">
+                            <div className="bg-white p-10 rounded-[3rem] border border-border/50 shadow-sm relative overflow-hidden group hover:border-primary/40 transition-all hover:translate-y-[-5px]">
                                 <div className={`absolute -right-8 -top-8 w-32 h-32 ${stat.bg} rounded-full blur-[40px] opacity-30 group-hover:opacity-60 transition-all group-hover:scale-125`} />
                                 <div className="flex justify-between items-start mb-6 relative z-10">
                                     <div className={`p-4 rounded-2xl ${stat.bg} ${stat.color} shadow-sm border border-white/10`}>
                                         <stat.icon size={24} strokeWidth={3} />
                                     </div>
-                                    <span className={`text-[8px] font-black uppercase tracking-[2px] px-2 py-1 rounded-md bg-zinc-100 dark:bg-white/5 opacity-40 group-hover:opacity-100 transition-all`}>{stat.tag}</span>
+                                    <span className={`text-[8px] font-black uppercase tracking-[2px] px-2 py-1 rounded-md bg-zinc-100 opacity-40 group-hover:opacity-100 transition-all`}>{stat.tag}</span>
                                 </div>
                                 <p className="text-[9px] font-black uppercase tracking-[4px] opacity-30 mb-2 italic">{stat.label}</p>
                                 <h4 className="text-4xl font-black italic tracking-tighter leading-none">
@@ -198,8 +198,8 @@ const AdminUsers = () => {
 
                 {/* Identity Register Chassis */}
                 <Reveal width="100%" direction="up" delay={0.4}>
-                    <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md mb-10">
-                        <div className="p-10 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-zinc-50 dark:bg-white/[0.02]">
+                    <div className="bg-white rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md mb-10">
+                        <div className="p-10 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-zinc-50">
                             <div className="flex items-center gap-6">
                                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-lg border border-primary/20">
                                     <AgentIcon size={28} strokeWidth={3} />
@@ -222,7 +222,7 @@ const AdminUsers = () => {
                             ) : (
                                 <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                                     <thead>
-                                        <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
+                                        <tr className="bg-zinc-100 text-[9px] opacity-40">
                                             <th className="px-12 py-8 tracking-[4px]">AGENT_INFORMATION</th>
                                             <th className="px-12 py-8 text-center tracking-[4px]">PERFORMANCE_STATS</th>
                                             <th className="px-12 py-8 tracking-[4px]">COMMISSION_RATE</th>
@@ -238,7 +238,7 @@ const AdminUsers = () => {
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: idx * 0.05 }}
                                             key={agent._id} 
-                                            className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-all group cursor-pointer"
+                                            className="hover:bg-zinc-50 transition-all group cursor-pointer"
                                         >
                                             <td className="px-12 py-8">
                                                 <div className="flex items-center gap-6">
@@ -262,11 +262,11 @@ const AdminUsers = () => {
                                             </td>
                                             <td className="px-12 py-8 text-center">
                                                 <div className="flex flex-col gap-3">
-                                                    <div className="flex items-center justify-center gap-4 bg-zinc-100 dark:bg-white/5 py-2 px-4 rounded-xl border border-border/30">
+                                                    <div className="flex items-center justify-center gap-4 bg-zinc-100 py-2 px-4 rounded-xl border border-border/30">
                                                         <Users size={14} className="opacity-20 text-primary" strokeWidth={3} />
                                                         <span className="font-black text-xs leading-none">{agent.stats?.customers} <span className="text-[9px] opacity-20 ml-1">CUSTOMERS</span></span>
                                                     </div>
-                                                    <div className="flex items-center justify-center gap-4 bg-zinc-100 dark:bg-white/5 py-2 px-4 rounded-xl border border-border/30">
+                                                    <div className="flex items-center justify-center gap-4 bg-zinc-100 py-2 px-4 rounded-xl border border-border/30">
                                                         <IndianRupee size={14} className="text-accent opacity-60" strokeWidth={3} />
                                                         <span className="font-black text-xs text-accent leading-none">₹{agent.stats?.earnings.toLocaleString()}</span>
                                                     </div>
@@ -278,7 +278,7 @@ const AdminUsers = () => {
                                                         <span className="text-[8px] font-black opacity-20 tracking-[2px]">LEVEL: BRONZE</span>
                                                         <span className="text-xs font-black italic text-primary">{agent.commissionRate}%</span>
                                                     </div>
-                                                    <div className="w-32 h-2 bg-zinc-100 dark:bg-white/5 rounded-full overflow-hidden shadow-inner border border-border/30">
+                                                    <div className="w-32 h-2 bg-zinc-100 rounded-full overflow-hidden shadow-inner border border-border/30">
                                                         <motion.div 
                                                             initial={{ width: 0 }}
                                                             animate={{ width: `${agent.commissionRate}%` }}
@@ -303,7 +303,7 @@ const AdminUsers = () => {
                                                     {agent.status === 'active' ? (
                                                         <button 
                                                             onClick={(e) => { e.stopPropagation(); statusMutation.mutate({ id: agent._id, status: 'suspended' }); }}
-                                                            className="h-12 px-6 bg-zinc-900 dark:bg-zinc-800 text-white dark:text-zinc-500 rounded-xl text-[9px] font-black uppercase tracking-[3px] hover:bg-rose-600 dark:hover:bg-rose-600 hover:text-white transition-all shadow-lg active:scale-95 flex items-center gap-3 border border-white/5"
+                                                            className="h-12 px-6 bg-zinc-900 text-white rounded-xl text-[9px] font-black uppercase tracking-[3px] hover:bg-rose-600 hover:text-white transition-all shadow-lg active:scale-95 flex items-center gap-3 border border-white/5"
                                                         >
                                                             SUSPEND <ShieldAlert size={14} strokeWidth={3} />
                                                         </button>
@@ -328,8 +328,8 @@ const AdminUsers = () => {
                 </>
             ) : (
                 <Reveal width="100%" direction="up">
-                    <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
-                        <div className="p-10 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-zinc-50 dark:bg-white/[0.02]">
+                    <div className="bg-white rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
+                        <div className="p-10 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-8 bg-zinc-50">
                             <div className="flex items-center gap-6">
                                 <div className="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-accent shadow-lg border border-accent/20">
                                     <Users size={28} strokeWidth={3} />
@@ -352,7 +352,7 @@ const AdminUsers = () => {
                             ) : (
                                 <table className="w-full text-left font-black text-[10px] tracking-[3px] uppercase italic">
                                     <thead>
-                                        <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
+                                        <tr className="bg-zinc-100 text-[9px] opacity-40">
                                             <th className="px-12 py-8 tracking-[4px]">CUSTOMER_NAME</th>
                                             <th className="px-12 py-8 tracking-[4px]">ASSIGNED_AGENT</th>
                                             <th className="px-12 py-8 text-center tracking-[4px]">STATUS</th>
@@ -367,7 +367,7 @@ const AdminUsers = () => {
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: idx * 0.05 }}
                                             key={customer._id} 
-                                            className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-all group"
+                                            className="hover:bg-zinc-50 transition-all group"
                                         >
                                             <td className="px-12 py-8">
                                                 <div className="flex flex-col gap-2">
@@ -396,14 +396,14 @@ const AdminUsers = () => {
                                                 )}
                                             </td>
                                             <td className="px-12 py-8 text-center">
-                                                <div className="px-5 py-2.5 bg-zinc-100 dark:bg-white/5 border border-border/30 rounded-2xl text-[9px] font-black uppercase tracking-[3px] opacity-40 italic w-fit mx-auto">
+                                                <div className="px-5 py-2.5 bg-zinc-100 border border-border/30 rounded-2xl text-[9px] font-black uppercase tracking-[3px] opacity-40 italic w-fit mx-auto">
                                                     {customer.status?.toUpperCase() || 'ACTIVE'}
                                                 </div>
                                             </td>
                                             <td className="px-12 py-8 text-right">
                                                 <button 
                                                     onClick={() => setSelectedCustomer(customer)}
-                                                    className="h-14 px-8 bg-white dark:bg-zinc-900 border-2 border-primary/10 text-primary rounded-2xl text-[9px] font-black uppercase tracking-[4px] hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm active:scale-95 italic flex items-center gap-4 justify-end float-right group/btn"
+                                                    className="h-14 px-8 bg-white border-2 border-primary/10 text-primary rounded-2xl text-[9px] font-black uppercase tracking-[4px] hover:bg-primary hover:text-white hover:border-primary transition-all shadow-sm active:scale-95 italic flex items-center gap-4 justify-end float-right group/btn"
                                                 >
                                                     REASSIGN CUSTOMER <AgentIcon size={16} className="group-hover:rotate-45 transition-transform" />
                                                 </button>
@@ -427,7 +427,7 @@ const AdminUsers = () => {
                             initial={{ opacity: 0, scale: 0.9, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                            className="relative w-full max-w-2xl bg-white dark:bg-[#10221c] p-16 rounded-[4.5rem] border border-white/10 shadow-[0_80px_100px_rgba(0,0,0,0.5)] overflow-hidden"
+                            className="relative w-full max-w-2xl bg-white p-16 rounded-[4.5rem] border border-white/10 shadow-[0_80px_100px_rgba(0,0,0,0.5)] overflow-hidden"
                         >
                             <div className="absolute top-[-30%] right-[-20%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[150px] pointer-events-none animate-pulse-slow" />
                             
@@ -449,7 +449,7 @@ const AdminUsers = () => {
                                         transition={{ delay: aidx * 0.1 }}
                                         key={agent._id}
                                         onClick={() => reassignMutation.mutate({ customerId: selectedCustomer._id, agentId: agent._id })}
-                                        className="w-full p-10 bg-zinc-50 dark:bg-white/[0.02] border border-border/50 rounded-[3rem] flex items-center justify-between group hover:border-primary/50 hover:bg-white dark:hover:bg-zinc-800 transition-all shadow-sm relative overflow-hidden"
+                                        className="w-full p-10 bg-zinc-50 border border-border/50 rounded-[3rem] flex items-center justify-between group hover:border-primary/50 hover:bg-white transition-all shadow-sm relative overflow-hidden"
                                     >
                                         <div className="flex items-center gap-8 relative z-10">
                                             <div className="w-20 h-20 bg-zinc-900 rounded-[2rem] flex items-center justify-center text-primary font-black italic text-3xl border border-white/5 group-hover:bg-primary group-hover:text-white transition-all shadow-xl">
@@ -467,7 +467,7 @@ const AdminUsers = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-16 h-16 rounded-[1.5rem] bg-zinc-100 dark:bg-white/5 border border-border/30 flex items-center justify-center text-zinc-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all shadow-lg relative z-10">
+                                        <div className="w-16 h-16 rounded-[1.5rem] bg-zinc-100 border border-border/30 flex items-center justify-center text-zinc-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all shadow-lg relative z-10">
                                             <CheckCircle size={28} strokeWidth={3} />
                                         </div>
                                     </motion.button>
@@ -501,7 +501,7 @@ const AdminUsers = () => {
                             initial={{ opacity: 0, scale: 0.9, y: 50 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                            className="relative w-full max-w-5xl bg-white dark:bg-[#10221c] p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_100px_150px_rgba(0,0,0,0.6)] overflow-hidden"
+                            className="relative w-full max-w-5xl bg-white p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_100px_150px_rgba(0,0,0,0.6)] overflow-hidden"
                         >
                             <div className="absolute top-0 right-0 p-24 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-1000">
                                 <ShieldIcon size={400} className="text-accent animate-spin-slow" />
@@ -525,7 +525,7 @@ const AdminUsers = () => {
                                             <User size={16} className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                             <input 
                                                 placeholder="FULL NAME..."
-                                                className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
+                                                className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                 value={formData.name}
                                                 onChange={e => setFormData({...formData, name: e.target.value})}
                                                 required
@@ -539,7 +539,7 @@ const AdminUsers = () => {
                                             <input 
                                                 type="email"
                                                 placeholder="AGENT@SHIELDPRO.COM"
-                                                className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black text-xs uppercase tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
+                                                className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-6 font-black text-xs uppercase tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                 value={formData.email}
                                                 onChange={e => setFormData({...formData, email: e.target.value})}
                                                 required
@@ -554,7 +554,7 @@ const AdminUsers = () => {
                                                 <input 
                                                     type="password"
                                                     placeholder="••••••••"
-                                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
+                                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-6 font-black outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                     value={formData.password}
                                                     onChange={e => setFormData({...formData, password: e.target.value})}
                                                     required
@@ -567,7 +567,7 @@ const AdminUsers = () => {
                                                 <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                                 <input 
                                                     placeholder="+91-0000000000"
-                                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
+                                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                     value={formData.phone}
                                                     onChange={e => setFormData({...formData, phone: e.target.value})}
                                                     required
@@ -584,7 +584,7 @@ const AdminUsers = () => {
                                             <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                             <input 
                                                 placeholder="ENTER FULL ADDRESS..."
-                                                className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
+                                                className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[3px] outline-none focus:border-accent shadow-sm transition-all focus:ring-8 focus:ring-accent/5"
                                                 value={formData.address}
                                                 onChange={e => setFormData({...formData, address: e.target.value})}
                                                 required
@@ -596,7 +596,7 @@ const AdminUsers = () => {
                                             <label className="text-[10px] font-black uppercase tracking-[5px] text-accent italic ml-2">DATE_OF_BIRTH</label>
                                             <input 
                                                 type="date"
-                                                className="w-full h-[70px] bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-8 font-black outline-none focus:border-accent shadow-sm transition-all"
+                                                className="w-full h-[70px] bg-zinc-50 border border-border/50 rounded-2xl px-8 font-black outline-none focus:border-accent shadow-sm transition-all"
                                                 value={formData.dob}
                                                 onChange={e => setFormData({...formData, dob: e.target.value})}
                                                 required
@@ -608,7 +608,7 @@ const AdminUsers = () => {
                                                 <span className="absolute left-8 top-1/2 -translate-y-1/2 font-black text-2xl text-accent/40 leading-none group-hover:translate-x-1 transition-all">%</span>
                                                 <input 
                                                     type="number"
-                                                    className="w-full h-[70px] bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-16 font-black text-accent text-3xl italic outline-none focus:border-accent shadow-sm transition-all text-right pr-12"
+                                                    className="w-full h-[70px] bg-zinc-50 border border-border/50 rounded-2xl px-16 font-black text-accent text-3xl italic outline-none focus:border-accent shadow-sm transition-all text-right pr-12"
                                                     value={formData.commissionRate}
                                                     onChange={e => setFormData({...formData, commissionRate: e.target.value})}
                                                     required
@@ -620,7 +620,7 @@ const AdminUsers = () => {
                                         <button 
                                             type="button"
                                             onClick={() => setIsAddingAgent(false)}
-                                            className="h-20 px-10 bg-zinc-900 text-white dark:bg-zinc-800 rounded-[2rem] text-[10px] font-black uppercase tracking-[5px] hover:bg-zinc-800 transition-all active:scale-95 italic border border-white/5"
+                                            className="h-20 px-10 bg-zinc-900 text-white rounded-[2rem] text-[10px] font-black uppercase tracking-[5px] hover:bg-zinc-800 transition-all active:scale-95 italic border border-white/5"
                                         >
                                             CANCEL
                                         </button>

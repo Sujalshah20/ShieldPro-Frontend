@@ -62,7 +62,7 @@ const AdminTransactions = () => {
     );
 
     return (
-        <div className="admin-transactions p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-transactions p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Professional Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '60px 60px' }} />
@@ -84,7 +84,7 @@ const AdminTransactions = () => {
                     <div className="flex flex-wrap gap-6">
                         <button 
                             onClick={handleExport}
-                            className="h-20 px-12 bg-zinc-950 text-white dark:bg-zinc-900/80 rounded-[2rem] font-black text-[10px] uppercase tracking-[5px] hover:bg-primary hover:scale-105 transition-all flex items-center justify-center gap-5 shadow-2xl active:scale-95 italic border border-white/5"
+                            className="h-20 px-12 bg-zinc-950 text-white rounded-[2rem] font-black text-[10px] uppercase tracking-[5px] hover:bg-primary hover:scale-105 transition-all flex items-center justify-center gap-5 shadow-2xl active:scale-95 italic border border-white/5"
                         >
                             <Download size={20} strokeWidth={4} className="text-primary" /> EXPORT_ALL_TRANSACTIONS
                         </button>
@@ -101,7 +101,7 @@ const AdminTransactions = () => {
                     { label: "AVERAGE_TICKET_SIZE", value: `₹${Number(stats.avgTicket).toLocaleString()}`, icon: TrendingUp, trend: "-1.4%", up: false, color: "text-indigo-500", bg: "bg-indigo-500/10" }
                 ].map((s, i) => (
                     <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
-                        <div className="bg-white dark:bg-zinc-900/50 p-10 rounded-[3.5rem] border border-border/50 group hover:border-primary/40 transition-all shadow-xl hover:translate-y-[-8px] relative overflow-hidden backdrop-blur-md">
+                        <div className="bg-white p-10 rounded-[3.5rem] border border-border/50 group hover:border-primary/40 transition-all shadow-xl hover:translate-y-[-8px] relative overflow-hidden backdrop-blur-md">
                             <div className="flex justify-between items-start mb-10 relative z-10">
                                 <div className={`p-5 ${s.bg} ${s.color} rounded-[1.5rem] group-hover:rotate-12 transition-all shadow-lg border border-white/10`}>
                                     <s.icon size={26} strokeWidth={3} />
@@ -123,8 +123,8 @@ const AdminTransactions = () => {
                 ))}
             </div>
 
-            <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
-                <div className="p-12 border-b border-border/50 flex flex-col xl:flex-row xl:items-center justify-between gap-10 relative overflow-hidden bg-zinc-50 dark:bg-white/[0.02]">
+            <div className="bg-white rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
+                <div className="p-12 border-b border-border/50 flex flex-col xl:flex-row xl:items-center justify-between gap-10 relative overflow-hidden bg-zinc-50">
                     <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
                         <Activity size={200} className="rotate-12" />
                     </div>
@@ -142,7 +142,7 @@ const AdminTransactions = () => {
                         <input 
                             type="text" 
                             placeholder="SEARCH_BY_TRANSACTION_ID_OR_CLIENT..." 
-                            className="w-full h-18 pl-18 pr-8 bg-white dark:bg-zinc-900/30 border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm italic"
+                            className="w-full h-18 pl-18 pr-8 bg-white border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none transition-all font-black text-[10px] uppercase tracking-[4px] shadow-sm italic"
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
                         />
@@ -151,7 +151,7 @@ const AdminTransactions = () => {
                 <div className="overflow-x-auto no-scrollbar">
                     <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                         <thead>
-                            <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
+                            <tr className="bg-zinc-100 text-[9px] opacity-40">
                                 <th className="px-12 py-8 tracking-[4px]">TRANSACTION_ID</th>
                                 <th className="px-12 py-8 tracking-[4px]">CLIENT_NAME</th>
                                 <th className="px-12 py-8 tracking-[4px]">POLICY_PLAN</th>
@@ -167,7 +167,7 @@ const AdminTransactions = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     key={txn._id} 
-                                    className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-all group cursor-pointer"
+                                    className="hover:bg-zinc-50 transition-all group cursor-pointer"
                                 >
                                     <td className="px-12 py-8">
                                         <div className="flex flex-col gap-2">
@@ -189,7 +189,7 @@ const AdminTransactions = () => {
                                         </div>
                                     </td>
                                     <td className="px-12 py-8">
-                                        <div className="flex items-center gap-4 bg-zinc-100 dark:bg-white/5 px-4 py-2.5 rounded-xl border border-border/30 w-fit">
+                                        <div className="flex items-center gap-4 bg-zinc-100 px-4 py-2.5 rounded-xl border border-border/30 w-fit">
                                             <Shield size={16} className="text-primary opacity-60" strokeWidth={3} />
                                             <span className="text-[10px] font-black italic tracking-tighter opacity-80 uppercase leading-none">{txn.policy?.policyName}</span>
                                         </div>

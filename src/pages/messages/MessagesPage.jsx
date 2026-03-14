@@ -68,7 +68,7 @@ const MessagesPage = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[600px]">
                 {/* Users List */}
                 <div className="lg:col-span-1 glass rounded-3xl flex flex-col overflow-hidden">
-                    <div className="p-4 border-b border-slate-100 dark:border-white/5 space-y-4">
+                    <div className="p-4 border-b border-slate-100 space-y-4">
                         <div className="relative">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                             <input
@@ -76,7 +76,7 @@ const MessagesPage = () => {
                                 placeholder="Search contacts..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:outline-none"
+                                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none"
                             />
                         </div>
                     </div>
@@ -88,11 +88,11 @@ const MessagesPage = () => {
                                 <button
                                     key={u._id}
                                     onClick={() => setSelectedUser(u)}
-                                    className={`w-full p-4 flex items-center gap-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors text-left border-b border-slate-50 dark:border-white/5 ${selectedUser?._id === u._id ? 'bg-blue-50 dark:bg-blue-900/10 border-r-4 border-r-blue-600' : ''}`}
+                                    className={`w-full p-4 flex items-center gap-4 hover:bg-slate-50 transition-colors text-left border-b border-slate-50 ${selectedUser?._id === u._id ? 'bg-blue-50 border-r-4 border-r-blue-600' : ''}`}
                                 >
-                                    <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-white/10 flex items-center justify-center relative flex-shrink-0">
+                                    <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center relative flex-shrink-0">
                                         <UserIcon size={24} className="text-slate-400" />
-                                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-slate-900"></div>
+                                        <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="font-bold truncate">{u.name}</div>
@@ -110,7 +110,7 @@ const MessagesPage = () => {
                         <div className="h-full flex flex-col">
                             <div className="glass p-4 rounded-3xl mb-4 flex items-center justify-between border-b border-white/5">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
                                         <UserIcon size={20} className="text-blue-600" />
                                     </div>
                                     <div>
@@ -128,7 +128,7 @@ const MessagesPage = () => {
                         </div>
                     ) : (
                         <div className="glass h-full rounded-3xl flex flex-col items-center justify-center text-center p-12 space-y-4">
-                            <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/10 rounded-full flex items-center justify-center text-blue-600">
+                            <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center text-blue-600">
                                 <MessageSquare size={40} />
                             </div>
                             <h3 className="text-2xl font-bold">Your Inbox</h3>

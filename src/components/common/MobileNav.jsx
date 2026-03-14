@@ -23,14 +23,14 @@ const MobileNav = ({ isOpen, onClose, children }) => {
                             animate={{ x: 0 }}
                             exit={{ x: '-100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed top-0 left-0 h-full w-64 bg-white dark:bg-[#0a0a0a] border-r border-slate-200 dark:border-white/10 z-50 md:hidden overflow-y-auto"
+                            className="fixed top-0 left-0 h-full w-64 bg-white border-r border-slate-200 z-50 md:hidden overflow-y-auto"
                         >
                             <div className="p-4">
                                 <button
                                     onClick={onClose}
-                                    className="absolute top-4 right-4 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                                    className="absolute top-4 right-4 p-2 rounded-lg hover:bg-slate-100 transition-colors"
                                 >
-                                    <X size={24} className="text-slate-700 dark:text-white" />
+                                    <X size={24} className="text-slate-700" />
                                 </button>
 
                                 <div className="mt-12">

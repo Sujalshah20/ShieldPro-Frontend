@@ -76,7 +76,7 @@ const AdminCommissions = () => {
     );
 
     return (
-        <div className="admin-commissions p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-commissions p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Background UI Accents */}
             <div className="absolute top-[-10%] left-[-10%] opacity-[0.03] pointer-events-none">
                 <PieChart size={800} className="animate-spin-slow text-primary rotate-45" />
@@ -97,14 +97,14 @@ const AdminCommissions = () => {
                     </div>
                     
                     <div className="flex flex-wrap gap-8">
-                         <div className="px-10 py-8 bg-white dark:bg-zinc-900/50 rounded-[3rem] border-2 border-orange-500/10 shadow-3xl flex flex-col items-center group hover:border-orange-500/40 transition-all backdrop-blur-xl relative overflow-hidden">
+                         <div className="px-10 py-8 bg-white rounded-[3rem] border-2 border-orange-500/10 shadow-3xl flex flex-col items-center group hover:border-orange-500/40 transition-all backdrop-blur-xl relative overflow-hidden">
                             <div className="absolute inset-x-0 bottom-0 h-1 bg-orange-500 opacity-20 group-hover:opacity-100 transition-opacity" />
                             <span className="text-[10px] font-black uppercase tracking-[5px] opacity-30 mb-2 italic text-orange-500 flex items-center gap-3">
                                 <Activity size={14} /> PENDING_PAYOUTS
                             </span>
                             <span className="text-4xl font-black text-orange-500 tracking-tighter group-hover:scale-110 transition-transform uppercase italic leading-none">₹{stats.totalOutstanding.toLocaleString()}</span>
                          </div>
-                         <div className="px-10 py-8 bg-white dark:bg-zinc-900/50 rounded-[3rem] border-2 border-emerald-500/10 shadow-3xl flex flex-col items-center group hover:border-emerald-500/40 transition-all backdrop-blur-xl relative overflow-hidden">
+                         <div className="px-10 py-8 bg-white rounded-[3rem] border-2 border-emerald-500/10 shadow-3xl flex flex-col items-center group hover:border-emerald-500/40 transition-all backdrop-blur-xl relative overflow-hidden">
                             <div className="absolute inset-x-0 bottom-0 h-1 bg-emerald-500 opacity-20 group-hover:opacity-100 transition-opacity" />
                             <span className="text-[10px] font-black uppercase tracking-[5px] opacity-30 mb-2 italic text-emerald-500 flex items-center gap-3">
                                 <CheckCircle size={14} /> TOTAL_DISBURSEMENTS
@@ -122,7 +122,7 @@ const AdminCommissions = () => {
                     <input 
                         type="text" 
                         placeholder="SEARCH_BY_AGENT_OR_PLAN_NAME..." 
-                        className="pl-16 pr-8 h-18 bg-white dark:bg-zinc-900/50 border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full transition-all font-black text-[10px] uppercase tracking-[5px] shadow-sm backdrop-blur-md italic" 
+                        className="pl-16 pr-8 h-18 bg-white border border-border/50 rounded-[1.5rem] focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full transition-all font-black text-[10px] uppercase tracking-[5px] shadow-sm backdrop-blur-md italic" 
                         value={searchQuery} 
                         onChange={e=>setSearchQuery(e.target.value)} 
                     />
@@ -135,7 +135,7 @@ const AdminCommissions = () => {
                     >
                         <Download size={20} strokeWidth={4} className="text-primary group-hover:translate-y-1 transition-transform" /> EXPORT_REPORT
                     </button>
-                    <div className="hidden lg:flex items-center gap-6 bg-white dark:bg-zinc-900/50 px-8 py-4 rounded-3xl border border-border/50 backdrop-blur-md">
+                    <div className="hidden lg:flex items-center gap-6 bg-white px-8 py-4 rounded-3xl border border-border/50 backdrop-blur-md">
                         <BarChart3 className="text-primary w-6 h-6 animate-pulse" />
                         <span className="text-[10px] font-black uppercase tracking-[5px] opacity-30 italic">REAL_TIME_TRACKING: ACTIVE</span>
                     </div>
@@ -143,8 +143,8 @@ const AdminCommissions = () => {
             </div>
 
             {/* COMMISSIONS REGISTRY */}
-            <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
-                <div className="p-12 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-zinc-50 dark:bg-white/[0.02] relative">
+            <div className="bg-white rounded-[4rem] border border-border/50 overflow-hidden shadow-2xl backdrop-blur-md">
+                <div className="p-12 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-zinc-50 relative">
                     <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
                         <DollarSign size={200} className="rotate-12" />
                     </div>
@@ -170,7 +170,7 @@ const AdminCommissions = () => {
                 <div className="overflow-x-auto no-scrollbar">
                     <table className="w-full text-left font-black text-[10px] uppercase tracking-widest italic">
                         <thead>
-                            <tr className="bg-zinc-100 dark:bg-white/5 text-[9px] opacity-40">
+                            <tr className="bg-zinc-100 text-[9px] opacity-40">
                                 <th className="px-12 py-8 tracking-[4px]">AGENT_NAME</th>
                                 <th className="px-12 py-8 tracking-[4px]">CUSTOMER_NAME</th>
                                 <th className="px-12 py-8 tracking-[4px]">POLICY_PLAN</th>
@@ -186,7 +186,7 @@ const AdminCommissions = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     key={comm._id} 
-                                    className="hover:bg-zinc-50 dark:hover:bg-white/[0.03] transition-all group cursor-pointer"
+                                    className="hover:bg-zinc-50 transition-all group cursor-pointer"
                                 >
                                     <td className="px-12 py-8">
                                         <div className="flex items-center gap-6">
@@ -215,7 +215,7 @@ const AdminCommissions = () => {
                                         </div>
                                     </td>
                                     <td className="px-12 py-8">
-                                        <div className="flex items-center gap-4 bg-zinc-100 dark:bg-white/5 px-5 py-3 rounded-2xl border border-border/30 w-fit group-hover:border-primary/30 transition-colors">
+                                        <div className="flex items-center gap-4 bg-zinc-100 px-5 py-3 rounded-2xl border border-border/30 w-fit group-hover:border-primary/30 transition-colors">
                                             <ShieldCheck size={18} className="text-primary opacity-60" strokeWidth={3} />
                                             <span className="text-[10px] font-black italic tracking-tighter uppercase leading-none opacity-80">{comm.policy?.policyName}</span>
                                         </div>

@@ -21,11 +21,11 @@ const ChatInterface = ({ messages, currentUser, onSendMessage }) => {
     };
 
     return (
-        <div className="chat-interface flex flex-col h-[500px] bg-white dark:bg-white/5 rounded-3xl border border-slate-100 dark:border-white/10 overflow-hidden shadow-sm">
+        <div className="chat-interface flex flex-col h-[500px] bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm">
             <div className="flex-1 overflow-y-auto p-6 space-y-4 pt-4">
                 {messages.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center opacity-40 text-center space-y-2">
-                        <div className="w-12 h-12 bg-slate-100 dark:bg-white/10 rounded-full flex items-center justify-center">
+                        <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
                             <Send size={20} />
                         </div>
                         <p className="text-sm">No messages yet. Start the conversation!</p>
@@ -36,12 +36,12 @@ const ChatInterface = ({ messages, currentUser, onSendMessage }) => {
                         return (
                             <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`flex gap-3 max-w-[80%] ${isMe ? 'flex-row-reverse' : ''}`}>
-                                    <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0">
                                         <UserIcon size={14} className={isMe ? 'text-blue-500' : 'text-slate-500'} />
                                     </div>
                                     <div className={`p-4 rounded-2xl text-sm ${isMe
-                                            ? 'bg-blue-600 text-white rounded-tr-none shadow-md shadow-blue-100 dark:shadow-none'
-                                            : 'bg-white dark:bg-white/10 border border-slate-100 dark:border-white/5 rounded-tl-none'
+                                            ? 'bg-blue-600 text-white rounded-tr-none shadow-md shadow-blue-100'
+                                            : 'bg-white border border-slate-100 rounded-tl-none'
                                         }`}>
                                         <p className="whitespace-pre-wrap">{msg.content}</p>
                                         <div className={`text-[10px] mt-2 opacity-50 ${isMe ? 'text-right' : 'text-left'}`}>
@@ -56,13 +56,13 @@ const ChatInterface = ({ messages, currentUser, onSendMessage }) => {
                 <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSend} className="p-4 bg-slate-50 dark:bg-white/5 border-t border-slate-100 dark:border-white/10 flex gap-2">
+            <form onSubmit={handleSend} className="p-4 bg-slate-50 border-t border-slate-100 flex gap-2">
                 <input
                     type="text"
                     placeholder="Type a message..."
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    className="flex-1 p-3 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                    className="flex-1 p-3 rounded-xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 />
                 <button
                     type="submit"

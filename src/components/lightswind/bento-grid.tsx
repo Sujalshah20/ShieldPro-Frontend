@@ -38,10 +38,10 @@ export const BentoGrid = ({
             className={cn(
               "relative overflow-hidden rounded-[2rem] p-6 flex flex-col justify-between",
               "h-[14rem]",
-              "bg-slate-900/80 dark:bg-black/60 backdrop-blur-3xl",
+              "bg-slate-900/80 backdrop-blur-3xl",
               "border border-white/10",
               "shadow-2xl shadow-slate-900/20",
-              "group transition-all duration-500 ease-in-out hover:scale-[1.02] hover:bg-slate-800/80 dark:hover:bg-black/80 hover:border-white/20",
+              "group transition-all duration-500 ease-in-out hover:scale-[1.02] hover:bg-slate-800/80 hover:border-white/20",
               card.className
             )}
           >

@@ -91,7 +91,7 @@ const AgentClaims = () => {
   return (
     <div className="p-4 md:p-8">
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4 md:mb-0">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 md:mb-0">
           Claims Management
         </h1>
         <div className="flex items-center gap-2">
@@ -141,19 +141,19 @@ const AgentClaims = () => {
               </CardHeader>
               <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>
-                  <p className="font-semibold text-gray-600 dark:text-gray-400">Claim ID</p>
+                  <p className="font-semibold text-gray-600">Claim ID</p>
                   <p>{claim.id}</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-600 dark:text-gray-400">Amount</p>
+                  <p className="font-semibold text-gray-600">Amount</p>
                   <p className="font-bold text-lg">{claim.amount}</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-600 dark:text-gray-400">Agent</p>
+                  <p className="font-semibold text-gray-600">Agent</p>
                   <p>{claim.agent}</p>
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-600 dark:text-gray-400">Date Filed</p>
+                  <p className="font-semibold text-gray-600">Date Filed</p>
                   <p>{claim.date}</p>
                 </div>
                 <div className="col-span-2 md:col-span-4 flex justify-end">

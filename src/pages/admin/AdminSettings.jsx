@@ -33,7 +33,7 @@ const AdminSettings = () => {
     };
 
     return (
-        <div className="admin-settings p-6 md:p-10 bg-[#F4F7FB] dark:bg-[#0c1a15] min-h-screen relative overflow-hidden">
+        <div className="admin-settings p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
             {/* Professional Grid Background */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #0165FF 1px, transparent 0)`, backgroundSize: '50px 50px' }} />
@@ -69,7 +69,7 @@ const AdminSettings = () => {
                             className={`p-8 rounded-[2rem] border transition-all cursor-pointer group relative overflow-hidden ${
                                 item.active 
                                 ? 'bg-primary text-white border-primary shadow-2xl shadow-primary/30 translate-x-4' 
-                                : 'bg-white dark:bg-zinc-900/50 border-border/50 hover:border-primary/40 hover:translate-x-2'
+                                : 'bg-white border-border/50 hover:border-primary/40 hover:translate-x-2'
                             }`}
                         >
                             {item.active && (
@@ -80,7 +80,7 @@ const AdminSettings = () => {
                             )}
                             <div className="relative z-10 flex items-center justify-between">
                                 <div className="flex items-center gap-6">
-                                    <div className={`p-4 rounded-xl border ${item.active ? 'bg-white/10 border-white/20' : 'bg-zinc-50 dark:bg-white/5 border-border/50'}`}>
+                                    <div className={`p-4 rounded-xl border ${item.active ? 'bg-white/10 border-white/20' : 'bg-zinc-50 border-border/50'}`}>
                                         <item.icon size={22} strokeWidth={item.active ? 3 : 2} />
                                     </div>
                                     <span className="text-[10px] font-black uppercase tracking-[4px] italic">{item.label}</span>
@@ -113,8 +113,8 @@ const AdminSettings = () => {
 
                 {/* Configuration Panel */}
                 <div className="xl:col-span-2 space-y-12">
-                    <div className="bg-white dark:bg-zinc-900/50 rounded-[4rem] border border-border/50 shadow-2xl overflow-hidden backdrop-blur-md">
-                        <div className="p-12 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-zinc-50 dark:bg-white/[0.02]">
+                    <div className="bg-white rounded-[4rem] border border-border/50 shadow-2xl overflow-hidden backdrop-blur-md">
+                        <div className="p-12 border-b border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-zinc-50">
                              <div className="flex items-center gap-8">
                                 <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary border border-primary/20 shadow-xl">
                                     <Settings size={32} strokeWidth={3} />
@@ -132,7 +132,7 @@ const AdminSettings = () => {
 
                         <div className="p-12 space-y-16">
                             {/* Maintenance Toggle */}
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 p-10 bg-zinc-50/50 dark:bg-white/[0.02] rounded-[3rem] border border-border/30 hover:border-primary/40 transition-all group">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-10 p-10 bg-zinc-50/50 rounded-[3rem] border border-border/30 hover:border-primary/40 transition-all group">
                                 <div className="flex items-center gap-8">
                                     <div className={`p-6 rounded-[2rem] transition-all duration-700 ${isMaintenance ? 'bg-rose-500 shadow-rose-500/30' : 'bg-primary shadow-primary/30'} shadow-2xl text-white`}>
                                         <Power size={28} strokeWidth={4} />
@@ -161,14 +161,14 @@ const AdminSettings = () => {
                                     <label className="text-[11px] font-black uppercase tracking-[6px] text-primary italic">COMMISSION_RATE_ADJUSTMENT [%]</label>
                                     <span className="text-2xl font-black italic tracking-tighter text-primary">{baselineYield}%</span>
                                 </div>
-                                <div className="relative group p-10 bg-zinc-50/50 dark:bg-white/[0.02] rounded-[3rem] border border-border/30">
+                                <div className="relative group p-10 bg-zinc-50/50 rounded-[3rem] border border-border/30">
                                     <input 
                                         type="range" 
                                         min="0" 
                                         max="50" 
                                         value={baselineYield}
                                         onChange={(e) => setBaselineYield(e.target.value)}
-                                        className="w-full h-2 bg-zinc-200 dark:bg-zinc-800 rounded-full appearance-none cursor-pointer accent-primary"
+                                        className="w-full h-2 bg-zinc-200 rounded-full appearance-none cursor-pointer accent-primary"
                                     />
                                     <div className="flex justify-between mt-6 text-[9px] font-black opacity-20 uppercase tracking-[4px] italic">
                                         <span>MIN_RATE</span>
@@ -189,11 +189,11 @@ const AdminSettings = () => {
                                             className={`p-8 rounded-[2rem] border-2 cursor-pointer transition-all flex items-center gap-6 group ${
                                                 securityLevel === level 
                                                 ? 'bg-primary/5 border-primary shadow-xl shadow-primary/10' 
-                                                : 'bg-white dark:bg-zinc-900 border-border/30 hover:border-primary/40'
+                                                : 'bg-white border-border/30 hover:border-primary/40'
                                             }`}
                                         >
                                             <div className={`w-12 h-12 rounded-xl flex items-center justify-center border-2 transition-all ${
-                                                securityLevel === level ? 'bg-primary text-white border-primary' : 'bg-zinc-50 dark:bg-white/5 border-border/50 text-zinc-400 group-hover:text-primary'
+                                                securityLevel === level ? 'bg-primary text-white border-primary' : 'bg-zinc-50 border-border/50 text-zinc-400 group-hover:text-primary'
                                             }`}>
                                                 <ShieldCheck size={20} strokeWidth={3} />
                                             </div>
@@ -204,7 +204,7 @@ const AdminSettings = () => {
                             </div>
                         </div>
 
-                        <div className="p-12 bg-zinc-50 dark:bg-white/[0.02] border-t border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10">
+                        <div className="p-12 bg-zinc-50 border-t border-border/50 flex flex-col md:flex-row md:items-center justify-between gap-10">
                              <div className="flex items-center gap-6">
                                 <RefreshCcw size={20} className="text-primary opacity-40 animate-spin-slow" />
                                 <span className="text-[10px] font-black uppercase tracking-[5px] opacity-20 italic">Awaiting synchronization...</span>

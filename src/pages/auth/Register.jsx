@@ -109,7 +109,7 @@ const Register = () => {
                                     name="name"
                                     type="text"
                                     placeholder="FULL LEGAL NAME"
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
                                     value={formData.name}
                                     onChange={handleInputChange}
                                     required
@@ -121,7 +121,7 @@ const Register = () => {
                                     name="email"
                                     type="email"
                                     placeholder="SECURE EMAIL ADDRESS"
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     required
@@ -133,14 +133,14 @@ const Register = () => {
                                     name="password"
                                     type="password"
                                     placeholder="ENCRYPTED PASSWORD"
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
                                     value={formData.password}
                                     onChange={handleInputChange}
                                     required
                                 />
                             </div>
                             <div className="px-1 pt-2">
-                                <div className="h-1.5 w-full bg-zinc-100 dark:bg-white/5 rounded-full overflow-hidden flex gap-1 shadow-inner">
+                                <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden flex gap-1 shadow-inner">
                                     <div 
                                         className={`h-full transition-all duration-700 ${
                                             passStrength <= 25 ? 'bg-rose-500 w-1/4 shadow-[0_0_10px_rgba(244,63,94,0.4)]' : 
@@ -180,7 +180,7 @@ const Register = () => {
                                     name="phone"
                                     type="tel"
                                     placeholder="CONTACT NUMBER"
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
                                     value={formData.phone}
                                     onChange={handleInputChange}
                                     required
@@ -191,7 +191,7 @@ const Register = () => {
                                 <input
                                     name="dob"
                                     type="date"
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest shadow-sm"
                                     value={formData.dob}
                                     onChange={handleInputChange}
                                     required
@@ -201,7 +201,7 @@ const Register = () => {
                                 <Users className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" />
                                 <select
                                     name="gender"
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest appearance-none cursor-pointer shadow-sm"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-2xl px-14 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest appearance-none cursor-pointer shadow-sm"
                                     value={formData.gender}
                                     onChange={handleInputChange}
                                 >
@@ -213,7 +213,7 @@ const Register = () => {
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white dark:bg-zinc-800 border border-border/50 rounded-2xl flex items-center justify-center hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all shadow-sm active:scale-95">
+                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white border border-border/50 rounded-2xl flex items-center justify-center hover:bg-zinc-50 transition-all shadow-sm active:scale-95">
                                 <ArrowLeft className="w-5 h-5 text-primary" strokeWidth={3} />
                             </button>
                             <button type="button" onClick={nextStep} className="flex-1 py-5 bg-primary text-white rounded-2xl font-black text-xs uppercase tracking-[4px] shadow-2xl shadow-primary/20 hover:translate-y-[-5px] transition-all flex items-center justify-center gap-3 active:scale-95">
@@ -238,7 +238,7 @@ const Register = () => {
                                     name="address"
                                     placeholder="RESIDENTIAL HEADQUARTERS ADDRESS"
                                     rows="4"
-                                    className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-[2rem] px-14 py-6 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest resize-none no-scrollbar shadow-sm"
+                                    className="w-full bg-zinc-50 border border-border/50 rounded-[2rem] px-14 py-6 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest resize-none no-scrollbar shadow-sm"
                                     value={formData.address}
                                     onChange={handleInputChange}
                                     required
@@ -246,7 +246,7 @@ const Register = () => {
                             </div>
                         </div>
                         <div className="flex gap-4">
-                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white dark:bg-zinc-800 border border-border/50 rounded-2xl flex items-center justify-center hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all shadow-sm active:scale-95">
+                            <button type="button" onClick={prevStep} className="w-16 h-16 bg-white border border-border/50 rounded-2xl flex items-center justify-center hover:bg-zinc-50 transition-all shadow-sm active:scale-95">
                                 <ArrowLeft className="w-5 h-5 text-primary" strokeWidth={3} />
                             </button>
                             <button type="submit" disabled={isLoading} className="flex-1 py-5 bg-accent text-white rounded-2xl font-black text-xs uppercase tracking-[4px] shadow-2xl shadow-accent/20 hover:translate-y-[-5px] transition-all flex items-center justify-center gap-3 active:scale-95">
@@ -262,12 +262,12 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen w-full bg-white dark:bg-[#10221c] flex items-center justify-center p-6 relative overflow-hidden">
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-20 dark:opacity-40">
+        <div className="min-h-screen w-full bg-white flex items-center justify-center p-6 relative overflow-hidden">
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
                 <HeroScene />
             </div>
             
-            <div className="auth-container w-full max-w-4xl flex flex-col md:flex-row bg-white/40 dark:bg-[#10221c]/40 backdrop-blur-3xl rounded-[4rem] border border-white/20 shadow-[0_80px_100px_-20px_rgba(0,0,0,0.1)] overflow-hidden relative z-10 transition-all duration-700">
+            <div className="auth-container w-full max-w-4xl flex flex-col md:flex-row bg-white/40 backdrop-blur-3xl rounded-[4rem] border border-white/20 shadow-[0_80px_100px_-20px_rgba(0,0,0,0.1)] overflow-hidden relative z-10 transition-all duration-700">
                  {/* Left Panel: High-Tech Branding */}
                  <div className="hidden md:flex md:w-5/12 bg-primary p-16 flex-col justify-between relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
@@ -316,7 +316,7 @@ const Register = () => {
                         {/* Step Tracks */}
                         <div className="flex gap-3 mb-12">
                             {[1, 2, 3].map(i => (
-                                <div key={i} className="flex-1 h-2 rounded-full bg-zinc-100 dark:bg-white/5 overflow-hidden relative border border-border/20 shadow-inner">
+                                <div key={i} className="flex-1 h-2 rounded-full bg-zinc-100 overflow-hidden relative border border-border/20 shadow-inner">
                                     <motion.div 
                                         initial={{ width: 0 }}
                                         animate={{ width: step >= i ? '100%' : '0%' }}
@@ -358,7 +358,7 @@ const Register = () => {
             </div>
             
             {/* Visual Flare */}
-            <div className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-30 dark:opacity-10 z-[1]">
+            <div className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-30 z-[1]">
                 <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
                 <div className="absolute bottom-1/4 right-1/3 w-[300px] h-[300px] bg-accent/20 rounded-full blur-[100px] animate-pulse-slow" />
             </div>

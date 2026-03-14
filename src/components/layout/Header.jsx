@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useTheme } from "../../context/ThemeContext";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../utils/api";
 import {
-    Sun, Moon, Menu, Bell, Search,
+    Menu, Bell, Search,
     Settings, User as UserIcon, LogOut, ChevronDown,
     CheckCheck, Info, AlertTriangle, XCircle, CheckCircle,
     Layout, Activity, ShieldCheck
@@ -14,7 +13,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Header = ({ role, setMobileMenuOpen }) => {
     const { user, logout } = useAuth();
-    const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
     const location = useLocation();
     const queryClient = useQueryClient();
@@ -30,7 +28,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
         queryKey: ['notifications', user?.token],
         queryFn: () => api.get('/notifications', user.token),
         enabled: !!user?.token,
-        refetchInterval: 30000 // Poll every 30 seconds
+        refetchInterval: 30000
     });
 
     const safeNotifications = Array.isArray(notifications) ? notifications : [];
@@ -83,7 +81,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
     return (
         <header
             className={`sticky top-0 z-40 transition-all duration-500 ${isScrolled
-                    ? "bg-white/80 dark:bg-[#0c1a15]/80 backdrop-blur-2xl border-b border-border shadow-2xl"
+                    ? "bg-white/80 backdrop-blur-2xl border-b border-border shadow-2xl"
                     : "bg-transparent border-b border-transparent"
                 }`}
         >
@@ -92,11 +90,11 @@ const Header = ({ role, setMobileMenuOpen }) => {
                 <div className="flex items-center gap-6">
                     <button
                         onClick={() => setMobileMenuOpen(prev => !prev)}
-                        className="p-3 rounded-2xl bg-white dark:bg-zinc-800 border border-border shadow-sm hover:scale-110 active:scale-95 transition-all md:hidden"
+                        className="p-3 rounded-2xl bg-white border border-border shadow-sm hover:scale-110 active:scale-95 transition-all md:hidden"
                     >
                         <Menu size={20} className="text-primary" strokeWidth={3} />
                     </button>
-                    
+
                     <div className="hidden sm:flex items-center gap-4">
                         <div className="flex items-center gap-2 group cursor-pointer" onClick={() => navigate(`/${role}`)}>
                             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
@@ -117,7 +115,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
                     </div>
                 </div>
 
-                {/* Center: Global Search Command */}
+                {/* Center: Global Search */}
                 <div className="hidden md:flex flex-1 max-w-lg mx-12">
                     <div className="relative w-full group">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-primary transition-colors" strokeWidth={3} />
@@ -125,7 +123,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
                             type="text"
                             value={searchTerm}
                             placeholder="SEARCH_POLICIES_OR_CLIENTS..."
-                            className="w-full bg-zinc-50 dark:bg-white/5 border border-border/50 rounded-2xl pl-16 pr-6 py-4 text-xs font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm"
+                            className="w-full bg-zinc-50 border border-border/50 rounded-2xl pl-16 pr-6 py-4 text-xs font-black uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all shadow-sm"
                             onChange={e => setSearchTerm(e.target.value)}
                             onKeyDown={e => {
                                 if (e.key === 'Enter') navigate(`/customer/browse?search=${encodeURIComponent(searchTerm)}`);
@@ -134,27 +132,17 @@ const Header = ({ role, setMobileMenuOpen }) => {
                     </div>
                 </div>
 
-                {/* Right Side: Professional Controls */}
+                {/* Right Side: Controls */}
                 <div className="flex items-center gap-4">
-                    <button
-                        onClick={toggleTheme}
-                        className="w-12 h-12 flex items-center justify-center rounded-2xl bg-zinc-50 dark:bg-white/5 border border-border/50 hover:border-primary/50 transition-all group"
-                    >
-                        {theme === 'light' ? 
-                            <Moon size={20} className="text-zinc-400 group-hover:text-primary transition-colors" strokeWidth={3} /> : 
-                            <Sun size={20} className="text-amber-500 group-hover:scale-110 transition-transform" strokeWidth={3} />
-                        }
-                    </button>
-
-                    {/* Notifications Protocol */}
+                    {/* Notifications */}
                     <div className="relative" ref={notifRef}>
                         <button
                             onClick={() => { setShowNotifications(!showNotifications); setShowProfileMenu(false); }}
-                            className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all relative group border ${showNotifications ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-zinc-50 dark:bg-white/5 border-border/50 hover:bg-zinc-100 dark:hover:bg-white/10'}`}
+                            className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all relative group border ${showNotifications ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' : 'bg-zinc-50 border-border/50 hover:bg-zinc-100'}`}
                         >
                             <Bell size={20} className={showNotifications ? 'text-white' : 'text-zinc-400 group-hover:text-primary'} strokeWidth={3} />
                             {unreadCount > 0 && (
-                                <span className="absolute -top-1 -right-1 min-w-[20px] h-[20px] bg-accent text-white text-[9px] font-black rounded-full flex items-center justify-center px-1.5 border-2 border-white dark:border-zinc-900 shadow-sm animate-bounce">
+                                <span className="absolute -top-1 -right-1 min-w-[20px] h-[20px] bg-accent text-white text-[9px] font-black rounded-full flex items-center justify-center px-1.5 border-2 border-white shadow-sm animate-bounce">
                                     {unreadCount}
                                 </span>
                             )}
@@ -166,9 +154,9 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                     initial={{ opacity: 0, y: 15, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                                    className="absolute right-0 mt-4 w-96 bg-white dark:bg-[#0c1a15] border border-border rounded-[2.5rem] shadow-2xl overflow-hidden z-50 origin-top-right backdrop-blur-3xl"
+                                    className="absolute right-0 mt-4 w-96 bg-white border border-border rounded-[2.5rem] shadow-2xl overflow-hidden z-50 origin-top-right backdrop-blur-3xl"
                                 >
-                                    <div className="p-8 border-b border-border/50 flex items-center justify-between bg-zinc-50/50 dark:bg-white/5">
+                                    <div className="p-8 border-b border-border/50 flex items-center justify-between bg-zinc-50/50">
                                         <div>
                                             <h3 className="text-sm font-black italic uppercase tracking-widest">System Notifications</h3>
                                             <p className="text-[10px] opacity-30 font-black uppercase tracking-[2px] mt-1">Updates on policies and claims</p>
@@ -193,7 +181,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                                 <button
                                                     key={n._id}
                                                     onClick={() => markOneMutation.mutate(n._id)}
-                                                    className={`w-full text-left p-6 flex items-start gap-4 hover:bg-zinc-50 dark:hover:bg-white/5 transition-all group ${!n.isRead ? 'bg-primary/[0.03]' : ''}`}
+                                                    className={`w-full text-left p-6 flex items-start gap-4 hover:bg-zinc-50 transition-all group ${!n.isRead ? 'bg-primary/[0.03]' : ''}`}
                                                 >
                                                     {notifIcon(n.type)}
                                                     <div className="flex-1 min-w-0">
@@ -210,7 +198,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                         )}
                                     </div>
                                     {safeNotifications.length > 0 && (
-                                        <div className="p-4 bg-zinc-50 dark:bg-white/5 text-center">
+                                        <div className="p-4 bg-zinc-50 text-center">
                                             <button className="text-[9px] font-black uppercase tracking-[3px] opacity-30 hover:opacity-100 transition-opacity">View All Notifications</button>
                                         </div>
                                     )}
@@ -223,7 +211,7 @@ const Header = ({ role, setMobileMenuOpen }) => {
                     <div className="relative">
                         <button
                             onClick={() => { setShowProfileMenu(!showProfileMenu); setShowNotifications(false); }}
-                            className={`flex items-center gap-4 p-2 pr-5 rounded-2xl transition-all border ${showProfileMenu ? 'bg-zinc-900 border-primary shadow-lg' : 'bg-white dark:bg-white/5 border-border hover:border-primary/50 shadow-sm'}`}
+                            className={`flex items-center gap-4 p-2 pr-5 rounded-2xl transition-all border ${showProfileMenu ? 'bg-zinc-900 border-primary shadow-lg' : 'bg-white border-border hover:border-primary/50 shadow-sm'}`}
                         >
                             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white font-black text-lg italic shadow-lg shadow-primary/20">
                                 {formattedName.charAt(0)}
@@ -241,9 +229,9 @@ const Header = ({ role, setMobileMenuOpen }) => {
                                     initial={{ opacity: 0, y: 15, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                                    className="absolute right-0 mt-4 w-72 bg-white dark:bg-[#0c1a15] border border-border rounded-[2.5rem] shadow-2xl overflow-hidden z-50 origin-top-right p-3"
+                                    className="absolute right-0 mt-4 w-72 bg-white border border-border rounded-[2.5rem] shadow-2xl overflow-hidden z-50 origin-top-right p-3"
                                 >
-                                    <div className="p-4 mb-2 bg-zinc-50 dark:bg-white/5 rounded-[1.5rem] border border-border/50 text-center">
+                                    <div className="p-4 mb-2 bg-zinc-50 rounded-[1.5rem] border border-border/50 text-center">
                                         <div className="w-16 h-16 bg-primary rounded-2xl mx-auto mb-4 flex items-center justify-center text-white text-2xl font-black italic shadow-xl shadow-primary/20">
                                             {formattedName.charAt(0)}
                                         </div>

@@ -3,7 +3,7 @@ import React from 'react';
 const Skeleton = ({ className, width, height, borderRadius = '0.75rem' }) => {
     return (
         <div
-            className={`animate-pulse bg-slate-200 dark:bg-white/10 ${className}`}
+            className={`animate-pulse bg-slate-200 ${className}`}
             style={{
                 width: width || '100%',
                 height: height || '20px',
@@ -33,7 +33,7 @@ export const TableSkeleton = ({ rows = 5 }) => (
             {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} height="40px" />)}
         </div>
         {[...Array(rows)].map((_, i) => (
-            <div key={i} className="flex gap-4 py-3 border-b border-slate-100 dark:border-white/5">
+            <div key={i} className="flex gap-4 py-3 border-b border-slate-100">
                 <Skeleton width="20%" height="20px" />
                 <Skeleton width="30%" height="20px" />
                 <Skeleton width="15%" height="20px" />
