@@ -7,7 +7,8 @@ import {
     FileText, Plus, Shield, CheckCircle, 
     AlertCircle, Clock, Search, Upload, X,
     Zap, Target, Cpu, Satellite, Lock, 
-    Activity, ArrowUpRight, ShieldAlert, TrendingUp
+    Activity, ArrowUpRight, ShieldAlert, TrendingUp,
+    Fingerprint, Terminal, Award
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
@@ -37,7 +38,7 @@ const CustomerClaims = () => {
         mutationFn: (data) => api.post('/claims', data, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['myClaims']);
-            toast({ title: "INCIDENT_LOGGED", description: "Strategic investigation protocol initiated. Deployment in progress." });
+            toast({ title: "INCIDENT_LOGGED", description: "The strategic investigation protocol has been successfully initialized." });
             setIsFiling(false);
             setFormData({ userPolicyId: "", amount: "", description: "" });
             setFiles([]);
@@ -45,7 +46,7 @@ const CustomerClaims = () => {
         onError: (err) => {
             toast({ 
                 title: "FILING_FAILURE", 
-                description: err?.errors?.[0]?.message || err?.message || "Signal interruption during submission.", 
+                description: err?.errors?.[0]?.message || err?.message || "Operational anomaly detected during request submission.", 
                 variant: "destructive" 
             });
         }
@@ -62,7 +63,7 @@ const CustomerClaims = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!formData.userPolicyId || !formData.amount) return toast({ title: "LOGIC_ERROR", description: "Incomplete parameters detected in filing request." });
+        if (!formData.userPolicyId || !formData.amount) return toast({ title: "LOGIC_ERROR", description: "Incomplete parameters detected in filing request.", variant: "destructive" });
         
         const mockDocs = files.map(f => ({ name: f.name, url: `https://mock.shieldpro.com/${f.name}` }));
         
@@ -73,136 +74,137 @@ const CustomerClaims = () => {
         });
     };
 
-    if (isLoading) return <div className="p-8"><TableSkeleton rows={8} cols={5} /></div>;
+    if (isLoading) return (
+        <div className="p-8 bg-[#dae5e5] min-h-screen">
+             <div className="mb-10">
+                <div className="h-10 w-64 bg-slate-200 animate-pulse rounded-lg mb-4" />
+                <div className="h-4 w-96 bg-slate-200 animate-pulse rounded-lg" />
+            </div>
+            <TableSkeleton rows={8} cols={5} />
+        </div>
+    );
 
     return (
-        <div className="customer-claims p-6 md:p-10 bg-[#F4F7FB] min-h-screen relative overflow-hidden">
-            {/* Tactical Grid Background */}
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-                 style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #FF5A00 1px, transparent 0)`, backgroundSize: '50px 50px' }} />
-            
-            <div className="absolute top-[-10%] right-[-10%] opacity-[0.05] pointer-events-none animate-spin-slow">
-                <Target size={800} className="text-accent rotate-45" />
+        <div className="customer-claims p-4 md:p-8 bg-[#dae5e5] min-h-screen relative overflow-hidden font-display">
+            {/* Mission Header */}
+            <div className="mb-12 flex flex-col xl:flex-row xl:items-end justify-between gap-10">
+                <div>
+                     <div className="flex items-center gap-3 mb-2">
+                        <div className="w-1.5 h-6 bg-[#0082a1] rounded-full" />
+                        <span className="text-[10px] font-black uppercase tracking-[4px] text-slate-500">Claims Ordnance Control</span>
+                    </div>
+                    <h1 className="text-3xl font-black text-[#012b3f] uppercase tracking-tight">Incident_Tracker</h1>
+                    <p className="text-sm text-slate-500 font-medium italic mt-1">Report anomalies & track settlement architecture progress. Status: Active.</p>
+                </div>
+                
+                <button 
+                    onClick={() => setIsFiling(true)}
+                    className="h-16 px-10 bg-[#012b3f] text-[#0082a1] rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center gap-4 shadow-xl hover:bg-[#0082a1] hover:text-white transition-all active:scale-95 group border border-white/5"
+                >
+                    <Plus size={18} strokeWidth={3} className="group-hover:rotate-90 transition-transform" /> FILE NEW INCIDENT
+                </button>
             </div>
 
-            <Reveal width="100%" direction="down">
-                <div className="mb-16 flex flex-col xl:flex-row xl:items-end justify-between gap-10">
-                    <div>
-                        <div className="flex items-center gap-4 mb-3">
-                             <div className="w-2.5 h-10 bg-accent rounded-full shadow-[0_0_20px_#FF5A00]" />
-                             <h1 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter">
-                                CLAIMS<span className="text-accent tracking-normal">_ORDNANCE</span>
-                             </h1>
-                        </div>
-                        <p className="text-xs font-black opacity-30 uppercase tracking-[6px] ml-7 italic">
-                            Report anomalies & track settlement architecture progress
-                        </p>
-                    </div>
-                    
-                    <button 
-                        onClick={() => setIsFiling(true)}
-                        className="h-20 px-12 bg-accent text-white rounded-[2rem] font-black uppercase tracking-[5px] text-[11px] flex items-center gap-6 shadow-2xl shadow-accent/40 hover:translate-y-[-6px] active:scale-95 transition-all italic group"
-                    >
-                        <Plus size={20} strokeWidth={4} className="group-hover:rotate-90 transition-transform duration-500" /> FILE_NEW_INCIDENT
-                    </button>
-                </div>
-            </Reveal>
-
-            <div className="grid grid-cols-1 gap-10">
+            <div className="grid grid-cols-1 gap-8">
                 {myClaims?.map((claim, idx) => (
-                    <Reveal key={claim._id} width="100%" delay={idx * 0.05} direction="up">
-                        <div className="bg-white rounded-[3rem] border border-border/50 hover:border-accent/30 transition-all flex flex-col xl:flex-row items-center justify-between gap-12 p-10 group relative overflow-hidden shadow-sm">
-                            <div className="flex flex-col md:flex-row items-center gap-10 w-full xl:w-auto">
-                                 <div className={`w-24 h-24 rounded-[2.5rem] flex items-center justify-center shrink-0 border-2 transition-all group-hover:scale-110 duration-500 ${
-                                    claim.status === 'Approved' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20 shadow-xl shadow-emerald-500/10' :
-                                    claim.status === 'Rejected' ? 'bg-rose-500/10 text-rose-500 border-rose-500/20 shadow-xl shadow-rose-500/10' :
-                                    'bg-accent/10 text-accent border-accent/20 shadow-xl shadow-accent/10'
-                                 }`}>
-                                    <ShieldAlert size={40} strokeWidth={2.5} />
-                                 </div>
-                                 <div className="text-center md:text-left">
-                                    <div className="flex flex-col md:flex-row items-center gap-4 mb-4">
-                                        <h3 className="text-2xl font-black italic uppercase tracking-tighter">NODE_#{claim.userPolicy?.policyNumber}</h3>
-                                        <div className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-[4px] border italic ${
-                                            claim.status === 'Approved' ? 'bg-emerald-500 text-white border-emerald-600 shadow-lg shadow-emerald-500/30' :
-                                            claim.status === 'Rejected' ? 'bg-rose-500 text-white border-rose-600 shadow-lg shadow-rose-500/30' :
-                                            'bg-zinc-950 text-white border-white/10 opacity-80'
+                    <motion.div 
+                        key={claim._id}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="bg-white rounded-[2.5rem] border border-white hover:border-[#0082a1]/30 transition-all flex flex-col xl:flex-row items-center justify-between gap-10 p-10 group relative overflow-hidden shadow-2xl"
+                    >
+                        {/* Background Deco */}
+                        <div className="absolute top-0 right-0 p-12 opacity-[0.02] group-hover:scale-125 transition-transform duration-1000">
+                                <Fingerprint size={200} className="text-[#012b3f]" />
+                        </div>
+
+                        <div className="flex flex-col md:flex-row items-center gap-8 w-full xl:w-auto relative z-10">
+                                <div className={`w-20 h-20 rounded-[1.5rem] flex items-center justify-center shrink-0 border transition-all duration-500 ${
+                                    claim.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-[0_0_15px_#10b98120]' :
+                                    claim.status === 'Rejected' ? 'bg-rose-50 text-rose-600 border-rose-100' :
+                                    'bg-[#0082a1]/10 text-[#0082a1] border-[#0082a1]/20 shadow-[0_0_15px_#0082a120]'
+                                }`}>
+                                    <ShieldAlert size={36} strokeWidth={2.5} />
+                                </div>
+                                <div className="text-center md:text-left">
+                                    <div className="flex flex-col md:flex-row items-center gap-4 mb-3">
+                                        <h3 className="text-2xl font-black text-[#012b3f] uppercase tracking-tighter">NODE_#{claim.userPolicy?.policyNumber}</h3>
+                                        <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border ${
+                                            claim.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                            claim.status === 'Rejected' ? 'bg-rose-50 text-rose-600 border-rose-100' :
+                                            'bg-slate-900 text-white border-white/10'
                                         }`}>
                                             STATUS::{claim.status.toUpperCase()}
-                                        </div>
+                                        </span>
                                     </div>
-                                    <div className="flex items-center justify-center md:justify-start gap-4 mb-6 opacity-40">
-                                        <Clock size={14} />
-                                        <span className="text-[10px] font-black uppercase tracking-[4px] italic">INCIDENT_LOG_DATE: {new Date(claim.createdAt).toLocaleDateString()}</span>
+                                    <div className="flex items-center justify-center md:justify-start gap-3 mb-4 text-slate-400">
+                                        <Clock size={12} className="text-[#0082a1]" />
+                                        <span className="text-[9px] font-black uppercase tracking-widest italic">Incident Log: {new Date(claim.createdAt).toLocaleDateString()}</span>
                                     </div>
-                                    <p className="text-xs font-black opacity-30 uppercase tracking-[3px] italic leading-relaxed max-w-2xl">{claim.description}</p>
-                                 </div>
-                            </div>
-
-                            <div className="flex flex-row xl:flex-col items-center xl:items-end justify-between xl:justify-center gap-8 w-full xl:w-auto xl:text-right border-t xl:border-t-0 xl:border-l border-border/50 pt-10 xl:pt-0 xl:pl-12">
-                                 <div className="flex flex-col xl:items-end">
-                                     <span className="text-[10px] font-black uppercase tracking-[4px] opacity-20 mb-3 italic">SETTLEMENT_YIELD</span>
-                                     <span className="text-4xl font-black italic tracking-tighter text-accent leading-none">₹{claim.amount.toLocaleString()}</span>
-                                 </div>
-                                 <button className="h-14 px-8 bg-zinc-950 text-white rounded-2xl font-black text-[9px] uppercase tracking-[4px] transition-all italic hover:bg-accent flex items-center gap-4 active:scale-95 group/btn">
-                                     VIEW_TIMELINE <ArrowUpRight size={16} strokeWidth={3} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-                                 </button>
-                            </div>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed max-w-xl line-clamp-2">{claim.description}</p>
+                                </div>
                         </div>
-                    </Reveal>
+
+                        <div className="flex flex-row xl:flex-col items-center xl:items-end justify-between xl:justify-center gap-6 w-full xl:w-80 relative z-10 border-t xl:border-t-0 xl:border-l border-slate-50 pt-8 xl:pt-0 xl:pl-10">
+                                <div className="flex flex-col xl:items-end">
+                                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-300 mb-2">Settlement Yield</span>
+                                    <span className="text-3xl font-black text-[#012b3f] leading-none tracking-tighter">₹{claim.amount.toLocaleString()}</span>
+                                </div>
+                                <button className="h-12 px-6 bg-[#012b3f] text-[#0082a1] rounded-xl font-black text-[9px] uppercase tracking-widest transition-all hover:bg-[#0082a1] hover:text-white flex items-center gap-3 active:scale-95 group/btn border border-white/5 shadow-xl">
+                                    TIMELINE <ArrowUpRight size={14} strokeWidth={3} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                                </button>
+                        </div>
+                    </motion.div>
                 ))}
 
                 {myClaims?.length === 0 && (
-                    <div className="py-40 text-center bg-white/50 border-4 border-dashed border-border/30 rounded-[6rem] backdrop-blur-sm relative overflow-hidden">
-                        <div className="absolute inset-0 opacity-[0.02] pointer-events-none">
-                            <Cpu size={500} className="mx-auto" />
-                        </div>
-                        <FileText size={100} className="mx-auto mb-10 opacity-5" />
-                        <h3 className="text-4xl font-black uppercase italic tracking-tighter opacity-10">NULL_INCIDENT_REGISTRY</h3>
-                        <p className="opacity-10 max-w-sm mx-auto mt-6 font-black uppercase text-[10px] tracking-[6px] italic leading-loose">No strategic anomalies detected in your operational sector.</p>
+                    <div className="py-40 text-center bg-white/50 border-2 border-dashed border-slate-300/50 rounded-[4rem] flex flex-col items-center justify-center">
+                        <Terminal size={64} className="mx-auto mb-8 text-slate-200" />
+                        <h3 className="text-2xl font-black uppercase tracking-[10px] text-slate-300 italic mb-2">Null Incident Registry</h3>
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">No strategic anomalies detected in your operational sector.</p>
                     </div>
                 )}
             </div>
 
-            {/* Filing Chassis */}
+            {/* Filing Chassis Overlay */}
             <AnimatePresence>
                 {isFiling && (
-                    <div className="fixed inset-0 z-[120] flex items-center justify-center p-8">
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsFiling(false)} className="absolute inset-0 bg-zinc-950/90 backdrop-blur-2xl" />
+                    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsFiling(false)} className="absolute inset-0 bg-[#012b3f]/90 backdrop-blur-3xl" />
                         <motion.div 
-                            initial={{ opacity: 0, scale: 0.9, y: 50 }}
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                            className="relative w-full max-w-3xl bg-white p-16 md:p-24 rounded-[5rem] border border-white/10 shadow-[0_100px_150px_rgba(0,0,0,0.6)] overflow-hidden"
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="relative w-full max-w-2xl bg-white p-12 md:p-16 rounded-[3.5rem] border border-white/20 shadow-2xl overflow-hidden"
                         >
-                            <div className="absolute top-0 right-0 p-24 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
-                                <Shield size={400} className="text-accent rotate-12" />
+                            <div className="absolute top-0 right-0 p-16 opacity-[0.05] pointer-events-none">
+                                <Shield size={300} className="text-[#0082a1] rotate-12" />
                             </div>
 
-                            <div className="relative z-10 flex flex-col mb-16">
-                                <div className="flex items-center gap-6 mb-4">
-                                    <div className="w-16 h-16 bg-accent rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-accent/40">
-                                        <ShieldAlert size={32} strokeWidth={3} />
-                                    </div>
-                                    <h3 className="text-5xl font-black italic tracking-tighter uppercase leading-none">LOG <span className="text-accent italic-none not-italic">INCIDENT_V5</span></h3>
+                            <div className="relative z-10 flex items-center gap-8 mb-12">
+                                <div className="w-16 h-16 bg-[#012b3f] rounded-2xl flex items-center justify-center text-[#0082a1] shadow-2xl">
+                                    <ShieldAlert size={32} strokeWidth={3} />
                                 </div>
-                                <p className="opacity-30 text-xs font-black uppercase tracking-[8px] italic ml-20">Authorized field anomaly report v1.0.4</p>
+                                <div>
+                                    <h3 className="text-2xl font-black uppercase tracking-tight text-[#012b3f] leading-none mb-2">Log Incident</h3>
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Authorized Field Anomaly Report Protocol</p>
+                                </div>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-12 relative z-10">
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">SELECT_ACTIVE_SAFEGUARD</label>
+                            <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
+                                <div>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] mb-3 block ml-1">Select Active Safeguard</label>
                                     <div className="relative group">
-                                        <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
                                         <select 
-                                            className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-16 font-black text-xs uppercase tracking-[4px] outline-none focus:border-accent transition-all appearance-none cursor-pointer shadow-sm focus:ring-8 focus:ring-accent/5 italic"
+                                            className="w-full h-14 bg-slate-50 border border-slate-200 rounded-xl px-6 font-bold text-[10px] uppercase tracking-widest outline-none focus:border-[#0082a1] focus:bg-white shadow-inner transition-all appearance-none cursor-pointer text-[#012b3f]"
                                             value={formData.userPolicyId}
                                             onChange={e => setFormData({...formData, userPolicyId: e.target.value})}
                                             required
                                         >
-                                            <option value="" className="bg-zinc-900">IDENTIFY_SECTOR_PROTOCOL...</option>
+                                            <option value="">Identify Sector Protocol...</option>
                                             {activePolicies?.map(p => (
-                                                <option key={p._id} value={p._id} className="bg-zinc-900">
+                                                <option key={p._id} value={p._id}>
                                                     {p.policy?.policyName} - {p.policyNumber}
                                                 </option>
                                             ))}
@@ -210,43 +212,35 @@ const CustomerClaims = () => {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">REQUIRED_COMPENSATION (₹)</label>
-                                        <div className="relative group">
-                                            <TrendingUp className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-accent transition-colors" />
-                                            <input 
-                                                type="number" 
-                                                className="w-full h-20 bg-zinc-50 border border-border/50 rounded-2xl px-16 font-black text-xl italic tracking-tighter outline-none focus:border-accent shadow-sm focus:ring-8 focus:ring-accent/5"
-                                                value={formData.amount}
-                                                onChange={e => setFormData({...formData, amount: e.target.value})}
-                                                required
-                                            />
-                                        </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] mb-3 block ml-1">Required Compensation (₹)</label>
+                                        <input 
+                                            type="number" 
+                                            className="w-full h-14 bg-slate-50 border border-slate-200 rounded-xl px-6 font-black text-base tracking-tighter outline-none focus:border-[#0082a1] shadow-inner text-[#012b3f]"
+                                            value={formData.amount}
+                                            onChange={e => setFormData({...formData, amount: e.target.value})}
+                                            required
+                                        />
                                     </div>
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">CRYPTO_EVIDENCE_ATTACH</label>
-                                        <div className="relative h-20 group">
-                                            <input 
-                                                type="file" 
-                                                multiple 
-                                                className="absolute inset-0 opacity-0 cursor-pointer z-10" 
-                                                onChange={handleFileChange}
-                                            />
-                                            <div className="h-full bg-zinc-50 border border-border/50 rounded-2xl flex items-center justify-center gap-4 group-hover:border-accent transition-all px-6">
-                                                <Upload size={18} className="text-accent opacity-40 group-hover:opacity-100 transition-opacity" />
-                                                <span className="text-[10px] font-black opacity-30 uppercase tracking-[4px] italic">INJECT_ARTIFACTS</span>
-                                                {files.length > 0 && <span className="ml-2 px-3 py-1 bg-accent text-white rounded-lg text-[10px] font-black">{files.length}</span>}
+                                    <div>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] mb-3 block ml-1">Evidence Artifacts</label>
+                                        <div className="relative h-14 group">
+                                            <input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={handleFileChange} />
+                                            <div className="h-full bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center gap-3 group-hover:border-[#0082a1] transition-all px-4">
+                                                <Upload size={16} className="text-[#0082a1]" />
+                                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Inject Artifacts</span>
+                                                {files.length > 0 && <span className="ml-auto px-2 py-0.5 bg-[#0082a1] text-white rounded-md text-[9px] font-black">{files.length}</span>}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black uppercase tracking-[6px] text-accent italic ml-2">ANOMALY_NARRATIVE</label>
+                                <div>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] mb-3 block ml-1">Anomaly Narrative</label>
                                     <textarea 
-                                        className="w-full h-40 bg-zinc-50 border border-border/50 rounded-[2.5rem] p-10 outline-none focus:border-accent transition-all font-black uppercase no-scrollbar text-[11px] tracking-[4px] leading-relaxed shadow-sm focus:ring-8 focus:ring-accent/5 italic"
-                                        placeholder="PROVIDE_DETAILED_SEQUENCE_OF_INCIDENTS..."
+                                        className="w-full h-32 bg-slate-50 border border-slate-200 rounded-2xl p-6 outline-none focus:border-[#0082a1] transition-all font-bold uppercase no-scrollbar text-[10px] tracking-widest leading-relaxed shadow-inner text-[#012b3f]"
+                                        placeholder="PROVIDE SEQUENCE OF INCIDENTS..."
                                         value={formData.description}
                                         onChange={e => setFormData({...formData, description: e.target.value})}
                                         required
@@ -254,33 +248,33 @@ const CustomerClaims = () => {
                                 </div>
 
                                 {files.length > 0 && (
-                                    <div className="flex flex-wrap gap-4 px-2">
+                                    <div className="flex flex-wrap gap-2">
                                         {files.map((f, i) => (
-                                            <div key={i} className="px-6 py-3 bg-accent/10 rounded-xl text-[10px] font-black text-accent flex items-center gap-4 border border-accent/20 italic">
-                                                <span className="truncate max-w-[150px]">{f.name}</span>
-                                                <button type="button" onClick={() => handleFileRemove(i)} className="hover:text-rose-500 transition-colors">
-                                                    <X size={14} strokeWidth={3} />
+                                            <div key={i} className="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-[8px] font-black flex items-center gap-3 border border-white/10">
+                                                <span className="truncate max-w-[100px]">{f.name}</span>
+                                                <button type="button" onClick={() => handleFileRemove(i)} className="text-rose-500">
+                                                    <X size={12} strokeWidth={3} />
                                                 </button>
                                             </div>
                                         ))}
                                     </div>
                                 )}
 
-                                <div className="flex gap-8 pt-6">
+                                <div className="flex gap-4 pt-4">
                                     <button 
                                         type="button"
                                         onClick={() => setIsFiling(false)}
-                                        className="h-20 px-12 bg-zinc-900 text-white rounded-[2rem] text-[10px] font-black uppercase tracking-[6px] hover:bg-zinc-800 transition-all font-black italic active:scale-95 shadow-xl border border-white/5"
+                                        className="h-16 px-8 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-[#012b3f] hover:text-white transition-all active:scale-95"
                                     >
-                                        ABORT_SIGNAL
+                                        Abort
                                     </button>
                                     <button 
                                         type="submit"
                                         disabled={fileMutation.isLoading}
-                                        className="flex-1 h-20 bg-accent text-white rounded-[2rem] text-xs font-black uppercase tracking-[7px] shadow-[0_25px_60px_rgba(255,90,0,0.4)] font-black italic hover:translate-y-[-8px] transition-all active:scale-95 flex items-center justify-center gap-6 group"
+                                        className="flex-1 h-16 bg-[#0082a1] text-white rounded-xl text-[10px] font-black uppercase tracking-[5px] shadow-xl hover:bg-[#012b3f] transition-all active:scale-95 flex items-center justify-center gap-4 group disabled:opacity-50"
                                     >
                                         {fileMutation.isLoading ? "TRANSMITTING..." : (
-                                            <>TRANSMIT_INCIDENT_DATA <Zap size={20} className="group-hover:scale-125 transition-transform" strokeWidth={3} /></>
+                                            <>TRANSMIT INCIDENT <Zap size={16} fill="currentColor" /></>
                                         )}
                                     </button>
                                 </div>

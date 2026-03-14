@@ -108,536 +108,377 @@ const AdminUsers = () => {
         customer.email?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    return (
-        <div className="admin-users p-6 md:p-10 bg-background-main min-h-screen relative overflow-hidden font-display">
-            {/* Mission Atmosphere */}
-            <div className="absolute top-0 right-0 p-24 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-[2000ms]">
-                 <ShieldIcon size={600} className="animate-spin-slow text-primary" />
-            </div>
+    const statsCards = [
+        { label: "Active Operators", value: agents?.filter(a => a.status === 'active').length, icon: ShieldCheck, color: "text-[#0082a1]", bg: "bg-[#0082a1]/5" },
+        { label: "Protected Assets", value: agents?.reduce((acc, curr) => acc + (curr.stats?.customers || 0), 0), icon: Globe, color: "text-[#012b3f]", bg: "bg-[#012b3f]/5" },
+        { label: "Network Reliability", value: "99.8%", icon: Activity, color: "text-emerald-500", bg: "bg-emerald-50" },
+        { label: "Total Asset Value", value: `$${(totalPortfolio / 1000).toFixed(1)}k`, icon: IndianRupee, color: "text-[#0082a1]", bg: "bg-slate-50" }
+    ];
 
-            <Reveal width="100%" direction="down">
-                <div className="mb-16 flex flex-col xl:flex-row xl:items-center justify-between gap-10">
-                    <div>
-                        <div className="flex items-center gap-4 mb-3">
-                             <div className="w-2.5 h-10 bg-primary rounded-full shadow-lg shadow-primary/40" />
-                             <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-header-bg">
-                                DIRECTORY<span className="text-primary tracking-normal ml-1">_SYSTEM</span>
-                             </h1>
-                        </div>
-                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[6px] ml-7">
-                            Workforce optimization and global portfolio distribution
-                        </p>
+    return (
+        <div className="admin-users p-4 md:p-8 bg-[#dae5e5] min-h-screen font-display">
+            {/* Header */}
+            <div className="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6">
+                <div>
+                    <h1 className="text-3xl font-black text-[#012b3f] mb-1">Network Management</h1>
+                    <p className="text-sm text-slate-500 font-medium">Monitor operator performance and coordinate asset distribution across the network.</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex bg-white p-1 rounded-xl shadow-sm border border-slate-200">
+                        <button 
+                            onClick={() => setActiveTab('agents')}
+                            className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'agents' ? 'bg-[#012b3f] text-white shadow-md' : 'text-slate-400 hover:text-[#012b3f]'}`}
+                        >
+                            Operators
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('reassignment')}
+                            className={`px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'reassignment' ? 'bg-[#012b3f] text-white shadow-md' : 'text-slate-400 hover:text-[#012b3f]'}`}
+                        >
+                            Clients
+                        </button>
                     </div>
                     {activeTab === 'agents' && (
                         <button 
                             onClick={() => setIsAddingAgent(true)}
-                            className="h-16 px-10 bg-header-bg text-white rounded-2xl font-black uppercase tracking-[4px] text-[10px] flex items-center gap-6 shadow-2xl shadow-header-bg/20 hover:bg-primary transition-all active:scale-95 group"
+                            className="px-6 py-2.5 bg-[#0082a1] text-white rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center gap-2 shadow-lg shadow-[#0082a1]/20 hover:scale-105 transition-all"
                         >
-                            <UserPlus size={20} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> ENLIST NEW OPERATOR
+                            <UserPlus size={16} /> Enlist Operator
                         </button>
                     )}
                 </div>
-            </Reveal>
+            </div>
 
-            {/* CONTROL CONSOLE */}
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-10 mb-16">
-                <div className="flex gap-4 bg-white p-2.5 rounded-3xl border border-slate-200 shadow-xl w-full lg:w-auto overflow-x-auto no-scrollbar">
-                    <button 
-                        onClick={() => setActiveTab('agents')}
-                        className={`px-10 py-5 rounded-2xl text-[10px] font-black uppercase tracking-[3px] transition-all flex items-center gap-4 whitespace-nowrap ${activeTab === 'agents' ? 'bg-header-bg text-white shadow-lg' : 'text-slate-400 hover:text-header-bg'}`}
+            {/* Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                {statsCards.map((stat, i) => (
+                    <motion.div 
+                        key={i} 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="bg-white p-6 rounded-[1.5rem] shadow-sm border border-slate-100"
                     >
-                        <ShieldIcon size={16} className={activeTab === 'agents' ? 'text-primary' : 'opacity-20'} /> OPERATOR_REGISTRY
-                    </button>
-                    <button 
-                        onClick={() => setActiveTab('reassignment')}
-                        className={`px-10 py-5 rounded-2xl text-[10px] font-black uppercase tracking-[3px] transition-all flex items-center gap-4 whitespace-nowrap ${activeTab === 'reassignment' ? 'bg-header-bg text-white shadow-lg' : 'text-slate-400 hover:text-header-bg'}`}
-                    >
-                        <AgentIcon size={16} className={activeTab === 'reassignment' ? 'text-accent' : 'opacity-20'} /> ASSET_TRANSFER
-                    </button>
-                </div>
-                
-                <div className="relative group w-full lg:w-auto">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">{stat.label}</p>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-2xl font-black text-[#012b3f]">{stat.value}</h2>
+                            <div className={`p-2.5 rounded-xl ${stat.bg} ${stat.color}`}>
+                                <stat.icon size={20} />
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* Toolbar */}
+            <div className="mb-6 flex items-center justify-between">
+                <div className="relative group w-full max-w-md">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <input 
                         type="text" 
-                        placeholder="SEARCH SECURITY RECORDS..." 
-                        className="pl-16 pr-8 py-5 bg-white border border-slate-200 rounded-3xl focus:ring-8 focus:ring-primary/5 focus:border-primary outline-none w-full lg:w-96 transition-all font-bold text-[10px] uppercase tracking-[4px] text-header-bg shadow-lg" 
+                        placeholder={`Search ${activeTab === 'agents' ? 'operators' : 'clients'}...`} 
+                        className="pl-12 pr-4 h-11 bg-white border border-slate-200 rounded-xl outline-none w-full transition-all font-bold text-[10px] uppercase tracking-widest text-[#012b3f] shadow-sm focus:border-[#0082a1]" 
                         value={searchQuery} 
                         onChange={e=>setSearchQuery(e.target.value)} 
                     />
                 </div>
+                <div className="hidden md:flex items-center gap-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <Lock size={14} className="text-[#0082a1]" /> Secure Access Active
+                </div>
             </div>
 
             {activeTab === 'agents' ? (
-                <>
-                {/* Operational Matrix */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                     {[
-                        { label: "Active_Operators", value: agents?.filter(a => a.status === 'active').length, icon: ShieldCheck, color: "text-primary", bg: "bg-primary/5", tag: "STABLE" },
-                        { label: "Protected_Assets", value: agents?.reduce((acc, curr) => acc + (curr.stats?.customers || 0), 0), icon: Globe, color: "text-indigo-600", bg: "bg-indigo-50", tag: "ACTIVE" },
-                        { label: "Safety_Rating", value: "96.4%", icon: Activity, color: "text-emerald-600", bg: "bg-emerald-50", tag: "OPTIMAL" },
-                        { label: "Total_Yield", value: `₹${(totalPortfolio / 100000).toFixed(1)}L`, icon: IndianRupee, color: "text-header-bg", bg: "bg-header-bg/5", tag: "ANNUAL" }
-                     ].map((stat, i) => (
-                        <Reveal key={i} width="100%" delay={i * 0.1} direction="up">
-                            <div className="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl relative overflow-hidden group hover:border-primary/50 transition-all">
-                                <div className={`absolute -right-8 -top-8 w-32 h-32 ${stat.bg} rounded-full blur-[40px] opacity-20 group-hover:scale-150 transition-all duration-700`} />
-                                <div className="flex justify-between items-start mb-8 relative z-10">
-                                    <div className={`p-4 rounded-xl ${stat.bg} ${stat.color} shadow-sm border border-white/20`}>
-                                        <stat.icon size={28} strokeWidth={2.5} />
-                                    </div>
-                                    <span className={`text-[8px] font-black uppercase tracking-[3px] px-3 py-1 rounded-full bg-slate-50 text-slate-400 border border-slate-100 group-hover:bg-header-bg group-hover:text-white transition-all`}>{stat.tag}</span>
-                                </div>
-                                <p className="text-[9px] font-black uppercase tracking-[5px] text-slate-400 mb-2 leading-none">{stat.label}</p>
-                                <h4 className="text-4xl font-black tracking-tighter text-header-bg uppercase leading-none">
-                                    {stat.value}
-                                </h4>
-                            </div>
-                        </Reveal>
-                     ))}
+                <div className="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+                    <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+                        <h3 className="text-xl font-black text-[#012b3f]">Operator Registry</h3>
+                        <span className="text-[10px] font-black text-[#0082a1] uppercase tracking-widest">{filteredAgents?.length || 0} Registered Nodes</span>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-[#f8fafb]">
+                                <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                                    <th className="px-8 py-5">Operator</th>
+                                    <th className="px-8 py-5 text-center">Portfolio Stats</th>
+                                    <th className="px-8 py-5">Yield Rank</th>
+                                    <th className="px-8 py-5 text-center">Status</th>
+                                    <th className="px-8 py-5"></th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-50">
+                                {filteredAgents?.map((agent, idx) => (
+                                    <tr key={agent._id} className="hover:bg-slate-50 transition-colors group">
+                                        <td className="px-8 py-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 bg-[#012b3f] rounded-xl flex items-center justify-center font-black text-white text-lg shadow-md">
+                                                    {agent.name.charAt(0)}
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-black text-[#012b3f] leading-none mb-1">{agent.name}</p>
+                                                    <p className="text-[10px] text-slate-400 font-medium">{agent.email}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-6 text-center">
+                                            <div className="flex flex-col gap-1 items-center">
+                                                <span className="text-sm font-bold text-[#012b3f]">{agent.stats?.customers} Clients</span>
+                                                <span className="text-[10px] text-emerald-600 font-black uppercase tracking-widest">${(agent.stats?.earnings/100).toFixed(1)}k Volume</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <div className="flex flex-col gap-2">
+                                                <div className="flex items-center justify-between text-[10px] font-black text-[#0082a1] uppercase tracking-widest">
+                                                    <span>Agent Level</span>
+                                                    <span>{agent.commissionRate}%</span>
+                                                </div>
+                                                <div className="w-32 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                    <div className="h-full bg-[#0082a1]" style={{ width: `${agent.commissionRate}%` }} />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <div className="flex justify-center">
+                                                <span className={`px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center gap-2 border ${
+                                                    agent.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'
+                                                }`}>
+                                                    <div className={`w-1.5 h-1.5 rounded-full ${agent.status === 'active' ? 'bg-emerald-500' : 'bg-rose-500'}`} />
+                                                    {agent.status}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-6 text-right">
+                                            <button 
+                                                onClick={() => statusMutation.mutate({ id: agent._id, status: agent.status === 'active' ? 'suspended' : 'active' })}
+                                                className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
+                                                    agent.status === 'active' ? 'bg-slate-50 text-rose-600 border border-rose-100 hover:bg-rose-600 hover:text-white' : 'bg-[#0082a1] text-white hover:bg-[#012b3f]'
+                                                }`}
+                                            >
+                                                {agent.status === 'active' ? 'Deactivate' : 'Activate'}
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                {/* Registry Chassis */}
-                <Reveal width="100%" direction="up" delay={0.4}>
-                    <div className="bg-white rounded-[3rem] border border-slate-200 overflow-hidden shadow-2xl mb-16">
-                        <div className="px-12 py-10 border-b border-slate-100 flex flex-col xl:flex-row xl:items-center justify-between gap-10 bg-slate-50 relative overflow-hidden">
-                            <div className="absolute top-0 right-[-10%] opacity-[0.03] pointer-events-none">
-                                <Command size={150} className="text-header-bg" />
-                            </div>
-                            <div className="flex items-center gap-8 relative z-10">
-                                <div className="w-16 h-16 bg-header-bg rounded-2xl flex items-center justify-center text-white shadow-xl shadow-header-bg/20 border border-white/10">
-                                    <ShieldIcon size={32} strokeWidth={3} />
-                                </div>
-                                <div>
-                                    <h3 className="text-3xl font-black uppercase tracking-tight text-header-bg leading-none">OPERATOR_REGISTRY</h3>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[5px] mt-3">Verified network of certified security coordinators</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-end relative z-10">
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[4px]">VALIDATED_NODES</span>
-                                <span className="text-3xl font-black text-primary uppercase tracking-tight leading-none mt-1">{filteredAgents?.length || 0}</span>
-                            </div>
-                        </div>
-                        <div className="overflow-x-auto no-scrollbar">
-                            {agentsLoading ? (
-                                <div className="p-12">
-                                    <TableSkeleton rows={8} cols={5} />
-                                </div>
-                            ) : (
-                                <table className="w-full text-left font-bold text-[10px] uppercase tracking-widest text-slate-500">
-                                    <thead>
-                                        <tr className="bg-slate-50/50 text-[9px] text-slate-400 border-b border-slate-100">
-                                            <th className="px-12 py-10 tracking-[5px]">OPERATOR_IDENTITY</th>
-                                            <th className="px-12 py-10 text-center tracking-[5px]">PERFORMANCE_LOGS</th>
-                                            <th className="px-12 py-10 tracking-[5px]">YIELD_PARAMETER</th>
-                                            <th className="px-12 py-10 text-center tracking-[5px]">STATUS</th>
-                                            <th className="px-12 py-10 text-right tracking-[5px]">PROTOCOL_ACTIONS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-50">
-
-                                    {filteredAgents?.map((agent, idx) => (
-                                        <motion.tr 
-                                            initial={{ opacity: 0, x: -15 }} 
-                                            animate={{ opacity: 1, x: 0 }} 
-                                            transition={{ delay: idx * 0.05 }}
-                                            key={agent._id} 
-                                            className="hover:bg-slate-50/50 transition-all group"
-                                        >
-                                            <td className="px-12 py-10">
-                                                <div className="flex items-center gap-8">
-                                                    <div className="relative">
-                                                        <div className="absolute inset-0 bg-primary/20 blur-xl opacity-0 group-hover:opacity-40 transition-all duration-500" />
-                                                        <div className="relative w-20 h-20 bg-header-bg rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 transition-all overflow-hidden shadow-lg shadow-header-bg/10">
-                                                            {agent.profilePic ? (
-                                                                <img src={agent.profilePic} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
-                                                            ) : (
-                                                                <span className="text-3xl font-black text-white italic">{agent.name.charAt(0)}</span>
-                                                            )}
-                                                        </div>
-                                                        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-white rounded-xl flex items-center justify-center shadow-lg border border-slate-100 opacity-0 group-hover:opacity-100 transition-all">
-                                                            <Fingerprint size={16} className="text-primary" />
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-2xl font-black tracking-tight text-header-bg group-hover:text-primary transition-colors leading-none mb-3 uppercase">{agent.name}</p>
-                                                        <p className="text-[10px] font-bold text-slate-400 tracking-[3px] flex items-center gap-3 lowercase">
-                                                            <Mail size={12} className="text-primary/60" /> {agent.email}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10 text-center">
-                                                <div className="flex flex-col gap-4">
-                                                    <div className="flex items-center justify-center gap-4 bg-white py-3 px-6 rounded-xl border border-slate-100 shadow-sm">
-                                                        <Users size={16} className="text-primary/40" />
-                                                        <span className="font-black text-xs text-header-bg">{agent.stats?.customers} <span className="text-[9px] opacity-30 ml-2">PORTFOLIOS</span></span>
-                                                    </div>
-                                                    <div className="flex items-center justify-center gap-4 bg-white py-3 px-6 rounded-xl border border-slate-100 shadow-sm">
-                                                        <IndianRupee size={16} className="text-emerald-500/40" />
-                                                        <span className="font-black text-xs text-emerald-600">₹{agent.stats?.earnings.toLocaleString()}</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10">
-                                                <div className="flex flex-col gap-4">
-                                                    <div className="flex items-center justify-between">
-                                                        <span className="text-[9px] font-black text-slate-300 spacing-[4px]">NODE_RANK: BRONZE</span>
-                                                        <span className="text-xs font-black text-primary">{agent.commissionRate}%</span>
-                                                    </div>
-                                                    <div className="w-40 h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner border border-slate-50">
-                                                        <motion.div 
-                                                            initial={{ width: 0 }}
-                                                            animate={{ width: `${agent.commissionRate}%` }}
-                                                            transition={{ duration: 1.5, ease: "circOut" }}
-                                                            className="h-full bg-primary shadow-lg shadow-primary/40" 
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10">
-                                                <div className="flex justify-center">
-                                                    <div className={`px-6 py-2.5 rounded-full text-[9px] font-black tracking-[4px] flex items-center gap-4 border ${
-                                                        agent.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-emerald-500/5' : 'bg-rose-50 text-rose-600 border-rose-100'
-                                                    }`}>
-                                                        <div className={`w-2.5 h-2.5 rounded-full shadow-lg ${agent.status === 'active' ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`} />
-                                                        {agent.status.toUpperCase()}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10 text-right">
-                                                <div className="flex justify-end gap-4">
-                                                    {agent.status === 'active' ? (
-                                                        <button 
-                                                            onClick={(e) => { e.stopPropagation(); statusMutation.mutate({ id: agent._id, status: 'suspended' }); }}
-                                                            className="h-12 px-8 bg-header-bg text-white rounded-xl text-[9px] font-black uppercase tracking-[4px] hover:bg-rose-600 transition-all shadow-xl active:scale-95 flex items-center gap-4 border border-white/5 group/sus"
-                                                        >
-                                                            SUSPEND <ShieldAlert size={16} className="group-hover/sus:rotate-12 transition-transform" />
-                                                        </button>
-                                                    ) : (
-                                                        <button 
-                                                            onClick={(e) => { e.stopPropagation(); statusMutation.mutate({ id: agent._id, status: 'active' }); }}
-                                                            className="h-12 px-8 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-[4px] hover:bg-header-bg transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center gap-4 group/act"
-                                                        >
-                                                            ACTIVATE <Zap size={16} className="group-hover/act:animate-bounce" />
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </motion.tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            )}
-                        </div>
-                    </div>
-                </Reveal>
-                </>
             ) : (
-                <Reveal width="100%" direction="up">
-                    <div className="bg-white rounded-[3rem] border border-slate-200 overflow-hidden shadow-2xl mb-16">
-                        <div className="px-12 py-10 border-b border-slate-100 flex flex-col xl:flex-row xl:items-center justify-between gap-10 bg-slate-50 relative">
-                            <div className="flex items-center gap-8 relative z-10">
-                                <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center text-header-bg shadow-xl shadow-accent/20 border border-white/10">
-                                    <Users size={32} strokeWidth={3} />
-                                </div>
-                                <div>
-                                    <h3 className="text-3xl font-black uppercase tracking-tight text-header-bg leading-none">ASSET_ASSIGNMENTS</h3>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[5px] mt-3">Portfolio redistribution and coordinator management</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col items-end relative z-10">
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[4px]">TOTAL_PROTECTED</span>
-                                <span className="text-3xl font-black text-accent uppercase tracking-tight leading-none mt-1">{filteredCustomers?.length || 0}</span>
-                            </div>
-                        </div>
-                        <div className="overflow-x-auto no-scrollbar">
-                            {customersLoading ? (
-                                <div className="p-12">
-                                    <TableSkeleton rows={8} cols={4} />
-                                </div>
-                            ) : (
-                                <table className="w-full text-left font-bold text-[10px] tracking-[4px] uppercase text-slate-500">
-                                    <thead>
-                                        <tr className="bg-slate-50/50 text-[9px] text-slate-400 border-b border-slate-100">
-                                            <th className="px-12 py-10 tracking-[5px]">ASSET_OWNER</th>
-                                            <th className="px-12 py-10 tracking-[5px]">SECURITY_COORDINATOR</th>
-                                            <th className="px-12 py-10 text-center tracking-[5px]">LIVE_STATUS</th>
-                                            <th className="px-12 py-10 text-right tracking-[5px]">DEPLOYMENT_ACTION</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-slate-50">
-
-                                    {filteredCustomers?.map((customer, idx) => (
-                                        <motion.tr 
-                                            initial={{ opacity: 0, scale: 0.98 }} 
-                                            animate={{ opacity: 1, scale: 1 }} 
-                                            transition={{ delay: idx * 0.05 }}
-                                            key={customer._id} 
-                                            className="hover:bg-slate-50/50 transition-all group"
-                                        >
-                                            <td className="px-12 py-10">
-                                                <div className="flex flex-col gap-3">
-                                                    <span className="font-black text-2xl tracking-tight text-header-bg group-hover:text-primary transition-colors leading-none uppercase">{customer.name}</span>
-                                                    <span className="text-[10px] font-bold text-slate-400 tracking-[3px] lowercase flex items-center gap-3">
-                                                        <Mail size={12} className="text-primary/60" /> {customer.email}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10">
-                                                {customer.assignedAgent ? (
-                                                    <div className="flex items-center gap-6">
-                                                        <div className="w-14 h-14 bg-primary rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-primary/20 transition-transform group-hover:rotate-12">
-                                                            {customer.assignedAgent.name.charAt(0)}
-                                                        </div>
-                                                        <div className="flex flex-col gap-1.5">
-                                                            <span className="font-black text-sm text-header-bg leading-none uppercase">{customer.assignedAgent.name}</span>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                                                                <span className="text-[9px] font-black text-slate-400 tracking-[2px]">VERIFIED_NODE</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex items-center gap-5 bg-rose-50 px-6 py-3 rounded-2xl border border-rose-100 w-fit">
-                                                        <AlertCircle size={14} className="text-rose-500 animate-pulse" />
-                                                        <span className="text-[10px] text-rose-600 font-black tracking-[4px]">UNASSIGNED</span>
-                                                    </div>
-                                                )}
-                                            </td>
-                                            <td className="px-12 py-10 text-center">
-                                                <div className="px-6 py-2.5 bg-slate-100 border border-slate-200 rounded-full text-[9px] font-black text-slate-500 tracking-[4px] w-fit mx-auto shadow-inner">
-                                                    {customer.status?.toUpperCase() || 'ACTIVE'}
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10 text-right">
-                                                <button 
-                                                    onClick={() => setSelectedCustomer(customer)}
-                                                    className="h-14 px-10 bg-white border border-slate-200 text-header-bg rounded-2xl text-[10px] font-black uppercase tracking-[4px] hover:bg-header-bg hover:text-white hover:border-header-bg transition-all shadow-xl active:scale-95 flex items-center gap-6 justify-end float-right group/trans"
-                                                >
-                                                    TRANSFER PORTFOLIO <AgentIcon size={18} className="group-hover/trans:translate-x-2 transition-transform" />
-                                                </button>
-                                            </td>
-                                        </motion.tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            )}
-                        </div>
+                <div className="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+                    <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+                        <h3 className="text-xl font-black text-[#012b3f]">Client Management</h3>
+                        <span className="text-[10px] font-black text-[#0082a1] uppercase tracking-widest">{filteredCustomers?.length || 0} Protected Assets</span>
                     </div>
-                </Reveal>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-[#f8fafb]">
+                                <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                                    <th className="px-8 py-5">Asset Owner</th>
+                                    <th className="px-8 py-5">Assigned Coordinator</th>
+                                    <th className="px-8 py-5 text-center">Status</th>
+                                    <th className="px-8 py-5"></th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-50">
+                                {filteredCustomers?.map((customer, idx) => (
+                                    <tr key={customer._id} className="hover:bg-slate-50 transition-colors group">
+                                        <td className="px-8 py-6">
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-base font-black text-[#012b3f] uppercase">{customer.name}</span>
+                                                <span className="text-[10px] text-slate-400 font-medium">{customer.email}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            {customer.assignedAgent ? (
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-8 h-8 bg-[#012b3f] rounded-lg flex items-center justify-center text-white font-bold text-xs">
+                                                        {customer.assignedAgent.name.charAt(0)}
+                                                    </div>
+                                                    <span className="text-sm font-bold text-[#012b3f]">{customer.assignedAgent.name}</span>
+                                                </div>
+                                            ) : (
+                                                <span className="px-3 py-1 bg-rose-50 text-rose-600 border border-rose-100 rounded-lg text-[10px] font-black uppercase tracking-widest italic">Unassigned</span>
+                                            )}
+                                        </td>
+                                        <td className="px-8 py-6 text-center">
+                                            <span className="px-4 py-1 bg-slate-50 border border-slate-200 rounded-full text-[9px] font-black text-[#012b3f] uppercase tracking-widest">
+                                                {customer.status || 'Active'}
+                                            </span>
+                                        </td>
+                                        <td className="px-8 py-6 text-right">
+                                            <button 
+                                                onClick={() => setSelectedCustomer(customer)}
+                                                className="px-6 py-2 bg-white text-[#012b3f] border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm hover:bg-[#012b3f] hover:text-white transition-all flex items-center gap-2 float-right"
+                                            >
+                                                Transfer <Fingerprint size={14} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             )}
 
-            {/* Reassignment Modal Console */}
+            {/* Transfer Modal */}
             <AnimatePresence>
                 {selectedCustomer && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-8">
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedCustomer(null)} className="absolute inset-0 bg-header-bg/95 backdrop-blur-xl" />
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedCustomer(null)} className="absolute inset-0 bg-[#012b3f]/80 backdrop-blur-md" />
                         <motion.div 
-                            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 30 }}
-                            className="relative w-full max-w-2xl bg-white p-16 rounded-[4rem] border border-white/20 shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="relative w-full max-w-lg bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl overflow-hidden"
                         >
-                            <div className="absolute top-[-30%] right-[-20%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[150px] pointer-events-none animate-pulse-slow" />
-                            
-                            <div className="flex items-center gap-8 mb-16 relative z-10">
-                                <div className="w-20 h-20 bg-accent rounded-2xl flex items-center justify-center text-header-bg shadow-2xl shadow-accent/20 border border-white/20">
-                                    <AgentIcon size={36} strokeWidth={3} />
+                            <div className="mb-10 text-center">
+                                <div className="w-16 h-16 bg-[#012b3f] rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl">
+                                    <AgentIcon size={32} />
                                 </div>
-                                <div>
-                                    <h3 className="text-4xl font-black uppercase tracking-tighter text-header-bg leading-none">PORTFOLIO_TRANSFER</h3>
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[5px] mt-4 flex items-center gap-3">
-                                        REASSIGNING: <span className="text-primary">{selectedCustomer.name}</span>
-                                    </p>
-                                </div>
+                                <h3 className="text-2xl font-black text-[#012b3f]">Portfolio Transfer</h3>
+                                <p className="text-sm text-slate-500 mt-2">Reassigning <b>{selectedCustomer.name}</b> to a new security coordinator.</p>
                             </div>
 
-                            <div className="space-y-6 max-h-[450px] overflow-y-auto no-scrollbar pr-4 relative z-10">
-                                {agents?.filter(a => a.status === 'active' && a._id !== selectedCustomer.assignedAgent?._id).map((agent, aidx) => (
-                                    <motion.button 
-                                        initial={{ opacity: 0, y: 20 }} 
-                                        animate={{ opacity: 1, y: 0 }} 
-                                        transition={{ delay: aidx * 0.1 }}
+                            <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 no-scrollbar">
+                                {agents?.filter(a => a.status === 'active' && a._id !== selectedCustomer.assignedAgent?._id).map((agent) => (
+                                    <button 
                                         key={agent._id}
                                         onClick={() => reassignMutation.mutate({ customerId: selectedCustomer._id, agentId: agent._id })}
-                                        className="w-full p-10 bg-slate-50 border border-slate-200 rounded-[3rem] flex items-center justify-between group hover:border-primary/50 hover:bg-white transition-all shadow-lg overflow-hidden relative"
+                                        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between group hover:border-[#0082a1] hover:bg-white transition-all"
                                     >
-                                        <div className="flex items-center gap-10">
-                                            <div className="w-24 h-24 bg-header-bg rounded-[2rem] flex items-center justify-center text-primary font-black text-4xl shadow-2xl group-hover:rotate-12 transition-all">
-                                                {agent.name.charAt(0)}
-                                            </div>
-                                            <div className="text-left">
-                                                <p className="font-black text-3xl tracking-tighter text-header-bg uppercase mb-2 leading-none">{agent.name}</p>
-                                                <div className="flex items-center gap-6 mt-4 opacity-40">
-                                                    <div className="flex items-center gap-3">
-                                                        <Users size={14} />
-                                                        <p className="text-[10px] font-black uppercase tracking-[3px]">{agent.stats?.customers} ASSETS</p>
-                                                    </div>
-                                                    <div className="w-1.5 h-1.5 bg-slate-300 rounded-full" />
-                                                    <p className="text-[10px] font-black uppercase tracking-[3px]">YIELD: {agent.commissionRate}%</p>
-                                                </div>
+                                        <div className="flex items-center gap-4 text-left">
+                                            <div className="w-10 h-10 bg-[#012b3f] rounded-xl flex items-center justify-center text-white font-black">{agent.name.charAt(0)}</div>
+                                            <div>
+                                                <p className="font-black text-sm text-[#012b3f]">{agent.name}</p>
+                                                <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{agent.stats?.customers} Assigned Assets</p>
                                             </div>
                                         </div>
-                                        <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-200 group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all shadow-xl">
-                                            <CheckCircle size={32} strokeWidth={3} />
-                                        </div>
-                                    </motion.button>
+                                        <ChevronDown size={14} className="text-slate-300 group-hover:text-[#0082a1] -rotate-90" />
+                                    </button>
                                 ))}
                             </div>
                             
-                            <button 
-                                onClick={() => setSelectedCustomer(null)}
-                                className="w-full mt-12 py-5 text-[10px] font-black uppercase tracking-[6px] text-slate-400 hover:text-primary transition-all"
-                            >
-                                ABORT_TRANSFER [ESC]
-                            </button>
+                            <button onClick={() => setSelectedCustomer(null)} className="w-full mt-10 py-3 text-[10px] font-black uppercase tracking-widest text-slate-300 hover:text-rose-500 transition-colors">Abort Sequence</button>
                         </motion.div>
                     </div>
                 )}
             </AnimatePresence>
 
-            {/* Registration Console Chassis */}
+            {/* Enlist Modal */}
             <AnimatePresence>
                 {isAddingAgent && (
-                    <div className="fixed inset-0 z-[120] flex items-center justify-center p-8">
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAddingAgent(false)} className="absolute inset-0 bg-header-bg/95 backdrop-blur-2xl" />
+                    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAddingAgent(false)} className="absolute inset-0 bg-[#012b3f]/80 backdrop-blur-md" />
                         <motion.div 
-                            initial={{ opacity: 0, scale: 0.9, y: 50 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                            className="relative w-full max-w-5xl bg-white p-16 md:p-24 rounded-[4rem] border border-white/20 shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="relative w-full max-w-4xl bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl overflow-hidden"
                         >
-                            <div className="absolute top-0 right-0 p-24 opacity-5 pointer-events-none group-hover:scale-125 transition-transform duration-[3000ms]">
-                                <ShieldIcon size={500} className="text-primary animate-spin-slow" />
-                            </div>
-                            
-                            <div className="relative z-10 flex flex-col mb-16">
-                                <div className="flex items-center gap-8 mb-6">
-                                    <div className="w-20 h-20 bg-primary rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-primary/30 border border-white/10">
-                                        <UserPlus size={40} strokeWidth={3} />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-5xl font-black uppercase tracking-tighter text-header-bg leading-none">OPERATOR_ENLISTMENT</h3>
-                                        <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[6px] mt-4 ml-1">Official system integration protocol for field agents</p>
-                                    </div>
+                            <div className="flex items-center gap-6 mb-12 border-b border-slate-100 pb-8">
+                                <div className="w-14 h-14 bg-[#0082a1] rounded-2xl flex items-center justify-center text-white shadow-lg">
+                                    <UserPlus size={28} />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-black text-[#012b3f]">Operator Enlistment</h3>
+                                    <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">Personnel Integration Protocol</p>
                                 </div>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-20 relative z-10">
-                                <div className="space-y-12">
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-primary mb-3 block">IDENTITY_SET</label>
-                                        <div className="relative group">
-                                            <User size={18} className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Full Identity</label>
+                                        <input 
+                                            placeholder="John Doe"
+                                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-6 font-bold text-xs text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                            value={formData.name}
+                                            onChange={e => setFormData({...formData, name: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Access Email</label>
+                                        <input 
+                                            type="email"
+                                            placeholder="operator@shield.live"
+                                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-6 font-bold text-xs text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                            value={formData.email}
+                                            onChange={e => setFormData({...formData, email: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Security Key</label>
                                             <input 
-                                                placeholder="FULL LEGAL NAME..."
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[4px] outline-none focus:border-primary focus:bg-white shadow-lg transition-all focus:ring-8 focus:ring-primary/5 text-header-bg"
-                                                value={formData.name}
-                                                onChange={e => setFormData({...formData, name: e.target.value})}
+                                                type="password"
+                                                placeholder="••••••••"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-6 font-bold text-xs text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                                value={formData.password}
+                                                onChange={e => setFormData({...formData, password: e.target.value})}
                                                 required
                                             />
                                         </div>
-                                    </div>
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-primary mb-3 block">ACCESS_UPLINK</label>
-                                        <div className="relative group">
-                                            <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Phone Uplink</label>
                                             <input 
-                                                type="email"
-                                                placeholder="OPERATOR_EMAIL@SHIELD.LIVE"
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-16 py-6 font-black text-xs uppercase tracking-[4px] outline-none focus:border-primary focus:bg-white shadow-lg transition-all focus:ring-8 focus:ring-primary/5 text-header-bg"
-                                                value={formData.email}
-                                                onChange={e => setFormData({...formData, email: e.target.value})}
+                                                placeholder="+1-000-000"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-6 font-bold text-xs text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                                value={formData.phone}
+                                                onChange={e => setFormData({...formData, phone: e.target.value})}
                                                 required
                                             />
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-10">
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[6px] text-primary mb-3 block">ENCRYPTED_KEY</label>
-                                            <div className="relative group">
-                                                <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                <input 
-                                                    type="password"
-                                                    placeholder="••••••••"
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-16 py-6 font-black outline-none focus:border-primary focus:bg-white shadow-lg transition-all focus:ring-8 focus:ring-primary/5 text-header-bg"
-                                                    value={formData.password}
-                                                    onChange={e => setFormData({...formData, password: e.target.value})}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[6px] text-primary mb-3 block">SECURE_CONTACT</label>
-                                            <div className="relative group">
-                                                <Phone className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                <input 
-                                                    placeholder="+91-0000000000"
-                                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[4px] outline-none focus:border-primary focus:bg-white shadow-lg transition-all focus:ring-8 focus:ring-primary/5 text-header-bg"
-                                                    value={formData.phone}
-                                                    onChange={e => setFormData({...formData, phone: e.target.value})}
-                                                    required
-                                                />
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-12">
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-[6px] text-primary mb-3 block">GEOSPATIAL_HUB</label>
-                                        <div className="relative group">
-                                            <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                            <input 
-                                                placeholder="OPERATIONAL HEADQUARTERS ADDRESS..."
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-16 py-6 font-black uppercase text-xs tracking-[4px] outline-none focus:border-primary focus:bg-white shadow-lg transition-all focus:ring-8 focus:ring-primary/5 text-header-bg"
-                                                value={formData.address}
-                                                onChange={e => setFormData({...formData, address: e.target.value})}
-                                                required
-                                            />
-                                        </div>
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Station Address</label>
+                                        <input 
+                                            placeholder="Sector 7, Operational HQ"
+                                            className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-6 font-bold text-xs text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                            value={formData.address}
+                                            onChange={e => setFormData({...formData, address: e.target.value})}
+                                            required
+                                        />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-10">
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[6px] text-primary mb-3 block">BIRTH_PARAMETER</label>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Birth Record</label>
                                             <input 
                                                 type="date"
-                                                className="w-full h-[76px] bg-slate-50 border border-slate-200 rounded-2xl px-10 font-black outline-none focus:border-primary focus:bg-white shadow-lg transition-all text-header-bg"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-6 font-bold text-xs text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
                                                 value={formData.dob}
                                                 onChange={e => setFormData({...formData, dob: e.target.value})}
                                                 required
                                             />
                                         </div>
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black uppercase tracking-[6px] text-primary mb-3 block">COMMISSION_YIELD (%)</label>
-                                            <div className="relative group">
-                                                <span className="absolute left-8 top-1/2 -translate-y-1/2 font-black text-3xl text-primary/30 group-focus-within:text-primary transition-colors">%</span>
-                                                <input 
-                                                    type="number"
-                                                    className="w-full h-[76px] bg-slate-50 border border-slate-200 rounded-2xl px-20 font-black text-header-bg text-4xl italic outline-none focus:border-primary focus:bg-white shadow-lg transition-all text-right pr-12"
-                                                    value={formData.commissionRate}
-                                                    onChange={e => setFormData({...formData, commissionRate: e.target.value})}
-                                                    required
-                                                />
-                                            </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Comm. Rate (%)</label>
+                                            <input 
+                                                type="number"
+                                                className="w-full h-12 bg-slate-50 border border-slate-200 rounded-xl px-6 font-black text-xl text-[#012b3f] text-right outline-none focus:border-[#0082a1] transition-all"
+                                                value={formData.commissionRate}
+                                                onChange={e => setFormData({...formData, commissionRate: e.target.value})}
+                                                required
+                                            />
                                         </div>
                                     </div>
-                                    <div className="flex gap-8 pt-10">
+                                    <div className="flex gap-4 pt-4">
                                         <button 
                                             type="button"
                                             onClick={() => setIsAddingAgent(false)}
-                                            className="h-24 px-12 bg-slate-900 text-white rounded-[2.5rem] text-[10px] font-black uppercase tracking-[6px] hover:bg-header-bg transition-all active:scale-95 border border-white/5"
+                                            className="flex-1 h-16 bg-slate-50 text-slate-400 border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all"
                                         >
-                                            ABORT_ENLISTMENT
+                                            Cancel
                                         </button>
                                         <button 
                                             type="submit"
                                             disabled={createMutation.isLoading}
-                                            className="flex-1 h-24 bg-primary text-white rounded-[2.5rem] text-xs font-black uppercase tracking-[8px] shadow-2xl shadow-primary/40 hover:bg-header-bg hover:translate-y-[-10px] active:scale-95 transition-all flex items-center justify-center gap-8 group"
+                                            className="flex-[2] h-16 bg-[#012b3f] text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-xl hover:bg-[#0082a1] transition-all flex items-center justify-center gap-4"
                                         >
-                                            {createMutation.isLoading ? "INITIALIZING..." : (
-                                                <>INITIALIZE_OPERATOR <AgentIcon size={24} className="group-hover:rotate-180 transition-transform duration-1000" strokeWidth={3} /></>
-                                            )}
+                                            {createMutation.isLoading ? "Integrating..." : "Finalize Enlistment"}
                                         </button>
                                     </div>
                                 </div>

@@ -6,9 +6,12 @@ import { api } from "../../utils/api";
 import { 
     User, Mail, Phone, MapPin, Briefcase, 
     CreditCard, Users, ShieldCheck, Camera,
-    CheckCircle2, AlertCircle, TrendingUp
+    CheckCircle2, AlertCircle, TrendingUp,
+    Fingerprint, Lock, Shield, Target,
+    Activity, ArrowRight, Zap, Terminal, HeartPulse
 } from "lucide-react";
-import "../../styles/customer.css";
+import { motion } from "framer-motion";
+import Reveal from "../../components/common/Reveal";
 
 const CustomerProfile = () => {
     const { user, setProfile: setAuthProfile } = useContext(AuthContext);
@@ -31,7 +34,6 @@ const CustomerProfile = () => {
 
     useEffect(() => {
         if (profileData) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
             setForm({
                 name: profileData.name || '',
                 phone: profileData.phone || '',
@@ -59,7 +61,6 @@ const CustomerProfile = () => {
         }
     }, [profileData]);
 
-    // Calculate completion percentage
     const calculateCompletion = () => {
         let total = 0;
         if (form.name) total += 10;
@@ -91,7 +92,7 @@ const CustomerProfile = () => {
         try {
             const updated = await api.put('/users/profile', form, user.token);
             setAuthProfile(updated);
-            toast({ title: "Success", description: "Profile updated successfully!" });
+            toast({ title: "MANIFEST_SYNCHRONIZED", description: "Your identity manifest has been updated successfully." });
             queryClient.invalidateQueries(['profile', user?.token]);
         } catch (err) {
             toast({ title: "Update failed", description: err.message, variant: "destructive" });
@@ -99,201 +100,265 @@ const CustomerProfile = () => {
     };
 
     if (isLoading) return (
-        <div className="flex items-center justify-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+        <div className="p-8 bg-[#dae5e5] min-h-screen">
+             <div className="h-64 bg-white rounded-[3rem] animate-pulse mb-8" />
+             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2 h-screen bg-white rounded-[3rem] animate-pulse" />
+                <div className="h-96 bg-white rounded-[3rem] animate-pulse" />
+             </div>
         </div>
     );
 
     return (
-        <div className="max-w-6xl mx-auto space-y-10 pb-20">
-            {/* Header / Stats */}
-            <div className="relative overflow-hidden bg-gradient-to-br from-gold to-amber-600 rounded-[40px] p-8 md:p-12 text-gold-foreground shadow-2xl">
-                <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-                    <div className="relative group">
-                        <div className="w-32 h-32 rounded-[2.5rem] bg-white text-gold flex items-center justify-center text-5xl font-black shadow-xl overflow-hidden">
-                             {form.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
-                        </div>
-                        <button className="absolute -bottom-2 -right-2 p-3 bg-zinc-900 text-gold rounded-2xl shadow-lg border-4 border-amber-500 transition-transform hover:scale-110 active:scale-95">
-                            <Camera size={18} />
-                        </button>
+        <div className="customer-profile p-4 md:p-8 bg-[#dae5e5] min-h-screen space-y-10 font-display">
+            {/* Mission Header */}
+            <div className="mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-10">
+                <div>
+                     <div className="flex items-center gap-3 mb-2">
+                        <div className="w-1.5 h-6 bg-[#0082a1] rounded-full" />
+                        <span className="text-[10px] font-black uppercase tracking-[4px] text-slate-500">Identity Manifest Node</span>
                     </div>
-
-                    <div className="text-center md:text-left flex-1 space-y-3">
-                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-2">
-                             <span className="px-4 py-1.5 bg-white/20 rounded-full text-xs font-bold tracking-widest uppercase backdrop-blur-md">V.I.P Member</span>
-                             {completion === 100 && <span className="px-4 py-1.5 bg-green-400 text-green-900 rounded-full text-xs font-bold tracking-widest uppercase flex items-center gap-1"><CheckCircle2 size={12}/> Profile Complete</span>}
-                        </div>
-                        <h1 className="text-4xl md:text-5xl font-black tracking-tighter">{form.name || 'Set Your Name'}</h1>
-                        <p className="opacity-80 font-medium">{user.email}</p>
-                    </div>
-
-                    <div className="w-full md:w-64 bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20">
-                        <div className="flex justify-between items-end mb-3">
-                            <span className="text-xs font-bold uppercase tracking-widest opacity-80">Profile Strength</span>
-                            <span className="text-2xl font-black">{completion}%</span>
-                        </div>
-                        <div className="h-2 w-full bg-white/20 rounded-full overflow-hidden">
-                            <div 
-                                className="h-full bg-white transition-all duration-1000 ease-out"
-                                style={{ width: `${completion}%` }}
-                            />
-                        </div>
-                    </div>
+                    <h1 className="text-3xl font-black text-[#012b3f] uppercase tracking-tight">Citizen_Profile</h1>
+                    <p className="text-sm text-slate-500 font-medium italic mt-1">Authorized database entry for global insurance deployment.</p>
                 </div>
-                
-                {/* Decorative background shapes */}
-                <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-400/20 rounded-full -ml-20 -mb-20 blur-2xl pointer-events-none" />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Main Form Sections */}
-                <div className="lg:col-span-2 space-y-8">
-                    {/* Basic Info */}
-                    <div className="glass p-8 rounded-[3rem] border border-border">
-                        <div className="flex items-center gap-3 mb-8">
-                            <div className="w-1.5 h-8 bg-gold rounded-full" />
-                            <h2 className="text-2xl font-bold tracking-tight">Identity & Contact</h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Full Name</label>
-                                <div className="relative group">
-                                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
-                                    <input name="name" value={form.name} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">National ID / Passport</label>
-                                <div className="relative group">
-                                    <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
-                                    <input name="nationalId" value={form.nationalId} onChange={handleChange} placeholder="Required for claims" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Phone Number</label>
-                                <div className="relative group">
-                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
-                                    <input name="phone" value={form.phone} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Date of Birth</label>
-                                <input type="date" name="dob" value={form.dob?.split('T')[0] || ''} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
-                            </div>
-                            <div className="md:col-span-2 space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Residential Address</label>
-                                <div className="relative group">
-                                    <MapPin className="absolute left-4 top-4 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
-                                    <textarea name="address" value={form.address} onChange={handleChange} rows="3" className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold resize-none" />
-                                </div>
-                            </div>
-                        </div>
+            {/* HIGH-SECURITY PROFILE HEADER */}
+            <Reveal width="100%" direction="down">
+                <section className="relative overflow-hidden rounded-[3rem] bg-[#012b3f] p-10 md:p-16 text-white shadow-2xl border border-white/5 group">
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-[#0082a1]/20 rounded-full blur-[120px]" />
+                        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, white 2px, transparent 0)`, backgroundSize: '40px 40px' }} />
                     </div>
 
-                    {/* Nominee Info */}
-                    <div className="glass p-8 rounded-[3rem] border border-border">
-                        <div className="flex items-center gap-3 mb-8">
-                            <div className="w-1.5 h-8 bg-gold rounded-full" />
-                            <h2 className="text-2xl font-bold tracking-tight">Beneficiary / Nominee</h2>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Nominee Name</label>
-                                <div className="relative group">
-                                    <Users className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-gold transition-colors" size={18} />
-                                    <input name="nominee.name" value={form.nominee.name} onChange={handleChange} className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold" />
-                                </div>
+                    <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12">
+                        <div className="relative group">
+                            <div className="w-40 h-40 rounded-[2.5rem] bg-white/5 text-[#0082a1] flex items-center justify-center text-6xl font-black shadow-2xl border border-white/10 backdrop-blur-3xl overflow-hidden transform group-hover:rotate-3 transition-transform duration-500">
+                                 {form.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest opacity-60 ml-1">Relationship</label>
-                                <select name="nominee.relationship" value={form.nominee.relationship} onChange={handleChange} className="w-full px-5 py-4 rounded-2xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 transition-all font-semibold cursor-pointer appearance-none">
-                                    <option value="">Select Relation</option>
-                                    <option value="Spouse">Spouse</option>
-                                    <option value="Child">Child</option>
-                                    <option value="Parent">Parent</option>
-                                    <option value="Sibling">Sibling</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                            <button className="absolute -bottom-2 -right-2 p-3.5 bg-[#0082a1] text-white rounded-2xl shadow-xl hover:scale-110 active:scale-95 transition-all">
+                                <Camera size={20} strokeWidth={3} />
+                            </button>
+                        </div>
+
+                        <div className="text-center lg:text-left flex-1 space-y-4">
+                            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-2">
+                                 <div className="px-4 py-1.5 bg-[#0082a1]/20 border border-[#0082a1]/30 rounded-full text-[9px] font-black uppercase tracking-[3px] text-[#0082a1]">
+                                    VERIFIED CITIZEN
+                                 </div>
+                                 {completion === 100 ? (
+                                     <div className="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-[9px] font-black uppercase tracking-[3px] text-emerald-400 flex items-center gap-2">
+                                        <CheckCircle2 size={12}/> MANIFEST_COMPLETE
+                                     </div>
+                                 ) : (
+                                     <div className="px-4 py-1.5 bg-amber-500/10 border border-amber-500/20 rounded-full text-[9px] font-black uppercase tracking-[3px] text-amber-400 flex items-center gap-2">
+                                        <AlertCircle size={12}/> DATA_GAP_DETECTED
+                                     </div>
+                                 )}
+                            </div>
+                            <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic">{form.name || 'CITIZEN_NULL'}</h1>
+                            <div className="flex items-center justify-center lg:justify-start gap-3 text-slate-400 font-bold text-xs">
+                                <Mail size={14} className="text-[#0082a1]" />
+                                <span className="uppercase tracking-widest">{user.email}</span>
+                            </div>
+                        </div>
+
+                        <div className="w-full lg:w-80 bg-white/5 backdrop-blur-3xl rounded-[2.5rem] p-8 border border-white/10 shadow-2xl">
+                            <div className="flex justify-between items-end mb-4">
+                                <span className="text-[10px] font-black uppercase tracking-[4px] text-white/40">Manifest Strength</span>
+                                <span className="text-3xl font-black text-[#0082a1] italic">{completion}%</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                <motion.div 
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${completion}%` }}
+                                    transition={{ duration: 1, ease: "easeOut" }}
+                                    className="h-full bg-[#0082a1] shadow-[0_0_15px_#0082a1]"
+                                />
                             </div>
                         </div>
                     </div>
+                </section>
+            </Reveal>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                {/* Main Form Sections */}
+                <div className="lg:col-span-2 space-y-10">
+                    {/* Basic Info */}
+                    <Reveal width="100%" direction="up">
+                        <div className="bg-white p-10 rounded-[3rem] shadow-2xl border border-white overflow-hidden relative group">
+                            <div className="absolute top-0 right-0 p-10 opacity-[0.02] group-hover:scale-125 transition-transform duration-700">
+                                <Fingerprint size={120} className="text-[#012b3f]" />
+                            </div>
+                            <div className="flex items-center gap-4 mb-10">
+                                <div className="w-1.5 h-8 bg-[#0082a1] rounded-full shadow-[0_0_10px_#0082a1]" />
+                                <h2 className="text-2xl font-black uppercase tracking-tight text-[#012b3f]">Identity & Contact</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-3">
+                                    <label className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 ml-1">Full Legal Name</label>
+                                    <div className="relative group">
+                                        <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0082a1] transition-colors" size={18} />
+                                        <input name="name" value={form.name} onChange={handleChange} className="w-full pl-14 pr-6 h-14 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] focus:bg-white transition-all font-black text-[11px] uppercase tracking-widest text-[#012b3f]" />
+                                    </div>
+                                </div>
+                                <div className="space-y-3">
+                                    <label className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 ml-1">National ID / Asset Passport</label>
+                                    <div className="relative group">
+                                        <ShieldCheck className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0082a1] transition-colors" size={18} />
+                                        <input name="nationalId" value={form.nationalId} onChange={handleChange} placeholder="Required for claims" className="w-full pl-14 pr-6 h-14 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] focus:bg-white transition-all font-black text-[11px] uppercase tracking-widest text-[#012b3f]" />
+                                    </div>
+                                </div>
+                                <div className="space-y-3">
+                                    <label className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 ml-1">Secure Uplink Phone</label>
+                                    <div className="relative group">
+                                        <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0082a1] transition-colors" size={18} />
+                                        <input name="phone" value={form.phone} onChange={handleChange} className="w-full pl-14 pr-6 h-14 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] focus:bg-white transition-all font-black text-[11px] uppercase tracking-widest text-[#012b3f]" />
+                                    </div>
+                                </div>
+                                <div className="space-y-3">
+                                    <label className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 ml-1">Biological Birth Cycle</label>
+                                    <input type="date" name="dob" value={form.dob?.split('T')[0] || ''} onChange={handleChange} className="w-full px-6 h-14 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] focus:bg-white transition-all font-black text-[11px] uppercase tracking-widest text-[#012b3f]" />
+                                </div>
+                                <div className="md:col-span-2 space-y-3">
+                                    <label className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 ml-1">Registered Habitat Coordinates</label>
+                                    <div className="relative group">
+                                        <MapPin className="absolute left-5 top-5 text-slate-300 group-focus-within:text-[#0082a1] transition-colors" size={18} />
+                                        <textarea name="address" value={form.address} onChange={handleChange} rows="3" className="w-full pl-14 pr-6 py-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] outline-none focus:border-[#0082a1] focus:bg-white transition-all font-black text-[11px] uppercase tracking-widest text-[#012b3f] resize-none" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Reveal>
+
+                    {/* Nominee Info */}
+                    <Reveal width="100%" direction="up">
+                        <div className="bg-white p-10 rounded-[3rem] shadow-2xl border border-white relative group">
+                            <div className="absolute top-0 right-0 p-10 opacity-[0.02] group-hover:scale-125 transition-transform">
+                                <Users size={120} className="text-[#012b3f]" />
+                            </div>
+                            <div className="flex items-center gap-4 mb-10">
+                                <div className="w-1.5 h-8 bg-[#0082a1] rounded-full shadow-[0_0_10px_#0082a1]" />
+                                <h2 className="text-2xl font-black uppercase tracking-tight text-[#012b3f]">Beneficiary / Nominee</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-3">
+                                    <label className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 ml-1">Nominee Identity</label>
+                                    <div className="relative group">
+                                        <Users className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#0082a1] transition-colors" size={18} />
+                                        <input name="nominee.name" value={form.nominee.name} onChange={handleChange} className="w-full pl-14 pr-6 h-14 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] focus:bg-white transition-all font-black text-[11px] uppercase tracking-widest text-[#012b3f]" />
+                                    </div>
+                                </div>
+                                <div className="space-y-3">
+                                    <label className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 ml-1">Kinship Matrix</label>
+                                    <select name="nominee.relationship" value={form.nominee.relationship} onChange={handleChange} className="w-full px-6 h-14 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] focus:bg-white transition-all font-black text-[11px] uppercase tracking-widest text-[#012b3f] cursor-pointer appearance-none shadow-sm">
+                                        <option value="">Select Relation</option>
+                                        <option value="Spouse">Spouse</option>
+                                        <option value="Child">Child</option>
+                                        <option value="Parent">Parent</option>
+                                        <option value="Sibling">Sibling</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </Reveal>
 
                     {/* Employment & Bank */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="glass p-8 rounded-[3rem] border border-border">
-                            <div className="flex items-center gap-3 mb-8">
-                                <Briefcase className="text-gold" size={24} />
-                                <h3 className="text-xl font-bold tracking-tight">Work Details</h3>
-                            </div>
-                            <div className="space-y-4">
-                                <div className="space-y-1">
-                                    <span className="text-[10px] font-black uppercase opacity-40 ml-1">Occupation</span>
-                                    <input name="employment.occupation" value={form.employment.occupation} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 font-semibold" />
+                        <Reveal width="100%" direction="up">
+                            <div className="bg-white p-10 rounded-[3rem] shadow-2xl border border-white h-full group">
+                                <div className="flex items-center gap-4 mb-10">
+                                    <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-[#012b3f] border border-slate-100 group-hover:bg-[#012b3f] group-hover:text-[#0082a1] transition-colors">
+                                        <Briefcase size={24} />
+                                    </div>
+                                    <h3 className="text-xl font-black uppercase tracking-tight text-[#012b3f]">Work Manifest</h3>
                                 </div>
-                                <div className="space-y-1">
-                                    <span className="text-[10px] font-black uppercase opacity-40 ml-1">Annual Income</span>
-                                    <input name="employment.annualIncome" value={form.employment.annualIncome} onChange={handleChange} type="number" className="w-full px-4 py-3.5 rounded-xl bg-white border border-border outline-none focus:ring-2 focus:ring-gold/20 font-semibold" />
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <span className="text-[9px] font-black uppercase tracking-[3px] text-slate-400 ml-1">Occupation</span>
+                                        <input name="employment.occupation" value={form.employment.occupation} onChange={handleChange} className="w-full px-6 h-12 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] font-black text-[10px] uppercase tracking-widest text-[#012b3f]" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <span className="text-[9px] font-black uppercase tracking-[3px] text-slate-400 ml-1">Annual Yield (₹)</span>
+                                        <input name="employment.annualIncome" value={form.employment.annualIncome} onChange={handleChange} type="number" className="w-full px-6 h-12 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#0082a1] font-black text-xs tracking-tighter text-[#012b3f]" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Reveal>
 
-                        <div className="glass p-8 rounded-[3rem] border border-border">
-                             <div className="flex items-center gap-3 mb-8">
-                                <CreditCard className="text-green-600" size={24} />
-                                <h3 className="text-xl font-bold tracking-tight">Payout Account</h3>
-                            </div>
-                            <div className="space-y-4">
-                                <div className="space-y-1">
-                                    <span className="text-[10px] font-black uppercase opacity-40 ml-1">A/C Number</span>
-                                    <input name="bankDetails.accountNumber" value={form.bankDetails.accountNumber} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-white border border-border outline-none focus:ring-2 focus:ring-green-600/20 font-semibold" />
+                        <Reveal width="100%" direction="up">
+                            <div className="bg-white p-10 rounded-[3rem] shadow-2xl border border-white h-full group">
+                                 <div className="flex items-center gap-4 mb-10">
+                                    <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-emerald-600 border border-slate-100 group-hover:bg-[#012b3f] transition-colors">
+                                        <CreditCard size={24} />
+                                    </div>
+                                    <h3 className="text-xl font-black uppercase tracking-tight text-[#012b3f]">Settlement Node</h3>
                                 </div>
-                                <div className="space-y-1">
-                                    <span className="text-[10px] font-black uppercase opacity-40 ml-1">IFSC Code</span>
-                                    <input name="bankDetails.ifscCode" value={form.bankDetails.ifscCode} onChange={handleChange} className="w-full px-4 py-3.5 rounded-xl bg-white border border-border outline-none focus:ring-2 focus:ring-green-600/20 font-semibold uppercase" />
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <span className="text-[9px] font-black uppercase tracking-[3px] text-slate-400 ml-1">A/C Number</span>
+                                        <input name="bankDetails.accountNumber" value={form.bankDetails.accountNumber} onChange={handleChange} className="w-full px-6 h-12 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-500 font-black text-xs tracking-widest text-[#012b3f]" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <span className="text-[9px] font-black uppercase tracking-[3px] text-slate-400 ml-1">IFSC Routing</span>
+                                        <input name="bankDetails.ifscCode" value={form.bankDetails.ifscCode} onChange={handleChange} className="w-full px-6 h-12 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-500 font-black text-[10px] uppercase tracking-widest text-[#012b3f]" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Reveal>
                     </div>
 
                     <button 
                         onClick={handleSave}
-                        className="w-full py-6 bg-gold text-gold-foreground rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-gold/40 hover:brightness-110 hover:scale-[1.02] transform transition-all active:scale-100"
+                        className="w-full h-20 bg-[#012b3f] text-[#0082a1] rounded-[2rem] font-black uppercase tracking-[0.4em] shadow-2xl hover:bg-[#0082a1] hover:text-white transition-all active:scale-95 flex items-center justify-center gap-6 group border border-white/5 text-xs"
                     >
-                        Securely Save Profile
+                        SYNCHRONIZE MANIFEST <Zap size={20} fill="currentColor" />
                     </button>
                 </div>
 
                 {/* Sidebar Info */}
-                <div className="space-y-8">
-                    <div className="bg-zinc-900 text-white rounded-[3rem] p-8 border border-white/5 relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                             <TrendingUp size={120} />
+                <div className="space-y-10">
+                    <Reveal width="100%" direction="up">
+                        <div className="bg-[#012b3f] text-white rounded-[3rem] p-10 border border-white/5 relative overflow-hidden group shadow-2xl">
+                            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform duration-1000">
+                                 <TrendingUp size={150} className="text-[#0082a1]" />
+                            </div>
+                            <h3 className="text-2xl font-black uppercase tracking-tight mb-4 relative z-10 italic text-[#0082a1]">Portfolio Yield</h3>
+                            <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-10 relative z-10 leading-relaxed">A complete manifest allows our AI underwriters to offer you up to <span className="text-white">15% discount</span> on premium renewals.</p>
+                            <div className="relative z-10 p-6 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-between">
+                                <span className="text-[9px] font-black uppercase tracking-[4px] text-white/40">Loyalty Sector</span>
+                                <span className="text-xs font-black text-[#0082a1] uppercase tracking-[3px]">Elite_Guardian</span>
+                            </div>
                         </div>
-                        <h3 className="text-xl font-bold mb-4 relative z-10">Premium Health</h3>
-                        <p className="text-zinc-400 text-sm mb-6 relative z-10 leading-relaxed font-medium">A complete profile allows our AI underwriters to offer you up to <span className="text-gold">15% discount</span> on renewing premiums.</p>
-                        <div className="relative z-10 p-4 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-between">
-                            <span className="text-xs font-bold uppercase tracking-widest text-zinc-500">Tier</span>
-                            <span className="text-sm font-black text-blue-400 uppercase tracking-widest">Elite Platinum</span>
-                        </div>
-                    </div>
+                    </Reveal>
 
-                    <div className="glass border border-border rounded-[3rem] p-8 space-y-6">
-                        <div className="flex items-center gap-3">
-                             <div className="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center">
-                                 <AlertCircle size={20} />
-                             </div>
-                             <h4 className="font-bold">Security Tip</h4>
+                    <Reveal width="100%" direction="up">
+                        <div className="bg-white border border-white rounded-[3rem] p-10 space-y-8 shadow-2xl relative overflow-hidden group">
+                            <div className="absolute top-[-20%] left-[-20%] w-64 h-64 bg-[#0082a1]/5 rounded-full blur-3xl" />
+                            <div className="flex items-center gap-4 relative z-10">
+                                 <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center border border-amber-100 shadow-sm">
+                                     <AlertCircle size={24} />
+                                 </div>
+                                 <h4 className="text-xl font-black uppercase tracking-tight text-[#012b3f]">Security Tip</h4>
+                            </div>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed relative z-10">Never share your account password or biometric data with unauthorized nodes, including individuals claiming to be ShieldPro associates.</p>
+                            <button className="w-full h-14 bg-slate-50 border border-slate-200 rounded-xl text-[9px] font-black uppercase tracking-widest text-[#012b3f] hover:bg-[#012b3f] hover:text-white transition-all shadow-sm">ENABLE 2FA UPLINK</button>
                         </div>
-                        <p className="text-sm text-muted-foreground leading-relaxed">Never share your account password or bank OTP with anyone, including individuals claiming to be ShieldPro agents.</p>
-                        <button className="w-full py-3 border border-border rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-zinc-50 transition-all">Two-Factor Auth</button>
-                    </div>
+                    </Reveal>
 
-                    <div className="p-8 bg-gradient-to-br from-gold to-amber-600 rounded-[3rem] text-gold-foreground shadow-xl shadow-gold/20">
-                         <h3 className="text-xl font-bold mb-4">Support</h3>
-                         <p className="text-sm opacity-80 mb-6 leading-relaxed">Need help updating sensitive data? Our concierge is available 24/7.</p>
-                         <button className="px-6 py-3 bg-zinc-900 text-gold rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transform transition-all">Chat Now</button>
-                    </div>
+                    <Reveal width="100%" direction="up">
+                        <div className="p-10 bg-gradient-to-br from-[#012b3f] to-[#0082a1] rounded-[3rem] text-white shadow-2xl relative overflow-hidden group">
+                            <div className="absolute bottom-[-10%] right-[-10%] opacity-10 group-hover:rotate-12 transition-transform duration-700">
+                                <Target size={150} />
+                            </div>
+                             <h3 className="text-2xl font-black uppercase tracking-tight mb-4 relative z-10">Direct Support</h3>
+                             <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-8 leading-relaxed relative z-10">Need help updating sensitive manifest data? Our concierge node is available 24/7.</p>
+                             <button className="h-14 px-8 bg-white text-[#012b3f] rounded-xl text-[10px] font-black uppercase tracking-widest hover:translate-y-[-4px] transition-all shadow-xl relative z-10 flex items-center gap-3">
+                                INITIATE CHAT <Terminal size={16} />
+                             </button>
+                        </div>
+                    </Reveal>
                 </div>
             </div>
         </div>

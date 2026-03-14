@@ -63,192 +63,175 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-background-main flex items-center justify-center p-6 relative overflow-hidden font-display">
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-20">
-        <HeroScene />
-      </div>
-
-      <div className="auth-container w-full max-w-5xl flex flex-col md:flex-row bg-white rounded-[2.5rem] border border-slate-200 shadow-2xl overflow-hidden relative z-10">
+    <div className="min-h-screen w-full bg-[#f0f4f5] flex items-center justify-center p-4 md:p-10 font-display">
+      <div className="w-full max-w-6xl min-h-[700px] flex flex-col md:flex-row bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] overflow-hidden">
           
-          {/* Left Panel: Secure Shield Branding */}
-          <div className="hidden md:flex md:w-5/12 bg-header-bg p-16 flex-col justify-between relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-                  <Shield size={320} className="text-white" />
+          {/* Left Panel: Login Interface */}
+          <div className="flex-1 p-12 md:p-24 flex flex-col justify-center">
+              <div className="max-w-md w-full mx-auto">
+                  <Reveal width="100%" direction="down">
+                      <div className="mb-10">
+                          <h1 className="text-4xl font-black text-[#012b3f] tracking-tight mb-3">Secure Vault Access</h1>
+                          <p className="text-sm text-slate-500 font-medium leading-relaxed">
+                            Please enter your credentials to access your secure policy vault.
+                          </p>
+                      </div>
+                  </Reveal>
+
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                      <Reveal width="100%" delay={0.1}>
+                          <div className="space-y-2">
+                              <label className="text-xs font-bold text-slate-600 uppercase tracking-widest ml-1">Email Address</label>
+                              <div className="relative group">
+                                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#0082a1] transition-colors">
+                                      <Mail size={18} />
+                                  </div>
+                                  <input
+                                      type="email"
+                                      placeholder="name@company.com"
+                                      className="w-full bg-[#f8fafb] border border-slate-200 rounded-xl pl-14 pr-6 py-4 focus:bg-white focus:ring-4 focus:ring-[#0082a1]/10 focus:border-[#0082a1] outline-none transition-all text-sm font-medium text-[#012b3f]"
+                                      value={email}
+                                      onChange={(e) => setEmail(e.target.value)}
+                                      required
+                                  />
+                              </div>
+                          </div>
+                      </Reveal>
+
+                      <Reveal width="100%" delay={0.2}>
+                          <div className="space-y-2">
+                              <div className="flex justify-between items-center px-1">
+                                  <label className="text-xs font-bold text-slate-600 uppercase tracking-widest">Password</label>
+                                  <button 
+                                      type="button"
+                                      onClick={() => setShowForgotModal(true)}
+                                      className="text-[11px] font-bold text-[#0082a1] hover:underline"
+                                  >
+                                      Forgot password?
+                                  </button>
+                              </div>
+                              <div className="relative group">
+                                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#0082a1] transition-colors">
+                                      <Lock size={18} />
+                                  </div>
+                                  <input
+                                      type="password"
+                                      placeholder="••••••••"
+                                      className="w-full bg-[#f8fafb] border border-slate-200 rounded-xl pl-14 pr-6 py-4 focus:bg-white focus:ring-4 focus:ring-[#0082a1]/10 focus:border-[#0082a1] outline-none transition-all text-sm font-medium text-[#012b3f]"
+                                      value={password}
+                                      onChange={(e) => setPassword(e.target.value)}
+                                      required
+                                  />
+                              </div>
+                          </div>
+                      </Reveal>
+
+                      <div className="flex items-center gap-3 px-1">
+                          <input 
+                            type="checkbox" 
+                            id="remember"
+                            className="w-4 h-4 rounded border-slate-300 text-[#0082a1] focus:ring-[#0082a1]"
+                            checked={rememberMe}
+                            onChange={() => setRememberMe(!rememberMe)}
+                          />
+                          <label htmlFor="remember" className="text-xs font-bold text-slate-500 cursor-pointer">Keep me logged in for 30 days</label>
+                      </div>
+
+                      <div className="flex items-center gap-3 px-1 text-[#10b981]">
+                          <Lock size={12} className="fill-current" />
+                          <span className="text-[10px] font-black uppercase tracking-[2px]">256-Bit Encryption Active</span>
+                      </div>
+
+                      {error && (
+                        <div className="flex items-center gap-3 text-rose-600 bg-rose-50 p-4 rounded-xl border border-rose-100 text-xs font-bold">
+                          <AlertCircle size={16} />
+                          {error}
+                        </div>
+                      )}
+
+                      <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-[#0082a1] hover:bg-[#012b3f] text-white py-4 rounded-xl flex items-center justify-center gap-3 transition-all font-bold text-sm shadow-lg shadow-[#0082a1]/20 active:scale-[0.98]"
+                      >
+                        {isLoading ? (
+                           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                          <>
+                            Sign In <ArrowRight size={18} strokeWidth={3} />
+                          </>
+                        )}
+                      </button>
+                  </form>
+
+                  <div className="mt-8 relative">
+                      <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-slate-100"></div>
+                      </div>
+                      <div className="relative flex justify-center">
+                          <span className="px-4 bg-white text-[10px] font-black text-slate-300 uppercase tracking-[4px]">OR CONTINUE WITH</span>
+                      </div>
+                  </div>
+
+                  <div className="mt-8 grid grid-cols-2 gap-4">
+                      <button onClick={() => handleSocialLogin('Google')} className="flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-bold text-xs uppercase text-slate-600">
+                          <Chrome size={16} className="text-[#ea4335]" /> Google
+                      </button>
+                      <button onClick={() => handleSocialLogin('SSO')} className="flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-bold text-xs uppercase text-slate-600">
+                          <Target size={16} className="text-[#012b3f]" /> SSO for Enterprise
+                      </button>
+                  </div>
               </div>
+          </div>
+
+          {/* Right Panel: Secure Shield Branding */}
+          <div className="hidden md:flex md:w-[45%] bg-[#012b3f] p-16 md:p-24 flex-col justify-between relative overflow-hidden">
+              {/* Pattern Overlay */}
+              <div className="absolute inset-0 opacity-10" 
+                   style={{ backgroundImage: `radial-gradient(circle at 1px 1px, #fff 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
               
               <div className="relative z-10">
-                  <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-8 shadow-xl">
-                      <Shield size={32} className="text-white" strokeWidth={3} />
+                  <div className="flex items-center gap-4 mb-16">
+                      <div className="w-12 h-12 bg-[#0082a1] rounded-xl flex items-center justify-center shadow-lg">
+                          <Shield size={24} className="text-white" />
+                      </div>
+                      <span className="text-xl font-black text-white tracking-tight">Policyholder Portal</span>
                   </div>
-                  <h2 className="text-4xl font-black tracking-tight text-white uppercase leading-none mb-4">
-                      SECURE<br/><span className="text-primary tracking-normal">SHIELD</span>
+
+                  <h2 className="text-5xl font-black text-white leading-[1.1] mb-8">
+                    Enterprise-grade security for your insurance assets.
                   </h2>
-                  <div className="h-1.5 w-16 bg-primary rounded-full mb-10 shadow-lg shadow-primary/20" />
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-[4px] leading-relaxed italic">
-                      ESTABLISHING SECURE ACCESS TO YOUR PREMIUM INSURANCE PORTFOLIO.
+                  <p className="text-lg text-slate-400 font-medium leading-relaxed max-w-sm">
+                    Join thousands of companies securing their infrastructure with our industry-leading zero-trust architecture.
                   </p>
               </div>
               
-              <div className="relative z-10 space-y-6">
-                  <div className="flex items-center gap-5 group">
-                       <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-white border border-white/10 group-hover:bg-primary transition-all duration-500 shadow-lg">
-                          <Lock size={20} strokeWidth={3} />
-                       </div>
-                       <div className="flex flex-col">
-                             <span className="text-[10px] font-black uppercase tracking-[3px] text-white">Encrypted Tunnel</span>
-                             <span className="text-[8px] font-black uppercase tracking-[2px] text-white/30">AES-256 Enabled</span>
-                       </div>
-                  </div>
-                  <div className="flex items-center gap-5 group">
-                       <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-white border border-white/10 group-hover:bg-primary transition-all duration-500 shadow-lg">
-                          <Globe size={20} strokeWidth={3} />
-                       </div>
-                       <div className="flex flex-col">
-                             <span className="text-[10px] font-black uppercase tracking-[3px] text-white">Global Network</span>
-                             <span className="text-[8px] font-black uppercase tracking-[2px] text-white/30">International Nodes Active</span>
-                       </div>
-                  </div>
-              </div>
-          </div>
-
-          {/* Right Panel: Login Interface */}
-          <div className="flex-1 p-12 md:p-20 bg-white">
-              <Reveal width="100%" direction="down">
-                  <div className="flex flex-col mb-12">
-                      <h1 className="text-4xl font-black tracking-tighter text-header-bg uppercase leading-none">WELCOME <span className="text-primary tracking-normal">BACK</span></h1>
-                      <p className="text-[11px] text-slate-400 font-black uppercase tracking-[5px] mt-4">Authorized User Login</p>
-                  </div>
-              </Reveal>
-
-              <form onSubmit={handleSubmit} className="space-y-8">
-                  <Reveal width="100%" delay={0.2} direction="right">
-                      <div className="space-y-3">
-                          <label className="text-[10px] font-black uppercase tracking-[4px] text-primary italic ml-1">IDENTIFIER</label>
-                          <div className="relative group">
-                              <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              <input
-                                  type="email"
-                                  placeholder="EMAIL ADDRESS"
-                                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-16 py-5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg"
-                                  value={email}
-                                  onChange={(e) => setEmail(e.target.value)}
-                                  required
-                              />
+              <div className="relative z-10 w-full">
+                  <div className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-10 mt-10">
+                      <p className="text-white font-bold mb-6 text-center">Don't have an account yet?</p>
+                      <Link 
+                        to="/register"
+                        className="w-full h-14 bg-white text-[#012b3f] rounded-xl font-black text-xs uppercase tracking-[2px] flex items-center justify-center hover:bg-[#0082a1] hover:text-white transition-all shadow-xl"
+                      >
+                        Create your free account
+                      </Link>
+                      
+                      <div className="mt-8 flex flex-col items-center gap-4">
+                          <div className="flex -space-x-3">
+                              {[1,2,3].map(i => (
+                                  <div key={i} className="w-10 h-10 rounded-full border-4 border-[#012b3f] bg-slate-300 overflow-hidden shadow-xl">
+                                      <img src={`https://i.pravatar.cc/100?u=${i}`} alt="Expert" />
+                                  </div>
+                              ))}
                           </div>
+                          <p className="text-[10px] font-black uppercase tracking-[3px] text-slate-400">Trusted by 10k+ security experts</p>
                       </div>
-                  </Reveal>
-
-                  <Reveal width="100%" delay={0.3} direction="right">
-                      <div className="space-y-3">
-                          <div className="flex justify-between items-center px-1">
-                              <label className="text-[10px] font-black uppercase tracking-[4px] text-primary italic">CREDENTIAL</label>
-                              <button 
-                                  type="button"
-                                  onClick={() => setShowForgotModal(true)}
-                                  className="text-[9px] font-black uppercase tracking-[3px] text-slate-400 hover:text-primary transition-colors"
-                              >
-                                  FORGOT KEY?
-                              </button>
-                          </div>
-                          <div className="relative group">
-                              <Lock className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              <input
-                                  type="password"
-                                  placeholder="PASSWORD"
-                                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-16 py-5 focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-black text-xs uppercase tracking-widest text-header-bg"
-                                  value={password}
-                                  onChange={(e) => setPassword(e.target.value)}
-                                  required
-                              />
-                          </div>
-                      </div>
-                  </Reveal>
-
-                  <div className="flex items-center justify-between px-2">
-                       <label className="flex items-center gap-4 cursor-pointer group">
-                          <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all ${rememberMe ? 'bg-primary border-primary shadow-lg shadow-primary/20 scale-110' : 'border-slate-200 group-hover:border-primary/50'}`}>
-                            {rememberMe && <CheckCircle2 className="w-4 h-4 text-white stroke-[4px]" />}
-                            <input 
-                              type="checkbox" 
-                              className="hidden"
-                              checked={rememberMe}
-                              onChange={() => setRememberMe(!rememberMe)}
-                            />
-                          </div>
-                          <span className="text-[10px] font-black text-slate-400 group-hover:text-header-bg transition-all uppercase tracking-[3px] italic">Remember access</span>
-                        </label>
-                  </div>
-
-                  {/* High-Tech Captcha */}
-                  <div 
-                    onClick={() => setIsCaptchaVerified(!isCaptchaVerified)}
-                    className={`h-20 border-2 rounded-2xl flex items-center justify-between px-8 cursor-pointer transition-all duration-500 overflow-hidden relative group ${isCaptchaVerified ? 'border-emerald-500/50 bg-emerald-500/[0.03] shadow-lg shadow-emerald-500/5' : 'border-slate-200 bg-slate-50 hover:border-primary/30'}`}
-                  >
-                        {isCaptchaVerified && (
-                            <motion.div initial={{ width: 0 }} animate={{ width: '100%' }} className="absolute left-0 bottom-0 h-1 bg-emerald-500" />
-                        )}
-                        <div className="flex items-center gap-6 relative z-10">
-                            <div className={`w-8 h-8 rounded-lg border-2 flex items-center justify-center transition-all duration-500 ${isCaptchaVerified ? 'bg-emerald-500 border-emerald-500 shadow-xl shadow-emerald-500/30 rotate-[360deg]' : 'border-slate-300 group-hover:border-primary'}`}>
-                                {isCaptchaVerified && <CheckCircle2 className="w-5 h-5 text-white stroke-[4px]" />}
-                            </div>
-                            <div>
-                                <span className={`text-[11px] font-black uppercase tracking-[3px] transition-colors ${isCaptchaVerified ? 'text-emerald-500' : 'text-slate-400'}`}>Identity Verification</span>
-                                <p className="text-[8px] font-black uppercase tracking-[2px] opacity-20">Secure biometric check</p>
-                            </div>
-                        </div>
-                        <Fingerprint size={20} className={`transition-all duration-500 ${isCaptchaVerified ? 'text-emerald-500 scale-125' : 'opacity-10'}`} />
-                  </div>
-
-                  {error && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex items-center gap-5 text-rose-500 bg-rose-500/10 p-6 rounded-2xl border border-rose-500/20 text-[10px] font-black uppercase tracking-[2px] shadow-sm italic"
-                    >
-                      <AlertCircle className="w-5 h-5 flex-shrink-0" strokeWidth={3} />
-                      {error}
-                    </motion.div>
-                  )}
-
-                  <Reveal width="100%" delay={0.4} direction="up">
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                       className="w-full bg-primary hover:bg-header-bg text-white py-6 rounded-2xl flex items-center justify-center gap-4 transition-all transform hover:translate-y-[-5px] active:scale-[0.98] disabled:opacity-50 group font-black uppercase tracking-[5px] shadow-2xl shadow-primary/30"
-                    >
-                      {isLoading ? (
-                         <div className="w-6 h-6 border-[4px] border-white border-t-transparent rounded-full animate-spin" />
-                      ) : (
-                        <>
-                          INITIALIZE LOGIN
-                          <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition-transform" strokeWidth={3} />
-                        </>
-                      )}
-                    </button>
-                  </Reveal>
-              </form>
-
-              <div className="mt-16 flex flex-col md:flex-row items-center justify-between gap-10">
-                  <p className="text-[10px] font-black uppercase tracking-[3px] text-slate-400">
-                      No account? <Link to="/register" className="text-primary hover:text-header-bg ml-2 transition-colors">JOIN SECURE SHIELD</Link>
-                  </p>
-                  
-                  <div className="flex gap-6">
-                        {['GOOGLE', 'FACEBOOK'].map(id => (
-                            <button key={id} onClick={() => handleSocialLogin(id)} className="w-12 h-12 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center grayscale hover:grayscale-0 transition-all hover:scale-110 active:scale-90">
-                                {id === 'GOOGLE' ? <Chrome size={18} className="text-rose-500" /> : <Facebook size={18} className="text-blue-600" />}
-                            </button>
-                        ))}
                   </div>
               </div>
           </div>
       </div>
-      
-      {/* Visual Ambiance */}
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-40 z-[1]">
-          <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] animate-pulse-slow" />
-          <div className="absolute bottom-1/4 left-1/3 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] animate-pulse" />
-      </div>
+    </div>
+  );
 
       {/* Forgot Password Modal */}
       <AnimatePresence>

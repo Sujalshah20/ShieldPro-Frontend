@@ -45,32 +45,32 @@ html {
 }
 
 :root {
-  --primary: 195 100% 33%; /* #007ea8 */
+  --primary: 196 100% 31%; /* #0082a1 */
   --primary-foreground: 0 0% 100%;
-  --secondary: 198 100% 14%; /* #003249 */
+  --secondary: 198 97% 12%; /* #012b3f */
   --secondary-foreground: 0 0% 100%;
-  --accent: 183 33% 72%; /* #9ad1d4 */
+  --accent: 184 35% 72%; /* #9ccfd1 */
   --accent-foreground: 198 100% 10%;
-  --background: 186 16% 83%; /* #ccdbdc */
+  --background: 180 15% 88%; /* #dae5e5 */
   --foreground: 222 47% 11%;
   --card: 0 0% 100%;
   --card-foreground: 222 47% 5%;
-  --border: 186 20% 75%;
-  --input: 186 20% 75%;
-  --ring: 195 100% 33%;
-  --radius: 0.5rem;
+  --border: 180 10% 80%;
+  --input: 180 10% 80%;
+  --ring: 196 100% 31%;
+  --radius: 1rem; /* More rounded as per design */
 
-  /* Legacy variable naming update */
-  --sidebar-bg: 198 100% 14%;
-  --p-blue: #007ea8;
-  --p-navy: #003249;
-  --p-mint: #9ad1d4;
-  --p-gold: #007ea8; /* Redirect gold to new primary */
+  /* Semantic Brand Colors */
+  --ss-navy: #012b3f;
+  --ss-teal: #0082a1;
+  --ss-mint: #9ccfd1;
+  --ss-sky: #bce2e3;
+  --ss-bg: #dae5e5;
+  --header-bg: #012b3f;
 }
 
 * {
   border-color: hsl(var(--border));
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 body {

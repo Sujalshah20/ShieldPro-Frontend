@@ -78,63 +78,78 @@ const Header = ({ role, setMobileMenuOpen }) => {
         }
     };
 
+    const navLinks = [
+        { name: "Dashboard", path: `/${role}` },
+        { name: "Policy Management", path: `/${role}/policies` },
+        { name: "Claims", path: `/${role}/claims` },
+        { name: "Clients", path: `/${role}/users` },
+        { name: "Reports", path: `/${role}/transactions` },
+    ];
+
     return (
         <header
-            className={`sticky top-0 z-40 transition-all duration-500 bg-white border-b border-slate-200 ${isScrolled ? "shadow-lg py-2" : "py-4"}`}
+            className={`sticky top-0 z-40 transition-all duration-300 bg-[#012b3f] text-white ${isScrolled ? "shadow-xl py-2" : "py-4"}`}
         >
-            <div className="flex items-center justify-between px-8">
-                {/* Left Side: Navigation Context */}
+            <div className="max-w-[1600px] mx-auto flex items-center justify-between px-8">
+                {/* Left Side: Branding */}
                 <div className="flex items-center gap-6">
                     <button
                         onClick={() => setMobileMenuOpen(prev => !prev)}
-                        className="p-3 rounded-xl bg-slate-50 border border-slate-200 shadow-sm md:hidden"
+                        className="p-3 rounded-xl bg-white/10 border border-white/20 shadow-sm xl:hidden"
                     >
-                        <Menu size={20} className="text-primary" strokeWidth={3} />
+                        <Menu size={20} className="text-white" strokeWidth={3} />
                     </button>
-
-                    <div className="hidden sm:flex items-center gap-5">
-                        <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate(`/${role}`)}>
-                            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
-                                <Shield size={18} strokeWidth={3} />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-black uppercase tracking-[3px] text-slate-400 leading-none">{roleName} PORTAL</span>
-                                <span className="text-sm font-black uppercase tracking-tight text-header-bg">SECURE SHIELD</span>
-                            </div>
+                    <div
+                        className="flex items-center gap-3 cursor-pointer"
+                        onClick={() => navigate(`/${role}`)}
+                    >
+                        <div className="w-10 h-10 bg-[#0082a1] rounded-xl flex items-center justify-center text-white shadow-lg">
+                            <Shield size={20} strokeWidth={3} />
                         </div>
-                        <div className="h-6 w-px bg-slate-200 mx-2" />
-                        <nav className="flex items-center gap-2">
-                             <span className="text-[10px] font-black uppercase tracking-[2px] text-slate-400">Section:</span>
-                             <span className="text-[11px] font-black uppercase tracking-[2px] text-primary">
-                                {pathnames.length > 1 ? pathnames[pathnames.length - 1] : 'Dashboard'}
-                             </span>
-                        </nav>
+                        <span className="text-xl font-black uppercase tracking-tighter">
+                            SECURE<span className="text-[#0082a1]">SHIELD</span>
+                        </span>
                     </div>
                 </div>
 
-                {/* Center: Search */}
-                <div className="hidden md:flex flex-1 max-w-lg mx-12">
-                    <div className="relative w-full group">
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                {/* Center: Navigation Menu */}
+                <nav className="hidden xl:flex items-center gap-1">
+                    {navLinks.map((link) => (
+                        <button
+                            key={link.name}
+                            onClick={() => navigate(link.path)}
+                            className={`px-5 py-2 rounded-full text-xs font-bold transition-all ${
+                                location.pathname === link.path
+                                ? "bg-[#0082a1] text-white shadow-lg shadow-[#0082a1]/20"
+                                : "text-slate-400 hover:text-white"
+                            }`}
+                        >
+                            {link.name}
+                        </button>
+                    ))}
+                </nav>
+
+                {/* Right Side: Search & Controls */}
+                <div className="flex items-center gap-5">
+                    {/* Search */}
+                    <div className="hidden lg:flex relative group">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
                         <input
                             type="text"
+                            placeholder="Search..."
+                            className="bg-white/5 border border-white/10 rounded-full pl-10 pr-4 py-2 text-[11px] font-bold w-48 focus:w-64 focus:bg-white/10 focus:outline-none transition-all placeholder:text-slate-500"
                             value={searchTerm}
-                            placeholder="SEARCH RECORDS..."
-                            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-16 pr-6 py-3 text-xs font-bold uppercase tracking-widest focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-header-bg"
                             onChange={e => setSearchTerm(e.target.value)}
                             onKeyDown={e => {
                                 if (e.key === 'Enter') navigate(`/customer/browse?search=${encodeURIComponent(searchTerm)}`);
                             }}
                         />
                     </div>
-                </div>
 
-                {/* Right Side: Controls */}
-                <div className="flex items-center gap-6">
-                    {/* New Policy Link for Admin/Agent */}
+                    {/* New Action */}
                     {(role === 'admin' || role === 'agent') && (
-                        <button className="hidden lg:flex items-center gap-3 bg-primary text-white px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-header-bg transition-all shadow-lg shadow-primary/20">
-                            <ShieldCheck size={16} /> NEW POLICY
+                        <button className="hidden sm:flex items-center gap-2 bg-[#0082a1] hover:bg-white hover:text-[#012b3f] text-white px-5 py-2.5 rounded-full text-[11px] font-black transition-all shadow-lg active:scale-95">
+                            <ShieldCheck size={14} /> NEW POLICY
                         </button>
                     )}
 
