@@ -230,9 +230,6 @@ const Login = () => {
               </div>
           </div>
       </div>
-    </div>
-  );
-
       {/* Forgot Password Modal */}
       <AnimatePresence>
         {showForgotModal && (
