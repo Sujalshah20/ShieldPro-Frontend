@@ -7,12 +7,14 @@ import {
     Home, FileText, Star, ArrowUpRight, Plus, 
     X, Globe, Zap, ShieldCheck, TrendingUp,
     Layout, Briefcase, ClipboardList, PieChart,
-    ChevronDown, Layers, Command, Award, Eye, Trash2
+    ChevronDown, Layers, Command, Award, Eye, Trash2, IndianRupee, Terminal, Fingerprint,
+    Cpu, RefreshCcw, ChevronRight, SearchCheck, Satellite
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { TableSkeleton } from "../../components/common/Skeleton";
 import { useToast } from "../../hooks/use-toast";
+import Reveal from "../../components/common/Reveal";
 
 const AdminPolicies = () => {
     const { user } = useContext(AuthContext);
@@ -40,7 +42,11 @@ const AdminPolicies = () => {
         mutationFn: (data) => api.post('/policies', data, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminPolicies']);
-            toast({ title: "PROTOCOL_CATALOGED", description: "New insurance protocol successfully added." });
+            toast({ 
+                title: "PROTOCOL_CATALOGED", 
+                description: "New insurance protocol successfully added to global matrix.",
+                variant: "default"
+            });
             setIsAdding(false);
             setFormData({ policyName: "", policyType: "Health", premiumAmount: "", coverageAmount: "", durationYears: "", description: "" });
         },
@@ -57,25 +63,29 @@ const AdminPolicies = () => {
         mutationFn: (id) => api.delete(`/policies/${id}`, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminPolicies']);
-            toast({ title: "PROTOCOL_DECOMMISSIONED", description: "Policy has been removed from the registry." });
+            toast({ 
+                title: "PROTOCOL_DECOMMISSIONED", 
+                description: "Policy has been purged from the global registry." 
+            });
         },
         onError: (err) => {
             toast({
                 title: "PROCESS_FAILED",
-                description: err?.message || "Failed to remove policy.",
+                description: err?.message || "Failed to remove policy node.",
                 variant: "destructive"
             });
         }
     });
 
     const getPolicyIcon = (type) => {
+        const iconProps = { size: 28, strokeWidth: 3, className: "group-hover:scale-110 transition-transform duration-700" };
         switch(type) {
-            case 'Health': return <Activity size={24} />;
-            case 'Vehicle': case 'Auto': return <Truck size={24} />;
-            case 'Property': case 'Home': return <Home size={24} />;
-            case 'Life': return <Shield size={24} />;
-            case 'Travel': return <Globe size={24} />;
-            default: return <FileText size={24} />;
+            case 'Health': return <Activity {...iconProps} />;
+            case 'Vehicle': case 'Auto': return <Truck {...iconProps} />;
+            case 'Property': case 'Home': return <Home {...iconProps} />;
+            case 'Life': return <Shield {...iconProps} />;
+            case 'Travel': return <Globe {...iconProps} />;
+            default: return <FileText {...iconProps} />;
         }
     };
 
@@ -86,205 +96,242 @@ const AdminPolicies = () => {
     });
 
     if (isLoading) return (
-        <div className="p-8 bg-[#dae5e5] min-h-screen">
-            <div className="mb-10">
-                <div className="h-10 w-64 bg-slate-200 animate-pulse rounded-lg mb-4" />
-                <div className="h-4 w-96 bg-slate-200 animate-pulse rounded-lg" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="py-20 space-y-12">
+             <div className="h-16 w-80 bg-slate-100 animate-pulse rounded-2xl" />
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                 {[1, 2, 3, 4, 5, 6].map(i => (
-                    <div key={i} className="h-64 bg-white rounded-3xl border border-slate-100 animate-pulse" />
+                    <div key={i} className="h-[500px] bg-slate-50 rounded-[3rem] border-2 border-slate-100 animate-pulse" />
                 ))}
-            </div>
+             </div>
         </div>
     );
 
     return (
-        <div className="admin-policies p-4 md:p-8 bg-[#dae5e5] min-h-screen font-display">
-            {/* Header Area */}
-            <div className="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-8">
-                <div>
-                    <h1 className="text-3xl font-black text-[#012b3f] mb-1 uppercase tracking-tight">Insurance Protocols</h1>
-                    <p className="text-sm text-slate-500 font-medium">Strategic insurance asset management and coverage distribution.</p>
-                </div>
-                
-                <div className="flex flex-wrap items-center gap-4">
-                    <div className="relative group w-full md:w-80">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                        <input
-                            type="text"
-                            placeholder="Identify Protection Plan..."
-                            className="w-full pl-10 pr-4 h-12 bg-white border-slate-200 rounded-xl outline-none focus:border-[#0082a1] transition-all font-bold text-xs text-[#012b3f] shadow-sm uppercase tracking-widest placeholder:text-slate-300"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+        <div className="space-y-16 pb-20">
+            {/* Command Header */}
+            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 relative z-10">
+                <Reveal direction="left">
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4">
+                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
+                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Security_Asset_Catalog</span>
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Insurance <span className="text-[#007ea7]">Protocols_</span></h1>
+                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">Strategic parameter configuration and coverage distribution console. Current Registry State: <span className="text-emerald-500">ACTIVE</span></p>
                     </div>
-                    
-                    <button 
-                        onClick={() => setIsAdding(true)}
-                        className="h-12 px-6 bg-[#012b3f] text-white rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center gap-3 shadow-lg shadow-[#012b3f]/20 hover:bg-[#0082a1] transition-all active:scale-95 group whitespace-nowrap"
-                    >
-                        <Plus size={18} /> Deploy New Protocol
-                    </button>
+                </Reveal>
+
+                <Reveal direction="right">
+                    <div className="flex flex-wrap items-center gap-6">
+                        <div className="relative group w-full md:w-96">
+                            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" strokeWidth={3} />
+                            <input
+                                type="text"
+                                placeholder="SCAN_PROTOCOL_GRID..."
+                                className="w-full pl-16 pr-8 h-16 bg-white border-2 border-slate-100 rounded-[1.5rem] outline-none transition-all font-black text-[11px] text-[#003249] shadow-inner focus:border-[#007ea7] focus:ring-8 focus:ring-[#007ea7]/5 uppercase tracking-[3px] placeholder:text-slate-200 italic"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        
+                        <button 
+                            onClick={() => setIsAdding(true)}
+                            className="h-16 px-10 bg-[#003249] text-[#80ced7] rounded-[1.8rem] flex items-center gap-5 text-[11px] font-black uppercase tracking-[5px] hover:bg-[#007ea7] hover:text-white transition-all shadow-3xl active:scale-95 italic group relative overflow-hidden"
+                        >
+                             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+                             <Plus size={22} strokeWidth={4} className="group-hover:rotate-90 transition-transform duration-500" /> DEPLOY_PROTOCOL
+                        </button>
+                    </div>
+                </Reveal>
+            </div>
+
+            {/* Tactical Filters */}
+            <Reveal direction="up">
+                <div className="flex flex-wrap gap-5 bg-slate-50 p-3 rounded-[2.5rem] border-2 border-slate-50 w-fit">
+                    {["All", "Health", "Vehicle", "Home", "Life", "Travel"].map(type => (
+                        <button
+                            key={type}
+                            onClick={() => setFilterType(type)}
+                            className={`px-10 h-14 rounded-[1.8rem] text-[10px] font-black uppercase tracking-[4px] transition-all duration-500 italic border-2 ${
+                                filterType === type 
+                                ? 'bg-[#003249] text-[#80ced7] border-[#003249] shadow-2xl scale-105' 
+                                : 'bg-transparent text-slate-300 border-transparent hover:text-[#003249]'
+                            }`}
+                        >
+                            {type}
+                        </button>
+                    ))}
                 </div>
-            </div>
+            </Reveal>
 
-            {/* Filter Tabs */}
-            <div className="mb-8 flex flex-wrap gap-2">
-                {["All", "Health", "Vehicle", "Home", "Life", "Travel"].map(type => (
-                    <button
-                        key={type}
-                        onClick={() => setFilterType(type)}
-                        className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${
-                            filterType === type 
-                            ? 'bg-[#0082a1] text-white shadow-lg shadow-[#0082a1]/20' 
-                            : 'bg-white text-slate-400 hover:text-[#012b3f] border border-slate-100 shadow-sm'
-                        }`}
-                    >
-                        {type}
-                    </button>
-                ))}
-            </div>
-
-            {/* Matrix Console */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {/* Protocol Matrix Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
                 {filteredPolicies?.map((policy, idx) => (
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        key={policy._id} 
-                        className="bg-white rounded-[2.5rem] border border-slate-100 hover:border-[#0082a1]/30 transition-all group overflow-hidden shadow-xl"
-                    >
-                        <div className="p-8">
-                            <div className="flex justify-between items-start mb-10">
-                                <div className="w-16 h-16 bg-[#dae5e5] rounded-2xl flex items-center justify-center text-[#012b3f] shadow-inner">
+                    <Reveal direction="up" delay={idx * 0.1} key={policy._id}>
+                        <div className="saas-card group relative p-12 border-2 border-slate-50 hover:border-[#007ea7]/30 transition-all duration-1000 min-h-[580px] flex flex-col justify-between overflow-hidden shadow-3xl">
+                            {/* Decorative Background Element */}
+                            <div className="absolute top-0 right-0 p-12 opacity-[0.02] pointer-events-none group-hover:scale-150 group-hover:rotate-12 transition-transform duration-[3000ms]">
+                                <Layers size={300} className="text-[#003249]" />
+                            </div>
+
+                            <div className="flex justify-between items-start relative z-10">
+                                <div className="w-20 h-20 bg-[#003249] border-2 border-white/5 rounded-[2.2rem] flex items-center justify-center text-[#007ea7] shadow-3xl group-hover:scale-110 group-hover:shadow-[0_0_30px_#007ea750] transition-all duration-700">
                                     {getPolicyIcon(policy.policyType)}
                                 </div>
                                 <div className="text-right">
-                                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest block mb-1 px-3 py-1 bg-slate-50 rounded-lg">ID: {policy._id.slice(-6).toUpperCase()}</span>
-                                    <div className="flex justify-end gap-1 px-1">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-[#0082a1] animate-pulse" />
-                                        <div className="w-1.5 h-1.5 rounded-full bg-slate-100" />
+                                    <span className="text-[9px] font-black text-slate-300 uppercase tracking-[5px] block mb-3 italic">NODE_SIG</span>
+                                    <span className="px-5 py-2 bg-slate-50 border-2 border-slate-100 rounded-xl text-[10px] font-black text-[#003249] uppercase tracking-[4px] shadow-inner italic">
+                                        ID://{policy._id.slice(-8).toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className="flex-1 mt-12 relative z-10">
+                                <h3 className="text-3xl font-black text-[#003249] mb-5 group-hover:text-[#007ea7] transition-colors leading-none uppercase tracking-tighter italic">
+                                    {policy.policyName}
+                                </h3>
+                                <div className="w-16 h-1.5 bg-[#007ea7] mb-10 rounded-full group-hover:w-32 transition-all duration-1000 shadow-[0_0_15px_#007ea7]" />
+                                <p className="text-[12px] font-black text-slate-400 mb-12 line-clamp-4 uppercase tracking-[3px] leading-relaxed italic opacity-60">
+                                    {policy.description}
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-8 mb-12 relative z-10">
+                                <div className="p-8 bg-white border-2 border-slate-50 rounded-[2.2rem] shadow-inner group-hover:border-[#007ea7]/20 transition-all duration-700">
+                                    <span className="text-[9px] font-black text-slate-300 uppercase tracking-[6px] block mb-4 italic">ANNUAL_YIELD</span>
+                                    <div className="flex items-center gap-3">
+                                        <IndianRupee size={20} className="text-[#007ea7]" strokeWidth={4} />
+                                        <span className="text-3xl font-black text-[#003249] tracking-tighter uppercase italic leading-none group-hover:text-[#007ea7] transition-colors">₹{policy.premiumAmount?.toLocaleString()}</span>
                                     </div>
                                 </div>
-                            </div>
-
-                            <h2 className="text-2xl font-black text-[#012b3f] mb-4 group-hover:text-[#0082a1] transition-colors leading-tight uppercase tracking-tight">
-                                {policy.policyName}
-                            </h2>
-                            <p className="text-xs font-bold text-slate-400 mb-8 line-clamp-2 uppercase tracking-wider leading-relaxed pr-4">
-                                {policy.description}
-                            </p>
-
-                            <div className="grid grid-cols-2 gap-4 mb-8">
-                                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">Annual Yield</span>
-                                    <span className="text-xl font-black text-[#012b3f]">₹{policy.premiumAmount.toLocaleString()}</span>
-                                </div>
-                                <div className="p-5 bg-[#0082a1]/5 rounded-2xl border border-[#0082a1]/10">
-                                    <span className="text-[9px] font-black text-[#0082a1] uppercase tracking-widest block mb-2">Coverage</span>
-                                    <span className="text-xl font-black text-[#012b3f]">₹{(policy.coverageAmount / 100000).toFixed(1)}L</span>
+                                <div className="p-8 bg-[#003249] rounded-[2.2rem] border border-white/5 shadow-3xl relative overflow-hidden group/cap">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/30 to-transparent pointer-events-none group-hover/cap:scale-150 transition-transform duration-1000" />
+                                    <span className="text-[9px] font-black text-[#80ced7] uppercase tracking-[6px] block mb-4 italic relative z-10">CORE_CAP</span>
+                                    <span className="text-3xl font-black text-white tracking-tighter uppercase italic leading-none relative z-10 group-hover:text-[#80ced7] transition-colors">₹{(policy.coverageAmount / 100000).toFixed(1)}L</span>
                                 </div>
                             </div>
 
-                            <div className="flex gap-4">
-                                <Link to={`/admin/policies/${policy._id}`} className="flex-1">
-                                    <button className="w-full h-14 bg-[#012b3f] text-white rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#0082a1] transition-all flex items-center justify-center gap-3 shadow-lg active:scale-95">
-                                        View Logs <ArrowUpRight size={16} />
+                            <div className="flex gap-6 mt-auto relative z-10">
+                                <Link to={`/admin/policies/${policy._id}`} className="flex-[3]">
+                                    <button className="w-full h-18 px-10 bg-[#003249] text-[#80ced7] rounded-[2rem] text-[11px] font-black uppercase tracking-[5px] hover:bg-[#007ea7] hover:text-white transition-all shadow-3xl active:scale-95 flex items-center justify-center gap-5 group/btn border border-white/5 italic">
+                                        ANALYZE_NODES <ChevronRight size={20} strokeWidth={4} className="group-hover/btn:translate-x-3 transition-transform" />
                                     </button>
                                 </Link>
                                 <button 
                                     onClick={() => deleteMutation.mutate(policy._id)}
-                                    className="w-14 h-14 bg-white border border-slate-200 text-slate-300 rounded-xl flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 hover:border-rose-100 transition-all active:scale-95 shadow-sm"
-                                    title="Decommission Protocol"
+                                    className="w-18 h-18 bg-white border-2 border-slate-100 text-slate-200 rounded-[2rem] flex items-center justify-center hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all duration-500 active:scale-90 shadow-xl group/del"
                                 >
-                                    <Trash2 size={20} />
+                                    <Trash2 size={28} strokeWidth={3} className="group-hover/del:scale-125 group-hover/del:rotate-12 transition-all" />
                                 </button>
                             </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
                 ))}
             </div>
 
-            {/* Zero State */}
-            {filteredPolicies?.length === 0 && (
-                <div className="text-center py-40 bg-white/50 border-2 border-dashed border-slate-200 rounded-[3rem] mt-10">
-                    <Command size={48} className="mx-auto mb-6 opacity-10 text-[#012b3f]" />
-                    <h3 className="text-2xl font-black text-[#012b3f] opacity-20 uppercase tracking-widest">No Records Identified</h3>
-                </div>
+            {/* Empty State */}
+            {(!filteredPolicies || filteredPolicies.length === 0) && (
+                <Reveal direction="up" width="100%">
+                    <div className="text-center py-40 bg-slate-50 border-4 border-dashed border-slate-100 rounded-[5rem] flex flex-col items-center justify-center">
+                        <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-10 shadow-3xl opacity-20">
+                            <Command size={48} className="text-[#003249]" strokeWidth={3} />
+                        </div>
+                        <h3 className="text-2xl font-black text-[#003249] opacity-30 uppercase tracking-[10px] italic">No Records Identified in Current Quadrant</h3>
+                        <p className="mt-6 text-[11px] font-black text-[#007ea7] opacity-40 uppercase tracking-[5px] italic">Awaiting high-altitude synchronization...</p>
+                    </div>
+                </Reveal>
             )}
 
-            {/* Add Modal */}
+            {/* Deployment Modal */}
             <AnimatePresence>
                 {isAdding && (
-                    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAdding(false)} className="absolute inset-0 bg-[#012b3f]/90 backdrop-blur-md" />
+                    <div className="fixed inset-0 z-[1000] flex items-center justify-center p-8">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAdding(false)} className="absolute inset-0 bg-[#003249]/95 backdrop-blur-2xl" />
                         <motion.div 
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            className="relative w-full max-w-2xl bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, scale: 0.9, y: 100 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 100 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="relative w-full max-w-5xl bg-white p-16 md:p-20 rounded-[5rem] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden border border-white/20"
                         >
-                            <div className="flex items-center gap-6 mb-10">
-                                <div className="w-14 h-14 bg-[#012b3f] rounded-2xl flex items-center justify-center text-white shadow-xl">
-                                    <ClipboardList size={28} />
+                            <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-[#007ea7]/10 rounded-full blur-[120px] pointer-events-none" />
+
+                            <div className="flex items-center gap-12 mb-16 relative z-10 border-b-2 border-slate-50 pb-12">
+                                <div className="w-24 h-24 bg-[#003249] rounded-[2.8rem] flex items-center justify-center text-[#007ea7] shadow-3xl relative overflow-hidden group border-2 border-white/20">
+                                     <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/20 to-transparent pointer-events-none" />
+                                     <ClipboardList size={44} strokeWidth={3} className="relative z-10 group-hover:rotate-12 transition-transform duration-700" />
                                 </div>
-                                <div>
-                                    <h3 className="text-3xl font-black text-[#012b3f] uppercase tracking-tighter">Deploy Protocol</h3>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Configure new insurance parameters.</p>
+                                <div className="space-y-2">
+                                    <h3 className="text-5xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Deploy Protocol</h3>
+                                    <p className="text-[12px] font-black text-slate-400 uppercase tracking-[6px] italic leading-none">Level-5 Infrastructure Deployment Protocol</p>
                                 </div>
+                                <button onClick={() => setIsAdding(false)} className="ml-auto p-8 bg-slate-50 hover:bg-rose-50 rounded-[2.5rem] transition-all group active:scale-95 border-2 border-transparent hover:border-rose-100">
+                                    <X size={32} className="text-slate-300 group-hover:text-rose-500 group-hover:rotate-90 transition-all duration-500" strokeWidth={4} />
+                                </button>
                             </div>
 
-                            <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); createMutation.mutate(formData); }}>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] ml-2">Protocol Name</label>
+                            <form className="space-y-12 relative z-10" onSubmit={(e) => { e.preventDefault(); createMutation.mutate(formData); }}>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                                    <div className="space-y-6">
+                                        <label className="text-[12px] font-black uppercase tracking-[6px] text-[#007ea7] ml-6 italic flex items-center gap-5">
+                                            <Fingerprint size={18} strokeWidth={3} /> IDENT_NAME
+                                        </label>
                                         <input 
-                                            placeholder="e.g. Shield Pro Max"
-                                            className="w-full h-14 bg-slate-50 border-slate-100 rounded-xl px-6 font-bold text-xs uppercase text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                            placeholder="NODE_LEGAL_ID"
+                                            className="w-full h-20 bg-slate-50 border-2 border-slate-50 rounded-[2.5rem] px-12 font-black text-xl uppercase text-[#003249] outline-none focus:border-[#007ea7] focus:bg-white transition-all shadow-inner tracking-[2px] italic"
                                             value={formData.policyName}
                                             onChange={e => setFormData({...formData, policyName: e.target.value})}
                                             required
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] ml-2">Classification</label>
-                                        <select 
-                                            className="w-full h-14 bg-slate-50 border border-slate-100 rounded-xl px-6 font-bold text-xs uppercase text-[#012b3f] outline-none focus:border-[#0082a1] transition-all cursor-pointer"
-                                            value={formData.policyType}
-                                            onChange={e => setFormData({...formData, policyType: e.target.value})}
-                                        >
-                                            {["Life", "Health", "Vehicle", "Home", "Travel", "Auto", "Property"].map(t => <option key={t} value={t}>{t}</option>)}
-                                        </select>
+                                    <div className="space-y-6">
+                                        <label className="text-[12px] font-black uppercase tracking-[6px] text-[#007ea7] ml-6 italic flex items-center gap-5">
+                                            <Layers size={18} strokeWidth={3} /> CLASSIFICATION
+                                        </label>
+                                        <div className="relative">
+                                            <select 
+                                                className="w-full h-20 bg-slate-50 border-2 border-slate-50 rounded-[2.5rem] px-12 font-black text-xl uppercase text-[#003249] outline-none focus:border-[#007ea7] focus:bg-white transition-all cursor-pointer shadow-inner tracking-[2px] italic appearance-none"
+                                                value={formData.policyType}
+                                                onChange={e => setFormData({...formData, policyType: e.target.value})}
+                                            >
+                                                {["Life", "Health", "Vehicle", "Home", "Travel", "Auto", "Property"].map(t => <option key={t} value={t}>{t}</option>)}
+                                            </select>
+                                            <ChevronDown className="absolute right-10 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={24} strokeWidth={4} />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] ml-2">Annual Premium</label>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                                    <div className="space-y-6">
+                                        <label className="text-[12px] font-black uppercase tracking-[6px] text-[#007ea7] ml-6 italic flex items-center gap-5">
+                                            <IndianRupee size={18} strokeWidth={3} /> PREM_BASE
+                                        </label>
                                         <input 
-                                            className="w-full h-14 bg-slate-50 border-slate-100 rounded-xl px-6 font-black text-lg text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                            className="w-full h-20 bg-slate-50 border-2 border-slate-50 rounded-[2.5rem] px-10 font-black text-3xl text-[#003249] outline-none focus:border-[#007ea7] focus:bg-white transition-all shadow-inner tracking-tighter italic"
                                             type="number"
                                             value={formData.premiumAmount}
                                             onChange={e => setFormData({...formData, premiumAmount: e.target.value})}
                                             required
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] ml-2">Coverage Cap</label>
+                                    <div className="space-y-6">
+                                        <label className="text-[12px] font-black uppercase tracking-[6px] text-[#007ea7] ml-6 italic flex items-center gap-5">
+                                            <ShieldCheck size={18} strokeWidth={3} /> CORE_SAFETY
+                                        </label>
                                         <input 
-                                            className="w-full h-14 bg-slate-50 border-slate-100 rounded-xl px-6 font-black text-lg text-[#012b3f] outline-none focus:border-[#0082a1] transition-all"
+                                            className="w-full h-20 bg-[#003249] border-4 border-white shadow-3xl rounded-[2.5rem] px-10 font-black text-3xl text-[#80ced7] outline-none focus:ring-12 focus:ring-[#007ea7]/10 transition-all tracking-tighter italic text-right"
                                             type="number"
                                             value={formData.coverageAmount}
                                             onChange={e => setFormData({...formData, coverageAmount: e.target.value})}
                                             required
                                         />
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] ml-2">Cycle (Yrs)</label>
+                                    <div className="space-y-6">
+                                        <label className="text-[12px] font-black uppercase tracking-[6px] text-[#007ea7] ml-6 italic flex items-center gap-5">
+                                            <Zap size={18} strokeWidth={3} /> YRS_CYCLE
+                                        </label>
                                         <input 
-                                            className="w-full h-14 bg-slate-50 border-slate-100 rounded-xl px-6 font-black text-lg text-[#012b3f] text-center outline-none focus:border-[#0082a1] transition-all"
+                                            className="w-full h-20 bg-slate-50 border-2 border-slate-50 rounded-[2.5rem] px-8 font-black text-3xl text-[#003249] text-center outline-none focus:border-[#007ea7] focus:bg-white transition-all shadow-inner italic"
                                             type="number"
                                             value={formData.durationYears}
                                             onChange={e => setFormData({...formData, durationYears: e.target.value})}
@@ -293,31 +340,34 @@ const AdminPolicies = () => {
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#0082a1] ml-2">Protocol Specifications</label>
+                                <div className="space-y-6">
+                                    <label className="text-[12px] font-black uppercase tracking-[6px] text-[#007ea7] ml-6 italic flex items-center gap-5">
+                                        <Terminal size={18} strokeWidth={3} /> PROTOCOL_RECRUITMENT_DESC
+                                    </label>
                                     <textarea 
-                                        placeholder="Detailed specification of the insurance coverage..."
-                                        className="w-full h-32 bg-slate-50 border border-slate-100 rounded-2xl p-6 outline-none focus:border-[#0082a1] transition-all font-bold text-xs uppercase"
+                                        placeholder="APPEND_SPECIFICATIONS..."
+                                        className="w-full h-48 bg-slate-50 border-2 border-slate-50 rounded-[3.5rem] p-12 outline-none focus:border-[#007ea7] focus:bg-white transition-all font-black text-sm uppercase tracking-[3px] shadow-inner italic leading-relaxed"
                                         value={formData.description}
                                         onChange={e => setFormData({...formData, description: e.target.value})}
                                         required
                                     />
                                 </div>
 
-                                <div className="flex gap-4 pt-4">
+                                <div className="flex flex-col sm:flex-row gap-10 pt-10">
                                     <button 
                                         type="button"
                                         onClick={() => setIsAdding(false)}
-                                        className="flex-1 h-14 bg-slate-100 text-[#012b3f] rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
+                                        className="h-24 px-12 bg-slate-50 text-[#003249] rounded-[3rem] text-[12px] font-black uppercase tracking-[8px] hover:bg-rose-50 hover:text-rose-500 hover:border-rose-100 border-2 border-transparent transition-all italic flex-1 active:scale-95 flex items-center justify-center"
                                     >
-                                        Abort
+                                        CANCEL_SYNC
                                     </button>
                                     <button 
                                         type="submit"
                                         disabled={createMutation.isLoading}
-                                        className="flex-[2] h-14 bg-[#012b3f] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl hover:bg-[#0082a1] transition-all active:scale-95 disabled:opacity-50"
+                                        className="h-24 px-12 bg-[#003249] text-[#80ced7] rounded-[3rem] text-[13px] font-black uppercase tracking-[10px] shadow-[0_30px_60px_-15px_rgba(0,50,73,0.4)] hover:bg-[#007ea7] hover:text-white transition-all italic flex-[2.5] active:scale-95 disabled:opacity-50 flex items-center justify-center gap-8 group/btn"
                                     >
-                                        {createMutation.isLoading ? "Deploying..." : "Authorize Protocol"}
+                                        <Cpu size={28} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> 
+                                        {createMutation.isLoading ? "DEPLOYING..." : "AUTHORIZE_DEPLOYMENT"}
                                     </button>
                                 </div>
                             </form>
@@ -325,6 +375,21 @@ const AdminPolicies = () => {
                     </div>
                 )}
             </AnimatePresence>
+
+            {/* Metadata Footer */}
+            <Reveal direction="up" delay={0.6}>
+                <div className="flex flex-wrap justify-center gap-16 opacity-30 pt-16 border-t-2 border-slate-50">
+                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
+                        <Fingerprint size={20} strokeWidth={3} className="text-[#007ea7]" /> Protocol_Grid_Verified
+                    </div>
+                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
+                        <Layers size={20} strokeWidth={3} className="text-[#007ea7]" /> Registry_Mapping_Sync
+                    </div>
+                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
+                        <Globe size={20} strokeWidth={3} className="text-[#007ea7]" /> Node_Coverage_Nominal
+                    </div>
+                </div>
+            </Reveal>
         </div>
     );
 };
