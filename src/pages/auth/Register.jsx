@@ -8,7 +8,7 @@ import {
     Globe, Activity, ChevronRight
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/use-toast";
 import { z } from "zod";
 
 const registerSchema = z.object({
@@ -31,7 +31,7 @@ const Register = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { register } = useAuth();
     const navigate = useNavigate();
-    const { addToast } = useToast();
+    const { toast } = useToast();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -47,10 +47,10 @@ const Register = () => {
         try {
             registerSchema.parse(formData);
             await register(formData);
-            addToast("Account created successfully. Please login.", "success");
+            toast({ title: "Registration Successful", description: "Account created successfully. Please login.", variant: "default" });
             navigate("/login");
         } catch (error) {
-            addToast(error.message || "Registration failed. Please check your details.", "error");
+            toast({ title: "Registration Failed", description: error.message || "Please check your details.", variant: "destructive" });
         } finally {
             setIsLoading(false);
         }

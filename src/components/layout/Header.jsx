@@ -7,13 +7,13 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/use-toast";
 
 const Header = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const { addToast } = useToast();
+    const { toast } = useToast();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -27,10 +27,10 @@ const Header = () => {
     const handleLogout = async () => {
         try {
             await logout();
-            addToast("Session Securely Forminated", "success");
+            toast({ title: "Session Terminated", description: "Session Securely terminated", variant: "default" });
             navigate("/login");
         } catch (error) {
-            addToast("Error during termination", "error");
+            toast({ title: "Termination Error", description: "Error during termination", variant: "destructive" });
         }
     };
 

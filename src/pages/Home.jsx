@@ -6,7 +6,7 @@ import {
     ShieldCheck, ArrowRight, User, Activity, 
     Lock, Zap, Globe, Headphones,
     LayoutDashboard, ShieldPlus, Target,
-    Cpu, Menu, Language
+    Cpu, Menu, Languages
 } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 import AnimatedBackground from "../components/common/AnimatedBackground";

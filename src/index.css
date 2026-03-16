@@ -310,7 +310,7 @@ html {
   content: '';
   position: absolute;
   inset: 0;
-  background: url('/src/assets/images/stars-pattern.png') repeat;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px) 0 0 / 40px 40px;
   opacity: 0.2;
   animation: star-twinkle 5s infinite;
 }

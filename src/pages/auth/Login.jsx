@@ -7,7 +7,7 @@ import {
     Fingerprint, ShieldCheck, Github, Chrome
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { useToast } from "../../hooks/useToast";
+import { useToast } from "../../hooks/use-toast";
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -15,14 +15,14 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
-    const { addToast } = useToast();
+    const { toast } = useToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         try {
             const user = await login(formData.email, formData.password);
-            addToast("Authentication Successful. Redirecting...", "success");
+            toast({ title: "Authentication Successful", description: "Redirecting...", variant: "default" });
             
             setTimeout(() => {
                 if (user.role === 'admin') navigate('/admin');
@@ -30,7 +30,7 @@ const Login = () => {
                 else navigate('/customer');
             }, 1000);
         } catch (error) {
-            addToast(error.response?.data?.message || "Tactical Error: Access Denied", "error");
+            toast({ title: "Access Denied", description: error.response?.data?.message || "Tactical Error", variant: "destructive" });
         } finally {
             setIsLoading(false);
         }

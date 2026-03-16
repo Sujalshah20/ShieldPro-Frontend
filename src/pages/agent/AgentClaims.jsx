@@ -6,14 +6,16 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Reveal from "../../components/common/Reveal";
-import api from "../../utils/api";
-import { useToast } from "../../hooks/useToast";
+import { api } from "../../utils/api";
+import { useToast } from "../../hooks/use-toast";
+import { useAuth } from "../../context/AuthContext";
 
 const AgentClaims = () => {
     const [claims, setClaims] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filterStatus, setFilterStatus] = useState("All");
-    const { addToast } = useToast();
+    const { toast } = useToast();
+    const { user } = useAuth();
 
     useEffect(() => {
         fetchClaims();
@@ -21,10 +23,10 @@ const AgentClaims = () => {
 
     const fetchClaims = async () => {
         try {
-            const res = await api.get("/agent/claims");
+            const res = await api.get("/agent/claims", user?.token);
             setClaims(res.data);
         } catch (error) {
-            addToast("Sync Error: Could not retrieve claim data", "error");
+            toast({ title: "Sync Error", description: "Could not retrieve claim data", variant: "destructive" });
         } finally {
             setLoading(false);
         }
