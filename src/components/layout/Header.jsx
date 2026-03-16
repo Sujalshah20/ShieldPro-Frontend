@@ -5,15 +5,13 @@ import {
     LogOut, User, Settings, Plus,
     ChevronDown, Layout,
     Activity,
-    Terminal,
-    Cpu,
     Lock,
     Zap,
     RefreshCcw,
     ChevronRight,
-    SearchCheck,
-    Satellite,
-    Fingerprint
+    UserCircle,
+    Mail,
+    BellDot
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
@@ -37,129 +35,125 @@ const Header = ({ role, isSidebarOpen, setIsSidebarOpen }) => {
         try {
             await logout();
             toast({ 
-                title: "SESSION_TERMINATED", 
-                description: "Inbound synchronization closed. All secure channels disconnected.",
-                variant: "default"
+                title: "Logout Successful", 
+                description: "You have been securely logged out of your account.",
             });
             navigate("/login");
         } catch (error) {
-            toast({ title: "LOGOUT_ERR_ANOMALY", variant: "destructive" });
+            toast({ title: "Logout Error", description: "An error occurred during logout.", variant: "destructive" });
         }
     };
 
+    // Get page title from location
+    const getPageTitle = () => {
+        const path = location.pathname.split('/').pop();
+        if (!path || path === role) return "Dashboard Overview";
+        return path.charAt(0).toUpperCase() + path.slice(1).replace('-', ' ');
+    };
+
     return (
-        <header className={`fixed top-0 right-0 z-[140] transition-all duration-700 ease-in-out px-6 md:px-12 flex items-center justify-between h-24  ${
-            scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-sm' : 'bg-transparent'
+        <header className={`fixed top-0 right-0 z-[140] transition-all duration-300 px-6 lg:px-12 flex items-center justify-between h-20 ${
+            scrolled ? 'bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm' : 'bg-transparent'
         }`} style={{ 
-            left: 'var(--sidebar-width, 0)', 
-            width: 'auto' 
+            left: isSidebarOpen ? '288px' : '0', 
+            width: 'auto',
+            transition: 'all 0.5s ease-in-out'
         }}>
-            {/* Context Left - Mobile Menu Trigger & Breadcrumb */}
-            <div className="flex items-center gap-8">
+            {/* Left Section: Breadcrumbs / Title */}
+            <div className="flex items-center gap-6">
                 <button 
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
-                    className="md:hidden w-12 h-12 flex items-center justify-center bg-[#003249] text-white rounded-xl shadow-xl active:scale-90 transition-all"
+                    className="md:hidden w-10 h-10 flex items-center justify-center bg-[#002b45] text-white rounded-lg shadow-lg active:scale-95 transition-all"
                 >
-                    {isSidebarOpen ? <X size={24} strokeWidth={3} /> : <Menu size={24} strokeWidth={3} />}
+                    {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
                 </button>
 
-                <div className="hidden md:flex items-center gap-6">
-                    <div className="flex items-center gap-3 px-5 py-2.5 bg-slate-50 border border-slate-100 rounded-2xl shadow-inner">
-                        <Terminal size={14} className="text-[#007ea7]" strokeWidth={3} />
-                        <span className="text-[10px] font-black text-[#003249] uppercase tracking-[4px] italic">CMD_TERM://</span>
-                        <span className="text-[10px] font-bold text-slate-400 tracking-[1px]">{location.pathname.toUpperCase()}</span>
-                    </div>
-                    <div className="flex items-center gap-3 opacity-20">
-                         <div className="w-1 h-1 bg-slate-400 rounded-full" />
-                         <span className="text-[8px] font-black tracking-[4px]">UPLINK_STATUS: NOMINAL</span>
+                <div className="hidden md:flex flex-col">
+                    <h1 className="text-xl font-bold text-[#002b45] tracking-tight">{getPageTitle()}</h1>
+                    <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{role} Portal</span>
+                        <div className="w-1 h-1 bg-slate-300 rounded-full" />
+                        <span className="text-[10px] font-bold text-[#10b981] uppercase tracking-widest">Active Session</span>
                     </div>
                 </div>
             </div>
 
-            {/* Controls Right */}
-            <div className="flex items-center gap-8">
-                {/* Search Console */}
-                <div className="hidden lg:flex items-center bg-slate-50/50 border-2 border-slate-50 rounded-[1.2rem] px-6 h-14 w-80 group focus-within:bg-white focus-within:border-[#007ea7]/20 focus-within:shadow-2xl transition-all">
-                    <Search className="w-4 h-4 text-slate-400 mr-4 group-focus-within:text-[#007ea7] transition-colors" strokeWidth={3} />
+            {/* Right Section: Actions & Profile */}
+            <div className="flex items-center gap-4 lg:gap-8">
+                {/* Search Bar */}
+                <div className="hidden lg:flex items-center bg-slate-100/50 border border-slate-200 rounded-xl px-4 h-11 w-64 focus-within:bg-white focus-within:border-[#10b981] focus-within:shadow-lg transition-all">
+                    <Search className="w-4 h-4 text-slate-400 mr-3" />
                     <input 
                         type="text" 
-                        placeholder="SCAN_DATA_GRID..." 
-                        className="bg-transparent border-none text-[11px] font-black text-[#003249] focus:outline-none w-full placeholder:text-slate-300 tracking-[2px] italic uppercase"
+                        placeholder="Search resources..." 
+                        className="bg-transparent border-none text-xs font-semibold text-slate-700 focus:outline-none w-full placeholder:text-slate-400"
                     />
                 </div>
 
-                {/* Signals */}
-                <div className="flex items-center gap-4">
-                    <button className="w-14 h-14 flex items-center justify-center text-slate-400 hover:text-[#003249] hover:bg-slate-50 rounded-2xl transition-all relative group shadow-sm">
-                        <Bell size={22} strokeWidth={2.5} className="group-hover:rotate-12 transition-transform" />
-                        <span className="absolute top-4 right-4 w-2.5 h-2.5 bg-[#007ea7] rounded-full border-2 border-white shadow-[0_0_10px_#007ea7]" />
+                {/* Notifications */}
+                <div className="flex items-center gap-2">
+                    <button className="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-[#002b45] hover:bg-slate-100 rounded-xl transition-all relative group">
+                        <BellDot size={20} strokeWidth={2} />
+                        <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-[#10b981] rounded-full border-2 border-white" />
                     </button>
                     
-                    <div className="w-px h-8 bg-slate-100 hidden sm:block mx-2" />
+                    <div className="w-px h-6 bg-slate-200 hidden sm:block mx-1" />
 
-                    {/* Operative Menu */}
+                    {/* Profile Dropdown */}
                     <div className="relative">
                         <button 
                             onClick={() => setIsProfileOpen(!isProfileOpen)}
-                            className="flex items-center gap-5 p-2 pr-6 rounded-[1.5rem] bg-slate-50 border border-slate-100 hover:bg-white hover:shadow-2xl transition-all group active:scale-95"
+                            className="flex items-center gap-3 p-1.5 pr-4 rounded-xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100 group"
                         >
-                            <div className="w-11 h-11 rounded-xl bg-[#003249] p-0.5 border border-white shadow-xl overflow-hidden group-hover:rotate-6 transition-transform">
-                                 <img src={`https://i.pravatar.cc/100?u=${user?._id}`} alt="User" className="w-full h-full object-cover rounded-[0.5rem] grayscale group-hover:grayscale-0 transition-all" />
+                            <div className="w-9 h-9 rounded-lg bg-[#002b45] border-2 border-white shadow-md overflow-hidden transition-transform group-hover:scale-105">
+                                 <img 
+                                    src={`https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=002b45&color=fff`} 
+                                    alt="User" 
+                                    className="w-full h-full object-cover" 
+                                />
                             </div>
-                            <div className="hidden md:flex flex-col items-start transition-opacity group-hover:opacity-100">
-                                <span className="text-[10px] font-black text-[#003249] uppercase tracking-[3px] italic leading-none mb-1.5">{user?.name || 'FIELD_OPERATIVE_X'}</span>
-                                <span className="text-[8px] font-black text-[#007ea7] uppercase tracking-[4px] italic leading-none opacity-60 group-hover:opacity-100">{user?.role}</span>
+                            <div className="hidden lg:flex flex-col items-start leading-none gap-1">
+                                <span className="text-xs font-bold text-[#002b45] tracking-tight">{user?.name || 'User Name'}</span>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{user?.role}</span>
                             </div>
-                            <ChevronDown size={16} className={`text-slate-300 transition-transform duration-500 ${isProfileOpen ? 'rotate-180' : ''}`} strokeWidth={3} />
+                            <ChevronDown size={14} className={`text-slate-400 transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} />
                         </button>
 
                         <AnimatePresence>
                             {isProfileOpen && (
                                 <motion.div 
-                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                                    className="absolute right-0 mt-6 w-72 bg-white rounded-[2.5rem] shadow-3xl border-2 border-slate-50 p-6 z-[200] overflow-hidden"
+                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                    className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-[200] overflow-hidden"
                                 >
-                                     {/* Decorative Blob */}
-                                    <div className="absolute top-0 right-0 w-24 h-24 bg-[#007ea7]/5 blur-2xl rounded-full" />
-                                    
-                                    <div className="px-6 py-6 border-b-2 border-slate-50 mb-4 relative z-10">
-                                        <div className="flex items-center gap-4 mb-4">
-                                            <Fingerprint size={20} className="text-[#007ea7]" strokeWidth={3} />
-                                            <span className="text-[10px] font-black text-[#007ea7] uppercase tracking-[5px] italic">Auth_Node_Status</span>
-                                        </div>
-                                        <p className="text-[11px] font-black text-[#003249] truncate tracking-[2px] italic">{user?.email}</p>
+                                    <div className="p-4 border-b border-slate-50 mb-1">
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[2px] mb-1">Logged in as</p>
+                                        <p className="text-xs font-bold text-[#002b45] truncate">{user?.email}</p>
                                     </div>
                                     
-                                    <div className="space-y-2 relative z-10">
-                                        <Link 
-                                            to={`/${user?.role}/settings`} 
-                                            className="flex items-center justify-between px-6 py-4 rounded-2xl text-[11px] font-black text-[#003249] uppercase tracking-[3px] hover:bg-slate-50 transition-all group/item italic"
-                                            onClick={() => setIsProfileOpen(false)}
-                                        >
-                                            <div className="flex items-center gap-4">
-                                                <Settings size={18} className="text-slate-300 group-hover/item:text-[#007ea7] transition-colors" strokeWidth={3} /> Config_Matrix
-                                            </div>
-                                            <ChevronRight size={14} className="opacity-0 group-hover/item:opacity-100 transition-all group-hover/item:translate-x-1" strokeWidth={4} />
-                                        </Link>
+                                    <div className="space-y-1">
                                         <Link 
                                             to={`/${user?.role}/profile`} 
-                                            className="flex items-center justify-between px-6 py-4 rounded-2xl text-[11px] font-black text-[#003249] uppercase tracking-[3px] hover:bg-slate-50 transition-all group/item italic"
+                                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[#10b981] transition-all group"
                                             onClick={() => setIsProfileOpen(false)}
                                         >
-                                            <div className="flex items-center gap-4">
-                                                <User size={18} className="text-slate-300 group-hover/item:text-[#007ea7] transition-colors" strokeWidth={3} /> Identity_Vault
-                                            </div>
-                                            <ChevronRight size={14} className="opacity-0 group-hover/item:opacity-100 transition-all group-hover/item:translate-x-1" strokeWidth={4} />
+                                            <User size={16} /> User Profile
+                                        </Link>
+                                        <Link 
+                                            to={`/${user?.role}/settings`} 
+                                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-[#10b981] transition-all group"
+                                            onClick={() => setIsProfileOpen(false)}
+                                        >
+                                            <Settings size={16} /> Settings
                                         </Link>
                                         
-                                        <div className="pt-4 border-t-2 border-slate-50 mt-4">
+                                        <div className="pt-2 mt-2 border-t border-slate-50">
                                             <button 
                                                 onClick={handleLogout}
-                                                className="w-full h-16 flex items-center justify-center gap-4 bg-rose-50 text-rose-500 rounded-2xl text-[11px] font-black uppercase tracking-[5px] hover:bg-rose-500 hover:text-white transition-all shadow-lg shadow-rose-500/10 italic group"
+                                                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-rose-500 hover:bg-rose-50 transition-all border-none"
                                             >
-                                                <LogOut size={20} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> TERMINATE_SYNC
+                                                <LogOut size={16} /> Sign Out Account
                                             </button>
                                         </div>
                                     </div>

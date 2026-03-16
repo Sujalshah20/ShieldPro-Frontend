@@ -46,7 +46,8 @@ const Register = () => {
                 phone: formData.phone,
                 dob: formData.dob,
                 gender: formData.gender,
-                address: formData.address
+                address: formData.address,
+                nationalId: formData.aadhar
             });
             toast({ 
                 title: "Registration Successful", 
