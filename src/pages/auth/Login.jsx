@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
     Shield, Mail, Lock, Eye, EyeOff, 
-    ArrowRight, Loader2, CheckCircle2, ChevronRight,
-    Fingerprint, ShieldCheck, Github, Chrome
+    ArrowRight, Loader2, ShieldCheck, Chrome
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
@@ -22,151 +20,143 @@ const Login = () => {
         setIsLoading(true);
         try {
             const user = await login(formData.email, formData.password);
-            toast({ title: "Authentication Successful", description: "Redirecting...", variant: "default" });
+            toast({ title: "Authentication Successful", description: "Inbound synchronization active." });
             
             setTimeout(() => {
                 if (user.role === 'admin') navigate('/admin');
                 else if (user.role === 'agent') navigate('/agent');
                 else navigate('/customer');
-            }, 1000);
+            }, 800);
         } catch (error) {
-            toast({ title: "Access Denied", description: error.response?.data?.message || "Tactical Error", variant: "destructive" });
+            toast({ 
+                title: "Access Denied", 
+                description: error.response?.data?.message || "Verify your credentials and try again.", 
+                variant: "destructive" 
+            });
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#dae5e5] flex items-center justify-center p-4 md:p-8 font-display">
-            <div className="w-full max-w-5xl h-[640px] bg-white rounded-[2rem] shadow-2xl flex overflow-hidden">
-                {/* Left Side - Login Form */}
-                <div className="w-full lg:w-1/2 p-10 md:p-14 flex flex-col justify-center bg-white">
-                    <div className="mb-10">
-                        <h1 className="text-2xl font-black text-[#012b3f] mb-3 uppercase tracking-tight">Secure Vault Access</h1>
-                        <p className="text-sm text-slate-400 font-bold lowercase tracking-normal">
-                            Please enter your credentials to access your secure policy vault.
+        <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-6 lg:p-12 font-display">
+            <div className="w-full max-w-5xl bg-white rounded-[2rem] shadow-2xl flex overflow-hidden border border-[#ccdbdc]/50 min-h-[600px]">
+                
+                {/* Brand Side - Optimized Balance */}
+                <div className="hidden lg:flex w-[45%] bg-[#003249] p-16 flex-col justify-between relative overflow-hidden text-white">
+                    <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_1px_1px,#80ced7_1px,transparent_0)] [background-size:20px_20px]" />
+                    
+                    <div className="relative z-10">
+                        <Link to="/" className="flex items-center gap-2 mb-16 group">
+                            <div className="bg-[#007ea7] p-2.5 rounded-xl shadow-lg group-hover:scale-110 transition-transform">
+                                <Shield className="w-6 h-6 text-white" />
+                            </div>
+                            <span className="text-xl font-black tracking-tight">ShieldPro</span>
+                        </Link>
+
+                        <h2 className="text-white text-3xl font-black leading-tight mb-6 mt-12">
+                            Secure your insurance infrastructure.
+                        </h2>
+                        <p className="text-[#80ced7] font-medium leading-relaxed opacity-80">
+                            The professional standard for managing complex policy lifecycles with enterprise-grade security.
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-8">
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-500 block uppercase tracking-[2px]">Email Address</label>
+                    <div className="relative z-10 pt-10 border-t border-white/10">
+                         <div className="flex items-center gap-4">
+                             <div className="flex -space-x-3">
+                                 {[1,2,3].map(i => (
+                                     <div key={i} className="w-9 h-9 rounded-full border-2 border-[#003249] bg-[#ccdbdc] overflow-hidden shadow-lg">
+                                         <img src={`https://i.pravatar.cc/100?u=${i}`} alt="Specialist" className="w-full h-full object-cover" />
+                                     </div>
+                                 ))}
+                             </div>
+                             <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">Trusted by 10k+ security experts</p>
+                         </div>
+                    </div>
+                </div>
+
+                {/* Form Side */}
+                <div className="w-full lg:w-[55%] p-10 md:p-16 flex flex-col justify-center bg-white relative">
+                    <div className="mb-12">
+                        <h1 className="text-2xl font-black text-[#003249] mb-2">Welcome back.</h1>
+                        <p className="text-sm font-semibold text-[#003249]/40 tracking-tight">Enter your credentials to access your node.</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6 max-w-md">
+                        <div className="space-y-2">
+                            <label className="text-[11px] font-black text-[#003249] uppercase tracking-widest pl-1">Security Identity</label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-[#0082a1] transition-colors" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-[#007ea7] transition-colors" />
                                 <input 
                                     type="email" 
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-4 text-sm font-bold text-[#012b3f] focus:outline-none focus:ring-2 focus:ring-[#0082a1]/20 focus:border-[#0082a1] transition-all tracking-normal lowercase"
+                                    className="w-full bg-[#f8fafc] border border-[#ccdbdc] rounded-xl py-3.5 pl-12 pr-4 text-sm font-semibold text-[#003249] focus:outline-none focus:ring-2 focus:ring-[#007ea7]/10 focus:border-[#007ea7] transition-all"
                                     placeholder="name@company.com"
                                     required
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-center">
-                                <label className="text-[10px] font-black text-slate-500 block uppercase tracking-[2px]">Password</label>
-                                <button type="button" className="text-[10px] font-black text-[#0082a1] hover:underline uppercase tracking-[1px]">Forgot password?</button>
+                        <div className="space-y-2">
+                            <div className="flex justify-between items-center pl-1">
+                                <label className="text-[11px] font-black text-[#003249] uppercase tracking-widest">Access Key</label>
+                                <button type="button" className="text-[10px] font-bold text-[#007ea7] hover:underline">Reset terminal?</button>
                             </div>
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-[#0082a1] transition-colors" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 group-focus-within:text-[#007ea7] transition-colors" />
                                 <input 
                                     type={showPassword ? "text" : "password"}
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-xl py-4 pl-12 pr-12 text-sm font-bold text-[#012b3f] focus:outline-none focus:ring-2 focus:ring-[#0082a1]/20 focus:border-[#0082a1] transition-all tracking-normal"
+                                    className="w-full bg-[#f8fafc] border border-[#ccdbdc] rounded-xl py-3.5 pl-12 pr-12 text-sm font-semibold text-[#003249] focus:outline-none focus:ring-2 focus:ring-[#007ea7]/10 focus:border-[#007ea7] transition-all"
                                     placeholder="••••••••"
                                     required
                                 />
                                 <button 
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#012b3f]"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#003249]"
                                 >
-                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                                 </button>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3 py-2">
-                            <input type="checkbox" className="w-4 h-4 rounded border-slate-300 text-[#0082a1] focus:ring-[#0082a1]" id="remember" />
-                            <label htmlFor="remember" className="text-[10px] font-black text-slate-500 uppercase tracking-[1px] cursor-pointer">Keep me logged in for 30 days</label>
-                        </div>
-
-                        <div className="flex items-center gap-2 text-[10px] font-black text-emerald-500 uppercase tracking-[2px] mb-4">
-                            <ShieldCheck size={14} /> 256-bit encryption active
+                        <div className="flex items-center gap-2.5 py-2">
+                            <input type="checkbox" className="w-4 h-4 rounded border-[#ccdbdc] text-[#007ea7] focus:ring-[#007ea7]/20" id="remember" />
+                            <label htmlFor="remember" className="text-[11px] font-bold text-[#003249]/60 cursor-pointer">Stay authorized for 30 cycles</label>
                         </div>
 
                         <button 
                             type="submit"
                             disabled={isLoading}
-                            className="w-full bg-[#0082a1] hover:bg-[#012b3f] text-white rounded-xl py-5 font-black text-sm uppercase tracking-[4px] shadow-xl shadow-[#0082a1]/20 transition-all flex items-center justify-center gap-4 group"
+                            className="btn btn-primary w-full py-4 text-sm uppercase tracking-widest mt-4"
                         >
                             {isLoading ? <Loader2 size={18} className="animate-spin" /> : (
-                                <>Sign In <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" strokeWidth={3} /></>
+                                <>Authorize Sync <ArrowRight className="w-4 h-4" /></>
                             )}
                         </button>
 
-                        <div className="relative flex items-center justify-center py-4">
-                            <div className="absolute inset-x-0 h-px bg-slate-100" />
-                            <span className="relative px-6 bg-white text-[9px] font-black text-slate-400 uppercase tracking-[4px]">Or continue with</span>
+                        <div className="relative flex items-center justify-center py-6">
+                            <div className="absolute inset-x-0 h-px bg-[#ccdbdc]/30" />
+                            <span className="relative px-4 bg-white text-[10px] font-black text-[#003249]/30 uppercase tracking-[4px]">External Uplinks</span>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6">
-                            <button type="button" className="flex items-center justify-center gap-4 py-4 px-6 bg-white border border-slate-100 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
-                                <Chrome className="w-5 h-5 text-red-500" />
-                                <span className="text-[10px] font-black text-slate-600 uppercase tracking-[2px]">Google</span>
+                        <div className="grid grid-cols-2 gap-4">
+                            <button type="button" className="btn btn-ghost py-3 text-[10px] uppercase tracking-widest border-[#ccdbdc]/50 bg-white">
+                                <Chrome className="w-4 h-4 text-[#007ea7]" /> Google
                             </button>
-                            <button type="button" className="flex items-center justify-center gap-4 py-4 px-6 bg-white border border-slate-100 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
-                                <Shield className="w-5 h-5 text-[#012b3f]" />
-                                <span className="text-[10px] font-black text-slate-600 uppercase tracking-[2px] leading-tight text-center">SSO for<br/>Enterprise</span>
+                            <button type="button" className="btn btn-ghost py-3 text-[10px] uppercase tracking-widest border-[#ccdbdc]/50 bg-white">
+                                <ShieldCheck className="w-4 h-4 text-[#003249]" /> Enterprise
                             </button>
                         </div>
-                    </form>
-                </div>
 
-                {/* Right Side - Brand Panel */}
-                <div className="hidden lg:flex w-1/2 bg-[#012b3f] p-24 flex-col justify-between relative overflow-hidden">
-                    {/* Background Texture/Pattern like screenshot */}
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(circle_at_1px_1px,#0082a1_1px,transparent_0)] [background-size:24px_24px]" />
-                    
-                    <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-16">
-                            <div className="w-12 h-12 bg-[#0082a1] rounded-lg flex items-center justify-center text-white shadow-xl">
-                                <ShieldCheck size={28} />
-                            </div>
-                            <span className="text-xl font-bold text-white uppercase tracking-[2px]">Policyholder Portal</span>
-                        </div>
-
-                        <h2 className="text-3xl leading-[1.1] font-black text-white mb-6 tracking-tight uppercase">
-                            Enterprise-grade <br />
-                            security for your <br />
-                            insurance assets.
-                        </h2>
-                        <p className="text-lg text-white/50 font-bold lowercase tracking-normal leading-relaxed max-w-sm">
-                            Join thousands of companies securing their infrastructure with our industry-leading zero-trust architecture.
+                        <p className="text-center text-xs font-semibold text-[#003249]/40 mt-10">
+                            New protocol? <Link to="/register" className="text-[#007ea7] font-black hover:underline ml-1">Request Node Access</Link>
                         </p>
-                    </div>
-
-                    <div className="relative z-10">
-                         <div className="bg-white/5 backdrop-blur-md rounded-[1.5rem] p-8 border border-white/10 shadow-3xl">
-                             <p className="text-xs font-bold text-white/70 uppercase tracking-[2px] mb-6">Don't have an account yet?</p>
-                             <Link to="/register" className="w-full bg-white text-[#012b3f] py-4 rounded-xl flex items-center justify-center font-black text-xs uppercase tracking-[2px] hover:bg-[#0082a1] hover:text-white transition-all mb-8">
-                                 Create your free account
-                             </Link>
-                             <div className="flex items-center gap-4">
-                                 <div className="flex -space-x-3">
-                                     {[1,2,3].map(i => (
-                                         <div key={i} className="w-10 h-10 rounded-full border-4 border-[#012b3f] bg-slate-300 overflow-hidden shadow-xl">
-                                             <img src={`https://i.pravatar.cc/100?u=${i}`} alt="Expert" />
-                                         </div>
-                                     ))}
-                                 </div>
-                                 <p className="text-[10px] font-black uppercase tracking-[1px] text-white/40">Trusted by 10k+ security experts</p>
-                             </div>
-                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

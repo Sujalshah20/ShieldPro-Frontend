@@ -1,11 +1,10 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { 
-    Users, FileText, DollarSign, 
+    FileText, DollarSign, 
     ArrowUpRight, ArrowDownRight, 
-    Plus, Search, Bell, Filter,
-    CheckCircle2, Clock, Mail,
-    BarChart3, Settings
+    Bell, CheckCircle2,
+    BarChart3, LayoutDashboard,
+    Activity, TrendingUp, Search, Plus
 } from "lucide-react";
 import Reveal from "../../components/common/Reveal";
 import { 
@@ -25,148 +24,160 @@ const AgentDashboard = () => {
     ];
 
     const stats = [
-        { label: "New Applications", value: "86", trend: "12%", icon: FileText, color: "text-[#012b3f]", bg: "bg-slate-50" },
-        { label: "Claim Status Tracking", value: "24", trend: "5%", icon: Activity, color: "text-[#0082a1]", bg: "bg-[#dae5e5]" },
-        { label: "Commission Earnings", value: "$14,250", trend: "2%", icon: DollarSign, color: "text-emerald-500", bg: "bg-emerald-50" },
+        { label: "Pipeline Applications", value: "86", trend: "+12%", icon: FileText, trendUp: true },
+        { label: "Active Trackers", value: "24", trend: "+5%", icon: Activity, trendUp: true },
+        { label: "Net Commission", value: "$14,250", trend: "+2%", icon: DollarSign, trendUp: true },
     ];
 
     return (
-        <div className="min-h-screen bg-[#dae5e5] p-6 md:p-10 font-display">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
-                <div>
-                    <h1 className="text-2xl font-black text-[#012b3f] mb-1 tracking-tight uppercase">Dashboard Overview</h1>
-                    <p className="text-slate-500 font-bold lowercase tracking-normal text-xs">Welcome back, Agent Wright. Here's what needs your attention today.</p>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="relative group">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
-                        <input 
-                            type="text" 
-                            placeholder="Search..." 
-                            className="bg-white border border-slate-100 rounded-xl py-3 pl-10 pr-4 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#0082a1]/20 transition-all shadow-sm"
-                        />
-                    </div>
-                    <div className="w-10 h-10 rounded-full bg-white border border-slate-100 flex items-center justify-center text-[#012b3f] shadow-sm relative">
-                         <Bell size={20} />
-                         <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
-                    </div>
-                    <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow-sm border border-white">
-                        <div className="text-right">
-                             <p className="text-[10px] font-black text-[#012b3f] uppercase leading-none">Alexander Wright</p>
-                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Senior Agent</p>
+        <div className="min-h-screen bg-[#f8fafc] font-display">
+            {/* SaaS Header */}
+            <div className="bg-white border-b border-[#ccdbdc]/30 sticky top-0 z-50">
+                <div className="saas-container h-16 flex items-center justify-between">
+                    <div className="flex items-center gap-8">
+                        <div className="flex items-center gap-2">
+                            <div className="bg-[#007ea7] p-1.5 rounded-lg">
+                                <LayoutDashboard className="w-5 h-5 text-white" />
+                            </div>
+                            <span className="text-lg font-black text-[#003249]">Agent Hub</span>
                         </div>
-                        <div className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-100">
-                             <img src="https://i.pravatar.cc/100?u=alex" alt="Profile" />
+                        <nav className="hidden md:flex gap-6 text-[13px] font-semibold text-[#003249]/60">
+                            <a href="#" className="text-[#007ea7]">Overview</a>
+                            <a href="#" className="hover:text-[#007ea7] transition-colors">Portfolio</a>
+                            <a href="#" className="hover:text-[#007ea7] transition-colors">Security</a>
+                            <a href="#" className="hover:text-[#007ea7] transition-colors">Nodes</a>
+                        </nav>
+                    </div>
+                    
+                    <div className="flex items-center gap-4">
+                        <div className="relative group hidden sm:block">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-3.5 h-3.5" />
+                            <input 
+                                type="text" 
+                                placeholder="Sync search..." 
+                                className="bg-[#f1f5f9] border border-[#ccdbdc]/50 rounded-lg py-1.5 pl-9 pr-4 text-[12px] font-semibold w-64 focus:outline-none focus:ring-2 focus:ring-[#007ea7]/10"
+                            />
+                        </div>
+                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[#003249] relative cursor-pointer hover:bg-slate-200">
+                             <Bell size={18} />
+                             <span className="absolute top-0 right-0 w-2 h-2 bg-[#007ea7] rounded-full border border-white" />
+                        </div>
+                        <div className="w-8 h-8 rounded-full bg-slate-100 overflow-hidden border border-[#ccdbdc]">
+                             <img src="https://i.pravatar.cc/100?u=agent" alt="Agent" />
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                {stats.map((s, i) => (
-                    <Reveal key={i} delay={i * 0.1} direction="up">
-                        <div className="bg-white p-7 rounded-[1.5rem] shadow-sm border border-white hover:shadow-xl transition-all relative overflow-hidden group h-full">
-                            <div className="flex justify-between items-start mb-6 relative z-10">
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${s.color} ${s.bg}`}>
-                                    <s.icon size={24} strokeWidth={2.5} />
-                                </div>
-                                <div className={`text-[10px] font-black flex items-center gap-1 ${s.label.includes('Earnings') ? 'text-rose-500' : 'text-emerald-500'}`}>
-                                    {s.label.includes('Earnings') ? <ArrowDownRight size={14} /> : <ArrowUpRight size={14} />}
-                                    {s.trend} <span className="text-slate-300">vs last month</span>
-                                </div>
-                            </div>
-                            <div className="relative z-10">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{s.label}</p>
-                                <h3 className="text-3xl font-black text-[#012b3f]">{s.value}</h3>
-                            </div>
-                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
-                                <s.icon size={100} />
-                            </div>
+            {/* Main Content */}
+            <main className="py-10">
+                <div className="saas-container">
+                    <div className="flex flex-wrap items-center justify-between mb-10 gap-4">
+                        <div>
+                            <h2 className="text-2xl font-black text-[#003249]">Operational Overview</h2>
+                            <p className="text-sm font-semibold opacity-40">Command center for Agent Alexander Wright</p>
                         </div>
-                    </Reveal>
-                ))}
-            </div>
-
-            {/* Visual Insights Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Revenue Growth Chart - Matching screenshot */}
-                <div className="lg:col-span-2 bg-white rounded-[2rem] p-12 border border-white shadow-sm">
-                    <div className="flex justify-between items-center mb-12">
-                        <h3 className="text-2xl font-extrabold text-[#012b3f] tracking-tight">Revenue Growth</h3>
-                        <div className="px-4 py-2 bg-slate-50 rounded-lg text-[10px] font-black uppercase tracking-widest text-slate-400 border border-slate-100">
-                            Last 6 Months
+                        <div className="flex gap-3">
+                            <button className="btn btn-ghost bg-white px-4 py-2">
+                                Export Logs
+                            </button>
+                            <button className="btn btn-primary px-4 py-2">
+                                <Plus size={16} /> New Application
+                            </button>
                         </div>
                     </div>
-                    <div className="h-[400px]">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                <XAxis 
-                                    dataKey="name" 
-                                    axisLine={false} 
-                                    tickLine={false} 
-                                    tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 900, textAnchor: 'middle' }} 
-                                    dy={20}
-                                />
-                                <YAxis hide />
-                                <Tooltip 
-                                    cursor={{ fill: '#f8fafc' }}
-                                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', fontWeight: 'bold' }}
-                                />
-                                <Bar dataKey="value" radius={[8, 8, 8, 8]} barSize={80}>
-                                    {data.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={index === data.length - 1 ? '#0082a1' : '#dae5e5'} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </div>
 
-                {/* Right Panel - Recent Activity */}
-                <div className="lg:col-span-1 bg-white rounded-[2rem] p-10 border border-white shadow-sm flex flex-col">
-                    <h3 className="text-xl font-extrabold text-[#012b3f] mb-12">Recent Activity</h3>
-                    <div className="space-y-10 flex-1">
-                        {[
-                            { title: "Policy Approved", detail: "Policy #12345 for Sarah Jenkins was approved.", status: "POLICY APPROVED", color: "text-emerald-500", bg: "bg-emerald-50" },
-                            { title: "New Claim Submitted", detail: "Client: Thomas Miller submitted a claim for Auto Collision.", status: "NEW CLAIM SUBMITTED", color: "text-indigo-500", bg: "bg-indigo-50" },
-                            { title: "Premium Payment Received", detail: "Policy #4421 premium payment has been processed.", status: "PREMIUM PAYMENT RECEIVED", color: "text-amber-500", bg: "bg-amber-50" },
-                        ].map((act, i) => (
-                            <div key={i} className="flex gap-6 items-start group">
-                                <div className={`w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center ${act.bg} ${act.color} shadow-sm group-hover:scale-110 transition-all`}>
-                                    <CheckCircle2 size={24} />
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                        {stats.map((s, i) => (
+                            <div key={i} className="saas-card">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="w-10 h-10 rounded-xl bg-[#ccdbdc]/30 flex items-center justify-center text-[#007ea7]">
+                                        <s.icon size={20} />
+                                    </div>
+                                    <div className={`flex items-center gap-1 text-[11px] font-black ${s.trendUp ? 'text-emerald-500' : 'text-rose-500'}`}>
+                                        {s.trendUp ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                                        {s.trend}
+                                    </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <p className="font-bold text-[#012b3f] text-sm leading-tight">{act.title}</p>
-                                    <p className="text-slate-400 text-xs font-bold leading-tight">{act.detail}</p>
-                                    <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{act.status}</p>
-                                </div>
+                                <p className="text-[11px] font-black text-[#003249]/40 uppercase tracking-widest mb-1">{s.label}</p>
+                                <h3 className="text-3xl font-black">{s.value}</h3>
                             </div>
                         ))}
                     </div>
-                    <button className="w-full mt-12 py-4 border border-slate-100 rounded-xl text-xs font-black text-[#0082a1] uppercase tracking-[2px] transition-all hover:bg-[#dae5e5] hover:border-[#0082a1]">
-                        View All Activity
-                    </button>
+
+                    {/* Visual & Activity Split */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        {/* Metrics Chart */}
+                        <div className="lg:col-span-8 saas-card !p-0 overflow-hidden">
+                            <div className="p-8 border-b border-[#ccdbdc]/30 flex justify-between items-center">
+                                <h3 className="text-lg">Revenue Distribution</h3>
+                                <div className="flex gap-2">
+                                    <span className="w-2.5 h-2.5 rounded-full bg-[#007ea7]" />
+                                    <span className="text-[11px] font-black uppercase tracking-widest text-[#003249]/40">Active Projections</span>
+                                </div>
+                            </div>
+                            <div className="p-8 h-[360px]">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={data} margin={{ top: 0, right: 0, left: -25, bottom: 0 }}>
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                        <XAxis 
+                                            dataKey="name" 
+                                            axisLine={false} 
+                                            tickLine={false} 
+                                            tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 900 }} 
+                                            dy={15}
+                                        />
+                                        <YAxis hide />
+                                        <Tooltip 
+                                            cursor={{ fill: '#f8fafc' }}
+                                            contentStyle={{ borderRadius: '12px', border: '1px solid #ccdbdc', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
+                                        />
+                                        <Bar dataKey="value" radius={[6, 6, 6, 6]} barSize={40}>
+                                            {data.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={index === data.length - 1 ? '#007ea7' : '#9ad1d4'} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        {/* Activity Panel */}
+                        <div className="lg:col-span-4 saas-card flex flex-col">
+                            <div className="flex items-center justify-between mb-8">
+                                <h3 className="text-lg">Activity Stream</h3>
+                                <TrendingUp size={16} className="text-[#007ea7]" />
+                            </div>
+                            <div className="space-y-6 flex-1 overflow-y-auto no-scrollbar">
+                                {[
+                                    { title: "Node Authorization", desc: "Policy #12345 verified by system.", time: "2m ago", status: "SYNCED" },
+                                    { title: "Claim Inbound", desc: "Collision report filed for Miller, T.", time: "14m ago", status: "PENDING" },
+                                    { title: "Premium Settlement", desc: "Batch processed for protocol 4421.", time: "1h ago", status: "COMPLETE" },
+                                    { title: "Vetting Required", desc: "Identity check flagged for Jenkins, S.", time: "3h ago", status: "ALERT" },
+                                ].map((act, i) => (
+                                    <div key={i} className="flex gap-4 group">
+                                        <div className="w-1 h-10 rounded-full bg-[#ccdbdc] group-hover:bg-[#007ea7] transition-colors" />
+                                        <div>
+                                            <div className="flex justify-between items-center mb-0.5">
+                                                <p className="text-sm font-bold text-[#003249]">{act.title}</p>
+                                                <span className="text-[10px] font-black text-[#003249]/30">{act.time}</span>
+                                            </div>
+                                            <p className="text-[11px] font-semibold text-[#003249]/50 mb-1">{act.desc}</p>
+                                            <span className="text-[9px] font-black tracking-widest text-[#007ea7]">{act.status}</span>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <button className="btn btn-ghost w-full py-3 mt-8 bg-[#f8fafc] border-[#ccdbdc]/50">
+                                Expand Activity Log
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </main>
         </div>
     );
 };
-
-// Simple Activity Placeholder since icon was duplicated
-const Activity = (props) => (
-    <svg 
-        {...props}
-        xmlns="http://www.w3.org/2000/svg" 
-        width="24" height="24" viewBox="0 0 24 24" 
-        fill="none" stroke="currentColor" strokeWidth="2" 
-        strokeLinecap="round" strokeLinejoin="round" 
-        className="lucide lucide-activity"
-    >
-        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-    </svg>
-);
 
 export default AgentDashboard;
