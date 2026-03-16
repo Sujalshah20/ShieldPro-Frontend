@@ -289,7 +289,7 @@ const AdminApplications = () => {
                                                 <p className="flex gap-4"><span className="text-[#0082a1] font-black">01:</span> Node Identification Verified.</p>
                                                 <p className="flex gap-4"><span className="text-[#0082a1] font-black">02:</span> Policy Compliance Check: Passed.</p>
                                                 <p className="flex gap-4"><span className="text-[#0082a1] font-black">03:</span> Risk Matrix Scanned: Stable.</p>
-                                                <p className="flex gap-4 animate-pulse"><span className="text-[#0082a1] font-black">>>:</span> Awaiting Administrator Clearance...</p>
+                                                <p className="flex gap-4 animate-pulse"><span className="text-[#0082a1] font-black">{">>:"}</span> Awaiting Administrator Clearance...</p>
                                             </div>
                                         )}
                                     </div>
