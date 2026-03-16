@@ -24,12 +24,12 @@ const AdminDashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#dae5e5] p-8 md:p-12 font-display">
+        <div className="min-h-screen bg-[#dae5e5] p-6 md:p-10 font-display">
             {/* Header Area */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-[#012b3f] mb-2 tracking-tight">Admin Overview</h1>
-                    <p className="text-slate-500 font-medium">Welcome back, Marcus. Here's what's happening today.</p>
+                    <h1 className="text-2xl font-black text-[#012b3f] mb-1 tracking-tight uppercase">Admin Overview</h1>
+                    <p className="text-slate-500 font-bold text-xs lowercase tracking-normal">Welcome back, Marcus. Here's what's happening today.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="relative group flex-1 md:w-64">
@@ -40,8 +40,8 @@ const AdminDashboard = () => {
                             className="w-full bg-white border border-slate-100 rounded-xl py-3 pl-10 pr-4 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-[#0082a1]/20 transition-all placeholder:text-slate-300"
                         />
                     </div>
-                    <button className="bg-[#0082a1] text-white px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-[#012b3f] transition-all shadow-lg shadow-[#0082a1]/20">
-                        <Plus size={16} strokeWidth={3} /> New Policy
+                    <button className="bg-[#0082a1] text-white px-5 py-3 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-[#012b3f] transition-all shadow-lg shadow-[#0082a1]/20">
+                        <Plus size={14} strokeWidth={3} /> New Policy
                     </button>
                     <div className="w-10 h-10 rounded-full bg-white border border-slate-100 flex items-center justify-center text-[#012b3f]">
                          <Bell size={20} />
@@ -53,7 +53,7 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
                 {stats.map((s, i) => (
                     <Reveal key={i} delay={i * 0.1} direction="up">
-                        <div className="bg-white p-8 rounded-[1.5rem] shadow-sm border border-white hover:shadow-xl transition-all group">
+                        <div className="bg-white p-6 rounded-[1.5rem] shadow-sm border border-white hover:shadow-xl transition-all group h-full">
                             <div className="flex justify-between items-start mb-6">
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${s.color} ${s.bg}`}>
                                     <s.icon size={24} />
@@ -63,7 +63,7 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                             <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">{s.label}</p>
-                            <h3 className="text-3xl font-black text-[#012b3f] italic-none">{s.value}</h3>
+                                <h3 className="text-2xl font-black text-[#012b3f] italic-none">{s.value}</h3>
                         </div>
                     </Reveal>
                 ))}
@@ -71,9 +71,9 @@ const AdminDashboard = () => {
 
             {/* Main Table Card */}
             <Reveal direction="up" delay={0.4}>
-                <div className="bg-white rounded-[2rem] shadow-sm border border-white overflow-hidden mb-12">
-                    <div className="p-8 border-b border-slate-50 flex justify-between items-center">
-                        <h2 className="text-xl font-extrabold text-[#012b3f]">Policy Management</h2>
+                <div className="bg-white rounded-[1.5rem] shadow-sm border border-white overflow-hidden mb-12">
+                    <div className="p-7 border-b border-slate-50 flex justify-between items-center text-white bg-[#012b3f]">
+                        <h2 className="text-xl font-black uppercase tracking-tight">Policy Management</h2>
                         <div className="flex gap-3">
                             <button className="px-4 py-2 bg-slate-50 text-slate-400 rounded-lg text-xs font-bold uppercase tracking-widest hover:bg-slate-100 transition-all">All Policies</button>
                             <button className="p-2 bg-slate-50 text-slate-400 rounded-lg hover:bg-slate-100 transition-all"><Filter size={18} /></button>

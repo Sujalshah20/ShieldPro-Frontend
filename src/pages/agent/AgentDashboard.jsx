@@ -31,12 +31,12 @@ const AgentDashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#dae5e5] p-8 md:p-12 font-display">
+        <div className="min-h-screen bg-[#dae5e5] p-6 md:p-10 font-display">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-[#012b3f] mb-2 tracking-tight">Dashboard Overview</h1>
-                    <p className="text-slate-500 font-medium lowercase tracking-normal">Welcome back, Agent Wright. Here's what needs your attention today.</p>
+                    <h1 className="text-2xl font-black text-[#012b3f] mb-1 tracking-tight uppercase">Dashboard Overview</h1>
+                    <p className="text-slate-500 font-bold lowercase tracking-normal text-xs">Welcome back, Agent Wright. Here's what needs your attention today.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="relative group">
@@ -67,10 +67,10 @@ const AgentDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                 {stats.map((s, i) => (
                     <Reveal key={i} delay={i * 0.1} direction="up">
-                        <div className="bg-white p-10 rounded-[2rem] shadow-sm border border-white hover:shadow-xl transition-all relative overflow-hidden group">
-                            <div className="flex justify-between items-start mb-8 relative z-10">
-                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${s.color} ${s.bg}`}>
-                                    <s.icon size={28} strokeWidth={2.5} />
+                        <div className="bg-white p-7 rounded-[1.5rem] shadow-sm border border-white hover:shadow-xl transition-all relative overflow-hidden group h-full">
+                            <div className="flex justify-between items-start mb-6 relative z-10">
+                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${s.color} ${s.bg}`}>
+                                    <s.icon size={24} strokeWidth={2.5} />
                                 </div>
                                 <div className={`text-[10px] font-black flex items-center gap-1 ${s.label.includes('Earnings') ? 'text-rose-500' : 'text-emerald-500'}`}>
                                     {s.label.includes('Earnings') ? <ArrowDownRight size={14} /> : <ArrowUpRight size={14} />}
@@ -78,8 +78,8 @@ const AgentDashboard = () => {
                                 </div>
                             </div>
                             <div className="relative z-10">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{s.label}</p>
-                                <h3 className="text-4xl font-extrabold text-[#012b3f]">{s.value}</h3>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{s.label}</p>
+                                <h3 className="text-3xl font-black text-[#012b3f]">{s.value}</h3>
                             </div>
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
                                 <s.icon size={100} />

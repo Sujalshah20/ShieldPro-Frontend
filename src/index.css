@@ -73,6 +73,7 @@ html {
   --ss-sky: #bce2e3;
   --ss-bg: #dae5e5;
   --header-bg: #012b3f;
+  --max-width: 1440px;
 }
 
 * {
@@ -86,8 +87,13 @@ body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
 }
+
+h1 { @apply text-2xl font-black tracking-tight; }
+h2 { @apply text-xl font-black tracking-tight; }
+h3 { @apply text-lg font-black tracking-tight; }
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;

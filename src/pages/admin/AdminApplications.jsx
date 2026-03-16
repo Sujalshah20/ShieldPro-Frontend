@@ -88,8 +88,8 @@ const AdminApplications = () => {
             {/* Header */}
             <div className="mb-10 flex flex-col xl:flex-row xl:items-end justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-black text-[#012b3f] mb-1">Securitization Pipeline</h1>
-                    <p className="text-sm text-slate-500 font-medium">Review and authorize global insurance procurement requests.</p>
+                    <h1 className="text-2xl font-black text-[#012b3f] mb-1 tracking-tight uppercase">Securitization Pipeline</h1>
+                    <p className="text-xs text-slate-500 font-bold lowercase tracking-normal">Review and authorize global insurance procurement requests.</p>
                 </div>
                 
                 <div className="flex gap-4">
@@ -98,13 +98,13 @@ const AdminApplications = () => {
                         { label: "Critical Flags", value: stats.flagged, color: "text-rose-500", bg: "bg-rose-50", icon: AlertCircle },
                         { label: "Total Volume", value: stats.active_sync, color: "text-[#0082a1]", bg: "bg-[#0082a1]/5", icon: Layers }
                     ].map((item, i) => (
-                        <div key={i} className="bg-white px-6 py-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
+                        <div key={i} className="bg-white px-5 py-3 rounded-xl border border-slate-100 shadow-sm flex items-center gap-4">
                             <div className={`p-2 rounded-lg ${item.bg} ${item.color}`}>
-                                <item.icon size={18} />
+                                <item.icon size={16} />
                             </div>
                             <div>
                                 <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">{item.label}</p>
-                                <h4 className="text-lg font-black text-[#012b3f] leading-none">{item.value}</h4>
+                                <h4 className="text-base font-black text-[#012b3f] leading-none">{item.value}</h4>
                             </div>
                         </div>
                     ))}
@@ -131,13 +131,13 @@ const AdminApplications = () => {
             </div>
 
             {/* Registry */}
-            <div className="bg-white rounded-[2rem] border border-slate-100 overflow-hidden shadow-xl">
-                <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="bg-white rounded-[1.5rem] border border-slate-100 overflow-hidden shadow-xl">
+                <div className="p-7 border-b border-slate-100 flex items-center justify-between bg-[#012b3f] text-white">
                     <div className="flex items-center gap-4">
                         <div className="w-10 h-10 bg-[#012b3f] rounded-xl flex items-center justify-center text-white shadow-lg">
                             <ClipboardList size={20} />
                         </div>
-                        <h3 className="text-xl font-black text-[#012b3f]">Application Registry</h3>
+                        <h3 className="text-lg font-black text-[#012b3f] uppercase tracking-tight">Application Registry</h3>
                     </div>
                 </div>
                 
@@ -309,25 +309,25 @@ const AdminApplications = () => {
                             <div className="flex flex-wrap gap-4">
                                 <button 
                                     onClick={() => statusMutation.mutate({ id: selectedApp._id, status: 'Approved' })}
-                                    className="flex-1 h-16 bg-emerald-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
+                                    className="flex-1 h-14 bg-emerald-500 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-emerald-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
                                 >
-                                    <CheckCircle size={20} /> Authorize Application
+                                    <CheckCircle size={18} /> Authorize Application
                                 </button>
                                 <button 
                                     onClick={() => statusMutation.mutate({ id: selectedApp._id, status: 'Rejected', reason: rejectionReason })}
-                                    className="flex-1 h-16 bg-[#012b3f] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all shadow-lg"
+                                    className="flex-1 h-14 bg-[#012b3f] text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all shadow-lg"
                                 >
                                     Deny Protocol
                                 </button>
                                 <button 
                                     onClick={() => statusMutation.mutate({ id: selectedApp._id, status: 'On Hold', reason: rejectionReason })}
-                                    className="h-16 px-8 bg-white border border-slate-200 text-amber-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-amber-50 transition-all shadow-sm"
+                                    className="h-14 px-8 bg-white border border-slate-200 text-amber-600 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-amber-50 transition-all shadow-sm"
                                 >
                                     Suspend
                                 </button>
                                 <button 
                                     onClick={() => setSelectedApp(null)}
-                                    className="px-8 h-16 bg-slate-50 text-slate-400 rounded-2xl font-black text-xs uppercase tracking-widest hover:text-[#012b3f] transition-all"
+                                    className="px-8 h-14 bg-slate-50 text-slate-400 rounded-xl font-black text-xs uppercase tracking-widest hover:text-[#012b3f] transition-all"
                                 >
                                     Abort
                                 </button>

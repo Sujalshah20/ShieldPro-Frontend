@@ -81,7 +81,7 @@ const Home = () => {
                 <section className="pt-40 pb-24 px-6 max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
                     <div>
                         <Reveal direction="down">
-                            <h1 className="text-5xl md:text-7xl font-extrabold mb-8 leading-tight text-[#012b3f] tracking-tighter">
+                            <h1 className="text-3xl md:text-5xl font-extrabold mb-6 leading-tight text-[#012b3f] tracking-tight uppercase">
                                 Uncompromising <br />
                                 <span className="text-[#0082a1]">Protection</span> for <br />
                                 Your Digital & <br />
@@ -124,10 +124,10 @@ const Home = () => {
                 </section>
 
                 {/* Risk Management Section */}
-                <section className="py-24 bg-white/50 border-y border-slate-200">
+                <section className="py-20 bg-white/50 border-y border-slate-200">
                     <div className="max-w-4xl mx-auto px-6 text-center">
                         <Reveal direction="up">
-                            <h2 className="text-4xl font-extrabold text-[#012b3f] mb-6">Comprehensive Risk Management</h2>
+                            <h2 className="text-3xl font-extrabold text-[#012b3f] mb-6 uppercase tracking-tight">Comprehensive Risk Management</h2>
                             <div className="w-16 h-1 bg-[#0082a1] mx-auto mb-10" />
                             <p className="text-lg text-[#012b3f]/70 leading-relaxed font-medium">
                                 Our framework is built on decades of actuarial expertise to mitigate evolving risks and ensure financial stability for your estate. We don't just insure; we provide peace of mind.
@@ -137,10 +137,10 @@ const Home = () => {
                 </section>
 
                 {/* Benefits Section */}
-                <section id="features" className="py-32 px-6 max-w-7xl mx-auto text-center">
+                <section id="features" className="py-24 px-6 max-w-7xl mx-auto text-center">
                     <Reveal direction="down">
                          <span className="text-[#0082a1] font-bold uppercase tracking-[0.3em] text-[10px] mb-4 block">CAPABILITIES</span>
-                         <h2 className="text-4xl font-extrabold text-[#012b3f] mb-20 uppercase">Premium Insurance Benefits</h2>
+                         <h2 className="text-3xl font-extrabold text-[#012b3f] mb-16 uppercase tracking-tight">Premium Insurance Benefits</h2>
                     </Reveal>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
@@ -162,19 +162,19 @@ const Home = () => {
                 </section>
 
                 {/* CTA Section */}
-                <section className="py-32 bg-[#012b3f] text-white text-center relative overflow-hidden">
+                <section className="py-24 bg-[#012b3f] text-white text-center relative overflow-hidden">
                     <div className="absolute inset-0 opacity-10 pointer-events-none">
                         <Shield size={600} className="absolute -top-40 -left-60 rotate-45" />
                     </div>
                     <div className="max-w-4xl mx-auto px-6 relative z-10">
                         <Reveal direction="down">
-                            <h2 className="text-4xl md:text-5xl font-extrabold mb-8 uppercase tracking-tight">Ready to secure your future?</h2>
-                            <p className="text-white/60 mb-12 text-lg font-medium">Join over 5,000 policyholders who trust Secure Shield for their insurance needs.</p>
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-8 uppercase tracking-tight">Ready to secure your future?</h2>
+                            <p className="text-white/60 mb-10 text-lg font-bold">Join over 5,000 policyholders who trust Secure Shield for their insurance needs.</p>
                             <div className="flex justify-center gap-6">
-                                <Link to="/register" className="bg-[#0082a1] text-white px-10 py-5 rounded-lg font-bold text-sm hover:scale-105 transition-all">
+                                <Link to="/register" className="bg-[#0082a1] text-white px-8 py-4 rounded-xl font-bold text-sm hover:scale-105 transition-all uppercase tracking-widest">
                                     Get Started Now
                                 </Link>
-                                <button className="border border-white/20 text-white px-10 py-5 rounded-lg font-bold text-sm hover:bg-white/5 transition-all">
+                                <button className="border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-sm hover:bg-white/5 transition-all uppercase tracking-widest">
                                     Speak to Sales
                                 </button>
                             </div>
@@ -192,7 +192,7 @@ const Home = () => {
                             </div>
                             <p className="text-xs uppercase tracking-widest leading-loose mb-6">Uncompromising protection for high-value individuals and global enterprises.</p>
                             <div className="flex gap-4">
-                                <Language size={18} />
+                                <Languages size={18} />
                                 <Globe size={18} />
                                 <Activity size={18} />
                             </div>

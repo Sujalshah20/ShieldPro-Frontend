@@ -41,8 +41,8 @@ const CustomerSettings = () => {
                         <div className="w-1.5 h-6 bg-[#0082a1] rounded-full" />
                         <span className="text-[10px] font-black uppercase tracking-[4px] text-slate-500">Node Configuration Terminal</span>
                     </div>
-                    <h1 className="text-3xl font-black text-[#012b3f] uppercase tracking-tight">Hub_Protocols</h1>
-                    <p className="text-sm text-slate-500 font-medium italic mt-1">Configure personal safehouse parameters & individual safeguard logics.</p>
+                    <h1 className="text-2xl font-black text-[#012b3f] uppercase tracking-tight">Hub_Protocols</h1>
+                    <p className="text-xs text-slate-500 font-bold lowercase tracking-normal mt-1 italic">Configure personal safehouse parameters & individual safeguard logics.</p>
                 </div>
             </div>
 
@@ -57,16 +57,16 @@ const CustomerSettings = () => {
                     ].map((item, idx) => (
                         <div 
                             key={item.id}
-                            className={`p-10 rounded-[2.5rem] border transition-all cursor-pointer group relative overflow-hidden ${
+                            className={`p-6 rounded-[1.5rem] border transition-all cursor-pointer group relative overflow-hidden ${
                                 item.active 
-                                ? 'bg-[#012b3f] text-white border-white/5 shadow-2xl translate-x-4' 
+                                ? 'bg-[#012b3f] text-white border-white/5 shadow-2xl translate-x-2' 
                                 : 'bg-white border-white hover:border-[#0082a1]/30 hover:shadow-xl'
                             }`}
                         >
                             <div className="relative z-10 flex items-center justify-between">
-                                <div className="flex items-center gap-6">
-                                    <div className={`p-4 rounded-2xl border transition-colors ${item.active ? 'bg-[#0082a1]/20 border-[#0082a1]/40 text-[#0082a1]' : 'bg-slate-50 border-slate-100 text-slate-400 group-hover:text-[#0082a1]'}`}>
-                                        <item.icon size={24} strokeWidth={3} />
+                                <div className="flex items-center gap-4">
+                                    <div className={`p-3 rounded-xl border transition-colors ${item.active ? 'bg-[#0082a1]/20 border-[#0082a1]/40 text-[#0082a1]' : 'bg-slate-50 border-slate-100 text-slate-400 group-hover:text-[#0082a1]'}`}>
+                                        <item.icon size={20} strokeWidth={3} />
                                     </div>
                                     <span className="text-[11px] font-black uppercase tracking-[4px] italic">{item.label}</span>
                                 </div>
@@ -75,12 +75,12 @@ const CustomerSettings = () => {
                         </div>
                     ))}
 
-                    <div className="p-10 bg-[#012b3f] text-white rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group mt-10">
-                        <div className="absolute top-0 right-0 p-10 opacity-10 group-hover:scale-125 transition-transform duration-1000">
+                    <div className="p-8 bg-[#012b3f] text-white rounded-[2rem] border border-white/5 shadow-2xl relative overflow-hidden group mt-6">
+                        <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform duration-1000">
                                 <Fingerprint size={120} className="text-[#0082a1]" />
                         </div>
-                        <h4 className="text-xl font-black uppercase tracking-tight mb-8 relative z-10 flex items-center gap-4 italic text-[#0082a1]">
-                            <Info size={20} /> Hub_Integrity
+                        <h4 className="text-lg font-black uppercase tracking-tight mb-6 relative z-10 flex items-center gap-4 italic text-[#0082a1]">
+                            <Info size={18} /> Hub_Integrity
                         </h4>
                         <div className="space-y-6 relative z-10">
                             <div className="flex justify-between items-center text-[9px] font-black uppercase tracking-[4px] text-white/40">
@@ -103,12 +103,12 @@ const CustomerSettings = () => {
                     <div className="bg-white rounded-[3rem] border border-white shadow-2xl overflow-hidden relative">
                         <div className="p-10 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-10 bg-slate-50/50">
                              <div className="flex items-center gap-8">
-                                <div className="w-16 h-16 bg-[#012b3f] rounded-2xl flex items-center justify-center text-[#0082a1] shadow-2xl">
-                                    <Fingerprint size={32} strokeWidth={3} />
+                                <div className="w-14 h-14 bg-[#012b3f] rounded-xl flex items-center justify-center text-[#0082a1] shadow-2xl">
+                                    <Fingerprint size={28} strokeWidth={3} />
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-black uppercase tracking-tight text-[#012b3f]">Interface_Synergy</h3>
-                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-2">Calibrate hub aesthetics & notification frequencies</p>
+                                    <h3 className="text-xl font-black uppercase tracking-tight text-[#012b3f]">Interface_Synergy</h3>
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-1">Calibrate hub aesthetics & notification frequencies</p>
                                 </div>
                              </div>
                              <div className="flex items-center gap-3 px-5 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm">

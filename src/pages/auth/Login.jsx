@@ -37,12 +37,12 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#dae5e5] flex items-center justify-center p-6 md:p-12 font-display uppercase tracking-widest">
-            <div className="w-full max-w-6xl h-[750px] bg-white rounded-[2rem] shadow-2xl flex overflow-hidden">
+        <div className="min-h-screen bg-[#dae5e5] flex items-center justify-center p-4 md:p-8 font-display">
+            <div className="w-full max-w-5xl h-[640px] bg-white rounded-[2rem] shadow-2xl flex overflow-hidden">
                 {/* Left Side - Login Form */}
-                <div className="w-full lg:w-1/2 p-12 md:p-20 flex flex-col justify-center bg-white">
-                    <div className="mb-12">
-                        <h1 className="text-3xl font-extrabold text-[#012b3f] mb-4">Secure Vault Access</h1>
+                <div className="w-full lg:w-1/2 p-10 md:p-14 flex flex-col justify-center bg-white">
+                    <div className="mb-10">
+                        <h1 className="text-2xl font-black text-[#012b3f] mb-3 uppercase tracking-tight">Secure Vault Access</h1>
                         <p className="text-sm text-slate-400 font-bold lowercase tracking-normal">
                             Please enter your credentials to access your secure policy vault.
                         </p>
@@ -132,14 +132,14 @@ const Login = () => {
                     <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(circle_at_1px_1px,#0082a1_1px,transparent_0)] [background-size:24px_24px]" />
                     
                     <div className="relative z-10">
-                        <div className="flex items-center gap-4 mb-24">
+                        <div className="flex items-center gap-3 mb-16">
                             <div className="w-12 h-12 bg-[#0082a1] rounded-lg flex items-center justify-center text-white shadow-xl">
                                 <ShieldCheck size={28} />
                             </div>
                             <span className="text-xl font-bold text-white uppercase tracking-[2px]">Policyholder Portal</span>
                         </div>
 
-                        <h2 className="text-[44px] leading-[1.1] font-extrabold text-white mb-8 tracking-tighter">
+                        <h2 className="text-3xl leading-[1.1] font-black text-white mb-6 tracking-tight uppercase">
                             Enterprise-grade <br />
                             security for your <br />
                             insurance assets.
@@ -150,7 +150,7 @@ const Login = () => {
                     </div>
 
                     <div className="relative z-10">
-                         <div className="bg-white/5 backdrop-blur-md rounded-[2rem] p-10 border border-white/10 shadow-3xl">
+                         <div className="bg-white/5 backdrop-blur-md rounded-[1.5rem] p-8 border border-white/10 shadow-3xl">
                              <p className="text-xs font-bold text-white/70 uppercase tracking-[2px] mb-6">Don't have an account yet?</p>
                              <Link to="/register" className="w-full bg-white text-[#012b3f] py-4 rounded-xl flex items-center justify-center font-black text-xs uppercase tracking-[2px] hover:bg-[#0082a1] hover:text-white transition-all mb-8">
                                  Create your free account

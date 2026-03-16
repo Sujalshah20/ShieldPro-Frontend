@@ -23,16 +23,16 @@ const CustomerDashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#dae5e5] p-8 md:p-14 font-display">
+        <div className="min-h-screen bg-[#dae5e5] p-6 md:p-10 font-display">
             {/* Header / Intro */}
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-16 gap-8">
                 <div className="max-w-xl">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-[#012b3f] mb-4 tracking-tight">Hello, Alex. We've got you covered.</h1>
-                    <p className="text-[#012b3f]/60 font-medium text-lg">Your 2 active policies are protecting you today. We're also processing your pending claim as quickly as possible.</p>
+                    <h1 className="text-2xl md:text-3xl font-black text-[#012b3f] mb-3 tracking-tight uppercase">Hello, Alex. We've got you covered.</h1>
+                    <p className="text-[#012b3f]/60 font-bold text-sm lowercase tracking-normal">Your 2 active policies are protecting you today. We're also processing your pending claim as quickly as possible.</p>
                 </div>
-                <button className="bg-[#0082a1] text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-[2px] flex items-center gap-4 hover:bg-[#012b3f] transition-all shadow-xl shadow-[#0082a1]/20 group">
-                    <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-[#012b3f]">
-                         <Plus size={16} strokeWidth={4} />
+                <button className="bg-[#0082a1] text-white px-8 py-4 rounded-xl font-black text-xs uppercase tracking-[2px] flex items-center gap-4 hover:bg-[#012b3f] transition-all shadow-xl shadow-[#0082a1]/20 group flex-shrink-0">
+                    <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white group-hover:text-[#012b3f]">
+                         <Plus size={14} strokeWidth={4} />
                     </div>
                     Submit New Claim
                 </button>
@@ -44,10 +44,10 @@ const CustomerDashboard = () => {
                     <FileText size={24} className="opacity-40" />
                     <h2 className="text-xl font-extrabold uppercase tracking-tight">My Active Policies</h2>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {policies.map((p, i) => (
                         <Reveal key={i} delay={i * 0.1} direction="up">
-                            <div className="bg-[#dae5e5] p-10 rounded-[2rem] border border-[#0082a1]/20 shadow-inner group hover:shadow-2xl hover:bg-white transition-all">
+                            <div className="bg-[#dae5e5] p-7 rounded-[1.5rem] border border-[#0082a1]/20 shadow-inner group hover:shadow-2xl hover:bg-white transition-all h-full flex flex-col">
                                 <div className="flex justify-between items-start mb-10">
                                     <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-[#012b3f] shadow-sm">
                                         <p.icon size={28} />
@@ -57,8 +57,8 @@ const CustomerDashboard = () => {
                                     </span>
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-2xl font-black text-[#012b3f] italic-none">{p.title}</h3>
-                                    <p className="text-[11px] font-black text-[#012b3f]/40 uppercase tracking-widest italic-none">Policy #{p.id}</p>
+                                    <h3 className="text-lg font-black text-[#012b3f] italic-none uppercase tracking-tight">{p.title}</h3>
+                                    <p className="text-[10px] font-black text-[#012b3f]/40 uppercase tracking-widest italic-none">Policy #{p.id}</p>
                                 </div>
                                 <div className="mt-12 pt-8 border-t border-white/40 flex justify-between items-center text-[11px] font-black uppercase tracking-widest">
                                     <span className="text-slate-400">Expires {p.date}</span>
@@ -71,11 +71,11 @@ const CustomerDashboard = () => {
                     ))}
                     
                     <Reveal delay={0.3} direction="up">
-                        <div className="bg-transparent border-4 border-dashed border-[#012b3f]/10 p-10 rounded-[2rem] flex flex-col items-center justify-center text-center group cursor-pointer hover:border-[#0082a1]/40 transition-all">
-                             <div className="w-14 h-14 bg-[#012b3f]/5 rounded-full flex items-center justify-center text-[#012b3f]/40 mb-6 group-hover:bg-[#0082a1]/10 group-hover:text-[#0082a1]">
-                                 <Plus size={32} />
+                        <div className="bg-transparent border-4 border-dashed border-[#012b3f]/10 p-7 rounded-[1.5rem] flex flex-col items-center justify-center text-center group cursor-pointer hover:border-[#0082a1]/40 transition-all h-full min-h-[220px]">
+                             <div className="w-12 h-12 bg-[#012b3f]/5 rounded-full flex items-center justify-center text-[#012b3f]/40 mb-4 group-hover:bg-[#0082a1]/10 group-hover:text-[#0082a1]">
+                                 <Plus size={24} />
                              </div>
-                             <p className="text-sm font-bold text-[#012b3f]/40 uppercase tracking-widest">Add New Coverage</p>
+                             <p className="text-xs font-bold text-[#012b3f]/40 uppercase tracking-widest">Add New Coverage</p>
                         </div>
                     </Reveal>
                 </div>

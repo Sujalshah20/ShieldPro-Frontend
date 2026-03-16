@@ -59,8 +59,8 @@ const Header = () => {
     const currentLinks = user ? navLinks[user.role] : [];
 
     return (
-        <header className={`fixed top-0 left-0 w-full z-[150] transition-all duration-300 ${scrolled ? 'bg-white shadow-xl h-20' : 'bg-white h-24 border-b border-slate-100'}`}>
-            <div className="max-w-[1600px] mx-auto h-full px-8 flex items-center justify-between">
+        <header className={`fixed top-0 left-0 w-full z-[150] transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-md h-16' : 'bg-white h-20 border-b border-slate-100'}`}>
+            <div className="max-w-[1440px] mx-auto h-full px-6 flex items-center justify-between">
                 {/* Logo Section */}
                 <Link to="/" className="flex items-center gap-4 group">
                     <div className="bg-[#0082a1] p-2.5 rounded-xl shadow-lg transition-transform group-hover:rotate-[360deg] duration-1000">
