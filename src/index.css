@@ -5,38 +5,38 @@
 @plugin 'lightswind/plugin';
 
 :root {
-  /* Secure Shield Branding */
-  --shield-navy: #002b45;
-  --shield-royal: #134e8d;
-  --shield-emerald: #10b981;
-  --shield-slate: #64748b;
-  --shield-light: #f8fafc;
+  /* Secure Shield Premium Palette */
+  --shield-primary: #134e8d;    /* Deep Royal Blue */
+  --shield-secondary: #002b45;  /* Navy Blue */
+  --shield-accent: #10b981;     /* Emerald Green */
+  --shield-text-main: #1e293b;  /* Slate 800 */
+  --shield-text-muted: #64748b; /* Slate 500 */
+  --shield-bg-light: #f8fafc;   /* Light Gray/Blue Bg */
+  --shield-white: #ffffff;
   
-  /* SaaS Design System Palette */
-  --brand-lightest: #ccdbdc;
-  --brand-light: #9ad1d4;
-  --brand-muted: #80ced7;
-  --brand-primary: #007ea7;
-  --brand-dark: #003249;
+  /* SaaS Design System Palette Mapping */
+  --brand-primary: var(--shield-primary);
+  --brand-dark: var(--shield-secondary);
+  --brand-success: var(--shield-accent);
   
   /* Standard SaaS Tokens */
-  --primary: 195 100% 33%; /* #007ea7 */
+  --primary: 215 76% 31%; /* #134e8d */
   --primary-foreground: 0 0% 100%;
-  --secondary: 198 100% 14%; /* #003249 */
+  --secondary: 200 100% 14%; /* #002b45 */
   --secondary-foreground: 0 0% 100%;
-  --background: 200 20% 96%; /* Neutral very light background */
-  --foreground: 198 100% 14%;
+  --background: 210 40% 98%; /* f8fafc */
+  --foreground: 222 47% 11%;
   --card: 0 0% 100%;
-  --card-foreground: 198 100% 14%;
-  --border: 200 20% 90%;
-  --input: 200 20% 90%;
-  --ring: 195 100% 33%;
-  --radius: 0.75rem;
+  --card-foreground: 222 47% 11%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 215 76% 31%;
+  --radius: 1rem;
 
   /* Typography Scale */
-  --font-h1: 3.5rem;    /* 56px - Increased for cleaner look */
-  --font-h2: 2.5rem;    /* 40px */
-  --font-h3: 1.5rem;    /* 24px */
+  --font-h1: 4rem;      /* 64px */
+  --font-h2: 3rem;      /* 48px */
+  --font-h3: 1.75rem;   /* 28px */
   --font-body: 1rem;    /* 16px */
   --font-small: 0.875rem; /* 14px */
 
@@ -48,7 +48,7 @@
   --space-5: 3rem;     /* 48px */
   --space-6: 4rem;     /* 64px */
 
-  --max-width: 1400px; /* Increased for wider home page */
+  --max-width: 1280px;
 }
 
 html {

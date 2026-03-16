@@ -24,8 +24,8 @@ const Login = () => {
         try {
             const user = await login(formData.email, formData.password);
             toast({ 
-                title: "AUTHENTICATION_SUCCESS", 
-                description: "Secure baseline established. Uplink stable.",
+                title: "Login Successful", 
+                description: "Welcome back to Secure Shield.",
                 variant: "default"
             });
             
@@ -36,8 +36,8 @@ const Login = () => {
             }, 500);
         } catch (error) {
             toast({ 
-                title: "ACCESS_DENIED", 
-                description: "Vetting sequence failed. Invalid credentials detected.", 
+                title: "Login Failed", 
+                description: "Invalid credentials. Please try again.", 
                 variant: "destructive" 
             });
         } finally {
@@ -46,167 +46,165 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white flex flex-col lg:flex-row font-sans selection:bg-[#10b981] selection:text-white">
-            {/* Left Panel: Branding & Features */}
-            <div className="hidden lg:flex w-[40%] bg-[#003249] p-16 flex-col justify-between text-white relative overflow-hidden border-r border-white/5">
-                {/* Visual Grid Background */}
-                <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#007ea7 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#007ea7]/10 blur-[120px] rounded-full pointer-events-none" />
+        <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#10b981] selection:text-white font-sans">
+             <div className="w-full max-w-6xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3rem] overflow-hidden bg-white min-h-[85vh]">
                 
-                <div className="relative z-10">
-                    <Link to="/" className="w-16 h-16 bg-white/5 backdrop-blur-xl rounded-[1.2rem] flex items-center justify-center border border-white/10 mb-16 hover:bg-white/10 transition-all group overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <Shield size={32} className="text-[#007ea7] group-hover:scale-110 transition-transform" strokeWidth={2.5} />
-                    </Link>
+                {/* Left Panel: Branding & Features */}
+                <div className="hidden lg:flex lg:col-span-5 bg-[#002b45] p-16 flex-col justify-between text-white relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 blur-[100px] rounded-full -mr-40 -mt-40" />
+                    <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 blur-[80px] rounded-full -ml-20 -mb-20" />
                     
-                    <div className="space-y-10">
-                        <Reveal direction="left">
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-2 h-8 bg-[#007ea7] rounded-full" />
-                                    <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Access_Gateway_v4.2</span>
-                                </div>
-                                <h1 className="text-6xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase italic">Secure <br /><span className="text-[#007ea7]">Baseline_</span></h1>
-                            </div>
-                        </Reveal>
-                        <Reveal direction="left" delay={0.2}>
-                            <p className="text-white/40 text-xs font-black uppercase tracking-[4px] leading-relaxed max-w-sm italic">
-                                Securing your future, one shield at a time. Access your personal tactical asset monitoring system.
-                            </p>
-                        </Reveal>
+                    <div className="relative z-10">
+                        <Link to="/" className="w-16 h-16 bg-white/5 backdrop-blur-xl rounded-[1.2rem] flex items-center justify-center border border-white/10 mb-16 hover:bg-white/10 transition-all group overflow-hidden">
+                            <Shield size={32} className="text-white group-hover:scale-110 transition-transform" strokeWidth={2.5} />
+                        </Link>
                         
-                        <div className="space-y-6 pt-10 border-t border-white/5">
-                            {[
-                                { icon: ShieldCheck, label: "Advanced Data Protection" },
-                                { icon: Activity, label: "24/7 Agent Support Access" },
-                                { icon: Zap, label: "Real-time Policy Updates" }
-                            ].map((item, i) => (
-                                <Reveal key={i} direction="up" delay={0.4 + (i * 0.1)}>
-                                    <div className="flex items-center gap-6 group">
-                                        <div className="w-8 h-8 bg-white/5 rounded-xl flex items-center justify-center text-[#10b981] shrink-0 border border-white/10 group-hover:rotate-12 transition-transform shadow-lg">
-                                            <item.icon size={18} strokeWidth={3} />
+                        <div className="space-y-8">
+                            <Reveal direction="left">
+                                <h1 className="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
+                                    Welcome <br />Back
+                                </h1>
+                            </Reveal>
+                            <Reveal direction="left" delay={0.2}>
+                                <p className="text-white/60 text-lg font-medium leading-relaxed max-w-sm">
+                                    Access your dashboard to manage policies, file claims, and explore new coverage plans.
+                                </p>
+                            </Reveal>
+                            
+                            <div className="space-y-6 pt-10 border-t border-white/5">
+                                {[
+                                    { icon: ShieldCheck, label: "Secure Data Encryption" },
+                                    { icon: Activity, label: "Instant Policy Updates" },
+                                    { icon: Zap, label: "Fast Claim Statistics" }
+                                ].map((item, i) => (
+                                    <Reveal key={i} direction="up" delay={0.4 + (i * 0.1)}>
+                                        <div className="flex items-center gap-5 group">
+                                            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center text-emerald-400 shrink-0 border border-white/5 group-hover:rotate-6 transition-transform">
+                                                <item.icon size={20} strokeWidth={2.5} />
+                                            </div>
+                                            <span className="text-sm font-bold text-white/80 group-hover:text-white transition-colors">{item.label}</span>
                                         </div>
-                                        <span className="text-[11px] font-black uppercase tracking-[3px] italic text-white/60 group-hover:text-white transition-colors">{item.label}</span>
+                                    </Reveal>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="relative z-10 pt-8 border-t border-white/5 text-white/30 text-[12px] font-bold uppercase tracking-widest">
+                         © 2024 Secure Shield
+                    </div>
+                </div>
+
+                {/* Right Panel: Login Form */}
+                <div className="flex-1 lg:col-span-7 flex flex-col justify-center items-center py-12 px-8 md:px-16 lg:px-24 relative bg-white overflow-y-auto no-scrollbar">
+                    <div className="w-full max-w-md space-y-12">
+                        <div className="space-y-4">
+                             <div className="lg:hidden mb-10 text-center">
+                                <Link to="/" className="inline-flex items-center gap-3">
+                                    <div className="w-8 h-8 bg-[#134e8d] rounded-lg flex items-center justify-center text-white">
+                                        <Shield size={20} strokeWidth={2.5} />
                                     </div>
-                                </Reveal>
+                                    <span className="text-xl font-bold text-[#002b45]">Secure Shield</span>
+                                </Link>
+                             </div>
+                            <h2 className="text-4xl font-extrabold text-[#002b45] tracking-tight">Login</h2>
+                            <p className="text-slate-500 font-medium">Choose your account type and enter credentials.</p>
+                        </div>
+
+                        {/* Role Tabs */}
+                        <div className="flex bg-slate-50 p-1.5 rounded-2xl border-2 border-slate-50 shadow-sm overflow-hidden">
+                            {["Customer", "Agent", "Admin"].map((tab) => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    className={`flex-1 py-3 text-[12px] font-bold uppercase tracking-widest transition-all duration-300 rounded-xl ${
+                                        activeTab === tab ? "bg-[#134e8d] text-white shadow-lg" : "text-slate-400 hover:text-slate-600"
+                                    }`}
+                                >
+                                    {tab}
+                                </button>
                             ))}
                         </div>
-                    </div>
-                </div>
 
-                <div className="relative z-10 pt-8 border-t border-white/5 flex justify-between items-center text-white/20 text-[9px] font-black uppercase tracking-[5px] italic">
-                    <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-[#007ea7] rounded-full animate-pulse shadow-[0_0_10px_#007ea7]" />
-                        <span>GRID_SYNC_ACTIVE</span>
-                    </div>
-                    <span>© 2026 SHIELD_PRO</span>
-                </div>
-            </div>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Email Address</label>
+                                <div className="relative">
+                                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 transition-colors">
+                                        <Mail size={18} strokeWidth={2.5} />
+                                    </div>
+                                    <input 
+                                        type="email" 
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                        className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl pl-16 pr-6 text-[#002b45] font-bold text-sm outline-none focus:bg-white focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
+                                        placeholder="yourname@gmail.com"
+                                        required
+                                    />
+                                </div>
+                            </div>
 
-            {/* Right Panel: Login Form */}
-            <div className="flex-1 flex flex-col justify-center items-center py-10 px-6 md:px-16 lg:px-24 relative bg-white overflow-y-auto no-scrollbar">
-                <div className="w-full max-w-md space-y-12">
-                    <div className="space-y-4">
-                        <h2 className="text-4xl font-black text-[#003249] uppercase tracking-tighter italic">Vetting_Terminal</h2>
-                        <p className="text-slate-400 text-[11px] font-black uppercase tracking-[4px] italic opacity-60">Authorize credentials to establish synchronization_</p>
-                    </div>
+                            <div className="space-y-2">
+                                <div className="flex justify-between items-center">
+                                    <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Password</label>
+                                    <button type="button" className="text-[11px] font-bold text-[#134e8d] hover:underline uppercase tracking-wider">Forgot Password?</button>
+                                </div>
+                                <div className="relative">
+                                    <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 transition-colors">
+                                        <Lock size={18} strokeWidth={2.5} />
+                                    </div>
+                                    <input 
+                                        type={showPassword ? "text" : "password"}
+                                        value={formData.password}
+                                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                        className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl pl-16 pr-16 text-[#002b45] font-bold text-sm outline-none focus:bg-white focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
+                                        placeholder="••••••••"
+                                        required
+                                    />
+                                    <button 
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500 transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={18} strokeWidth={2.5} /> : <Eye size={18} strokeWidth={2.5} />}
+                                    </button>
+                                </div>
+                            </div>
 
-                    {/* Role Tabs */}
-                    <div className="flex bg-slate-50 p-1.5 rounded-[1.8rem] border-2 border-slate-50 shadow-inner">
-                        {["Customer", "Agent", "Admin"].map((tab) => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`flex-1 py-4 text-[10px] font-black tracking-[4px] uppercase transition-all duration-500 relative italic rounded-[1.4rem] ${
-                                    activeTab === tab ? "bg-[#003249] text-[#80ced7] shadow-2xl scale-[1.05] z-10" : "text-slate-300 hover:text-slate-500"
-                                }`}
+                            <div className="flex items-center gap-3">
+                                <input type="checkbox" id="remember" className="w-5 h-5 rounded-lg border-2 border-slate-200 text-[#10b981] transition-all focus:ring-0 cursor-pointer" />
+                                <label htmlFor="remember" className="text-sm font-medium text-slate-500 cursor-pointer">Remember me for 30 days</label>
+                            </div>
+
+                            <button 
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full h-16 bg-[#10b981] text-white rounded-2xl text-[16px] font-bold shadow-xl shadow-emerald-500/20 hover:bg-[#0da371] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                             >
-                                {tab}
+                                {isLoading ? (
+                                    <><Loader2 className="animate-spin" /> Logging you in...</>
+                                ) : (
+                                    <>Login <ArrowRight size={20} /></>
+                                )}
                             </button>
-                        ))}
-                    </div>
+                        </form>
 
-                    <form onSubmit={handleSubmit} className="space-y-8 pt-4">
-                        <div className="space-y-3">
-                            <label className="text-[11px] font-black text-[#003249] uppercase tracking-[5px] italic">Identity_Identifier</label>
-                            <div className="relative group">
-                                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#007ea7] transition-colors">
-                                    <Mail size={18} strokeWidth={3} />
-                                </div>
-                                <input 
-                                    type="email" 
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl pl-16 pr-8 text-[#003249] font-black text-[11px] uppercase tracking-[3px] outline-none focus:bg-white focus:border-[#007ea7]/20 focus:ring-8 focus:ring-[#007ea7]/5 shadow-inner transition-all italic placeholder:text-slate-200"
-                                    placeholder="OPERATIVE@SHIELD_GRID.COM"
-                                    required
-                                />
+                        <div className="space-y-8">
+                            <div className="relative flex items-center gap-4">
+                                <div className="h-[1px] flex-1 bg-slate-100" />
+                                <div className="text-[11px] font-bold text-slate-300 uppercase tracking-[4px]">Or login with</div>
+                                <div className="h-[1px] flex-1 bg-slate-100" />
                             </div>
+
+                            <button type="button" className="w-full h-16 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-[#002b45] font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group">
+                                <Chrome size={20} className="text-slate-400 group-hover:text-[#134e8d] transition-colors" />
+                                Google Account
+                            </button>
+
+                            <p className="text-center text-slate-500 font-medium text-sm">
+                                Don't have an account? <Link to="/register" className="text-[#134e8d] font-bold hover:underline">Register Now</Link>
+                            </p>
                         </div>
-
-                        <div className="space-y-3">
-                            <div className="flex justify-between items-center">
-                                <label className="text-[11px] font-black text-[#003249] uppercase tracking-[5px] italic">Security_Keyphrase</label>
-                                <button type="button" className="text-[9px] font-black text-[#007ea7] hover:underline uppercase tracking-[3px] italic opacity-60 hover:opacity-100 transition-opacity">RECALIBRATE_ACCESS?</button>
-                            </div>
-                            <div className="relative group">
-                                <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#007ea7] transition-colors">
-                                    <Lock size={18} strokeWidth={3} />
-                                </div>
-                                <input 
-                                    type={showPassword ? "text" : "password"}
-                                    value={formData.password}
-                                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl pl-16 pr-16 text-[#003249] font-black text-[11px] uppercase tracking-[3px] outline-none focus:bg-white focus:border-[#007ea7]/20 focus:ring-8 focus:ring-[#007ea7]/5 shadow-inner transition-all italic placeholder:text-slate-200"
-                                    placeholder="••••••••"
-                                    required
-                                />
-                                <button 
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-200 hover:text-[#007ea7] transition-colors"
-                                >
-                                    {showPassword ? <EyeOff size={18} strokeWidth={3} /> : <Eye size={18} strokeWidth={3} />}
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center gap-4">
-                            <input type="checkbox" id="remember" className="w-5 h-5 rounded-lg border-2 border-slate-100 text-[#007ea7] transition-all focus:ring-0" />
-                            <label htmlFor="remember" className="text-[10px] font-black text-slate-300 cursor-pointer uppercase tracking-[4px] italic">PERSIST_SESSION</label>
-                        </div>
-
-                        <button 
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full h-16 bg-[#10b981] text-white rounded-[1.5rem] text-[13px] font-black uppercase tracking-[8px] shadow-2xl shadow-emerald-500/10 hover:bg-[#0da371] active:scale-[0.98] transition-all disabled:opacity-50 italic group relative overflow-hidden"
-                        >
-                            <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                            {isLoading ? "VETTING_IN_PROGRESS..." : "INITIALIZE_SYNC"}
-                        </button>
-                    </form>
-
-                    <div className="relative py-4 flex items-center gap-8">
-                        <div className="h-0.5 flex-1 bg-slate-50" />
-                        <div className="text-[9px] font-black text-slate-200 uppercase tracking-[6px] italic leading-none">SECURE_BRIDGE</div>
-                        <div className="h-0.5 flex-1 bg-slate-50" />
-                    </div>
-
-                    <div className="space-y-6">
-                        <button type="button" className="w-full h-16 bg-white border-2 border-slate-100 rounded-[1.5rem] flex items-center justify-center gap-5 text-[#003249] font-black text-[11px] uppercase tracking-[6px] hover:bg-slate-50 hover:border-[#007ea7]/20 transition-all italic group">
-                            <Chrome size={20} className="text-slate-300 group-hover:text-[#007ea7] transition-colors" strokeWidth={3} />
-                            CLOUD_SYNC_VIA_GOOGLE
-                        </button>
-
-                        <p className="text-center text-[11px] font-black text-slate-300 uppercase tracking-[4px] italic">
-                            NEW_IDENTITY_REQUIRED? <Link to="/register" className="text-[#007ea7] hover:underline underline-offset-4 decoration-2">ENLIST_HERE</Link>
-                        </p>
-                    </div>
-
-                    <div className="pt-8 flex flex-wrap justify-center gap-8 text-[9px] font-black text-slate-200 uppercase tracking-[4px] italic opacity-40 hover:opacity-100 transition-opacity">
-                        <a href="#" className="hover:text-[#007ea7]">PRIVACY_PROTOCOL</a>
-                        <a href="#" className="hover:text-[#007ea7]">SERVICE_TIERS</a>
-                        <a href="#" className="hover:text-[#007ea7]">MAIN_CONSOLE</a>
                     </div>
                 </div>
             </div>
