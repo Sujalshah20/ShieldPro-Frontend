@@ -30,6 +30,7 @@ html {
   animation: borderGradient 8s linear infinite;
   opacity: 0.5;
 }
+
 @keyframes borderGradient {
   0% {
     background-position: 0% 50%;
@@ -45,20 +46,25 @@ html {
 }
 
 :root {
-  --primary: 196 100% 31%; /* #0082a1 */
+  --primary: 196 100% 31%;
+  /* #0082a1 */
   --primary-foreground: 0 0% 100%;
-  --secondary: 198 97% 12%; /* #012b3f */
+  --secondary: 198 97% 12%;
+  /* #012b3f */
   --secondary-foreground: 0 0% 100%;
-  --accent: 184 35% 72%; /* #9ccfd1 */
+  --accent: 184 35% 72%;
+  /* #9ccfd1 */
   --accent-foreground: 198 100% 10%;
-  --background: 180 15% 88%; /* #dae5e5 */
+  --background: 180 15% 88%;
+  /* #dae5e5 */
   --foreground: 222 47% 11%;
   --card: 0 0% 100%;
   --card-foreground: 222 47% 5%;
   --border: 180 10% 80%;
   --input: 180 10% 80%;
   --ring: 196 100% 31%;
-  --radius: 1rem; /* More rounded as per design */
+  --radius: 1rem;
+  /* More rounded as per design */
 
   /* Semantic Brand Colors */
   --ss-navy: #012b3f;
@@ -88,6 +94,7 @@ body {
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
@@ -99,13 +106,27 @@ body {
 }
 
 @keyframes pulse-slow {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.02); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
 }
 
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-pulse-slow {
@@ -247,8 +268,17 @@ html {
 }
 
 @keyframes spotlight-boom {
-  0%, 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-  50% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
 }
 
 .animate-spotlight {
@@ -258,7 +288,7 @@ html {
   left: 50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
   transform: translate(-50%, -50%) scale(0);
   animation: spotlight-boom 2s infinite;
 }
@@ -275,6 +305,7 @@ html {
   position: relative;
   overflow: hidden;
 }
+
 .glowing-stars::before {
   content: '';
   position: absolute;
@@ -285,21 +316,30 @@ html {
 }
 
 @keyframes star-twinkle {
-  0%,100%{opacity:0.2;}
-  50%{opacity:0.5;}
+
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .particles-effect {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px) 0 0 / 20px 20px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 1px, transparent 1px) 0 0 / 20px 20px;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .group:hover .particles-effect {
   opacity: 1;
 }
+
 .particles-effect:hover {
   /* placeholder for additional interactivity */
 }
@@ -307,17 +347,25 @@ html {
 .lamp-effect {
   position: relative;
 }
+
 .lamp-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top center, rgba(255,248,224,0.4) 0%, transparent 60%);
+  background: radial-gradient(circle at top center, rgba(255, 248, 224, 0.4) 0%, transparent 60%);
   pointer-events: none;
   animation: lamp-pulse 3s infinite;
 }
 
 @keyframes lamp-pulse {
-  0%,100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
 }
 
 /* 3D Canvas Styles */
@@ -412,6 +460,7 @@ html.lenis body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
