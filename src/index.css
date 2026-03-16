@@ -5,6 +5,13 @@
 @plugin 'lightswind/plugin';
 
 :root {
+  /* Secure Shield Branding */
+  --shield-navy: #002b45;
+  --shield-royal: #134e8d;
+  --shield-emerald: #10b981;
+  --shield-slate: #64748b;
+  --shield-light: #f8fafc;
+  
   /* SaaS Design System Palette */
   --brand-lightest: #ccdbdc;
   --brand-light: #9ad1d4;
@@ -27,10 +34,10 @@
   --radius: 0.75rem;
 
   /* Typography Scale */
-  --font-h1: 3rem;     /* 48px */
-  --font-h2: 2.25rem;  /* 36px */
-  --font-h3: 1.75rem;  /* 28px */
-  --font-body: 1rem;   /* 16px */
+  --font-h1: 3.5rem;    /* 56px - Increased for cleaner look */
+  --font-h2: 2.5rem;    /* 40px */
+  --font-h3: 1.5rem;    /* 24px */
+  --font-body: 1rem;    /* 16px */
   --font-small: 0.875rem; /* 14px */
 
   /* Spacing Scale */
@@ -41,7 +48,7 @@
   --space-5: 3rem;     /* 48px */
   --space-6: 4rem;     /* 64px */
 
-  --max-width: 1200px;
+  --max-width: 1400px; /* Increased for wider home page */
 }
 
 html {
