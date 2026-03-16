@@ -7,7 +7,7 @@ import {
     Lock, Zap, Clock, Star, MapPin, Phone, Mail, 
     Facebook, Twitter, Instagram, Linkedin, 
     Search, UserPlus, MousePointer2, FileCheck, HelpCircle, ChevronRight, Globe, TrendingUp,
-    Fingerprint, Cpu, Satellite, Target, Database, Layers, Radio, Workflow, Quote
+    Fingerprint, Cpu, Satellite, Target, Database, Layers, Radio, Workflow, Quote, ShieldCheck
 } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
     Shield, User, Mail, Phone, Calendar, 
-    MapPin, Globe, CheckCircle2, ChevronRight, ArrowRight, Loader2
+    MapPin, Globe, CheckCircle2, ChevronRight, ArrowRight, Loader2, ChevronDown
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";

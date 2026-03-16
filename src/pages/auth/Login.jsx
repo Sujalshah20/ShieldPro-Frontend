@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
     Shield, Mail, Lock, Eye, EyeOff, 
-    CheckCircle2, Chrome, ChevronRight, Activity, Zap, ShieldCheck
+    CheckCircle2, Chrome, ChevronRight, Activity, Zap, ShieldCheck, Loader2, ArrowRight
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
