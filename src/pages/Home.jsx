@@ -6,7 +6,7 @@ import {
     Heart, Car, Home as HomeIcon, Plane, Briefcase, 
     Lock, Zap, Clock, Star, MapPin, Phone, Mail, 
     Facebook, Twitter, Instagram, Linkedin, 
-    Search, UserPlus, FileCheck, HelpCircle, ChevronRight, Globe, TrendingUp
+    Search, UserPlus, MousePointer2, FileCheck, HelpCircle, ChevronRight, Globe, TrendingUp
 } from "lucide-react";
 import Reveal from "../components/common/Reveal";
 
