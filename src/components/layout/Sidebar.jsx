@@ -56,9 +56,6 @@ const ROLE_LINKS = {
             { name: "My Customers", path: "/agent/clients", icon: Users },
             { name: "Policy Applications", path: "/agent/applications", icon: FileText },
             { name: "Claims to Process", path: "/agent/claims", icon: ClipboardList },
-            { name: "Document Verification", path: "/agent/verification", icon: ShieldCheck },
-            { name: "My Commission", path: "/agent/commissions", icon: DollarSign },
-            { name: "Performance Report", path: "/agent/performance", icon: LineChart },
         ],
         support: [
             { name: "Settings", path: "/agent/profile", icon: Settings },
