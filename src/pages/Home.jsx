@@ -10,6 +10,7 @@ import {
     Fingerprint, Cpu, Satellite, Target, Database, Layers, Radio, Workflow, Quote, ShieldCheck
 } from "lucide-react";
 import Reveal from "../components/common/Reveal";
+import heroIllustration from "../assets/hero_illustration.png";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -95,43 +96,46 @@ const HeroSection = () => (
         <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-white/5 blur-[120px] rounded-full pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-16 items-center relative z-10 py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-12 lg:gap-24 items-center relative z-10 py-16 md:py-24">
             <Reveal direction="left">
-                <div className="space-y-10">
-                    <div className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
-                        <span className="text-[12px] font-bold text-white tracking-wider uppercase">India's Trusted Insurance Platform</span>
+                <div className="space-y-8 md:space-y-12">
+                    <div className="inline-flex items-center px-4 py-2 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 shadow-lg">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse mr-3" />
+                        <span className="text-[11px] md:text-[13px] font-bold text-white/90 tracking-[2px] uppercase">India's Trusted Insurance Platform</span>
                     </div>
 
                     <div className="space-y-6">
-                        <h1 className="text-6xl md:text-8xl font-extrabold text-white leading-tight tracking-tight">
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight">
                             Protect What <br />
-                            Matters Most
+                            <span className="text-emerald-400">Matters</span> Most
                         </h1>
-                        <p className="max-w-xl text-white/80 text-lg font-medium leading-relaxed">
-                            Comprehensive insurance solutions tailored for your lifestyle. Join over 10,000+ families securing their future with us today.
+                        <p className="max-w-lg text-white/70 text-base md:text-xl font-medium leading-relaxed">
+                            Comprehensive, simplified, and reliable insurance solutions designed for the modern Indian family. Secure your legacy today.
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap gap-5 pt-4">
-                        <Link to="/register" className="h-14 px-10 bg-[#10b981] text-white font-bold rounded-xl flex items-center gap-3 hover:bg-[#0da371] hover:scale-105 transition-all shadow-xl shadow-emerald-900/20 group">
+                    <div className="flex flex-col sm:flex-row gap-5 pt-4">
+                        <Link to="/register" className="h-16 px-10 bg-[#10b981] text-white font-bold rounded-2xl flex items-center justify-center gap-3 hover:bg-[#0da371] hover:translate-y-[-2px] transition-all shadow-xl shadow-emerald-500/20 group">
                             Explore Policies <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <button className="h-14 px-10 border-2 border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
-                            Get a Quote
+                        <button className="h-16 px-10 border-2 border-white/20 text-white font-bold rounded-2xl hover:bg-white/5 hover:border-white/40 transition-all flex items-center justify-center">
+                            Get a Free Quote
                         </button>
                     </div>
                 </div>
             </Reveal>
 
             <Reveal direction="right">
-                <div className="relative">
-                    <div className="absolute -inset-10 bg-white/5 blur-[80px] rounded-full opacity-50" />
-                    <div className="relative z-10 bg-white/10 backdrop-blur-3xl rounded-[3rem] p-4 border border-white/20 shadow-2xl overflow-hidden aspect-[4/3] flex items-center justify-center">
+                <div className="relative group">
+                    <div className="absolute -inset-10 bg-white/5 blur-[80px] rounded-full opacity-50 transition-all group-hover:opacity-80" />
+                    <div className="relative z-10 bg-white/10 backdrop-blur-3xl rounded-[3rem] p-4 border border-white/20 shadow-2xl overflow-hidden aspect-[16/10] lg:aspect-[4/3] flex items-center justify-center group-hover:scale-[1.02] transition-all duration-700">
                         <img 
-                            src="/src/assets/hero_illustration.png" 
+                            src={heroIllustration} 
                             alt="Family Protection"
-                            className="w-full h-full object-cover rounded-[2.5rem]"
+                            className="w-full h-full object-cover rounded-[2.5rem] shadow-inner"
                         />
+                        {/* Shimmer effect Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent pointer-events-none" />
                     </div>
                     {/* Floating Tactical Element placeholder from image */}
                     <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce-slow">
