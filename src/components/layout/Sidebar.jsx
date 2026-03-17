@@ -31,7 +31,8 @@ import {
     PlusCircle,
     User,
     Bell,
-    LogOut
+    LogOut,
+    Search
 } from "lucide-react";
 
 const ROLE_LINKS = {
