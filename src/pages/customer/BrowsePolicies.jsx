@@ -4,6 +4,7 @@ import {
     Users, Plane, Activity, CheckCircle2, ChevronDown,
     ChevronLeft, ChevronRight
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const policyData = [
@@ -96,6 +97,7 @@ const policyData = [
 const tabs = ["All Policies", "Health", "Life", "Vehicle", "Home", "Travel"];
 
 const BrowsePolicies = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("All Policies");
 
     const filteredPolicies = activeTab === "All Policies" 
@@ -198,10 +200,30 @@ const BrowsePolicies = () => {
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <button className="flex-1 py-2.5 px-4 text-sm font-semibold text-[#002b45] bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                                <button 
+                                    onClick={() => navigate(`/customer/policies/${policy.id}`, { state: { policy: {
+                                        policyName: policy.title,
+                                        provider: policy.provider,
+                                        policyType: policy.type,
+                                        premiumAmount: parseInt(policy.features[1].split('$')[1].split('/')[0]) * 80, // rough conversion
+                                        coverageAmount: 500000,
+                                        description: "Comprehensive insurance coverage tailored to your needs."
+                                    }}})}
+                                    className="flex-1 py-2.5 px-4 text-sm font-semibold text-[#002b45] bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                >
                                     View Details
                                 </button>
-                                <button className="flex-1 py-2.5 px-4 text-sm font-semibold text-white bg-[#10b981] border border-transparent rounded-lg hover:bg-[#059669] transition-colors shadow-sm">
+                                <button 
+                                    onClick={() => navigate('/customer/apply', { state: { policy: {
+                                        policyName: policy.title,
+                                        provider: policy.provider,
+                                        policyType: policy.type,
+                                        premiumAmount: parseInt(policy.features[1].split('$')[1].split('/')[0]) * 80, // rough conversion
+                                        coverageAmount: 500000,
+                                        _id: policy.id
+                                    }}})}
+                                    className="flex-1 py-2.5 px-4 text-sm font-semibold text-white bg-[#10b981] border border-transparent rounded-lg hover:bg-[#059669] transition-colors shadow-sm"
+                                >
                                     Buy Now
                                 </button>
                             </div>
