@@ -8,39 +8,36 @@ const DashboardLayout = ({ role }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-white overflow-hidden">
+        <div className="flex min-h-screen bg-slate-50 overflow-hidden font-sans">
             {/* Sidebar Component */}
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
             <div className="flex-1 flex flex-col min-h-screen relative">
-                {/* Visual Grid for Main Content */}
-                <div className="absolute inset-0 opacity-[0.015] pointer-events-none z-0" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
-
-                {/* Unified SaaS Header */}
+                {/* Unified Premium Header */}
                 <Header role={role} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
                 {/* Main Dashboard Region */}
-                <main className="flex-1 pt-32 pb-16 relative z-10 px-6 md:px-12 w-full max-w-[1600px] mx-auto">
+                <main className="flex-1 pt-28 pb-12 relative z-10 px-6 md:px-10 w-full max-w-[1600px] mx-auto">
                     <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
                         className="h-full"
                     >
                         <Outlet />
                     </motion.div>
                 </main>
 
-                {/* Status Footer */}
-                <footer className="py-10 border-t border-slate-50 relative z-10">
-                    <div className="px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                            <p className="text-[9px] font-black uppercase tracking-[5px] text-[#003249]/30 italic line-none">ShieldPro_Quantum_Secure_Active</p>
+                {/* Modern Footer */}
+                <footer className="py-8 bg-white/50 border-t border-slate-100 relative z-10">
+                    <div className="px-10 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 bg-[#124C89] rounded-full" />
+                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">ShieldPro Secure</p>
                         </div>
-                        <div className="flex items-center gap-10">
-                            <p className="text-[9px] font-black uppercase tracking-[4px] text-slate-300 italic">Core_Version: 4.2.0_SIGMA</p>
-                            <p className="text-[9px] font-black uppercase tracking-[4px] text-slate-400 italic">© 2026 GLOBAL_INFRASTRUCTURE</p>
+                        <div className="flex items-center gap-8">
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Version 4.2.0</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">© 2026 ShieldPro Insurance</p>
                         </div>
                     </div>
                 </footer>

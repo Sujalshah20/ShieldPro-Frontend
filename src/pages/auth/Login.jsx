@@ -8,6 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
 import { motion } from "framer-motion";
 import Reveal from "../../components/common/Reveal";
+import loginIllustration from "../../assets/login_security_illustration.png";
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -47,28 +48,28 @@ const Login = () => {
 
     return (
         <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#10b981] selection:text-white font-sans">
-             <div className="w-full max-w-6xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3rem] overflow-hidden bg-white min-h-[85vh]">
+             <div className="w-full max-w-7xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3.5rem] overflow-hidden bg-white min-h-[90vh]">
                 
                 {/* Left Panel: Branding & Features */}
-                <div className="hidden lg:flex lg:col-span-4 bg-[#002b45] p-16 flex-col justify-between text-white relative overflow-hidden">
+                <div className="hidden lg:flex lg:col-span-4 bg-[#124C89] p-12 flex-col justify-between text-white relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 blur-[100px] rounded-full -mr-40 -mt-40" />
                     <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 blur-[80px] rounded-full -ml-20 -mb-20" />
                     
                     <div className="relative z-10">
-                        <Link to="/" className="w-16 h-16 bg-white/5 backdrop-blur-xl rounded-[1.2rem] flex items-center justify-center border border-white/10 mb-16 hover:bg-white/10 transition-all group overflow-hidden">
+                        <Link to="/" className="w-16 h-16 bg-white/5 backdrop-blur-xl rounded-[1.2rem] flex items-center justify-center border border-white/10 mb-12 hover:bg-white/10 transition-all group overflow-hidden">
                             <Shield size={32} className="text-white group-hover:scale-110 transition-transform" strokeWidth={2.5} />
                         </Link>
                         
-                        <div className="space-y-8">
-                            <Reveal direction="left">
-                                <h1 className="text-5xl md:text-6xl font-extrabold leading-tight tracking-tight text-white">
-                                    Welcome <br />Back
-                                </h1>
-                            </Reveal>
-                            <Reveal direction="left" delay={0.2}>
-                                <p className="text-white/70 text-lg font-medium leading-relaxed max-w-xs">
-                                    Access your dashboard to manage policies, file claims, and explore new coverage plans.
-                                </p>
+                        <div className="space-y-12">
+                            <Reveal direction="down">
+                                <div className="relative group perspective-1000">
+                                    <div className="absolute -inset-8 bg-white/5 blur-[60px] rounded-full opacity-50 group-hover:opacity-80 transition-all" />
+                                    <img 
+                                        src={loginIllustration} 
+                                        alt="Security Visualization" 
+                                        className="relative z-10 w-full rounded-3xl shadow-3xl hover:translate-y-[-10px] transition-transform duration-700 pointer-events-none"
+                                    />
+                                </div>
                             </Reveal>
                             
                             <div className="space-y-6 pt-10 border-t border-white/10">
