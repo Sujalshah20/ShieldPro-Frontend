@@ -12,12 +12,12 @@ const DashboardLayout = ({ role }) => {
             {/* Sidebar Component */}
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
-            <div className="flex flex-col min-h-screen relative md:ml-72 transition-all duration-300">
+            <div className="flex flex-col min-h-screen relative md:ml-64 transition-all duration-300">
                 {/* Unified Premium Header */}
                 <Header role={role} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
                 {/* Main Dashboard Region */}
-                <main className="flex-1 pt-28 pb-12 relative z-10 px-6 md:px-10 w-full max-w-[1600px] mx-auto">
+                <main className="flex-1 pt-20 pb-8 relative z-10 px-4 md:px-8 w-full max-w-[1600px] mx-auto">
                     <motion.div 
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}

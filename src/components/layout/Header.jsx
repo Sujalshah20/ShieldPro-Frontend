@@ -40,15 +40,15 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
     };
 
     return (
-        <header className="fixed top-0 right-0 z-[60] left-0 md:left-72 h-20 bg-white border-b border-slate-100 flex items-center justify-between px-8">
+        <header className="fixed top-0 right-0 z-[60] left-0 md:left-64 h-16 bg-white border-b border-slate-100 flex items-center justify-between px-6">
             {/* Search Bar */}
-            <div className="flex-1 max-w-2xl relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                    type="text"
-                    placeholder="Search policies, claims, or documents..."
-                    className="w-full h-11 bg-slate-50 rounded-xl pl-12 pr-4 text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#124C89]/10 transition-all placeholder:text-slate-400"
-                />
+            <div className="flex-1 max-w-xl relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                        <input
+                            type="text"
+                            placeholder="Search customers, apps, policies..."
+                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl text-[13px] focus:ring-2 focus:ring-[#124C89]/10 transition-all outline-none"
+                        />
             </div>
 
             {/* Right Controls */}
