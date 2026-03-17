@@ -24,10 +24,10 @@ const AgentDashboard = () => {
     ];
 
     const policyTypeData = [
-        { name: 'Health', value: 42, color: '#124C89' },
-        { name: 'Life', value: 28, color: '#10b981' },
-        { name: 'Vehicle', value: 20, color: '#f59e0b' },
-        { name: 'Others', value: 10, color: '#cbd5e1' },
+        { name: 'Health', value: 42, color: '#1e293b' },
+        { name: 'Life', value: 28, color: '#14b8a6' },
+        { name: 'Vehicle', value: 20, color: '#0ea5e9' },
+        { name: 'Others', value: 10, color: '#94a3b8' },
     ];
 
     const stats = [
@@ -36,8 +36,8 @@ const AgentDashboard = () => {
             value: "45", 
             trend: "+12%", 
             icon: Users, 
-            iconColor: "text-blue-600", 
-            iconBg: "bg-blue-50",
+            iconColor: "text-slate-700", 
+            iconBg: "bg-slate-100",
             badge: null
         },
         { 
@@ -139,7 +139,7 @@ const AgentDashboard = () => {
                                     cursor={{ fill: '#f8fafc' }}
                                     contentStyle={{ borderRadius: '14px', border: 'none', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
                                 />
-                                <Bar dataKey="value" fill="#124C89" radius={[6, 6, 6, 6]} barSize={40} />
+                                <Bar dataKey="value" fill="#1e293b" radius={[6, 6, 6, 6]} barSize={40} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -192,7 +192,7 @@ const AgentDashboard = () => {
                 <div className="lg:col-span-7 bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden">
                     <div className="flex justify-between items-center mb-6 px-1">
                         <h3 className="text-lg font-bold text-slate-800">Recent Applications</h3>
-                        <button className="text-[11px] font-bold text-[#124C89] hover:underline">View All</button>
+                        <button className="text-[11px] font-bold text-[#14b8a6] hover:underline">View All</button>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
@@ -234,7 +234,7 @@ const AgentDashboard = () => {
                 <div className="lg:col-span-12 xl:col-span-5 bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="flex justify-between items-center mb-6 px-1">
                         <h3 className="text-lg font-bold text-slate-800">Pending Claims</h3>
-                        <button className="text-[11px] font-bold text-[#124C89] hover:underline">View All</button>
+                        <button className="text-[11px] font-bold text-[#14b8a6] hover:underline">View All</button>
                     </div>
                     <div className="space-y-4 flex-1">
                         {[
@@ -258,7 +258,7 @@ const AgentDashboard = () => {
                             </div>
                         ))}
                     </div>
-                    <button className="w-full mt-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-xl text-[#124C89] font-bold text-[12px] transition-all">
+                    <button className="w-full mt-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-xl text-[#1e293b] font-bold text-[12px] transition-all">
                         Process New Claim
                     </button>
                 </div>

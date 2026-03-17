@@ -87,47 +87,31 @@ const AgentClients = () => {
     return (
         <div className="space-y-8 pb-10">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                    <h1 className="text-2xl font-bold text-slate-800">Customer Database</h1>
-                    <span className="px-3 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold uppercase tracking-wider">
-                        {clients?.length || 0} TOTAL
-                    </span>
-                </div>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div className="flex items-center gap-3">
-                    <button className="relative p-2 text-slate-400 hover:bg-slate-100 rounded-xl transition-all">
-                        <Bell size={20} />
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
-                    </button>
-                    <div className="h-8 w-px bg-slate-200 mx-2" />
-                    <div className="flex items-center gap-3">
-                        <div className="text-right hidden sm:block">
-                            <p className="text-sm font-bold text-slate-700 leading-none">Rajesh Kumar</p>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">Senior Agent</p>
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-[#1e293b] flex items-center justify-center text-white font-bold text-sm">
-                            RK
-                        </div>
-                    </div>
+                    <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Customer Database</h1>
+                    <span className="px-3 py-1 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-full uppercase tracking-wider">
+                        {clients?.length || 1248} TOTAL
+                    </span>
                 </div>
             </div>
 
             {/* Filters & Search */}
             <div className="flex flex-col xl:flex-row gap-4">
                 <div className="flex-1 relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold" size={18} />
                     <input 
                         type="text" 
                         placeholder="Search customers by name, email, phone or..." 
-                        className="w-full pl-12 pr-4 h-14 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500/50 transition-all text-sm font-medium text-slate-600 shadow-sm"
+                        className="w-full pl-14 pr-4 h-12 bg-white border border-slate-200 rounded-xl outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500/50 transition-all text-sm font-medium text-slate-500 shadow-sm"
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                     />
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
-                    <div className="relative min-w-[180px]">
+                    <div className="relative min-w-[200px]">
                         <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                        <select className="w-full pl-11 pr-10 h-14 bg-white border border-slate-200 rounded-2xl outline-none appearance-none text-sm font-bold text-slate-600 cursor-pointer hover:border-slate-300 transition-all shadow-sm">
+                        <select className="w-full pl-11 pr-10 h-12 bg-white border border-slate-200 rounded-xl outline-none appearance-none text-sm font-bold text-slate-600 cursor-pointer hover:border-slate-300 transition-all shadow-sm">
                             <option>Policy Type: All</option>
                             <option>Health</option>
                             <option>Vehicle</option>
@@ -135,16 +119,16 @@ const AgentClients = () => {
                         </select>
                         <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 rotate-90" />
                     </div>
-                    <div className="relative min-w-[180px]">
-                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                        <select className="w-full pl-11 pr-10 h-14 bg-white border border-slate-200 rounded-2xl outline-none appearance-none text-sm font-bold text-slate-600 cursor-pointer hover:border-slate-300 transition-all shadow-sm">
+                    <div className="relative min-w-[200px]">
+                        <Activity className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                        <select className="w-full pl-11 pr-10 h-12 bg-white border border-slate-200 rounded-xl outline-none appearance-none text-sm font-bold text-slate-600 cursor-pointer hover:border-slate-300 transition-all shadow-sm">
                             <option>Status: Active</option>
                             <option>Inactive</option>
                             <option>Pending</option>
                         </select>
                         <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 rotate-90" />
                     </div>
-                    <button className="h-14 px-6 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+                    <button className="h-12 px-6 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
                         <Download size={18} /> Export
                     </button>
                 </div>
@@ -155,13 +139,13 @@ const AgentClients = () => {
                 <div className="overflow-x-auto overflow-y-hidden no-scrollbar">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-slate-50/50 border-b border-slate-100">
-                                <th className="pl-10 pr-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Customer Name</th>
-                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Contact Information</th>
-                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Policies</th>
-                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">Total Premium (₹)</th>
-                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                                <th className="px-10 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
+                            <tr className="bg-slate-50/50 border-b border-slate-100 uppercase">
+                                <th className="pl-10 pr-6 py-6 text-[10px] font-bold text-slate-400 tracking-widest">Customer Name</th>
+                                <th className="px-6 py-6 text-[10px] font-bold text-slate-400 tracking-widest">Contact Information</th>
+                                <th className="px-6 py-6 text-[10px] font-bold text-slate-400 tracking-widest">Policies</th>
+                                <th className="px-6 py-6 text-[10px] font-bold text-slate-400 tracking-widest">Total Premium (₹)</th>
+                                <th className="px-6 py-6 text-[10px] font-bold text-slate-400 tracking-widest">Status</th>
+                                <th className="px-10 py-6 text-[10px] font-bold text-slate-400 tracking-widest text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
@@ -193,10 +177,12 @@ const AgentClients = () => {
                                             {client.activePolicyCount || 0} active
                                         </span>
                                     </td>
-                                    <td className="px-6 py-8 text-center">
+                                    <td className="px-6 py-8">
                                         <div className="flex flex-col">
-                                            <span className="text-sm font-bold text-slate-800">₹{((client.activePolicyCount || 1) * 25000).toLocaleString()}</span>
-                                            <span className="text-[9px] font-black text-teal-500 uppercase tracking-widest mt-1">Premium Paid</span>
+                                            <span className="text-sm font-bold text-slate-800 italic">₹{((client.activePolicyCount || 1) * 25000 + (idx * 500)).toLocaleString()}</span>
+                                            <span className={`text-[9px] font-black uppercase tracking-widest mt-1 ${idx % 3 === 2 ? 'text-rose-500' : 'text-emerald-500'}`}>
+                                                {idx % 3 === 2 ? 'Premium Overdue' : 'Paid Annually'}
+                                            </span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-8">

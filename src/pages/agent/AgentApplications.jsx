@@ -95,17 +95,9 @@ const AgentApplications = () => {
     return (
         <div className="flex gap-8 pb-10 min-h-[calc(100vh-120px)] relative">
             <div className={`flex-1 space-y-8 transition-all duration-500 ${selectedApp ? 'mr-[420px]' : ''}`}>
-                {/* Header & Breadcrumbs */}
-                <div className="space-y-4">
-                    <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-                        <span>Dashboard</span>
-                        <ChevronRight size={10} />
-                        <span className="text-slate-600">Policy Applications</span>
-                    </div>
-                    <div>
-                        <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Policy Applications</h1>
-                        <p className="text-sm font-medium text-slate-500 mt-1">Review and manage insurance applications assigned to you.</p>
-                    </div>
+                <div>
+                    <h1 className="text-4xl font-bold text-[#1e293b] tracking-tight">Policy Applications</h1>
+                    <p className="text-base font-medium text-slate-400 mt-2">Review and manage insurance applications assigned to you.</p>
                 </div>
 
                 {/* Tab Navigation & Search */}
@@ -168,9 +160,19 @@ const AgentApplications = () => {
                                     </td>
                                     <td className="px-4 py-6 text-center">
                                         <div className="flex justify-center">
-                                            <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500">
-                                                <FileText size={16} />
-                                            </div>
+                                            {app.status === 'Approved' ? (
+                                                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500">
+                                                    <CheckCircle size={16} />
+                                                </div>
+                                            ) : app.status === 'Rejected' ? (
+                                                <div className="w-8 h-8 rounded-lg bg-rose-50 flex items-center justify-center text-rose-500">
+                                                    <AlertCircle size={16} />
+                                                </div>
+                                            ) : (
+                                                <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center text-orange-500">
+                                                    <Clock size={16} />
+                                                </div>
+                                            )}
                                         </div>
                                     </td>
                                     <td className="px-4 py-6">
@@ -246,19 +248,22 @@ const AgentApplications = () => {
 
                             {/* Document Preview */}
                             <div className="space-y-4">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <Eye size={12} /> Document Preview
+                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">
+                                    <Eye size={12} /> DOCUMENT PREVIEW
                                 </div>
                                 <div className="grid grid-cols-3 gap-3">
-                                    {['Aadhar Card', 'PAN Card', 'Medical Rpt'].map(doc => (
-                                        <div key={doc} className="space-y-2">
-                                            <div className="aspect-[3/4] bg-slate-100 rounded-xl border border-slate-200 flex items-center justify-center text-slate-300 font-bold text-[8px] uppercase tracking-tighter text-center px-4">
-                                                <div className="space-y-2">
-                                                    <FileText size={24} className="mx-auto opacity-20" />
-                                                    {doc} Image
+                                    {[
+                                        { label: 'Aadhar Card', img: 'https://images.unsplash.com/photo-1621252179027-94459d278660?auto=format&fit=crop&q=80&w=100' },
+                                        { label: 'PAN Card', img: 'https://images.unsplash.com/photo-1554224155-1696413565d3?auto=format&fit=crop&q=80&w=100' },
+                                        { label: 'Medical Rpt', img: 'https://images.unsplash.com/photo-1576091160550-217359f4ecf8?auto=format&fit=crop&q=80&w=100' }
+                                    ].map(doc => (
+                                        <div key={doc.label} className="space-y-2">
+                                            <div className="aspect-[3/4] bg-slate-100 rounded-xl border border-slate-200 overflow-hidden group/doc cursor-pointer relative">
+                                                <img src={doc.img} alt={doc.label} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                                                <div className="absolute inset-x-0 bottom-0 bg-slate-900/40 backdrop-blur-md p-2">
+                                                    <p className="text-[8px] font-bold text-white text-center uppercase tracking-tighter">{doc.label}</p>
                                                 </div>
                                             </div>
-                                            <p className="text-[9px] font-bold text-slate-500 text-center uppercase tracking-widest">{doc}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -324,20 +329,6 @@ const AgentApplications = () => {
                 )}
             </AnimatePresence>
             
-            {/* Sub-Metadata Footer */}
-            <Reveal direction="up" delay={0.6}>
-                <div className="flex flex-wrap justify-center gap-16 opacity-30 pt-16 border-t-2 border-slate-50">
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
-                        <Fingerprint size={20} strokeWidth={3} className="text-[#007ea7]" /> Mission_Critical_Protocol
-                    </div>
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
-                        <Layers size={20} strokeWidth={3} className="text-[#007ea7]" /> Field_Intelligence_Feed
-                    </div>
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
-                        <Zap size={20} strokeWidth={3} className="text-[#007ea7]" /> Sector_Latency: 0.1ms
-                    </div>
-                </div>
-            </Reveal>
         </div>
     );
 };

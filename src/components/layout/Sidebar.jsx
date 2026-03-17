@@ -56,11 +56,17 @@ const ROLE_LINKS = {
             { name: "My Customers", path: "/agent/clients", icon: Users },
             { name: "Policy Applications", path: "/agent/applications", icon: FileText },
             { name: "Claims to Process", path: "/agent/claims", icon: ClipboardList },
-            { name: "Commission", path: "/agent/commissions", icon: DollarSign },
+            { name: "Document Verification", path: "/agent/verification", icon: ShieldCheck },
+            { name: "My Commission", path: "/agent/commissions", icon: DollarSign },
+            { name: "Performance Report", path: "/agent/performance", icon: LineChart },
         ],
         support: [
             { name: "Settings", path: "/agent/profile", icon: Settings },
             { name: "Help Center", path: "/help", icon: HelpCircle },
+        ],
+        footer: [
+            { name: "Profile", path: "/agent/profile", icon: User },
+            { name: "Logout", path: "/logout", icon: LogOut, action: "logout" },
         ]
     },
     customer: {
@@ -192,29 +198,33 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     </div>
                 )}
 
-                {/* Footer Selection for non-agent roles (Fallback or Legacy) */}
-                {!role === 'agent' && links.footer && (
-                    <div className="px-4 py-4 border-t border-white/5 space-y-1">
-                        {links.footer.map((link) => {
+                {/* Footer Section for Agent or other roles */}
+                {(role === 'agent' ? links.footer : links.footer) && (
+                    <div className="px-4 py-4 border-t border-white/5 space-y-1 mt-auto md:mt-0">
+                        {(role === 'agent' ? links.footer : links.footer).map((link) => {
                             const Icon = link.icon;
                             const isActive = location.pathname === link.path;
                             return link.action === 'logout' ? (
                                 <button
                                     key={link.path}
                                     onClick={handleLogout}
-                                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left ${link.color || 'text-white/60'} hover:bg-white/5`}
+                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5"
                                 >
-                                    <Icon size={18} strokeWidth={2} />
-                                    <span className="text-sm font-semibold">{link.name}</span>
+                                    <Icon size={20} strokeWidth={2} />
+                                    <span className="text-[13px] font-bold">{link.name}</span>
                                 </button>
                             ) : (
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${isActive ? "bg-white/10 text-white" : "text-white/60 hover:text-white hover:bg-white/5"}`}
+                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                                        isActive 
+                                            ? "bg-white/10 text-white" 
+                                            : "text-slate-400 hover:text-white hover:bg-white/5"
+                                    }`}
                                 >
-                                    <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
-                                    <span className="text-sm font-semibold">{link.name}</span>
+                                    <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                                    <span className="text-[13px] font-bold">{link.name}</span>
                                 </Link>
                             );
                         })}
