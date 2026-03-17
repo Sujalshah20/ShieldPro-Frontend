@@ -70,12 +70,12 @@ const PolicyDetail = () => {
     return (
         <div className="min-h-screen bg-[#f8fafc] font-sans pb-16">
             {/* Simple top nav */}
-            <header className="bg-white border-b border-gray-100 px-6 py-3 flex items-center gap-6 sticky top-0 z-40 shadow-sm">
+            <header className="bg-white border-b border-gray-100 px-6 py-2.5 flex items-center gap-6 sticky top-0 z-40 shadow-sm">
                 <div className="flex items-center gap-2">
-                    <Shield size={22} className="text-[#002b45]" />
-                    <span className="font-bold text-[#002b45] text-lg">Secure Shield</span>
+                    <Shield size={20} className="text-[#002b45]" />
+                    <span className="font-bold text-[#002b45] text-base">Secure Shield</span>
                 </div>
-                <nav className="hidden md:flex items-center gap-6 ml-8 text-sm font-medium text-gray-600">
+                <nav className="hidden md:flex items-center gap-6 ml-8 text-[13px] font-medium text-gray-600">
                     <button onClick={() => navigate('/customer')} className="hover:text-[#002b45] transition-colors">Dashboard</button>
                     <button onClick={() => navigate('/customer/policies')} className="hover:text-[#002b45] transition-colors border-b-2 border-[#002b45] text-[#002b45]">Policies</button>
                     <button onClick={() => navigate('/customer/claims')} className="hover:text-[#002b45] transition-colors">Claims</button>
@@ -83,51 +83,51 @@ const PolicyDetail = () => {
                 </nav>
             </header>
 
-            <div className="max-w-7xl mx-auto px-4 md:px-8 py-6">
+            <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
                 {/* Breadcrumb */}
-                <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
+                <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
                     {BREADCRUMBS.map((crumb, i) => (
                         <React.Fragment key={crumb}>
-                            {i > 0 && <ChevronRight size={14} />}
+                            {i > 0 && <ChevronRight size={12} />}
                             <span className={i === BREADCRUMBS.length - 1 ? 'text-gray-700 font-medium' : 'hover:text-gray-600 cursor-pointer'}>{crumb}</span>
                         </React.Fragment>
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* LEFT: Main Content */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="lg:col-span-2 space-y-4">
                         {/* Policy Header Card */}
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <div className="flex items-start justify-between gap-4 mb-4">
+                        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                            <div className="flex items-start justify-between gap-4 mb-3">
                                 <div>
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <h1 className="text-2xl font-bold text-[#002b45]">{display.policyName}</h1>
-                                        <span className="bg-emerald-100 text-emerald-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">ACTIVE</span>
+                                    <div className="flex items-center gap-3 mb-1">
+                                        <h1 className="text-xl font-bold text-[#002b45]">{display.policyName}</h1>
+                                        <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest">ACTIVE</span>
                                     </div>
-                                    <p className="text-sm font-semibold text-gray-500">{display.provider}</p>
+                                    <p className="text-[13px] font-semibold text-gray-500">{display.provider}</p>
                                 </div>
-                                <button className="flex items-center gap-2 text-sm font-medium text-gray-500 border border-gray-200 rounded-xl px-4 py-2 hover:bg-gray-50 transition-colors shrink-0">
-                                    <Share2 size={16} /> Share
+                                <button className="flex items-center gap-2 text-[13px] font-medium text-gray-500 border border-gray-200 rounded-xl px-3 py-1.5 hover:bg-gray-50 transition-colors shrink-0">
+                                    <Share2 size={14} /> Share
                                 </button>
                             </div>
-                            <p className="text-sm text-gray-600 leading-relaxed">{display.description}</p>
+                            <p className="text-[13px] text-gray-600 leading-relaxed">{display.description}</p>
                         </div>
 
                         {/* Key Benefits */}
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-[#002b45] flex items-center gap-2 mb-5">
-                                <Shield size={20} className="text-[#002b45]" /> Key Benefits
+                        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                            <h2 className="text-base font-bold text-[#002b45] flex items-center gap-2 mb-4">
+                                <Shield size={18} className="text-[#002b45]" /> Key Benefits
                             </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {keyBenefits.map((b, i) => (
-                                    <div key={i} className="border border-gray-100 rounded-xl p-4 flex items-start gap-4 hover:shadow-sm transition-shadow">
-                                        <div className="w-9 h-9 rounded-lg bg-[#002b45]/5 text-[#002b45] flex items-center justify-center shrink-0">
-                                            {b.icon}
+                                    <div key={i} className="border border-gray-100 rounded-xl p-3 flex items-start gap-4 hover:shadow-sm transition-shadow">
+                                        <div className="w-8 h-8 rounded-lg bg-[#002b45]/5 text-[#002b45] flex items-center justify-center shrink-0">
+                                            {React.cloneElement(b.icon, { size: 18 })}
                                         </div>
                                         <div>
-                                            <p className="font-bold text-[#002b45] text-sm mb-1">{b.title}</p>
-                                            <p className="text-xs text-gray-500 leading-relaxed">{b.sub}</p>
+                                            <p className="font-bold text-[#002b45] text-[13px] mb-0.5">{b.title}</p>
+                                            <p className="text-[11px] text-gray-500 leading-relaxed">{b.sub}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -203,16 +203,16 @@ const PolicyDetail = () => {
 
                     {/* RIGHT: Purchase Sidebar */}
                     <div className="space-y-4">
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm sticky top-24">
-                            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">STARTING PREMIUM</p>
+                        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-md sticky top-24">
+                            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">STARTING PREMIUM</p>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-4xl font-black text-[#002b45]">₹{display.premiumAmount?.toLocaleString()}</span>
-                                <span className="text-sm text-gray-400 font-medium">/month</span>
+                                <span className="text-3xl font-black text-[#002b45]">₹{display.premiumAmount?.toLocaleString()}</span>
+                                <span className="text-xs text-gray-400 font-medium">/month</span>
                             </div>
-                            <p className="text-xs text-gray-400 mb-5">or ₹{(display.premiumAmount * 12)?.toLocaleString()} billed annually</p>
+                            <p className="text-[11px] text-gray-400 mb-4">or ₹{(display.premiumAmount * 12)?.toLocaleString()} billed annually</p>
 
-                            <div className="flex items-center justify-between mb-5 py-4 border-t border-b border-gray-100">
-                                <span className="text-sm font-medium text-gray-500">Coverage Amount</span>
+                            <div className="flex items-center justify-between mb-4 py-3 border-t border-b border-gray-100">
+                                <span className="text-[13px] font-medium text-gray-500">Coverage Amount</span>
                                 <span className="font-bold text-[#002b45]">₹{display.coverageAmount?.toLocaleString()}</span>
                             </div>
 
@@ -235,15 +235,15 @@ const PolicyDetail = () => {
 
                             <button
                                 onClick={() => navigate('/customer/apply', { state: { policy: display } })}
-                                className="w-full bg-[#10b981] text-white py-4 rounded-xl font-bold text-sm hover:bg-[#059669] transition-colors shadow-sm mb-3"
+                                className="w-full bg-[#10b981] text-white py-3 rounded-lg font-bold text-[13px] hover:bg-[#059669] transition-colors shadow-sm mb-3"
                             >
                                 Buy This Policy
                             </button>
-                            <button className="w-full flex items-center justify-center gap-2 border border-gray-200 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors mb-2">
-                                <Download size={16} /> Download Brochure
+                            <button className="w-full flex items-center justify-center gap-2 border border-gray-200 py-2.5 rounded-lg text-[13px] font-semibold text-gray-600 hover:bg-gray-50 transition-colors mb-2">
+                                <Download size={15} /> Download Brochure
                             </button>
-                            <button className="w-full flex items-center justify-center gap-2 border border-gray-200 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 transition-colors">
-                                <Phone size={16} /> Talk to Agent
+                            <button className="w-full flex items-center justify-center gap-2 border border-gray-200 py-2.5 rounded-lg text-[13px] font-semibold text-gray-600 hover:bg-gray-50 transition-colors">
+                                <Phone size={15} /> Talk to Agent
                             </button>
 
                             <div className="flex items-center justify-around mt-6 pt-5 border-t border-gray-100 text-center">

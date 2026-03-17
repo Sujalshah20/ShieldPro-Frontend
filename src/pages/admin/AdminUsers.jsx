@@ -134,70 +134,69 @@ const AdminUsers = () => {
     );
 
     return (
-        <div className="space-y-16 pb-20">
+        <div className="space-y-10 pb-10">
             {/* Command Header */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 relative z-10">
+            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 relative z-10">
                 <Reveal direction="left">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
-                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Global_Directory_Management</span>
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                            <div className="w-1.5 h-8 bg-[#007ea7] rounded-full" />
+                            <span className="text-[10px] font-black uppercase tracking-[4px] text-[#007ea7] italic leading-none">Global_Directory_Management</span>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Operative <span className="text-[#007ea7]">Grid_</span></h1>
-                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">System-wide coordinator management and asset distribution console. Total Nodes Offline: <span className="text-rose-500">ZERO</span></p>
+                        <h1 className="text-3xl md:text-5xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Operative <span className="text-[#007ea7]">Grid_</span></h1>
+                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-[10px] italic leading-relaxed">System-wide coordinator management and asset distribution console. Total Nodes Offline: <span className="text-rose-500">ZERO</span></p>
                     </div>
                 </Reveal>
 
                 <Reveal direction="right">
-                    <div className="flex flex-wrap items-center gap-6">
-                        <div className="flex bg-slate-50 p-2 rounded-[2.5rem] border-2 border-slate-50 shadow-inner group">
+                    <div className="flex flex-wrap items-center gap-4">
+                        <div className="flex bg-slate-50 p-1.5 rounded-[1.8rem] border-2 border-slate-50 shadow-inner group">
                             <button 
                                 onClick={() => setActiveTab('agents')}
-                                className={`px-12 h-14 rounded-[1.8rem] text-[10px] font-black uppercase tracking-[5px] transition-all duration-500 italic flex items-center gap-3 ${activeTab === 'agents' ? 'bg-[#003249] text-[#80ced7] shadow-3xl scale-105' : 'text-slate-300 hover:text-[#003249]'}`}
+                                className={`px-8 h-10 rounded-[1.2rem] text-[9px] font-black uppercase tracking-[3px] transition-all duration-500 italic flex items-center gap-2 ${activeTab === 'agents' ? 'bg-[#003249] text-[#80ced7] shadow-3xl' : 'text-slate-300 hover:text-[#003249]'}`}
                             >
-                                <Users size={16} strokeWidth={3} /> Operatives
+                                <Users size={14} strokeWidth={3} /> Operatives
                             </button>
                             <button 
                                 onClick={() => setActiveTab('reassignment')}
-                                className={`px-12 h-14 rounded-[1.8rem] text-[10px] font-black uppercase tracking-[5px] transition-all duration-500 italic flex items-center gap-3 ${activeTab === 'reassignment' ? 'bg-[#003249] text-[#80ced7] shadow-3xl scale-105' : 'text-slate-300 hover:text-[#003249]'}`}
+                                className={`px-8 h-10 rounded-[1.2rem] text-[9px] font-black uppercase tracking-[3px] transition-all duration-500 italic flex items-center gap-2 ${activeTab === 'reassignment' ? 'bg-[#003249] text-[#80ced7] shadow-3xl' : 'text-slate-300 hover:text-[#003249]'}`}
                             >
-                                <Layers size={16} strokeWidth={3} /> Entity_Map
+                                <Layers size={14} strokeWidth={3} /> Entity_Map
                             </button>
                         </div>
                         {activeTab === 'agents' && (
                             <button 
                                 onClick={() => setIsAddingAgent(true)}
-                                className="h-18 px-10 bg-[#003249] text-[#80ced7] rounded-[2rem] flex items-center gap-5 text-[11px] font-black uppercase tracking-[5px] hover:bg-[#007ea7] hover:text-white transition-all shadow-3xl active:scale-95 italic group"
+                                className="h-12 px-6 bg-[#003249] text-[#80ced7] rounded-[1.5rem] flex items-center gap-3 text-[10px] font-black uppercase tracking-[3px] hover:bg-[#007ea7] hover:text-white transition-all shadow-3xl active:scale-95 italic group"
                             >
-                                <UserPlus size={22} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> Enlist_Operative
+                                <UserPlus size={18} strokeWidth={3} className="group-hover:rotate-12 transition-transform" /> Enlist_Operative
                             </button>
                         )}
                     </div>
                 </Reveal>
             </div>
 
-            {/* Core Metrics */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {statsCards.map((stat, i) => (
                     <Reveal key={i} direction="up" delay={i * 0.1}>
-                        <div className="saas-card group relative p-10 border-2 border-slate-50 hover:border-[#007ea7]/30 transition-all duration-700 min-h-[260px] flex flex-col justify-between overflow-hidden">
+                        <div className="saas-card group relative p-6 border-2 border-slate-50 hover:border-[#007ea7]/30 transition-all duration-700 min-h-[180px] flex flex-col justify-between overflow-hidden">
                              {/* Decorative Background Icon */}
-                            <div className="absolute top-0 right-0 p-10 opacity-[0.02] pointer-events-none group-hover:scale-125 transition-transform duration-1000">
-                                 <stat.icon size={120} className="text-[#003249]" />
+                            <div className="absolute top-0 right-0 p-6 opacity-[0.02] pointer-events-none group-hover:scale-125 transition-transform duration-1000">
+                                 <stat.icon size={100} className="text-[#003249]" />
                             </div>
 
                             <div className="flex justify-between items-start relative z-10">
-                                <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center transition-all duration-500 ${i === 0 ? 'bg-[#003249] text-[#007ea7] shadow-3xl border border-white/5 group-hover:rotate-12' : 'bg-slate-50 text-slate-300 border-2 border-slate-100 group-hover:bg-[#003249] group-hover:text-[#007ea7]'}`}>
-                                    <stat.icon size={28} strokeWidth={3} />
+                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${i === 0 ? 'bg-[#003249] text-[#007ea7] shadow-3xl border border-white/5 group-hover:rotate-12' : 'bg-slate-50 text-slate-300 border-2 border-slate-100 group-hover:bg-[#003249] group-hover:text-[#007ea7]'}`}>
+                                    <stat.icon size={22} strokeWidth={3} />
                                 </div>
-                                <span className="text-[8px] font-black text-slate-300 uppercase tracking-[5px] italic">{stat.tag}</span>
+                                <span className="text-[7px] font-black text-slate-300 uppercase tracking-[4px] italic">{stat.tag}</span>
                             </div>
                             
                             <div className="relative z-10">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[6px] mb-4 italic flex items-center gap-3">
-                                    <Terminal size={12} className="text-[#007ea7]" /> {stat.label}
+                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-[4px] mb-2 italic flex items-center gap-2">
+                                    <Terminal size={10} className="text-[#007ea7]" /> {stat.label}
                                 </p>
-                                <h2 className="text-5xl font-black text-[#003249] tracking-tighter italic uppercase group-hover:text-[#007ea7] transition-colors">{stat.value}</h2>
+                                <h2 className="text-3xl font-black text-[#003249] tracking-tighter italic uppercase group-hover:text-[#007ea7] transition-colors">{stat.value}</h2>
                             </div>
                         </div>
                     </Reveal>
@@ -206,30 +205,30 @@ const AdminUsers = () => {
 
             {/* Tactical Toolbar */}
             <Reveal direction="up">
-                <div className="flex flex-wrap items-center justify-between gap-8 border-b-2 border-slate-50 pb-12 relative z-10">
-                    <div className="relative group w-full max-w-xl">
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" strokeWidth={3} />
+                <div className="flex flex-wrap items-center justify-between gap-6 border-b-2 border-slate-50 pb-8 relative z-10">
+                    <div className="relative group w-full max-w-lg">
+                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" strokeWidth={3} />
                         <input 
                             type="text" 
                             placeholder={`IDENTIFY_${activeTab === 'agents' ? 'OPERATOR' : 'ENTITY'}_NODE_ID...`} 
-                            className="pl-16 pr-10 h-16 bg-white border-2 border-slate-100 rounded-[1.5rem] outline-none w-full transition-all font-black text-[11px] uppercase tracking-[4px] text-[#003249] shadow-inner focus:border-[#007ea7] focus:ring-8 focus:ring-[#007ea7]/5 placeholder:text-slate-200 italic" 
+                            className="pl-12 pr-10 h-12 bg-white border-2 border-slate-100 rounded-xl outline-none w-full transition-all font-black text-[10px] uppercase tracking-[3px] text-[#003249] shadow-inner focus:border-[#007ea7] focus:ring-4 focus:ring-[#007ea7]/5 placeholder:text-slate-200 italic" 
                             value={searchQuery} 
                             onChange={e=>setSearchQuery(e.target.value)} 
                         />
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-20 flex items-center gap-3">
-                            <span className="text-[10px] font-black tracking-widest italic uppercase">Sync_Active</span>
-                            <RefreshCcw size={14} className="animate-spin" />
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 opacity-20 flex items-center gap-2">
+                            <span className="text-[9px] font-black tracking-widest italic uppercase">Sync</span>
+                            <RefreshCcw size={12} className="animate-spin" />
                         </div>
                     </div>
-                    <div className="hidden lg:flex items-center gap-8 px-10 py-5 bg-slate-50 border-2 border-slate-50 rounded-[1.8rem] shadow-inner">
-                        <div className="flex items-center gap-4">
-                            <Lock size={18} className="text-[#007ea7]" strokeWidth={3} />
-                            <span className="text-[10px] font-black text-[#003249] uppercase tracking-[5px] italic leading-none">SECURE_CORE_ACTIVE</span>
+                    <div className="hidden lg:flex items-center gap-6 px-6 py-3 bg-slate-50 border-2 border-slate-50 rounded-xl shadow-inner">
+                        <div className="flex items-center gap-3">
+                            <Lock size={16} className="text-[#007ea7]" strokeWidth={3} />
+                            <span className="text-[9px] font-black text-[#003249] uppercase tracking-[4px] italic leading-none">SECURE_CORE</span>
                         </div>
-                        <div className="w-px h-6 bg-slate-200" />
-                        <div className="flex items-center gap-4 opacity-40">
-                             <Satellite size={16} />
-                             <span className="text-[8px] font-black tracking-widest">SIGNAL_STRENGTH: 99%</span>
+                        <div className="w-px h-5 bg-slate-200" />
+                        <div className="flex items-center gap-3 opacity-40">
+                             <Satellite size={14} />
+                             <span className="text-[7px] font-black tracking-widest">SIGNAL: 99%</span>
                         </div>
                     </div>
                 </div>
@@ -239,21 +238,21 @@ const AdminUsers = () => {
             <Reveal direction="up">
                 {activeTab === 'agents' ? (
                     <div className="saas-card !p-0 overflow-hidden shadow-3xl border-2 border-slate-50">
-                        <div className="p-12 border-b-2 border-slate-50 flex items-center justify-between bg-slate-50/20 relative">
+                        <div className="p-6 border-b-2 border-slate-50 flex items-center justify-between bg-slate-50/20 relative">
                              {/* Decorative Grid */}
                              <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
                              
-                            <div className="flex items-center gap-8 relative z-10">
-                                <div className="w-18 h-18 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] shadow-3xl border border-white/5">
-                                    <Terminal size={36} strokeWidth={2.5} className="animate-pulse" />
+                            <div className="flex items-center gap-5 relative z-10">
+                                <div className="w-14 h-14 bg-[#003249] rounded-xl flex items-center justify-center text-[#007ea7] shadow-3xl border border-white/5">
+                                    <Terminal size={28} strokeWidth={2.5} className="animate-pulse" />
                                 </div>
-                                <div className="space-y-1">
-                                    <h3 className="text-3xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Operator Registry</h3>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[5px] italic opacity-60">Complete manifest of all authorized grid nodes</p>
+                                <div className="space-y-0.5">
+                                    <h3 className="text-2xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Operator Registry</h3>
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[4px] italic opacity-60">Complete manifest of all authorized grid nodes</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-6 relative z-10">
-                                <span className="text-[11px] font-black text-white uppercase tracking-[5px] italic bg-[#003249] px-10 h-14 flex items-center rounded-2xl shadow-2xl skew-x-[-10deg]">
+                            <div className="flex items-center gap-4 relative z-10">
+                                <span className="text-[9px] font-black text-white uppercase tracking-[4px] italic bg-[#003249] px-6 h-10 flex items-center rounded-xl shadow-2xl skew-x-[-10deg]">
                                     <span className="skew-x-[10deg]">{filteredAgents?.length || 0} ACTIVE_NODES</span>
                                 </span>
                             </div>
@@ -261,80 +260,80 @@ const AdminUsers = () => {
                         <div className="overflow-x-auto relative z-10">
                             <table className="w-full text-left">
                                 <thead className="bg-[#003249] text-white">
-                                    <tr className="text-[10px] font-black uppercase tracking-[5px] italic border-b border-white/5">
-                                        <th className="px-12 py-10 border-r border-white/5">NODE_IDENTITY</th>
-                                        <th className="px-12 py-10 text-center border-r border-white/5">PORTFOLIO_METRICS</th>
-                                        <th className="px-12 py-10 border-r border-white/5">YIELD_RANKING</th>
-                                        <th className="px-12 py-10 text-center border-r border-white/5">SYNC_HEALTH</th>
-                                        <th className="px-12 py-10">COMMANDS</th>
+                                    <tr className="text-[9px] font-black uppercase tracking-[4px] italic border-b border-white/5">
+                                        <th className="px-6 py-4 border-r border-white/5">NODE_IDENTITY</th>
+                                        <th className="px-6 py-4 text-center border-r border-white/5">PORTFOLIO_METRICS</th>
+                                        <th className="px-6 py-4 border-r border-white/5">YIELD_RANKING</th>
+                                        <th className="px-6 py-4 text-center border-r border-white/5">SYNC_HEALTH</th>
+                                        <th className="px-6 py-4">COMMANDS</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50 italic">
                                     {filteredAgents?.map((agent, idx) => (
                                         <tr key={agent._id} className="hover:bg-slate-50/50 transition-all duration-500 group">
-                                            <td className="px-12 py-12">
-                                                <div className="flex items-center gap-8">
-                                                    <div className="w-20 h-20 bg-[#003249] rounded-[1.8rem] flex items-center justify-center font-black text-white text-3xl shadow-3xl group-hover:rotate-6 group-hover:scale-110 transition-all duration-500 border-2 border-white relative overflow-hidden">
+                                            <td className="px-6 py-5">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 bg-[#003249] rounded-xl flex items-center justify-center font-black text-white text-xl shadow-3xl group-hover:rotate-6 group-hover:scale-110 transition-all duration-500 border-2 border-white relative overflow-hidden">
                                                         <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/20 to-transparent pointer-events-none" />
                                                         <span className="relative z-10">{agent.name.charAt(0)}</span>
                                                     </div>
-                                                    <div className="space-y-2">
-                                                        <p className="text-xl font-black text-[#003249] leading-none uppercase tracking-tighter group-hover:text-[#007ea7] transition-colors">{agent.name}</p>
-                                                        <div className="flex items-center gap-3 opacity-40">
-                                                            <Fingerprint size={14} strokeWidth={3} className="text-[#007ea7]" />
-                                                            <span className="text-[10px] font-black lowercase tracking-[3px] leading-none">{agent.email}</span>
+                                                    <div className="space-y-1">
+                                                        <p className="text-base font-black text-[#003249] leading-none uppercase tracking-tighter group-hover:text-[#007ea7] transition-colors">{agent.name}</p>
+                                                        <div className="flex items-center gap-2 opacity-40">
+                                                            <Fingerprint size={12} strokeWidth={3} className="text-[#007ea7]" />
+                                                            <span className="text-[9px] font-black lowercase tracking-[2px] leading-none">{agent.email}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-12 py-12 text-center">
-                                                <div className="flex flex-col gap-3 items-center">
-                                                    <div className="flex items-center gap-3">
-                                                       <Users size={18} className="text-[#007ea7]" strokeWidth={3} />
-                                                       <span className="text-xl font-black text-[#003249] uppercase tracking-tighter leading-none">{agent.stats?.customers} Entities</span>
+                                            <td className="px-6 py-5 text-center">
+                                                <div className="flex flex-col gap-2 items-center">
+                                                    <div className="flex items-center gap-2">
+                                                       <Users size={16} className="text-[#007ea7]" strokeWidth={3} />
+                                                       <span className="text-base font-black text-[#003249] uppercase tracking-tighter leading-none">{agent.stats?.customers} Entities</span>
                                                     </div>
-                                                    <span className="text-[10px] text-emerald-600 font-black uppercase tracking-[5px] italic leading-none bg-emerald-50 px-5 py-2 rounded-xl shadow-lg border border-emerald-100">₹{(agent.stats?.earnings/1000).toFixed(1)}k Vol</span>
+                                                    <span className="text-[9px] text-emerald-600 font-black uppercase tracking-[4px] italic leading-none bg-emerald-50 px-4 py-1.5 rounded-lg shadow-lg border border-emerald-100">₹{(agent.stats?.earnings/1000).toFixed(1)}k Vol</span>
                                                 </div>
                                             </td>
-                                            <td className="px-12 py-12">
-                                                <div className="flex flex-col gap-4 max-w-[200px]">
-                                                    <div className="flex items-center justify-between text-[9px] font-black text-[#007ea7] uppercase tracking-[5px] italic">
+                                            <td className="px-6 py-5">
+                                                <div className="flex flex-col gap-3 max-w-[150px]">
+                                                    <div className="flex items-center justify-between text-[8px] font-black text-[#007ea7] uppercase tracking-[4px] italic">
                                                         <span>PROTOCOL_YIELD</span>
-                                                        <span className="text-xl tracking-tighter text-[#003249]">{agent.commissionRate}%</span>
+                                                        <span className="text-base tracking-tighter text-[#003249]">{agent.commissionRate}%</span>
                                                     </div>
-                                                    <div className="w-full h-4 bg-slate-50 rounded-full overflow-hidden border-2 border-slate-100 shadow-inner p-1">
+                                                    <div className="w-full h-3 bg-slate-50 rounded-full overflow-hidden border-2 border-slate-100 shadow-inner p-0.5">
                                                         <motion.div 
                                                             initial={{ width: 0 }}
                                                             animate={{ width: `${agent.commissionRate}%` }}
                                                             transition={{ duration: 1.5, ease: "easeOut" }}
-                                                            className="h-full bg-[#007ea7] rounded-full shadow-[0_0_15px_#007ea7] relative" 
+                                                            className="h-full bg-[#007ea7] rounded-full shadow-[0_0_10px_#007ea7] relative" 
                                                         >
-                                                            <div className="absolute top-0 right-0 w-2 h-full bg-white/30 animate-pulse" />
+                                                            <div className="absolute top-0 right-0 w-1.5 h-full bg-white/30 animate-pulse" />
                                                         </motion.div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-12 py-12">
+                                            <td className="px-6 py-5">
                                                 <div className="flex justify-center">
-                                                    <span className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[4px] flex items-center gap-4 border-2 shadow-xl italic ${
+                                                    <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-[3px] flex items-center gap-2 border-2 shadow-xl italic ${
                                                         agent.status === 'active' ? 'bg-emerald-50 text-emerald-600 border-emerald-50 shadow-emerald-500/10' : 'bg-rose-50 text-rose-600 border-rose-50 shadow-rose-500/10'
                                                     }`}>
-                                                        <div className={`w-3 h-3 rounded-full ${agent.status === 'active' ? 'bg-emerald-500 animate-pulse shadow-[0_0_15px_#10b981]' : 'bg-rose-500 shadow-[0_0_15px_#f43f5e]'}`} />
+                                                        <div className={`w-2 h-2 rounded-full ${agent.status === 'active' ? 'bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]' : 'bg-rose-500 shadow-[0_0_10px_#f43f5e]'}`} />
                                                         {agent.status}
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className="px-12 py-12 text-right">
+                                            <td className="px-6 py-5 text-right">
                                                 <button 
                                                     onClick={() => statusMutation.mutate({ id: agent._id, status: agent.status === 'active' ? 'suspended' : 'active' })}
-                                                    className={`h-16 px-8 rounded-2xl text-[10px] font-black uppercase tracking-[5px] transition-all duration-500 italic shadow-2xl active:scale-95 flex items-center justify-center gap-4 group/btn ${
+                                                    className={`h-10 px-4 rounded-xl text-[9px] font-black uppercase tracking-[3px] transition-all duration-500 italic shadow-2xl active:scale-95 flex items-center justify-center gap-3 group/btn ${
                                                         agent.status === 'active' ? 'bg-white text-rose-500 border-2 border-rose-50 hover:bg-rose-500 hover:text-white' : 'bg-[#007ea7] text-white hover:bg-[#003249]'
                                                     }`}
                                                 >
                                                     {agent.status === 'active' ? (
-                                                        <>TERMINATE_LINK <ShieldAlert size={18} strokeWidth={3} className="group-hover/btn:rotate-12 transition-transform" /></>
+                                                        <>TERMINATE <ShieldAlert size={14} strokeWidth={3} className="group-hover/btn:rotate-12 transition-transform" /></>
                                                     ) : (
-                                                        <>AUTHORIZE_NODE <ShieldCheck size={18} strokeWidth={3} className="group-hover/btn:scale-110 transition-transform" /></>
+                                                        <>AUTHORIZE <ShieldCheck size={14} strokeWidth={3} className="group-hover/btn:scale-110 transition-transform" /></>
                                                     )}
                                                 </button>
                                             </td>
@@ -343,29 +342,29 @@ const AdminUsers = () => {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="p-10 bg-[#f8fafb] border-t-2 border-slate-50 flex justify-center">
-                             <button className="text-[11px] font-black text-slate-400 uppercase tracking-[6px] italic hover:text-[#003249] flex items-center gap-4 group transition-all">
-                                FETCH_LEGACY_ARCHIVES <ChevronRight size={18} strokeWidth={4} className="group-hover:translate-x-3 transition-transform" />
+                        <div className="p-6 bg-[#f8fafb] border-t-2 border-slate-50 flex justify-center">
+                             <button className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] italic hover:text-[#003249] flex items-center gap-3 group transition-all">
+                                FETCH_LEGACY_ARCHIVES <ChevronRight size={16} strokeWidth={4} className="group-hover:translate-x-2 transition-transform" />
                              </button>
                         </div>
                     </div>
                 ) : (
                     <div className="saas-card !p-0 overflow-hidden shadow-3xl border-2 border-slate-50">
-                        <div className="p-12 border-b-2 border-slate-50 flex items-center justify-between bg-slate-50/20 relative">
+                        <div className="p-6 border-b-2 border-slate-50 flex items-center justify-between bg-slate-50/20 relative">
                              {/* Tactical Background */}
                              <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
                              
-                            <div className="flex items-center gap-8 relative z-10">
-                                <div className="w-18 h-18 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] shadow-3xl border border-white/5">
-                                    <Layers size={36} strokeWidth={2.5} className="animate-pulse" />
+                            <div className="flex items-center gap-5 relative z-10">
+                                <div className="w-14 h-14 bg-[#003249] rounded-xl flex items-center justify-center text-[#007ea7] shadow-3xl border border-white/5">
+                                    <Layers size={28} strokeWidth={2.5} className="animate-pulse" />
                                 </div>
-                                <div className="space-y-1">
-                                    <h3 className="text-3xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Entity Coordination</h3>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[5px] italic opacity-60">Asset distribution and operative mapping</p>
+                                <div className="space-y-0.5">
+                                    <h3 className="text-2xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Entity Coordination</h3>
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[4px] italic opacity-60">Asset distribution and operative mapping</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-6 relative z-10">
-                                <span className="text-[11px] font-black text-white uppercase tracking-[5px] italic bg-[#003249] px-10 h-14 flex items-center rounded-2xl shadow-2xl skew-x-[-10deg]">
+                            <div className="flex items-center gap-4 relative z-10">
+                                <span className="text-[9px] font-black text-white uppercase tracking-[4px] italic bg-[#003249] px-6 h-10 flex items-center rounded-xl shadow-2xl skew-x-[-10deg]">
                                     <span className="skew-x-[10deg]">{filteredCustomers?.length || 0} PROTECTED_ENTITIES</span>
                                 </span>
                             </div>
@@ -373,53 +372,53 @@ const AdminUsers = () => {
                         <div className="overflow-x-auto relative z-10">
                             <table className="w-full text-left">
                                 <thead className="bg-[#003249] text-white">
-                                    <tr className="text-[10px] font-black uppercase tracking-[5px] italic border-b border-white/5">
-                                        <th className="px-12 py-10 border-r border-white/5">ENTITY_SIGNATURE</th>
-                                        <th className="px-12 py-10 border-r border-white/5">COORD_ASSIGNMENT</th>
-                                        <th className="px-12 py-10 text-center border-r border-white/5">UPLINK_STATUS</th>
-                                        <th className="px-12 py-10">COMMANDS</th>
+                                    <tr className="text-[9px] font-black uppercase tracking-[4px] italic border-b border-white/5">
+                                        <th className="px-6 py-4 border-r border-white/5">ENTITY_SIGNATURE</th>
+                                        <th className="px-6 py-4 border-r border-white/5">COORD_ASSIGNMENT</th>
+                                        <th className="px-6 py-4 text-center border-r border-white/5">UPLINK_STATUS</th>
+                                        <th className="px-6 py-4">COMMANDS</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50 italic">
                                     {filteredCustomers?.map((customer, idx) => (
                                         <tr key={customer._id} className="hover:bg-slate-50/50 transition-all duration-500 group">
-                                            <td className="px-12 py-12">
-                                                <div className="flex flex-col gap-3">
-                                                    <span className="text-xl font-black text-[#003249] uppercase tracking-tighter group-hover:text-[#003249] transition-colors group-hover:translate-x-2 transition-transform inline-block italic">{customer.name}</span>
-                                                    <div className="flex items-center gap-4 opacity-40">
-                                                        <Fingerprint size={14} strokeWidth={3} className="text-[#007ea7]" />
-                                                        <span className="text-[10px] font-black lowercase tracking-[3px] leading-none">{customer.email}</span>
+                                            <td className="px-6 py-5">
+                                                <div className="flex flex-col gap-1.5">
+                                                    <span className="text-base font-black text-[#003249] uppercase tracking-tighter group-hover:text-[#007ea7] transition-colors group-hover:translate-x-1 transition-transform inline-block italic">{customer.name}</span>
+                                                    <div className="flex items-center gap-2 opacity-40">
+                                                        <Fingerprint size={12} strokeWidth={3} className="text-[#007ea7]" />
+                                                        <span className="text-[9px] font-black lowercase tracking-[2px] leading-none">{customer.email}</span>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-12 py-12">
+                                            <td className="px-6 py-5">
                                                 {customer.assignedAgent ? (
-                                                    <div className="flex items-center gap-6 group/agent bg-slate-50/50 p-4 rounded-3xl border-2 border-transparent hover:border-[#007ea7]/20 hover:bg-white transition-all w-fit shadow-sm">
-                                                        <div className="w-16 h-16 bg-[#003249] rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-xl group-hover/agent:rotate-12 transition-transform border-2 border-white">
+                                                    <div className="flex items-center gap-4 group/agent bg-slate-50/50 p-2.5 rounded-2xl border-2 border-transparent hover:border-[#007ea7]/20 hover:bg-white transition-all w-fit shadow-sm">
+                                                        <div className="w-10 h-10 bg-[#003249] rounded-xl flex items-center justify-center text-white font-black text-base shadow-xl group-hover/agent:rotate-12 transition-transform border-2 border-white">
                                                             {customer.assignedAgent.name.charAt(0)}
                                                         </div>
                                                         <div className="flex flex-col">
-                                                            <span className="text-lg font-black text-[#003249] uppercase tracking-tighter leading-none italic mb-1">{customer.assignedAgent.name}</span>
-                                                            <span className="text-[9px] font-black text-[#007ea7] uppercase tracking-[4px] italic opacity-60">PRIMARY_COORD</span>
+                                                            <span className="text-sm font-black text-[#003249] uppercase tracking-tighter leading-none italic mb-0.5">{customer.assignedAgent.name}</span>
+                                                            <span className="text-[8px] font-black text-[#007ea7] uppercase tracking-[3px] italic opacity-60">PRIMARY_COORD</span>
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <span className="px-10 py-4 bg-rose-50 text-rose-500 border-2 border-rose-50 shadow-lg shadow-rose-500/10 rounded-2xl text-[10px] font-black uppercase tracking-[5px] italic flex items-center gap-4 animate-pulse">
-                                                        <ShieldAlert size={18} strokeWidth={3} /> UNASSIGNED_ENTITY
+                                                    <span className="px-6 py-2 bg-rose-50 text-rose-500 border-2 border-rose-50 shadow-lg shadow-rose-500/10 rounded-xl text-[9px] font-black uppercase tracking-[3px] italic flex items-center gap-3 animate-pulse">
+                                                        <ShieldAlert size={14} strokeWidth={3} /> UNASSIGNED
                                                     </span>
                                                 )}
                                             </td>
-                                            <td className="px-12 py-12 text-center">
-                                                <span className="px-10 py-3 bg-white border-2 border-slate-100 rounded-2xl text-[10px] font-black text-[#003249] uppercase tracking-[5px] italic shadow-inner">
+                                            <td className="px-6 py-5 text-center">
+                                                <span className="px-6 py-1.5 bg-white border-2 border-slate-100 rounded-xl text-[9px] font-black text-[#003249] uppercase tracking-[3px] italic shadow-inner">
                                                     {customer.status || 'ACTIVE_SYNC'}
                                                 </span>
                                             </td>
-                                            <td className="px-12 py-12 text-right">
+                                            <td className="px-6 py-5 text-right">
                                                 <button 
                                                     onClick={() => setSelectedCustomer(customer)}
-                                                    className="h-16 px-10 bg-white border-2 border-slate-100 text-[#003249] text-[10px] font-black uppercase tracking-[5px] rounded-2xl shadow-xl hover:bg-[#003249] hover:text-[#80ced7] hover:border-[#003249] transition-all flex items-center justify-center gap-5 float-right active:scale-95 italic group/btn"
+                                                    className="h-10 px-6 bg-white border-2 border-slate-100 text-[#003249] text-[9px] font-black uppercase tracking-[3px] rounded-xl shadow-xl hover:bg-[#003249] hover:text-[#80ced7] hover:border-[#003249] transition-all flex items-center justify-center gap-3 float-right active:scale-95 italic group/btn"
                                                 >
-                                                    MIGRATION_MAP <Command size={18} strokeWidth={3} className="group-hover/btn:rotate-45 transition-transform" />
+                                                    MIGRATION_MAP <Command size={14} strokeWidth={3} className="group-hover/btn:rotate-45 transition-transform" />
                                                 </button>
                                             </td>
                                         </tr>
@@ -433,15 +432,15 @@ const AdminUsers = () => {
 
             {/* Sub-Metadata Footer */}
             <Reveal direction="up" delay={0.6}>
-                <div className="flex flex-wrap justify-center gap-16 opacity-30 pt-16 border-t-2 border-slate-50">
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[5px] italic">
-                        <Fingerprint size={18} strokeWidth={3} className="text-[#007ea7]" /> Operative_Logs_Verified
+                <div className="flex flex-wrap justify-center gap-12 opacity-30 pt-10 border-t-2 border-slate-50">
+                    <div className="flex items-center gap-3 text-[9px] font-black text-[#003249] uppercase tracking-[4px] italic">
+                        <Fingerprint size={16} strokeWidth={3} className="text-[#007ea7]" /> Operative_Logs_Verified
                     </div>
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[5px] italic">
-                        <Layers size={18} strokeWidth={3} className="text-[#007ea7]" /> Global_Coord_Mapping
+                    <div className="flex items-center gap-3 text-[9px] font-black text-[#003249] uppercase tracking-[3px] italic">
+                        <Layers size={16} strokeWidth={3} className="text-[#007ea7]" /> Global_Coord_Mapping
                     </div>
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[5px] italic">
-                        <Zap size={18} strokeWidth={3} className="text-[#007ea7]" /> Response_Delta: 06ms
+                    <div className="flex items-center gap-3 text-[9px] font-black text-[#003249] uppercase tracking-[3px] italic">
+                        <Zap size={16} strokeWidth={3} className="text-[#007ea7]" /> Response_Delta: 06ms
                     </div>
                 </div>
             </Reveal>

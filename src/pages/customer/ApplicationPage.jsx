@@ -109,29 +109,29 @@ const ApplicationPage = () => {
                 transition={{ duration: 0.2 }}
             >
                 {step === 1 && (
-                    <div className="space-y-8">
+                    <div className="space-y-6">
                         {/* Selected Plan */}
-                        <div className="border border-gray-100 rounded-2xl p-5 flex items-center justify-between bg-gray-50/50">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-white rounded-xl border border-gray-100 shadow-sm flex items-center justify-center">
-                                    {getPolicyIcon()}
+                        <div className="border border-gray-100 rounded-xl p-4 flex items-center justify-between bg-gray-50/50">
+                            <div className="flex items-center gap-3.5">
+                                <div className="w-10 h-10 bg-white rounded-lg border border-gray-100 shadow-sm flex items-center justify-center">
+                                    {React.cloneElement(getPolicyIcon(), { size: 24 })}
                                 </div>
                                 <div>
-                                    <p className="font-bold text-[#002b45]">{policy.policyName}</p>
-                                    <p className="text-xs text-gray-500 mt-0.5">Comprehensive medical coverage with cashless hospitalization.</p>
+                                    <p className="font-bold text-[#002b45] text-sm">{policy.policyName}</p>
+                                    <p className="text-[11px] text-gray-500 mt-0.5">Comprehensive medical coverage with cashless hospitalization.</p>
                                 </div>
                             </div>
-                            <button className="text-sm font-bold text-[#002b45] hover:text-[#003b5c] transition-colors border-b border-dashed border-[#002b45]">
-                                Change Plan
+                            <button className="text-[12px] font-bold text-[#002b45] hover:text-[#003b5c] transition-colors border-b border-dashed border-[#002b45]">
+                                Change
                             </button>
                         </div>
 
                         {/* Choose Duration */}
                         <div>
-                            <h3 className="text-base font-bold text-[#002b45] flex items-center gap-2 mb-4">
-                                <span className="text-lg">📅</span> Choose Duration
+                            <h3 className="text-sm font-bold text-[#002b45] flex items-center gap-2 mb-3">
+                                <span className="text-base">📅</span> Choose Duration
                             </h3>
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-3 gap-3">
                                 {[
                                     { label: "1 Year", tag: "Standard", save: null },
                                     { label: "2 Years", tag: "Popular", save: "Save 5% on Premium" },
@@ -140,18 +140,18 @@ const ApplicationPage = () => {
                                     <button
                                         key={d.label}
                                         onClick={() => setSelectedDuration(d.label)}
-                                        className={`p-4 rounded-2xl border-2 text-left transition-all ${
+                                        className={`p-3.5 rounded-xl border-2 text-left transition-all ${
                                             selectedDuration === d.label
                                                 ? 'border-[#002b45] bg-[#002b45]/5 shadow-sm'
                                                 : 'border-gray-200 hover:border-gray-300'
                                         }`}
                                     >
-                                        <div className="flex items-start justify-between mb-2">
-                                            <span className={`text-[10px] font-black uppercase tracking-wider ${selectedDuration === d.label ? 'text-[#002b45]' : 'text-gray-400'}`}>{d.tag}</span>
-                                            {selectedDuration === d.label && <Check size={16} className="text-[#002b45]" />}
+                                        <div className="flex items-start justify-between mb-1.5">
+                                            <span className={`text-[9px] font-black uppercase tracking-wider ${selectedDuration === d.label ? 'text-[#002b45]' : 'text-gray-400'}`}>{d.tag}</span>
+                                            {selectedDuration === d.label && <Check size={14} className="text-[#002b45]" />}
                                         </div>
-                                        <p className={`text-lg font-black ${selectedDuration === d.label ? 'text-[#002b45]' : 'text-gray-700'}`}>{d.label}</p>
-                                        {d.save && <p className="text-[10px] text-emerald-600 font-bold mt-1">{d.save}</p>}
+                                        <p className={`text-base font-black ${selectedDuration === d.label ? 'text-[#002b45]' : 'text-gray-700'}`}>{d.label}</p>
+                                        {d.save && <p className="text-[9px] text-emerald-600 font-bold mt-1">{d.save}</p>}
                                     </button>
                                 ))}
                             </div>
@@ -159,22 +159,22 @@ const ApplicationPage = () => {
 
                         {/* Payment Frequency */}
                         <div>
-                            <h3 className="text-base font-bold text-[#002b45] flex items-center gap-2 mb-4">
-                                <span className="text-lg">💳</span> Payment Frequency
+                            <h3 className="text-sm font-bold text-[#002b45] flex items-center gap-2 mb-3">
+                                <span className="text-base">💳</span> Payment Frequency
                             </h3>
-                            <div className="grid grid-cols-3 gap-4">
+                            <div className="grid grid-cols-3 gap-3">
                                 {["Monthly", "Quarterly", "Yearly"].map(f => (
                                     <button
                                         key={f}
                                         onClick={() => setSelectedFrequency(f)}
-                                        className={`py-4 rounded-2xl border-2 text-sm font-semibold flex items-center gap-3 px-5 transition-all ${
+                                        className={`py-3 rounded-xl border-2 text-[13px] font-semibold flex items-center gap-2.5 px-4 transition-all ${
                                             selectedFrequency === f
                                                 ? 'border-[#002b45] bg-[#002b45]/5 text-[#002b45]'
                                                 : 'border-gray-200 text-gray-600 hover:border-gray-300'
                                         }`}
                                     >
-                                        <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedFrequency === f ? 'border-[#002b45]' : 'border-gray-300'}`}>
-                                            {selectedFrequency === f && <div className="w-2 h-2 rounded-full bg-[#002b45]" />}
+                                        <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 ${selectedFrequency === f ? 'border-[#002b45]' : 'border-gray-300'}`}>
+                                            {selectedFrequency === f && <div className="w-1.5 h-1.5 rounded-full bg-[#002b45]" />}
                                         </div>
                                         {f}
                                     </button>
@@ -185,9 +185,9 @@ const ApplicationPage = () => {
                 )}
 
                 {step === 2 && (
-                    <div className="space-y-6">
-                        <h3 className="text-base font-bold text-[#002b45]">Personal Details</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div className="space-y-5">
+                        <h3 className="text-sm font-bold text-[#002b45]">Personal Details</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {[
                                 { label: "Full Name", name: "name", type: "text", placeholder: "Enter your full name" },
                                 { label: "Date of Birth", name: "dob", type: "date", placeholder: "" },
@@ -196,25 +196,25 @@ const ApplicationPage = () => {
                                 { label: "Aadhar Number", name: "aadhar", type: "text", placeholder: "XXXX XXXX XXXX" },
                                 { label: "PAN Number", name: "pan", type: "text", placeholder: "ABCDE1234F" },
                             ].map(field => (
-                                <div key={field.name} className="space-y-2">
-                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">{field.label}</label>
+                                <div key={field.name} className="space-y-1.5">
+                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{field.label}</label>
                                     <input
                                         type={field.type}
                                         placeholder={field.placeholder}
                                         value={formData[field.name] || ''}
                                         onChange={e => setFormData(prev => ({ ...prev, [field.name]: e.target.value }))}
-                                        className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#002b45] transition-colors bg-gray-50/30"
+                                        className="w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors bg-gray-50/30"
                                     />
                                 </div>
                             ))}
-                            <div className="md:col-span-2 space-y-2">
-                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Address</label>
+                            <div className="md:col-span-2 space-y-1.5">
+                                <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Address</label>
                                 <textarea
-                                    rows="3"
+                                    rows="2"
                                     placeholder="Enter your full address..."
                                     value={formData.address || ''}
                                     onChange={e => setFormData(prev => ({ ...prev, address: e.target.value }))}
-                                    className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#002b45] transition-colors resize-none bg-gray-50/30"
+                                    className="w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors resize-none bg-gray-50/30"
                                 />
                             </div>
                         </div>
@@ -222,48 +222,48 @@ const ApplicationPage = () => {
                 )}
 
                 {step === 3 && (
-                    <div className="space-y-6">
-                        <h3 className="text-base font-bold text-[#002b45]">Upload Documents</h3>
-                        <p className="text-sm text-gray-500">Please upload clear, readable documents. Supported formats: PDF, JPG, PNG (Max 10MB each)</p>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <label className="border-2 border-dashed border-gray-200 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 text-center cursor-pointer hover:border-[#002b45] hover:bg-[#002b45]/5 transition-all relative">
+                    <div className="space-y-5">
+                        <h3 className="text-sm font-bold text-[#002b45]">Upload Documents</h3>
+                        <p className="text-[13px] text-gray-500">Please upload clear, readable documents. Supported formats: PDF, JPG, PNG (Max 10MB each)</p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center gap-2.5 text-center cursor-pointer hover:border-[#002b45] hover:bg-[#002b45]/5 transition-all relative">
                                 <input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleFileChange} accept=".pdf,.jpg,.jpeg,.png" />
-                                <Upload size={32} className="text-gray-300" />
+                                <Upload size={28} className="text-gray-300" />
                                 <div>
-                                    <p className="font-bold text-gray-600 text-sm mb-1">Identity Proof</p>
-                                    <p className="text-xs text-gray-400">Aadhar, PAN, Passport</p>
+                                    <p className="font-bold text-gray-600 text-[13px] mb-0.5">Identity Proof</p>
+                                    <p className="text-[11px] text-gray-400">Aadhar, PAN, Passport</p>
                                 </div>
                             </label>
-                            <label className="border-2 border-dashed border-gray-200 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 text-center cursor-pointer hover:border-[#002b45] hover:bg-[#002b45]/5 transition-all relative">
+                            <label className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center gap-2.5 text-center cursor-pointer hover:border-[#002b45] hover:bg-[#002b45]/5 transition-all relative">
                                 <input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleFileChange} accept=".pdf,.jpg,.jpeg,.png" />
-                                <FileText size={32} className="text-gray-300" />
+                                <FileText size={28} className="text-gray-300" />
                                 <div>
-                                    <p className="font-bold text-gray-600 text-sm mb-1">Supporting Documents</p>
-                                    <p className="text-xs text-gray-400">Medical Reports, Bills</p>
+                                    <p className="font-bold text-gray-600 text-[13px] mb-0.5">Supporting Documents</p>
+                                    <p className="text-[11px] text-gray-400">Medical Reports, Bills</p>
                                 </div>
                             </label>
                         </div>
                         <AnimatePresence>
                             {files.length > 0 && (
-                                <div className="space-y-3">
-                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">{files.length} File{files.length > 1 ? 's' : ''} Uploaded</p>
+                                <div className="space-y-2.5">
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{files.length} File{files.length > 1 ? 's' : ''} Uploaded</p>
                                     {files.map((f, i) => (
                                         <motion.div
                                             initial={{ opacity: 0, x: 20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: -20 }}
                                             key={i}
-                                            className="flex items-center justify-between border border-gray-100 rounded-xl p-4 bg-white"
+                                            className="flex items-center justify-between border border-gray-100 rounded-lg p-3 bg-white"
                                         >
                                             <div className="flex items-center gap-3">
-                                                <FileText size={18} className="text-[#002b45]" />
+                                                <FileText size={16} className="text-[#002b45]" />
                                                 <div>
-                                                    <p className="text-sm font-semibold text-[#002b45]">{f.name}</p>
-                                                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Ready</span>
+                                                    <p className="text-[13px] font-semibold text-[#002b45]">{f.name}</p>
+                                                    <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider">Ready</span>
                                                 </div>
                                             </div>
-                                            <button onClick={() => handleFileRemove(i)} className="w-7 h-7 rounded-lg text-gray-400 hover:bg-rose-50 hover:text-rose-500 flex items-center justify-center transition-colors">
-                                                <X size={16} />
+                                            <button onClick={() => handleFileRemove(i)} className="w-6 h-6 rounded-lg text-gray-400 hover:bg-rose-50 hover:text-rose-500 flex items-center justify-center transition-colors">
+                                                <X size={14} />
                                             </button>
                                         </motion.div>
                                     ))}
@@ -274,43 +274,43 @@ const ApplicationPage = () => {
                 )}
 
                 {step === 4 && (
-                    <div className="space-y-6">
-                        <h3 className="text-base font-bold text-[#002b45]">Review & Confirm</h3>
-                        <div className="border border-gray-100 rounded-2xl overflow-hidden">
-                            <div className="bg-gray-50 px-6 py-4 border-b border-gray-100">
-                                <p className="text-sm font-bold text-gray-500">Order Summary</p>
+                    <div className="space-y-5">
+                        <h3 className="text-sm font-bold text-[#002b45]">Review & Confirm</h3>
+                        <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                            <div className="bg-gray-50 px-5 py-3 border-b border-gray-100">
+                                <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Order Summary</p>
                             </div>
-                            <div className="p-6 space-y-4">
-                                <div className="flex justify-between text-sm">
+                            <div className="p-5 space-y-3">
+                                <div className="flex justify-between text-[13px]">
                                     <span className="text-gray-600">Base Premium ({selectedDuration})</span>
                                     <span className="font-bold">₹{policy.premiumAmount.toLocaleString()}</span>
                                 </div>
-                                <div className="flex justify-between text-sm">
+                                <div className="flex justify-between text-[13px]">
                                     <span className="text-gray-600">Add-on: Critical Illness</span>
                                     <span className="font-bold">₹1,200.00</span>
                                 </div>
-                                <div className="flex justify-between text-sm">
+                                <div className="flex justify-between text-[13px]">
                                     <span className="text-gray-600">GST (18%)</span>
                                     <span className="font-bold">₹{gstAmount.toLocaleString()}</span>
                                 </div>
                                 {discount > 0 && (
-                                    <div className="flex justify-between text-sm text-emerald-600">
+                                    <div className="flex justify-between text-[13px] text-emerald-600">
                                         <span>Discount (Multi-year)</span>
                                         <span className="font-bold">-₹{discount}</span>
                                     </div>
                                 )}
-                                <div className="border-t border-gray-100 pt-4 flex justify-between">
-                                    <span className="font-bold text-[#002b45]">Total Premium</span>
+                                <div className="border-t border-gray-100 pt-3.5 flex justify-between items-end">
+                                    <span className="font-bold text-[#002b45] text-sm mb-1">Total Premium</span>
                                     <div className="text-right">
-                                        <p className="text-2xl font-black text-[#002b45]">₹{total.toLocaleString()}</p>
-                                        <p className="text-[10px] text-gray-400 uppercase tracking-wider">*INCLUSIVE OF ALL TAXES</p>
+                                        <p className="text-xl font-black text-[#002b45]">₹{total.toLocaleString()}</p>
+                                        <p className="text-[9px] text-gray-400 uppercase tracking-wider">*INCLUSIVE OF ALL TAXES</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex items-start gap-3 p-4 bg-rose-50 rounded-2xl border border-rose-100 text-rose-700">
-                            <AlertCircle size={20} className="shrink-0 mt-0.5" />
-                            <p className="text-sm leading-relaxed">By proceeding, you confirm that all provided information and documents are accurate. Any falsification may result in account suspension and claim rejection.</p>
+                        <div className="flex items-start gap-2.5 p-3.5 bg-rose-50 rounded-xl border border-rose-100 text-rose-700">
+                            <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                            <p className="text-[12px] leading-relaxed">By proceeding, you confirm that all provided information and documents are accurate. Any falsification may result in account suspension and claim rejection.</p>
                         </div>
                     </div>
                 )}
@@ -337,21 +337,21 @@ const ApplicationPage = () => {
         <div className="min-h-screen bg-[#f8fafc] font-sans">
             {/* Progress bar */}
             <div className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
-                <div className="max-w-5xl mx-auto px-4 md:px-8 py-4">
-                    <div className="flex items-center justify-between mb-3">
-                        <span className="text-xs font-black uppercase tracking-widest text-[#002b45]">
+                <div className="max-w-5xl mx-auto px-4 md:px-6 py-2.5">
+                    <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-[#002b45]">
                             STEP {step} OF 5: {STEPS[step-1]?.label.toUpperCase()}
                         </span>
-                        <span className="text-xs font-bold text-gray-500">{step * 20}% Complete</span>
+                        <span className="text-[10px] font-bold text-gray-500">{step * 20}% Complete</span>
                     </div>
-                    <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
                         <motion.div
                             className="h-full bg-[#002b45] rounded-full"
                             animate={{ width: `${step * 20}%` }}
                             transition={{ duration: 0.5 }}
                         />
                     </div>
-                    <div className="flex items-center gap-2 mt-3 text-xs text-gray-500 overflow-x-auto no-scrollbar">
+                    <div className="flex items-center gap-2 mt-2 text-[10px] text-gray-500 overflow-x-auto no-scrollbar">
                         {STEPS.map((s, i) => (
                             <React.Fragment key={s.id}>
                                 {i > 0 && <span className="text-gray-300">/</span>}
@@ -364,53 +364,53 @@ const ApplicationPage = () => {
                 </div>
             </div>
 
-            <div className="max-w-5xl mx-auto px-4 md:px-8 py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="max-w-5xl mx-auto px-4 md:px-6 py-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Main Content */}
                     <div className="lg:col-span-2">
-                        <div className="bg-white rounded-2xl p-6 md:p-8 border border-gray-100 shadow-sm mb-6">
+                        <div className="bg-white rounded-xl p-5 md:p-6 border border-gray-100 shadow-sm mb-5">
                             {renderStep()}
 
                             {/* Navigation Buttons */}
-                            <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
+                            <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-100">
                                 <button
                                     onClick={() => step === 1 ? navigate(-1) : handleBack()}
-                                    className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-800 transition-colors"
+                                    className="flex items-center gap-1.5 text-[13px] font-bold text-gray-500 hover:text-gray-800 transition-colors"
                                 >
-                                    <ChevronLeft size={18} />
+                                    <ChevronLeft size={16} />
                                     {step === 1 ? 'Cancel' : 'Back'}
                                 </button>
                                 {step < 4 ? (
                                     <button
                                         onClick={handleNext}
-                                        className="flex items-center gap-2 bg-[#002b45] text-white px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#003b5c] transition-colors shadow-sm"
+                                        className="flex items-center gap-1.5 bg-[#002b45] text-white px-6 py-2.5 rounded-xl font-bold text-[13px] hover:bg-[#003b5c] transition-colors shadow-sm"
                                     >
-                                        Continue to {STEPS[step]?.label} <ChevronRight size={18} />
+                                        Continue to {STEPS[step]?.label} <ChevronRight size={16} />
                                     </button>
                                 ) : step === 4 ? (
                                     <button
                                         onClick={handleSubmit}
                                         disabled={loading}
-                                        className="flex items-center gap-2 bg-[#10b981] text-white px-8 py-3 rounded-xl font-bold text-sm hover:bg-[#059669] transition-colors shadow-sm disabled:opacity-50"
+                                        className="flex items-center gap-1.5 bg-[#10b981] text-white px-6 py-2.5 rounded-xl font-bold text-[13px] hover:bg-[#059669] transition-colors shadow-sm disabled:opacity-50"
                                     >
-                                        {loading ? <RefreshCcw className="animate-spin" size={18} /> : <><ShieldCheck size={18} /> Submit Application</>}
+                                        {loading ? <RefreshCcw className="animate-spin" size={16} /> : <><ShieldCheck size={16} /> Submit Application</>}
                                     </button>
                                 ) : null}
                             </div>
                         </div>
-                        <p className="text-xs text-gray-400 text-center flex items-center justify-center gap-2">
-                            <Lock size={12} /> SSL Encrypted Secure Transaction
+                        <p className="text-[10px] text-gray-400 text-center flex items-center justify-center gap-1.5 uppercase tracking-wider">
+                            <Lock size={10} /> SSL Encrypted Secure Transaction
                         </p>
                     </div>
 
                     {/* Payment Breakdown */}
                     <div className="space-y-4">
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm sticky top-36">
-                            <h3 className="font-bold text-[#002b45] mb-5">Payment Breakdown</h3>
-                            <div className="space-y-3 text-sm mb-5">
+                        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm sticky top-28">
+                            <h3 className="font-bold text-[#002b45] text-[15px] mb-4">Payment Breakdown</h3>
+                            <div className="space-y-2.5 text-[13px] mb-4">
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">Base Premium (Annual)</span>
-                                    <span className="font-semibold text-gray-900">₹{(policy.premiumAmount * 5).toLocaleString()}.00</span>
+                                    <span className="text-gray-500">Base Premium ({selectedDuration})</span>
+                                    <span className="font-semibold text-gray-900">₹{(policy.premiumAmount * (selectedDuration === "1 Year" ? 1 : selectedDuration === "2 Years" ? 2 : 3)).toLocaleString()}.00</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">Add-on: Critical Illness</span>
@@ -426,24 +426,24 @@ const ApplicationPage = () => {
                                         <span className="font-bold">-₹{discount}</span>
                                     </div>
                                 )}
-                                <div className="border-t border-gray-100 pt-3 flex justify-between items-center">
+                                <div className="border-t border-gray-100 pt-2.5 flex justify-between items-center">
                                     <span className="font-bold text-[#002b45]">Total Premium</span>
-                                    <span className="font-black text-xl text-[#002b45]">₹{total.toLocaleString()}.00</span>
+                                    <span className="font-black text-lg text-[#002b45]">₹{total.toLocaleString()}.00</span>
                                 </div>
-                                <p className="text-[10px] text-gray-400 text-right uppercase tracking-wider">*INCLUSIVE OF ALL TAXES</p>
+                                <p className="text-[9px] text-gray-400 text-right uppercase tracking-wider">*INCLUSIVE OF ALL TAXES</p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
-                                <div className="flex items-start gap-3">
-                                    <Shield size={18} className="text-[#002b45] shrink-0 mt-0.5" />
+                            <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100 mb-4">
+                                <div className="flex items-start gap-2.5">
+                                    <Shield size={16} className="text-[#002b45] shrink-0 mt-0.5" />
                                     <div>
-                                        <p className="text-xs font-black text-[#002b45] uppercase tracking-wider mb-1">TRUST GUARANTEE</p>
-                                        <p className="text-xs text-gray-500 leading-relaxed">Your purchase is secure. Secure Shield is IRDAI certified and provides 24/7 support for all policyholders.</p>
+                                        <p className="text-[10px] font-black text-[#002b45] uppercase tracking-wider mb-1">TRUST GUARANTEE</p>
+                                        <p className="text-[11px] text-gray-400 leading-relaxed">Your purchase is secure. Secure Shield is IRDAI certified and provides 24/7 support.</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <p className="text-center text-xs text-gray-400">
+                            <p className="text-center text-[11px] text-gray-400">
                                 Need help? <span className="font-bold text-[#002b45]">Call 1800-SECURE</span>
                             </p>
                         </div>

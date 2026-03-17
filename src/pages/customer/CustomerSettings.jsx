@@ -44,12 +44,12 @@ const CustomerSettings = () => {
     ];
 
     return (
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 font-sans pb-24">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-20">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-[#002b45] mb-2">Account Settings</h1>
-                    <p className="text-gray-500 text-sm">Manage your profile, security, and notification preferences.</p>
+                    <h1 className="text-2xl font-bold text-[#002b45] mb-1">Account Settings</h1>
+                    <p className="text-gray-500 text-xs">Manage your profile, security, and notification preferences.</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Last synced: Just now</span>
@@ -59,31 +59,31 @@ const CustomerSettings = () => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Sidebar Navigation */}
                 <div className="lg:col-span-4 space-y-3">
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`w-full text-left p-4 rounded-2xl border transition-all flex items-center gap-4 ${
+                            className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-center gap-4 ${
                                 activeTab === tab.id
-                                    ? 'bg-[#002b45] border-[#002b45] text-white shadow-lg'
+                                    ? 'bg-[#002b45] border-[#002b45] text-white shadow-md'
                                     : 'bg-white border-gray-100 text-gray-600 hover:border-gray-200 hover:bg-gray-50'
                             }`}
                         >
-                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
                                 activeTab === tab.id ? 'bg-white/10 text-white' : 'bg-gray-100 text-gray-400'
                             }`}>
-                                <tab.icon size={20} />
+                                <tab.icon size={18} />
                             </div>
                             <div>
-                                <p className="font-bold text-sm leading-none mb-1">{tab.label}</p>
-                                <p className={`text-[10px] uppercase tracking-wider font-bold ${activeTab === tab.id ? 'text-white/60' : 'text-gray-400'}`}>
+                                <p className="font-bold text-xs leading-none mb-1">{tab.label}</p>
+                                <p className={`text-[9px] uppercase tracking-wider font-bold ${activeTab === tab.id ? 'text-white/60' : 'text-gray-400'}`}>
                                     {tab.sub}
                                 </p>
                             </div>
-                            {activeTab === tab.id && <ChevronRight size={18} className="ml-auto opacity-60" />}
+                            {activeTab === tab.id && <ChevronRight size={16} className="ml-auto opacity-60" />}
                         </button>
                     ))}
 
@@ -110,21 +110,21 @@ const CustomerSettings = () => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.2 }}
-                            className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden"
+                            className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
                         >
-                            <div className="p-6 md:p-8 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
+                            <div className="p-5 md:p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
                                 <div>
-                                    <h2 className="text-xl font-bold text-[#002b45]">
+                                    <h2 className="text-lg font-bold text-[#002b45]">
                                         {tabs.find(t => t.id === activeTab)?.label}
                                     </h2>
-                                    <p className="text-xs text-gray-400 font-medium">Update your preferences and account configuration</p>
+                                    <p className="text-[11px] text-gray-400 font-medium">Update your preferences and account configuration</p>
                                 </div>
-                                <div className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-wider">
+                                <div className="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-full text-[9px] font-black uppercase tracking-wider">
                                     SYNCHRONIZED
                                 </div>
                             </div>
 
-                            <div className="p-6 md:p-8 space-y-8">
+                            <div className="p-5 md:p-6 space-y-6">
                                 {activeTab === 'profile' && (
                                     <div className="space-y-6">
                                         <div className="flex items-center gap-6">
@@ -314,17 +314,17 @@ const CustomerSettings = () => {
                                 )}
                             </div>
 
-                            <div className="p-6 md:p-8 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between">
+                            <div className="p-5 md:p-6 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between">
                                 <div className="flex items-center gap-3 text-emerald-600">
-                                    <CheckCircle2 size={18} />
-                                    <span className="text-[10px] font-black uppercase tracking-widest">Auto-save Enabled</span>
+                                    <CheckCircle2 size={16} />
+                                    <span className="text-[9px] font-black uppercase tracking-widest">Auto-save Enabled</span>
                                 </div>
                                 <button 
                                     onClick={handleSave}
                                     disabled={loading}
-                                    className="px-10 py-3.5 bg-[#002b45] text-white rounded-2xl font-black text-[10px] uppercase tracking-[8px] italic shadow-2xl active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50"
+                                    className="px-8 py-3 bg-[#002b45] text-white rounded-xl font-black text-[9px] uppercase tracking-[6px] italic shadow-xl active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50"
                                 >
-                                    {loading ? <RefreshCcw size={16} className="animate-spin" /> : <Save size={16} />}
+                                    {loading ? <RefreshCcw size={14} className="animate-spin" /> : <Save size={14} />}
                                     SAVE_PREFERENCES
                                 </button>
                             </div>

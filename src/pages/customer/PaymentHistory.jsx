@@ -65,31 +65,31 @@ const PaymentHistory = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     return (
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 font-sans pb-24">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-20">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-3xl font-bold text-[#002b45] mb-2">Payment History</h1>
-                    <p className="text-gray-500 text-sm">Manage and track all your policy payments and renewals.</p>
+                    <h1 className="text-2xl font-bold text-[#002b45] mb-1">Payment History</h1>
+                    <p className="text-gray-500 text-xs">Manage and track all your policy payments and renewals.</p>
                 </div>
-                <button className="flex items-center justify-center gap-2 border border-gray-200 bg-white text-gray-700 px-5 py-3 rounded-xl font-medium hover:bg-gray-50 transition-colors shadow-sm text-sm">
-                    <Download size={18} /> Download Statement
+                <button className="flex items-center justify-center gap-2 border border-gray-200 bg-white text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition-colors shadow-sm text-xs">
+                    <Download size={16} /> Statement
                 </button>
             </div>
 
             {/* Filters */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-5 mb-6 flex flex-col md:flex-row items-end gap-4">
+            <div className="bg-white border border-gray-200 rounded-xl p-4 mb-5 flex flex-col md:flex-row items-end gap-3">
                 <div className="flex-1">
-                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">DATE RANGE</p>
+                    <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">DATE RANGE</p>
                     <div className="flex items-center gap-2">
-                        <input type="date" defaultValue="2023-01-01" className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-[#002b45] bg-gray-50" />
-                        <span className="text-sm text-gray-400 shrink-0">to</span>
-                        <input type="date" defaultValue="2023-12-31" className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-[#002b45] bg-gray-50" />
+                        <input type="date" defaultValue="2023-01-01" className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#002b45] bg-gray-50" />
+                        <span className="text-xs text-gray-400 shrink-0">to</span>
+                        <input type="date" defaultValue="2023-12-31" className="text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#002b45] bg-gray-50" />
                     </div>
                 </div>
                 <div className="flex-1">
-                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">POLICY TYPE</p>
-                    <select className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-[#002b45] bg-gray-50">
+                    <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">POLICY TYPE</p>
+                    <select className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#002b45] bg-gray-50">
                         <option>All Policies</option>
                         <option>Health</option>
                         <option>Life</option>
@@ -97,31 +97,31 @@ const PaymentHistory = () => {
                     </select>
                 </div>
                 <div className="flex-1">
-                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">STATUS</p>
-                    <select className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-[#002b45] bg-gray-50">
+                    <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1.5">STATUS</p>
+                    <select className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-[#002b45] bg-gray-50">
                         <option>All Status</option>
                         <option>Successful</option>
                         <option>Pending</option>
                         <option>Failed</option>
                     </select>
                 </div>
-                <button className="bg-[#002b45] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#003b5c] transition-colors shadow-sm shrink-0">
-                    Apply Filters
+                <button className="bg-[#002b45] text-white px-5 py-2 rounded-lg font-bold text-[12px] hover:bg-[#003b5c] transition-colors shadow-sm shrink-0">
+                    Apply
                 </button>
             </div>
 
             {/* Transactions Table */}
-            <div className="bg-white border border-gray-100 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden mb-6 overflow-x-auto">
+            <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden mb-6 overflow-x-auto">
                 <table className="w-full min-w-[760px] text-left">
                     <thead className="bg-gray-50/50 border-b border-gray-100">
                         <tr>
-                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">TRANSACTION ID</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">POLICY NAME</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">AMOUNT (₹)</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">DATE & TIME</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">METHOD</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">STATUS</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">RECEIPT</th>
+                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">TRANSACTION ID</th>
+                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">POLICY NAME</th>
+                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest text-right">AMOUNT (₹)</th>
+                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">DATE & TIME</th>
+                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">METHOD</th>
+                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">STATUS</th>
+                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">RECEIPT</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
@@ -133,30 +133,30 @@ const PaymentHistory = () => {
                                 key={txn.id}
                                 className="hover:bg-gray-50/50 transition-colors"
                             >
-                                <td className="px-6 py-5 font-bold text-[#002b45] text-sm">{txn.id}</td>
-                                <td className="px-6 py-5">
-                                    <p className="font-bold text-gray-900 text-sm">{txn.policy}</p>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">POLICY ID: {txn.policyId}</p>
+                                <td className="px-5 py-3.5 font-bold text-[#002b45] text-xs">{txn.id}</td>
+                                <td className="px-5 py-3.5">
+                                    <p className="font-bold text-gray-900 text-[13px]">{txn.policy}</p>
+                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">ID: {txn.policyId}</p>
                                 </td>
-                                <td className="px-6 py-5 text-right font-bold text-gray-900 text-base">{txn.amount}</td>
-                                <td className="px-6 py-5">
-                                    <p className="text-sm text-gray-700">{txn.date}</p>
-                                    <p className="text-xs text-gray-400 mt-0.5">{txn.time}</p>
+                                <td className="px-5 py-3.5 text-right font-bold text-gray-900 text-sm">{txn.amount}</td>
+                                <td className="px-5 py-3.5">
+                                    <p className="text-[13px] text-gray-700">{txn.date}</p>
+                                    <p className="text-[11px] text-gray-400 mt-0.5">{txn.time}</p>
                                 </td>
-                                <td className="px-6 py-5">
-                                    <div className="flex items-center gap-2 text-gray-500 text-sm font-medium">
-                                        {txn.methodIcon} {txn.method}
+                                <td className="px-5 py-3.5">
+                                    <div className="flex items-center gap-2 text-gray-500 text-xs font-medium">
+                                        {React.cloneElement(txn.methodIcon, { size: 14 })} {txn.method}
                                     </div>
                                 </td>
-                                <td className="px-6 py-5">
-                                    <span className={`text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 w-fit ${getStatusStyle(txn.status)}`}>
-                                        <span className={`w-1.5 h-1.5 rounded-full ${txn.status === 'Successful' ? 'bg-emerald-500' : txn.status === 'Pending' ? 'bg-amber-500' : 'bg-rose-500'}`} />
+                                <td className="px-5 py-3.5">
+                                    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5 w-fit ${getStatusStyle(txn.status)}`}>
+                                        <span className={`w-1 h-1 rounded-full ${txn.status === 'Successful' ? 'bg-emerald-500' : txn.status === 'Pending' ? 'bg-amber-500' : 'bg-rose-500'}`} />
                                         {txn.status}
                                     </span>
                                 </td>
-                                <td className="px-6 py-5">
+                                <td className="px-5 py-3.5">
                                     <button className={`text-gray-400 hover:text-[#002b45] transition-colors ${txn.status !== 'Successful' ? 'opacity-30 cursor-not-allowed' : ''}`} disabled={txn.status !== 'Successful'}>
-                                        <Download size={18} />
+                                        <Download size={16} />
                                     </button>
                                 </td>
                             </motion.tr>
@@ -184,28 +184,28 @@ const PaymentHistory = () => {
             </div>
 
             {/* Bottom Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-[#002b45] rounded-2xl p-6 text-white">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/50 mb-3">TOTAL PAID THIS YEAR</p>
-                    <p className="text-3xl font-black">₹ 1,42,500.00</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="bg-[#002b45] rounded-xl p-5 text-white">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-white/50 mb-2.5">TOTAL PAID THIS YEAR</p>
+                    <p className="text-2xl font-black">₹ 1,42,500.00</p>
                 </div>
-                <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-3">NEXT RENEWAL DATE</p>
+                <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-2.5">NEXT RENEWAL DATE</p>
                     <div className="flex items-end justify-between">
                         <div>
-                            <p className="text-2xl font-black text-[#002b45] mb-1">Nov 15, 2023</p>
-                            <div className="flex items-center gap-1.5 text-emerald-600 text-xs font-bold">
-                                <Calendar size={14} /> Motor Policy Renewal
+                            <p className="text-xl font-black text-[#002b45] mb-0.5">Nov 15, 2023</p>
+                            <div className="flex items-center gap-1.5 text-emerald-600 text-[11px] font-bold">
+                                <Calendar size={12} /> Motor Policy Renewal
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-500 mb-3">PENDING INVOICES</p>
+                <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-2.5">PENDING INVOICES</p>
                     <div>
-                        <p className="text-2xl font-black text-[#002b45] mb-1">1 Transaction</p>
-                        <div className="flex items-center gap-1.5 text-amber-600 text-xs font-bold">
-                            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" /> Awaiting Verification
+                        <p className="text-xl font-black text-[#002b45] mb-0.5">1 Transaction</p>
+                        <div className="flex items-center gap-1.5 text-amber-600 text-[11px] font-bold">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> Awaiting Verification
                         </div>
                     </div>
                 </div>
