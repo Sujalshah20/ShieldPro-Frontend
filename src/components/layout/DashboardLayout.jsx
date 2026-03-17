@@ -8,11 +8,11 @@ const DashboardLayout = ({ role }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-slate-50 overflow-hidden font-sans">
+        <div className="min-h-screen bg-slate-50 font-sans">
             {/* Sidebar Component */}
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
-            <div className="flex-1 flex flex-col min-h-screen relative">
+            <div className="flex flex-col min-h-screen relative md:ml-72 transition-all duration-300">
                 {/* Unified Premium Header */}
                 <Header role={role} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
