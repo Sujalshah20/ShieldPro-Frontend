@@ -1,25 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { 
-    Shield, ShieldCheck, Zap, Activity, 
-    Truck, Home, Globe, FileText,
-    TrendingUp, Calendar, Clock, ArrowUpRight,
-    Target, Cpu, Satellite, Lock, Command,
-    Fingerprint, Terminal, HeartPulse, ShieldAlert,
-    Layers, IndianRupee, RefreshCcw, SearchCheck,
-    ChevronRight, Award, Briefcase, Plus,
-    Layout, Eye, Database, Share2
+    Activity, Car, Home, Shield, Globe, FileText, 
+    MoreVertical, Download, Plus, ArrowRight
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { TableSkeleton } from "../../components/common/Skeleton";
-import Reveal from "../../components/common/Reveal";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const CustomerPolicies = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [activeTab, setActiveTab] = useState("Active Policies");
 
     const { data: myPolicies = [], isLoading } = useQuery({
         queryKey: ['myPolicies', user?.token],
@@ -28,213 +21,235 @@ const CustomerPolicies = () => {
     });
 
     const getPolicyIcon = (type) => {
-        const iconProps = { size: 44, strokeWidth: 2.5, className: "group-hover:scale-110 transition-all duration-700" };
+        const iconProps = { size: 28 };
         switch(type) {
-            case 'Health': return <Activity {...iconProps} />;
-            case 'Vehicle': case 'Auto': return <Truck {...iconProps} />;
-            case 'Property': case 'Home': return <Home {...iconProps} />;
-            case 'Life': return <Shield {...iconProps} />;
-            case 'Travel': return <Globe {...iconProps} />;
-            default: return <FileText {...iconProps} />;
+            case 'Health': return <Activity {...iconProps} className="text-[#3b82f6]" />;
+            case 'Vehicle': case 'Auto': return <Car {...iconProps} className="text-[#a855f7]" />;
+            case 'Property': case 'Home': return <Home {...iconProps} className="text-[#f97316]" />;
+            case 'Life': return <Shield {...iconProps} className="text-[#10b981]" />;
+            case 'Travel': return <Globe {...iconProps} className="text-[#14b8a6]" />;
+            default: return <FileText {...iconProps} className="text-gray-500" />;
         }
     };
 
-    const getPolicyGradient = (type) => {
+    const getIconBg = (type) => {
         switch(type) {
-            case 'Health': return "from-rose-500/10 to-transparent";
-            case 'Vehicle': case 'Auto': return "from-emerald-500/10 to-transparent";
-            case 'Property': case 'Home': return "from-amber-500/10 to-transparent";
-            case 'Life': return "from-blue-500/10 to-transparent";
-            case 'Travel': return "from-violet-500/10 to-transparent";
-            default: return "from-slate-500/10 to-transparent";
+            case 'Health': return "bg-blue-50";
+            case 'Vehicle': case 'Auto': return "bg-purple-50";
+            case 'Property': case 'Home': return "bg-orange-50";
+            case 'Life': return "bg-emerald-50";
+            case 'Travel': return "bg-teal-50";
+            default: return "bg-gray-50";
         }
     };
+
+    const calculateTimeRemaining = (expiryDate) => {
+        const total = Date.parse(expiryDate) - Date.now();
+        const days = Math.floor(total / (1000 * 60 * 60 * 24));
+        const months = Math.floor(days / 30);
+        const years = (days / 365).toFixed(1);
+
+        if (days < 0) return { text: "Expired", progress: 0, isUrgent: true };
+        if (days <= 30) return { text: `${days} Days left`, progress: 95, isUrgent: true };
+        if (months < 12) return { text: `${months} Months left`, progress: (months/12)*100, isUrgent: false };
+        return { text: `${years} Years left`, progress: Math.min((years/5)*100, 100), isUrgent: false };
+    };
+
+    const totalPremium = myPolicies.reduce((acc, curr) => acc + (curr.policy?.premiumAmount || 0), 0);
+    const totalCoverage = myPolicies.reduce((acc, curr) => acc + (curr.policy?.coverageAmount || 0), 0);
+    const displayCoverage = totalCoverage > 100000 ? `${(totalCoverage/100000).toFixed(1)}L` : totalCoverage.toLocaleString();
+
+    const filteredPolicies = activeTab === "Active Policies" 
+        ? myPolicies.filter(p => new Date(p.expiryDate) > new Date())
+        : activeTab === "Expired Policies" 
+        ? myPolicies.filter(p => new Date(p.expiryDate) <= new Date())
+        : myPolicies;
+
+    const tabs = ["Active Policies", "Expired Policies", "All Policies"];
 
     if (isLoading) return (
-        <div className="py-20 space-y-12 h-screen">
-             <div className="h-20 w-[400px] bg-slate-50 animate-pulse rounded-[2.5rem] border-2 border-slate-100" />
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-                {[1,2,3].map(i => <div key={i} className="h-[600px] bg-white rounded-[5rem] border-2 border-slate-50 animate-pulse shadow-4xl" />)}
-             </div>
+        <div className="flex items-center justify-center h-[60vh]">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#002b45]"></div>
         </div>
     );
 
     return (
-        <div className="space-y-16 pb-24">
-            {/* Elite Inventory Header */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 relative z-10">
-                <Reveal direction="left">
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-6">
-                            <div className="w-3 h-12 bg-[#007ea7] rounded-full shadow-[0_0_20px_#007ea7]" />
-                            <div className="flex flex-col">
-                                <span className="text-[12px] font-black uppercase tracking-[8px] text-[#003249] italic leading-none opacity-60">Global_Asset_Manifest_v4.2</span>
-                                <span className="text-[9px] font-black text-slate-300 uppercase tracking-[4px] mt-2 italic">SECTOR: ACTIVE_VAULT_SYNC</span>
-                            </div>
-                        </div>
-                        <h1 className="text-6xl md:text-8xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Protection <span className="text-[#007ea7]">Grid_</span></h1>
-                        <p className="max-w-2xl text-slate-400 font-bold uppercase tracking-[4px] text-xs italic leading-relaxed">
-                            A unified visualization of your deployed protection protocols. Each node represents a synchronized 
-                            <span className="text-[#007ea7]"> ShieldPro Asset</span> operating under active v4.2 SIGMA guidelines.
-                        </p>
-                    </div>
-                </Reveal>
-                
-                <Reveal direction="right">
-                    <div className="bg-[#003249] p-12 rounded-[5rem] border-4 border-white shadow-4xl flex items-center gap-12 relative overflow-hidden group">
-                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer" />
-                         <div className="absolute top-[-20%] right-[-10%] opacity-10 group-hover:rotate-45 transition-transform duration-[8000ms]">
-                            <Satellite size={220} className="text-[#007ea7]" strokeWidth={1} />
-                         </div>
-                         
-                         <div className="relative z-10 w-24 h-24 rounded-[3rem] bg-[#007ea7] flex items-center justify-center text-white shadow-4xl group-hover:scale-110 transition-transform duration-700 border-4 border-white/20">
-                            <Database size={44} strokeWidth={2.5} />
-                         </div>
-                         
-                         <div className="relative z-10 space-y-3">
-                            <span className="text-[11px] font-black uppercase tracking-[8px] text-[#80ced7] italic block opacity-60 leading-none">ACTIVE_RESOURCES</span>
-                            <div className="flex items-end gap-6">
-                                <span className="text-7xl font-black tracking-tighter text-white italic leading-none">{myPolicies.length}</span>
-                                <div className="flex flex-col mb-1">
-                                    <span className="text-[10px] text-[#007ea7] font-black uppercase tracking-[4px] italic leading-none">SYNC_STABLE</span>
-                                    <div className="w-12 h-1 bg-emerald-500 mt-2 rounded-full shadow-[0_0_10px_#10b981]" />
-                                </div>
-                            </div>
-                         </div>
-                    </div>
-                </Reveal>
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 font-sans pb-24">
+            
+            {/* Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                <div>
+                    <h1 className="text-3xl font-bold text-[#002b45] mb-2">My Policies</h1>
+                    <p className="text-gray-500 text-sm">Manage and track your active insurance coverage</p>
+                </div>
+                <button 
+                    onClick={() => navigate('/customer/browse')}
+                    className="flex items-center justify-center gap-2 bg-[#002b45] text-white px-6 py-3 rounded-xl font-medium hover:bg-[#003b5c] transition-colors shadow-sm"
+                >
+                    <Plus size={20} /> Get New Policy
+                </button>
             </div>
 
-            {myPolicies.length === 0 ? (
-                <Reveal direction="up" delay={0.2}>
-                    <div className="text-center py-72 bg-white/50 backdrop-blur-md border-4 border-dashed border-slate-100 rounded-[6rem] group hover:border-[#007ea7]/30 transition-all duration-1000 relative overflow-hidden shadow-inner">
-                        <div className="absolute inset-0 bg-mesh-gradient opacity-20 pointer-events-none" />
-                        <ShieldAlert size={140} strokeWidth={1.5} className="mx-auto mb-12 text-slate-100 group-hover:text-[#007ea7] group-hover:scale-110 group-hover:rotate-12 transition-all duration-[1500ms]" />
-                        <h3 className="text-5xl font-black uppercase tracking-[15px] text-[#003249]/10 italic mb-10 group-hover:text-[#003249]/20 transition-all">Vault_Empty_</h3>
-                        <p className="text-[14px] font-black uppercase text-slate-300 tracking-[8px] max-w-xl mx-auto italic leading-relaxed opacity-60 group-hover:opacity-100 transition-all">
-                            No active protection protocols detected in your asset grid. Initial authorization required for node deployment.
-                        </p>
-                        <button 
-                            onClick={() => navigate('/customer/apply')}
-                            className="mt-16 h-20 px-16 bg-[#003249] text-[#80ced7] rounded-[2.5rem] text-[13px] font-black uppercase tracking-[8px] shadow-4xl hover:bg-[#007ea7] hover:text-white transition-all active:scale-95 italic group relative overflow-hidden/btn"
-                        >
-                             DEPLOY_FIRST_NODE <Plus className="group-hover:rotate-180 transition-transform duration-700" size={24} strokeWidth={3} />
-                        </button>
-                    </div>
-                </Reveal>
+            {/* Tabs */}
+            <div className="flex items-center gap-8 border-b border-gray-200 mb-8 overflow-x-auto no-scrollbar">
+                {tabs.map(tab => (
+                    <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab)}
+                        className={`pb-4 text-sm font-semibold whitespace-nowrap transition-colors relative ${
+                            activeTab === tab ? "text-[#002b45]" : "text-gray-500 hover:text-gray-800"
+                        }`}
+                    >
+                        {tab}
+                        {activeTab === tab && (
+                            <motion.div 
+                                layoutId="policyTab"
+                                className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-[#002b45]"
+                            />
+                        )}
+                    </button>
+                ))}
+            </div>
+
+            {/* Policy List */}
+            {filteredPolicies.length === 0 ? (
+                <div className="text-center py-24 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                    <Shield size={64} className="mx-auto text-gray-200 mb-6" />
+                    <h3 className="text-xl font-bold text-[#002b45] mb-2">No policies found</h3>
+                    <p className="text-gray-500 mb-8">You don't have any {activeTab.toLowerCase()} right now.</p>
+                    <button 
+                        onClick={() => navigate('/customer/browse')}
+                        className="bg-[#10b981] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#0ea5e9] transition-colors"
+                    >
+                        Browse Policies
+                    </button>
+                </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14">
-                    {myPolicies.map((p, idx) => (
-                        <Reveal key={p._id} direction="up" delay={0.1 + idx * 0.1}>
-                            <div className="saas-card group relative overflow-hidden flex flex-col min-h-[620px] shadow-4xl transition-all duration-1000 hover:border-[#007ea7]/30 border-2 border-slate-50 bg-white/50 backdrop-blur-md rounded-[5rem] p-16">
-                                {/* Ambient Field Effect */}
-                                <div className={`absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-br ${getPolicyGradient(p.policy?.policyType)} blur-[120px] rounded-full pointer-events-none group-hover:scale-150 transition-transform duration-[6000ms] opacity-60`} />
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,#003249_1px,transparent_0)] [background-size:32px_32px] opacity-[0.015] pointer-events-none" />
+                <div className="space-y-6 mb-12">
+                    {filteredPolicies.map((p, idx) => {
+                        const timeStatus = calculateTimeRemaining(p.expiryDate);
+                        
+                        return (
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                key={p._id} 
+                                className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm flex flex-col xl:flex-row xl:items-center gap-8 relative hover:shadow-md transition-shadow"
+                            >
+                                {/* Active Badge */}
+                                <div className="absolute top-6 right-6 flex items-center gap-3">
+                                    {timeStatus.isUrgent ? (
+                                        <span className="bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wide">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> RENEW SOON
+                                        </span>
+                                    ) : (
+                                        <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 uppercase tracking-wide">
+                                            ACTIVE
+                                        </span>
+                                    )}
+                                    <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                                        <MoreVertical size={20} />
+                                    </button>
+                                </div>
 
-                                <div className="flex flex-col h-full relative z-20">
-                                    <div className="flex justify-between items-start mb-20">
-                                        <div className="w-32 h-32 bg-[#003249] border-4 border-white shadow-4xl rounded-[3.5rem] flex items-center justify-center text-[#007ea7] group-hover:rotate-12 group-hover:scale-110 transition-all duration-700 relative overflow-hidden">
-                                             <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/30 to-transparent pointer-events-none" />
-                                            {getPolicyIcon(p.policy?.policyType)}
-                                        </div>
-                                        <div className="flex flex-col items-end gap-5">
-                                            <div className="px-8 py-3 bg-slate-50/50 backdrop-blur-sm border-2 border-slate-100 rounded-3xl text-[11px] font-black text-[#003249] uppercase tracking-[6px] shadow-inner italic group-hover:bg-[#003249] group-hover:text-[#80ced7] group-hover:border-[#003249] transition-all duration-500">
-                                                ID: {p.policyNumber.toUpperCase()}
-                                            </div>
-                                            <div className="flex items-center gap-4 bg-white/80 px-5 py-2 rounded-2xl border border-slate-100 shadow-sm opacity-40 group-hover:opacity-100 transition-opacity">
-                                                <Fingerprint size={14} strokeWidth={3} className="text-[#007ea7]" />
-                                                <span className="text-[10px] font-black uppercase tracking-[4px] italic text-[#003249]">BIO_LOCKED</span>
-                                            </div>
-                                        </div>
+                                <div className="flex items-center gap-6 xl:w-1/3">
+                                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 ${getIconBg(p.policy?.policyType)}`}>
+                                        {getPolicyIcon(p.policy?.policyType)}
                                     </div>
-
-                                    <div className="flex-1 space-y-6 mb-16">
-                                        <h2 className="text-5xl font-black text-[#003249] leading-tight uppercase tracking-tighter italic group-hover:text-[#007ea7] transition-all duration-500">
-                                            {p.policy?.policyName}
-                                        </h2>
-                                        <div className="w-20 h-2 bg-[#007ea7] mb-8 rounded-full group-hover:w-40 transition-all duration-1000 shadow-[0_0_20px_#007ea7]" />
-                                        
-                                        <div className="inline-flex items-center gap-6 p-6 bg-emerald-50 text-emerald-600 rounded-3xl border-2 border-emerald-100 shadow-sm group-hover:shadow-emerald-500/10 transition-all duration-700">
-                                            <div className="w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_15px_#10b981] animate-pulse" />
-                                            <span className="text-[12px] font-black uppercase tracking-[6px] italic leading-none">ACTIVE_GRID_SYNC_STABLE</span>
-                                        </div>
+                                    <div>
+                                        <h3 className="text-xl font-bold text-[#002b45] mb-1">{p.policy?.policyName}</h3>
+                                        <p className="text-sm text-gray-500 flex items-center gap-2">
+                                            <span>No: {p.policyNumber.toUpperCase()}</span> 
+                                            <span className="hidden sm:inline">•</span> 
+                                            <span className="hidden sm:inline">ShieldPro Coverage</span>
+                                        </p>
                                     </div>
+                                </div>
 
-                                    <div className="space-y-12">
-                                        <div className="p-12 bg-[#003249] rounded-[4rem] border-4 border-white shadow-4xl relative overflow-hidden group/val hover:translate-y-[-5px] transition-all duration-500">
-                                            <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/30 to-transparent pointer-events-none" />
-                                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover/val:rotate-45 transition-transform">
-                                                <Target size={120} strokeWidth={1} />
-                                            </div>
-                                            
-                                            <div className="flex flex-col relative z-10 gap-8">
-                                                <div className="flex items-center justify-between">
-                                                     <span className="text-[11px] font-black text-[#80ced7] uppercase tracking-[10px] italic leading-none opacity-60">UPLINK_VALUATION</span>
-                                                     <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-[#007ea7] border border-white/10 shadow-2xl">
-                                                        <SearchCheck size={28} strokeWidth={3} />
-                                                     </div>
-                                                </div>
-                                                <div className="flex items-center gap-6">
-                                                    <div className="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shrink-0">
-                                                        <IndianRupee size={32} strokeWidth={4} className="text-[#007ea7]" />
-                                                    </div>
-                                                    <span className="text-6xl font-black italic tracking-tighter text-white uppercase leading-none">
-                                                        {(p.policy?.coverageAmount / 100000).toFixed(1)}L <span className="text-2xl text-[#80ced7] opacity-40">INR</span>
-                                                    </span>
-                                                </div>
-                                            </div>
+                                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-8 border-t border-gray-100 xl:border-t-0 xl:pt-0">
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Premium</p>
+                                        <p className="text-lg font-bold text-[#002b45]">
+                                            ₹{p.policy?.premiumAmount?.toLocaleString() || '1,200'} <span className="text-sm text-gray-400 font-medium">/mo</span>
+                                        </p>
+                                    </div>
+                                    
+                                    <div className="w-full xl:max-w-xs">
+                                        <div className="flex justify-between items-end mb-2">
+                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Time Remaining</p>
+                                            <p className={`text-xs font-bold ${timeStatus.isUrgent ? 'text-amber-600' : 'text-[#002b45]'}`}>{timeStatus.text}</p>
                                         </div>
-                                        
-                                        <div className="grid grid-cols-2 gap-10 bg-slate-50/50 backdrop-blur-md border-2 border-slate-100 p-10 rounded-[3.5rem] shadow-inner group-hover:bg-white transition-all duration-700">
-                                             <div className="flex flex-col gap-4 border-r-2 border-slate-100 pr-8">
-                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-[6px] italic leading-none flex items-center gap-3">
-                                                    <Calendar size={12} strokeWidth={4} className="text-[#003249]" /> DEPLOYED
-                                                </span>
-                                                <span className="text-[14px] font-black text-[#003249] tracking-[2px] uppercase italic">{new Date(p.purchaseDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}</span>
-                                             </div>
-                                             <div className="flex flex-col gap-4 items-end text-right pl-8">
-                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-[6px] italic leading-none flex items-center gap-3">
-                                                    EXPIRY <Clock size={12} strokeWidth={4} className="text-[#007ea7]" />
-                                                </span>
-                                                <span className="text-[14px] font-black text-[#003249] tracking-[2px] uppercase italic">{new Date(p.expiryDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()}</span>
-                                             </div>
-                                        </div>
-
-                                        <div className="flex gap-6">
-                                            <button className="flex-1 h-20 bg-white border-2 border-slate-100 text-[#003249] rounded-[2.5rem] text-[12px] font-black uppercase tracking-[8px] shadow-4xl hover:bg-[#003249] hover:text-[#80ced7] hover:border-[#003249] transition-all flex items-center justify-center gap-6 active:scale-95 group/btn italic overflow-hidden relative">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/5 to-transparent pointer-events-none" />
-                                                ASSET_DNA <Terminal size={24} strokeWidth={3} className="text-[#007ea7] group-hover/btn:translate-x-2' transition-transform" />
-                                            </button>
-                                            <button className="w-20 h-20 bg-slate-50 border-2 border-slate-100 rounded-[2rem] flex items-center justify-center text-[#003249] hover:bg-[#007ea7] hover:border-[#007ea7] hover:text-white transition-all active:scale-90 group/share shadow-xl">
-                                                <Share2 size={28} strokeWidth={3} className="group-hover:rotate-12 transition-transform" />
-                                            </button>
+                                        <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                            <div 
+                                                className={`h-full rounded-full transition-all duration-1000 ${timeStatus.isUrgent ? 'bg-amber-500' : 'bg-[#002b45]'}`}
+                                                style={{ width: `${timeStatus.progress}%` }}
+                                            />
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </Reveal>
-                    ))}
+
+                                <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-gray-100 xl:border-t-0 xl:pt-0 xl:justify-end xl:w-auto">
+                                    <button className="w-10 h-10 border border-gray-200 rounded-xl flex items-center justify-center text-gray-400 hover:text-[#002b45] hover:bg-gray-50 transition-colors">
+                                        <Download size={18} />
+                                    </button>
+                                    <button className="flex-1 xl:flex-none border border-gray-300 text-gray-700 font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-gray-50 transition-colors min-w-[120px] text-center">
+                                        View Details
+                                    </button>
+                                    {timeStatus.isUrgent ? (
+                                        <button className="flex-1 xl:flex-none bg-amber-500 text-white font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-amber-600 transition-colors min-w-[120px] text-center">
+                                            Renew Now
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={() => navigate('/customer/claims', { state: { policyId: p._id } })}
+                                            className="flex-1 xl:flex-none bg-[#002b45] text-white font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-[#003b5c] transition-colors min-w-[120px] text-center"
+                                        >
+                                            Submit Claim
+                                        </button>
+                                    )}
+                                </div>
+                            </motion.div>
+                        );
+                    })}
                 </div>
             )}
 
-            {/* Matrix Status Footer */}
-            <Reveal direction="up" delay={0.6}>
-                <div className="flex flex-wrap justify-center gap-24 pt-20 border-t-4 border-slate-50 relative">
-                     <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[2px] w-32 h-1 bg-[#007ea7] rounded-full" />
-                    
-                    {[
-                        { icon: Fingerprint, label: "VAL_PROTO_ACTIVE" },
-                        { icon: Layers, label: "GRID_SYNC_NOMINAL" },
-                        { icon: Zap, label: "ENCRYPT_AES_512" },
-                        { icon: RefreshCcw, label: "NODES_REDUNDANT" }
-                    ].map((status, i) => (
-                        <div key={i} className="flex items-center gap-5 group cursor-crosshair">
-                            <status.icon size={28} strokeWidth={3} className="text-[#007ea7] group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 opacity-20 group-hover:opacity-100" />
-                            <span className="text-[12px] font-black text-slate-300 uppercase tracking-[10px] italic leading-none group-hover:text-[#003249] transition-colors">{status.label}</span>
+            {/* Bottom Stats Row */}
+            {filteredPolicies.length > 0 && (
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="bg-gray-50 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-8 border border-gray-200"
+                >
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-8 md:gap-16">
+                        <div>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Total Active Policies</p>
+                            <p className="text-3xl font-black text-[#002b45]">{myPolicies.length < 10 ? `0${myPolicies.length}` : myPolicies.length}</p>
                         </div>
-                    ))}
-                </div>
-            </Reveal>
+                        <div>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Monthly Premium</p>
+                            <p className="text-3xl font-black text-[#002b45]">₹{totalPremium.toLocaleString()}</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1">Total Coverage</p>
+                            <p className="text-3xl font-black text-[#002b45]">₹{displayCoverage}</p>
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={() => navigate('/customer/browse')}
+                        className="text-right flex items-center gap-4 group"
+                    >
+                        <div className="flex flex-col items-end">
+                            <span className="text-sm font-medium text-gray-500">Need a custom plan?</span>
+                            <span className="text-[#002b45] font-bold group-hover:text-amber-500 transition-colors">Talk to our experts</span>
+                        </div>
+                        <ArrowRight size={24} className="text-[#002b45] group-hover:text-amber-500 transition-colors group-hover:translate-x-1" />
+                    </button>
+                </motion.div>
+            )}
         </div>
     );
 };

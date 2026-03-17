@@ -37,6 +37,7 @@ const Checkout = lazy(() => import("./pages/customer/CheckoutPage"));
 const CustomerProfile = lazy(() => import("./pages/customer/CustomerProfile"));
 const CustomerSettings = lazy(() => import("./pages/customer/CustomerSettings"));
 const CustomerPolicies = lazy(() => import("./pages/customer/CustomerPolicies"));
+const BrowsePolicies = lazy(() => import("./pages/customer/BrowsePolicies"));
 const CustomerClaims = lazy(() => import("./pages/customer/CustomerClaims"));
 
 const ApplicationPage = lazy(() => import("./pages/customer/ApplicationPage"));
@@ -147,6 +148,7 @@ function App() {
                     }
                   >
                     <Route index element={<CustomerDashboard />} />
+                    <Route path="browse" element={<BrowsePolicies />} />
                     <Route path="policies" element={<CustomerPolicies />} />
                     <Route path="claims" element={<CustomerClaims />} />
                     <Route path="profile" element={<CustomerProfile />} />

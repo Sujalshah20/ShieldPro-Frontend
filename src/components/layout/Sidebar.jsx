@@ -56,7 +56,7 @@ const ROLE_LINKS = {
     customer: {
         main: [
             { name: "Dashboard", path: "/customer", icon: LayoutDashboard },
-            { name: "Browse Policies", path: "/customer/browse", icon: Compass },
+            { name: "Browse Policies", path: "/customer/browse", icon: Search }, // Modified: Changed icon from Compass to Search
             { name: "My Policies", path: "/customer/policies", icon: ShieldCheck },
             { name: "My Claims", path: "/customer/claims", icon: ClipboardList },
             { name: "Submit New Claim", path: "/customer/claims/new", icon: PlusCircle },
