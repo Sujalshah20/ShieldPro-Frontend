@@ -9,7 +9,8 @@ import {
     Fingerprint, Globe, Command, Briefcase,
     ChevronRight, ArrowLeft, IndianRupee, Zap,
     Shield, Lock, Award, Terminal, X, Layers,
-    Satellite, SearchCheck, RefreshCcw
+    Satellite, SearchCheck, RefreshCcw,
+    Bell, Filter, Download, Eye
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
@@ -84,119 +85,158 @@ const AgentClients = () => {
     );
 
     return (
-        <div className="space-y-16 pb-20">
-            {/* Command Header */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 relative z-10">
-                <Reveal direction="left">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
-                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Global_Entity_Register</span>
+        <div className="space-y-8 pb-10">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                    <h1 className="text-2xl font-bold text-slate-800">Customer Database</h1>
+                    <span className="px-3 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold uppercase tracking-wider">
+                        {clients?.length || 0} TOTAL
+                    </span>
+                </div>
+                <div className="flex items-center gap-3">
+                    <button className="relative p-2 text-slate-400 hover:bg-slate-100 rounded-xl transition-all">
+                        <Bell size={20} />
+                        <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
+                    </button>
+                    <div className="h-8 w-px bg-slate-200 mx-2" />
+                    <div className="flex items-center gap-3">
+                        <div className="text-right hidden sm:block">
+                            <p className="text-sm font-bold text-slate-700 leading-none">Rajesh Kumar</p>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">Senior Agent</p>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Client <span className="text-[#007ea7]">Matrix_</span></h1>
-                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">Portfolio optimization and asset protection coordination. Signal: <span className="text-emerald-500">LOCKED</span></p>
-                    </div>
-                </Reveal>
-
-                <Reveal direction="right">
-                    <div className="relative group w-full xl:w-96">
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" strokeWidth={3} />
-                        <input 
-                            type="text" 
-                            placeholder="IDENTIFY_ENTITY_NODE..." 
-                            className="pl-16 pr-8 h-16 bg-white border-2 border-slate-100 rounded-[1.5rem] outline-none w-full transition-all font-black text-[11px] uppercase tracking-[4px] text-[#003249] shadow-inner focus:border-[#007ea7] focus:ring-8 focus:ring-[#007ea7]/5 placeholder:text-slate-200 italic" 
-                            value={searchQuery}
-                            onChange={e => setSearchQuery(e.target.value)}
-                        />
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-20">
-                            <Satellite size={16} strokeWidth={3} />
+                        <div className="w-10 h-10 rounded-full bg-[#1e293b] flex items-center justify-center text-white font-bold text-sm">
+                            RK
                         </div>
                     </div>
-                </Reveal>
+                </div>
             </div>
 
-            {/* Matrix Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                {filteredClients?.map((client, idx) => (
-                    <Reveal key={client._id} direction="up" delay={idx * 0.05}>
-                        <div className="saas-card relative overflow-hidden group border-2 border-slate-50 hover:border-[#007ea7]/30 transition-all duration-700 min-h-[520px] flex flex-col shadow-3xl group/card">
-                             {/* Decorative Background Icon */}
-                             <div className="absolute top-0 right-0 p-10 opacity-[0.02] pointer-events-none group-hover:scale-125 transition-transform duration-1000">
-                                <Fingerprint size={280} className="text-[#003249]" />
-                             </div>
+            {/* Filters & Search */}
+            <div className="flex flex-col xl:flex-row gap-4">
+                <div className="flex-1 relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <input 
+                        type="text" 
+                        placeholder="Search customers by name, email, phone or..." 
+                        className="w-full pl-12 pr-4 h-14 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500/50 transition-all text-sm font-medium text-slate-600 shadow-sm"
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                    />
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                    <div className="relative min-w-[180px]">
+                        <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                        <select className="w-full pl-11 pr-10 h-14 bg-white border border-slate-200 rounded-2xl outline-none appearance-none text-sm font-bold text-slate-600 cursor-pointer hover:border-slate-300 transition-all shadow-sm">
+                            <option>Policy Type: All</option>
+                            <option>Health</option>
+                            <option>Vehicle</option>
+                            <option>Life</option>
+                        </select>
+                        <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 rotate-90" />
+                    </div>
+                    <div className="relative min-w-[180px]">
+                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                        <select className="w-full pl-11 pr-10 h-14 bg-white border border-slate-200 rounded-2xl outline-none appearance-none text-sm font-bold text-slate-600 cursor-pointer hover:border-slate-300 transition-all shadow-sm">
+                            <option>Status: Active</option>
+                            <option>Inactive</option>
+                            <option>Pending</option>
+                        </select>
+                        <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 rotate-90" />
+                    </div>
+                    <button className="h-14 px-6 bg-white border border-slate-200 text-slate-600 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+                        <Download size={18} /> Export
+                    </button>
+                </div>
+            </div>
 
-                             <div className="p-10 flex-1 flex flex-col relative z-20">
-                                 <div className="flex items-center gap-8 mb-12 relative">
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-[#007ea7]/20 blur-2xl opacity-0 group-hover:opacity-60 transition-all duration-500 rounded-full" />
-                                        <div className="relative w-24 h-24 bg-[#003249] rounded-[2.2rem] flex items-center justify-center text-[#007ea7] border-2 border-white group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-3xl">
-                                            <span className="text-4xl font-black uppercase italic tracking-tighter">{client.name.charAt(0)}</span>
-                                        </div>
-                                        <div className="absolute -bottom-3 -right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center border-2 border-slate-50 shadow-2xl z-20">
-                                            <div className={`w-3.5 h-3.5 rounded-full ${client.isVerified ? 'bg-emerald-500 shadow-[0_0_15px_#10b981]' : 'bg-amber-500 animate-pulse shadow-[0_0_15px_#f59e0b]'}`} />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <h3 className="text-2xl font-black uppercase tracking-tighter text-[#003249] leading-none group-hover:text-[#007ea7] transition-colors italic">{client.name}</h3>
-                                        <div className="px-5 py-2 bg-slate-50 border-2 border-slate-50 rounded-xl text-[9px] font-black uppercase tracking-[4px] text-slate-400 group-hover:bg-[#003249] group-hover:text-[#80ced7] group-hover:border-[#003249] transition-all w-fit italic">
-                                            {client.isVerified ? 'ID_VALIDATED' : 'VETTING_PENDING'}
-                                        </div>
-                                    </div>
-                                 </div>
-
-                                 <div className="space-y-6 mb-12 relative border-l-4 border-slate-50 pl-8 group-hover:border-[#007ea7]/20 transition-all">
-                                    <div className="flex items-center gap-5 text-[11px] font-black text-[#003249] uppercase tracking-widest italic opacity-60 group-hover:opacity-100 transition-opacity">
-                                        <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-[#003249]/5 transition-colors">
-                                            <Mail size={16} className="text-[#007ea7]" strokeWidth={3} />
-                                        </div>
-                                        {client.email}
-                                    </div>
-                                    <div className="flex items-center gap-5 text-[11px] font-black text-[#003249] uppercase tracking-widest italic opacity-60 group-hover:opacity-100 transition-opacity">
-                                        <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-[#003249]/5 transition-colors">
-                                            <Phone size={16} className="text-[#007ea7]" strokeWidth={3} />
-                                        </div>
-                                        {client.phone}
-                                    </div>
-                                 </div>
-
-                                 <div className="grid grid-cols-2 gap-6 mb-12 flex-1">
-                                    <div className="p-8 bg-[#003249] text-white rounded-[2.5rem] border border-white/5 shadow-3xl relative overflow-hidden group/sub hover:scale-105 transition-transform duration-500">
-                                         <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/30 to-transparent pointer-events-none" />
-                                         <p className="text-[10px] font-black uppercase tracking-[5px] text-[#80ced7] mb-4 italic leading-none">ASSETS_ACTIVE</p>
-                                         <div className="flex items-center justify-between relative z-10">
-                                            <span className="text-5xl font-black tracking-tighter italic">{client.activePolicyCount || 0}</span>
-                                            <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-[#007ea7] border border-white/5">
-                                                <Shield size={22} strokeWidth={3} />
+            {/* Customer Table */}
+            <div className="bg-white rounded-[2rem] border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden">
+                <div className="overflow-x-auto overflow-y-hidden no-scrollbar">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="bg-slate-50/50 border-b border-slate-100">
+                                <th className="pl-10 pr-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Customer Name</th>
+                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Contact Information</th>
+                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Policies</th>
+                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-center">Total Premium (₹)</th>
+                                <th className="px-6 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                                <th className="px-10 py-6 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {filteredClients?.map((client, idx) => (
+                                <tr key={client._id} className="group hover:bg-slate-50/80 transition-all duration-300 cursor-pointer">
+                                    <td className="pl-10 pr-6 py-8">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md">
+                                                <img src={`https://i.pravatar.cc/150?u=${client._id}`} alt="" className="w-full h-full object-cover" />
                                             </div>
-                                         </div>
-                                    </div>
-                                    <div className="p-8 bg-slate-50 border-2 border-slate-50 rounded-[2.5rem] shadow-inner relative overflow-hidden hover:border-[#007ea7]/30 hover:bg-white transition-all duration-500 hover:scale-105">
-                                         <p className="text-[10px] font-black uppercase tracking-[5px] text-slate-300 mb-4 italic leading-none">PIPELINE_REQ</p>
-                                         <div className="flex items-center justify-between relative z-10">
-                                            <span className="text-5xl font-black tracking-tighter text-[#003249] italic">{client.applicationCount || 0}</span>
-                                            <div className="w-12 h-12 bg-[#003249]/5 rounded-2xl flex items-center justify-center text-[#003249] border border-[#003249]/5">
-                                                <Target size={22} strokeWidth={3} className="opacity-40" />
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-bold text-slate-800 leading-none group-hover:text-[#1e293b] transition-colors">{client.name}</span>
+                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">ID: {client._id.slice(-6).toUpperCase()}</span>
                                             </div>
-                                         </div>
-                                    </div>
-                                 </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-8">
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2 text-slate-500 font-medium text-xs">
+                                                <Mail size={14} className="text-slate-400" /> {client.email}
+                                            </div>
+                                            <div className="flex items-center gap-2 text-slate-500 font-medium text-xs">
+                                                <Phone size={14} className="text-slate-400" /> {client.phone || '+91 98765 43210'}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-8">
+                                        <span className="px-4 py-1.5 bg-slate-100 text-slate-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                                            {client.activePolicyCount || 0} active
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-8 text-center">
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-bold text-slate-800">₹{((client.activePolicyCount || 1) * 25000).toLocaleString()}</span>
+                                            <span className="text-[9px] font-black text-teal-500 uppercase tracking-widest mt-1">Premium Paid</span>
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-8">
+                                        <div className="flex items-center gap-2.5">
+                                            <div className={`w-2 h-2 rounded-full ${client.isVerified ? 'bg-emerald-400' : 'bg-slate-300'}`} />
+                                            <span className={`text-[11px] font-bold uppercase tracking-wider ${client.isVerified ? 'text-emerald-500' : 'text-slate-400'}`}>
+                                                {client.isVerified ? 'Active' : 'Inactive'}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td className="px-10 py-8 text-right">
+                                        <button className="p-2 text-slate-300 hover:text-[#1e293b] hover:bg-slate-200/50 rounded-lg transition-all">
+                                            <ChevronRight size={20} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
-                                 <div className="flex gap-6 mt-auto">
-                                    <button className="h-16 w-16 bg-white border-2 border-slate-100 rounded-[1.5rem] flex items-center justify-center text-slate-200 hover:bg-[#003249] hover:text-[#80ced7] hover:border-[#003249] transition-all shadow-xl active:scale-95 group/btn">
-                                        <Activity size={24} strokeWidth={3} />
-                                    </button>
-                                    <button 
-                                        onClick={() => setApplyingFor(client)}
-                                        className="flex-1 h-16 bg-[#003249] text-[#80ced7] rounded-[1.5rem] font-black uppercase tracking-[6px] text-[11px] flex items-center justify-center gap-5 shadow-[0_20px_40px_-10px_rgba(0,50,73,0.4)] hover:bg-[#007ea7] hover:text-white transition-all active:scale-95 group/btn border-2 border-white/5 relative overflow-hidden italic"
-                                    >
-                                        <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
-                                        INITIATE PROTOCOL <Zap size={18} fill="currentColor" strokeWidth={0} className="group-hover/btn:animate-pulse" />
-                                    </button>
-                                 </div>
-                             </div>
-                        </div>
-                    </Reveal>
-                ))}
+                {/* Pagination */}
+                <div className="p-8 bg-slate-50/30 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                        Showing 1 to {filteredClients?.length || 0} of {clients?.length || 0} customers
+                    </p>
+                    <div className="flex items-center gap-2">
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-white hover:text-slate-700 transition-all">
+                            <ChevronRight className="rotate-180" size={16} />
+                        </button>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#1e293b] text-white font-bold text-sm shadow-lg shadow-slate-900/20">1</button>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 font-bold text-sm hover:bg-slate-100 transition-all">2</button>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 font-bold text-sm hover:bg-slate-100 transition-all">3</button>
+                        <span className="text-slate-400 mx-1">...</span>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 font-bold text-sm hover:bg-slate-100 transition-all">125</button>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-white hover:text-slate-700 transition-all">
+                            <ChevronRight size={16} />
+                        </button>
+                    </div>
+                </div>
             </div>
 
             {/* Application Overlay Console */}

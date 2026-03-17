@@ -55,20 +55,18 @@ const ROLE_LINKS = {
             { name: "Dashboard", path: "/agent", icon: LayoutDashboard },
             { name: "My Customers", path: "/agent/clients", icon: Users },
             { name: "Policy Applications", path: "/agent/applications", icon: FileText },
-            { name: "Claims to Process", path: "/agent/claims", icon: ShieldCheck },
-            { name: "Document Verification", path: "/agent/verification", icon: ClipboardCheck },
-            { name: "My Commission", path: "/agent/commissions", icon: DollarSign },
-            { name: "Performance Report", path: "/agent/performance", icon: LineChart },
+            { name: "Claims to Process", path: "/agent/claims", icon: ClipboardList },
+            { name: "Commission", path: "/agent/commissions", icon: DollarSign },
         ],
-        footer: [
-            { name: "Profile", path: "/agent/profile", icon: User },
-            { name: "Logout", path: "/logout", icon: LogOut, action: "logout", color: "text-rose-500" },
+        support: [
+            { name: "Settings", path: "/agent/profile", icon: Settings },
+            { name: "Help Center", path: "/help", icon: HelpCircle },
         ]
     },
     customer: {
         main: [
             { name: "Dashboard", path: "/customer", icon: LayoutDashboard },
-            { name: "Browse Policies", path: "/customer/browse", icon: Search }, // Modified: Changed icon from Compass to Search
+            { name: "Browse Policies", path: "/customer/browse", icon: Search },
             { name: "My Policies", path: "/customer/policies", icon: ShieldCheck },
             { name: "My Claims", path: "/customer/claims", icon: ClipboardList },
             { name: "Submit New Claim", path: "/customer/claims/new", icon: PlusCircle },
@@ -102,75 +100,100 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-[#002b45]/60 z-[60] md:hidden backdrop-blur-sm"
+                        className="fixed inset-0 bg-slate-900/60 z-[60] md:hidden backdrop-blur-sm"
                         onClick={() => setIsOpen(false)}
                     />
                 )}
             </AnimatePresence>
 
-            {/* Sidebar Chassis — Clean Navy/Teal Theme */}
+            {/* Sidebar Chassis — Premium Navy Theme */}
             <aside
                 className={`fixed top-0 left-0 z-[70] h-[100dvh] w-64 ${
-                    role === 'agent' ? 'bg-[#064e3b]' : 'bg-[#124C89]'
-                } text-white shadow-xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+                    role === 'agent' ? 'bg-[#1e293b]' : 'bg-[#124C89]'
+                } text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 {/* Header Section */}
-                <div className="p-6 pb-2 flex items-center gap-3">
-                    <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center border border-white/20">
-                        <Shield className="w-5 h-5 text-white" strokeWidth={2.5} />
-                    </div>
-                    <span className="text-lg font-bold tracking-tight">Secure Shield</span>
-                </div>
-
-                {/* User Profile Section */}
-                <div className="px-6 py-4 mb-2">
-                    <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10">
-                        <div className="w-10 h-10 rounded-lg overflow-hidden border-2 border-white/20">
-                            <img src={`https://i.pravatar.cc/150?u=${user?._id}`} alt="User" className="w-full h-full object-cover" />
+                <div className="p-8 pb-10 flex flex-col gap-1">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-[#0ea5e9] rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
+                            <Shield className="w-6 h-6 text-white" strokeWidth={2.5} />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-xs font-bold text-white truncate max-w-[100px]">
-                                {role === 'agent' ? 'Sarah Jenkins' : (user?.name || 'User')}
-                            </span>
-                            <div className="flex flex-col gap-0.5 mt-0.5">
-                                <span className="text-[8px] font-black text-white px-1.5 py-0.5 rounded-md w-fit uppercase tracking-wider bg-[#063b2f] border border-white/5">
-                                    {role === 'customer' ? 'Customer' : role === 'agent' ? 'Senior Agent' : 'Admin'}
-                                </span>
-                                {role === 'agent' && (
-                                    <span className="text-[8px] font-bold text-white/40">AGT-9921</span>
-                                )}
-                            </div>
+                            <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
+                            {role === 'agent' && (
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">AGENT PORTAL</span>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 {/* Navigation Links */}
-                <nav className="flex-1 overflow-y-auto no-scrollbar px-4 space-y-6">
+                <nav className="flex-1 overflow-y-auto no-scrollbar px-4 space-y-8">
                     {/* Main Section */}
                     <div className="space-y-1">
-                        {links.main.map((link) => {
+                        {(role === 'agent' ? links.main : (role === 'admin' ? links : links.main)).map((link) => {
                             const Icon = link.icon;
                             const isActive = location.pathname === link.path;
                             return (
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
+                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                                         isActive 
-                                            ? "bg-white/10 text-white shadow-lg" 
-                                            : "text-white/60 hover:text-white hover:bg-white/5"
+                                            ? "bg-[#14b8a6] text-white shadow-lg shadow-teal-500/20" 
+                                            : "text-slate-400 hover:text-white hover:bg-white/5"
                                     }`}
                                 >
-                                    <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
-                                    <span className="text-sm font-semibold">{link.name}</span>
+                                    <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                                    <span className="text-[13px] font-bold">{link.name}</span>
                                 </Link>
                             );
                         })}
                     </div>
+
+                    {/* Support Section for Agent */}
+                    {role === 'agent' && (
+                        <div className="space-y-4 pt-4">
+                            <span className="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-[2px]">Support & Account</span>
+                            <div className="space-y-1">
+                                {links.support.map((link) => {
+                                    const Icon = link.icon;
+                                    const isActive = location.pathname === link.path;
+                                    return (
+                                        <Link
+                                            key={link.path}
+                                            to={link.path}
+                                            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                                                isActive 
+                                                    ? "bg-[#14b8a6] text-white shadow-lg" 
+                                                    : "text-slate-400 hover:text-white hover:bg-white/5"
+                                            }`}
+                                        >
+                                            <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                                            <span className="text-[13px] font-bold">{link.name}</span>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
                 </nav>
 
-                {/* Footer Section (Logout/Profile) - Docked at bottom */}
-                {links.footer && (
+                {/* Agent Action Button */}
+                {role === 'agent' && (
+                    <div className="p-6 mt-auto">
+                        <button 
+                            onClick={() => navigate('/agent/clients')} // Or some specific 'new' route
+                            className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-4 py-4 rounded-xl transition-all border border-white/10 group"
+                        >
+                            <PlusCircle size={18} className="group-hover:rotate-90 transition-transform" />
+                            <span className="text-[13px] font-bold tracking-tight">New Customer</span>
+                        </button>
+                    </div>
+                )}
+
+                {/* Footer Selection for non-agent roles (Fallback or Legacy) */}
+                {!role === 'agent' && links.footer && (
                     <div className="px-4 py-4 border-t border-white/5 space-y-1">
                         {links.footer.map((link) => {
                             const Icon = link.icon;
