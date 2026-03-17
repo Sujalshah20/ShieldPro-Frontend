@@ -151,32 +151,6 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         })}
                     </div>
 
-                    {/* Support Section for Agent */}
-                    {role === 'agent' && (
-                        <div className="space-y-4 pt-4">
-                            <span className="px-4 text-[10px] font-extrabold text-slate-500 uppercase tracking-widest">Support & Account</span>
-                            <div className="space-y-1">
-                                {links.support.map((link) => {
-                                    const Icon = link.icon;
-                                    const isActive = location.pathname === link.path;
-                                    return (
-                                        <Link
-                                            key={link.path}
-                                            to={link.path}
-                                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                                                isActive 
-                                                    ? "bg-[#14b8a6] text-white shadow-lg" 
-                                                    : "text-slate-400 hover:text-white hover:bg-white/5"
-                                            }`}
-                                        >
-                                            <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                                            <span className="text-[13px] font-bold">{link.name}</span>
-                                        </Link>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
                 </nav>
 
                 {/* Persistent Action & Profile Area */}
