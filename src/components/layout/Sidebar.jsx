@@ -122,7 +122,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 </div>
 
                 {/* Navigation Links */}
-                <nav className="flex-1 overflow-y-auto no-scrollbar px-6 space-y-8">
+                <nav className="flex-1 overflow-y-auto no-scrollbar px-6 pb-24 space-y-8">
                     {/* Main Section */}
                     <div className="space-y-2">
                         {role === 'customer' ? (
