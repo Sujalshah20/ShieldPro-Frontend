@@ -41,6 +41,8 @@ const BrowsePolicies = lazy(() => import("./pages/customer/BrowsePolicies"));
 const CustomerClaims = lazy(() => import("./pages/customer/CustomerClaims"));
 
 const ApplicationPage = lazy(() => import("./pages/customer/ApplicationPage"));
+const PolicyDetail = lazy(() => import("./pages/customer/PolicyDetail"));
+const PaymentHistory = lazy(() => import("./pages/customer/PaymentHistory"));
 const MessagesPage = lazy(() => import("./pages/messages/MessagesPage"));
 
 const PageWrapper = ({ children }) => (
@@ -150,9 +152,11 @@ function App() {
                     <Route index element={<CustomerDashboard />} />
                     <Route path="browse" element={<BrowsePolicies />} />
                     <Route path="policies" element={<CustomerPolicies />} />
+                    <Route path="policies/:id" element={<PolicyDetail />} />
                     <Route path="claims" element={<CustomerClaims />} />
                     <Route path="profile" element={<CustomerProfile />} />
                     <Route path="settings" element={<CustomerSettings />} />
+                    <Route path="payments" element={<PaymentHistory />} />
                     <Route path="apply" element={<ApplicationPage />} />
                     <Route path="checkout" element={<Checkout />} />
                   </Route>
