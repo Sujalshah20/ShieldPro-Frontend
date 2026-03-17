@@ -22,13 +22,6 @@ const Navbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const navLinks = [
-        { name: "HOME", href: "#" },
-        { name: "ABOUT US", href: "#" },
-        { name: "POLICIES", href: "#" },
-        { name: "CONTACT US", href: "#" }
-    ];
-
     return (
         <nav className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-300 ${
             scrolled ? 'h-20 bg-white shadow-md' : 'h-24 bg-white/80 backdrop-blur-md'
@@ -42,17 +35,8 @@ const Navbar = () => {
                     <span className="text-xl font-bold text-[#002b45] tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
                 </Link>
 
-                {/* Desktop Nav */}
-                <div className="hidden lg:flex items-center gap-10">
-                    {navLinks.map((item) => (
-                        <a key={item.name} href={item.href} className="text-[13px] font-semibold text-[#64748b] hover:text-[#134e8d] transition-colors tracking-wide">
-                            {item.name}
-                        </a>
-                    ))}
-                </div>
-
                 {/* Auth Buttons */}
-                <div className="hidden lg:flex items-center gap-4">
+                <div className="flex items-center gap-4">
                     <Link to="/login" className="px-6 py-2 text-[13px] font-bold text-[#64748b] border border-slate-200 rounded-lg hover:bg-slate-50 transition-all">
                         Login
                     </Link>
@@ -60,32 +44,7 @@ const Navbar = () => {
                         Register
                     </Link>
                 </div>
-
-                {/* Mobile Menu Trigger */}
-                <button className="text-[#002b45] lg:hidden p-2" onClick={() => setIsOpen(!isOpen)}>
-                    {isOpen ? <X size={28} /> : <Menu size={28} />}
-                </button>
             </div>
-
-            {/* Mobile Nav Overlay */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div 
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-full left-0 w-full bg-white shadow-xl border-t border-slate-50 p-8 flex flex-col gap-6 lg:hidden"
-                    >
-                        {navLinks.map((item) => (
-                            <a key={item.name} href={item.href} className="text-lg font-bold text-[#002b45]">{item.name}</a>
-                        ))}
-                        <div className="flex flex-col gap-4 mt-4">
-                            <Link to="/login" className="w-full py-4 border border-slate-200 text-[#002b45] font-bold rounded-xl text-center">Login</Link>
-                            <Link to="/register" className="w-full py-4 bg-[#002b45] text-white font-bold rounded-xl text-center">Register</Link>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </nav>
     );
 };
