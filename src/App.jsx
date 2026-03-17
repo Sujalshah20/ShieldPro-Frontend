@@ -31,6 +31,9 @@ const AgentClaims = lazy(() => import("./pages/agent/AgentClaims"));
 const AgentClients = lazy(() => import("./pages/agent/AgentClients"));
 const AgentCommissions = lazy(() => import("./pages/agent/AgentCommissions"));
 const AgentApplications = lazy(() => import("./pages/agent/AgentApplications"));
+const AgentVerification = lazy(() => import("./pages/agent/AgentVerification"));
+const AgentPerformance = lazy(() => import("./pages/agent/AgentPerformance"));
+const AgentProfile = lazy(() => import("./pages/agent/AgentProfile"));
 const CustomerLayout = lazy(() => import("./pages/customer/CustomerLayout"));
 const CustomerDashboard = lazy(() => import("./pages/customer/CustomerDashboard"));
 const Checkout = lazy(() => import("./pages/customer/CheckoutPage"));
@@ -138,6 +141,9 @@ function App() {
                     <Route path="applications" element={<AgentApplications />} />
                     <Route path="commissions" element={<AgentCommissions />} />
                     <Route path="claims" element={<AgentClaims />} />
+                    <Route path="verification" element={<AgentVerification />} />
+                    <Route path="performance" element={<AgentPerformance />} />
+                    <Route path="profile" element={<AgentProfile />} />
                   </Route>
 
                   {/* -------- CUSTOMER ROUTES -------- */}
