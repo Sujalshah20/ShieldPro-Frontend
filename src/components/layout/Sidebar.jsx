@@ -57,10 +57,7 @@ const ROLE_LINKS = {
             { name: "Policy Applications", path: "/agent/applications", icon: FileText },
             { name: "Claims to Process", path: "/agent/claims", icon: ClipboardList },
         ],
-        support: [
-            { name: "Settings", path: "/agent/profile", icon: Settings },
-            { name: "Help Center", path: "/help", icon: HelpCircle },
-        ],
+        support: [],
         footer: [
             { name: "Profile", path: "/agent/profile", icon: User },
             { name: "Logout", path: "/logout", icon: LogOut, action: "logout" },
@@ -184,28 +181,6 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
                 {/* Persistent Action & Profile Area */}
                 <div className="p-4 mt-auto border-t border-white/5 space-y-4">
-                    {role === 'agent' && (
-                        <button 
-                            onClick={() => navigate('/agent/clients')} 
-                            className="w-full flex items-center justify-center gap-3 bg-[#ffffff15] hover:bg-[#ffffff25] text-white px-4 py-3.5 rounded-xl transition-all border border-white/5 group"
-                        >
-                            <PlusCircle size={18} className="group-hover:rotate-90 transition-transform" />
-                            <span className="text-[13px] font-bold tracking-tight">New Customer</span>
-                        </button>
-                    )}
-
-                    {/* Agent Profile Summary */}
-                    {role === 'agent' && (
-                        <div className="flex items-center gap-3 px-2 py-2">
-                            <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden border border-white/10">
-                                <User size={20} className="text-slate-400" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[13px] font-bold text-white line-clamp-1">Marcus Thorne</span>
-                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Senior Agent</span>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Logout Option */}
                     <button
