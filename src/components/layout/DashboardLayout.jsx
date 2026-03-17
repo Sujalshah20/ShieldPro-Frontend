@@ -8,7 +8,7 @@ const DashboardLayout = ({ role }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="min-h-screen bg-slate-50 font-sans">
+        <div className="min-h-screen bg-[#f1f5f9] font-sans overflow-x-hidden">
             {/* Sidebar Component */}
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
@@ -17,30 +17,16 @@ const DashboardLayout = ({ role }) => {
                 <Header role={role} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
                 {/* Main Dashboard Region */}
-                <main className="flex-1 pt-20 pb-8 relative z-10 px-4 md:px-8 w-full max-w-[1600px] mx-auto">
+                <main className="flex-1 pt-20 pb-0 relative z-10 w-full max-w-[1700px] mx-auto">
                     <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="h-full"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.4 }}
+                        className="h-full px-4 md:px-6"
                     >
                         <Outlet />
                     </motion.div>
                 </main>
-
-                {/* Modern Footer */}
-                <footer className="py-8 bg-white/50 border-t border-slate-100 relative z-10">
-                    <div className="px-10 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 bg-[#124C89] rounded-full" />
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">ShieldPro Secure</p>
-                        </div>
-                        <div className="flex items-center gap-8">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Version 4.2.0</p>
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">© 2026 ShieldPro Insurance</p>
-                        </div>
-                    </div>
-                </footer>
             </div>
         </div>
     );

@@ -1,231 +1,292 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { 
-    Shield, Search, Filter, ArrowUpRight, 
-    MoreHorizontal, Clock, CheckCircle2, XCircle,
-    FileText, Download, Lock, Compass, Terminal, Layers, Fingerprint,
-    Satellite, Award, Globe, Zap, SearchCheck, RefreshCcw, ChevronRight
+    Search, Clock, AlertCircle, CheckCircle, 
+    FileText, User, Eye, X, ChevronRight,
+    ShieldCheck, Layers, MessageSquare, Download,
+    Layout
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Reveal from "../../components/common/Reveal";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { api } from "../../utils/api";
 import { useToast } from "../../hooks/use-toast";
-import { useAuth } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const AgentClaims = () => {
-    const [claims, setClaims] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [filterStatus, setFilterStatus] = useState("All");
+    const { user } = useContext(AuthContext);
     const { toast } = useToast();
-    const { user } = useAuth();
+    const [selectedClaim, setSelectedClaim] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [activeStatusTab, setActiveStatusTab] = useState('All Claims');
+    const [checklist, setChecklist] = useState({
+        incidentReport: false,
+        damagePhotos: false,
+        identityProof: false,
+        policeReport: false
+    });
 
-    useEffect(() => {
-        fetchClaims();
-    }, []);
+    const { data: claims, isLoading } = useQuery({
+        queryKey: ['agentClaims', user?.token],
+        queryFn: () => api.get('/agent/claims', user.token),
+        enabled: !!user?.token
+    });
 
-    const fetchClaims = async () => {
-        try {
-            const res = await api.get("/agent/claims", user?.token);
-            setClaims(res.data);
-        } catch (error) {
-            toast({ 
-                title: "SYNC_FAILURE", 
-                description: "Could not retrieve claim data from settlement clusters.", 
-                variant: "destructive" 
-            });
-        } finally {
-            setLoading(false);
-        }
-    };
+    const statusTabs = ['All Claims', 'Pending', 'In Progress', 'Approved', 'Rejected'];
 
-    const filteredClaims = filterStatus === "All" 
-        ? claims 
-        : claims.filter(c => c.status === filterStatus);
+    const filteredClaims = claims?.filter(claim => {
+        const matchesSearch = claim.userId?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                            claim._id.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesTab = activeStatusTab === 'All Claims' || 
+                          claim.status === activeStatusTab;
+        return matchesSearch && matchesTab;
+    });
+
+    if (isLoading) return (
+        <div className="py-20 px-8">
+             <div className="h-12 w-64 bg-slate-200 animate-pulse rounded-xl mb-12" />
+             <div className="h-[600px] bg-white rounded-3xl border border-slate-200 animate-pulse" />
+        </div>
+    );
 
     return (
-        <div className="space-y-16 pb-20">
-            {/* Header / Command Center */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 relative z-10">
-                <Reveal direction="left">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
-                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Global_Settlement_Ledger</span>
-                        </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">Claim <span className="text-[#007ea7]">Protocols_</span></h1>
-                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">Oversee and monitor active settlement requests across your portfolio. Status: <span className="text-[#007ea7]">LIVE_FEED</span></p>
+        <div className="flex flex-col lg:flex-row gap-6 py-6 min-h-screen relative overflow-hidden">
+            {/* Left Content: Claims List */}
+            <div className={`flex-1 flex flex-col gap-6 transition-all duration-500 pb-10 ${selectedClaim ? 'lg:mr-[420px]' : ''}`}>
+                <div>
+                    <div className="flex items-center gap-2 text-[12px] font-bold text-slate-400 uppercase tracking-widest mb-1">
+                        <Link to="/agent" className="hover:text-slate-600 transition-colors">Dashboard</Link>
+                        <ChevronRight size={12} />
+                        <span className="text-slate-600">Claims to Process</span>
                     </div>
-                </Reveal>
+                    <h1 className="text-2xl font-bold text-[#1e293b]">Claims to Process</h1>
+                    <p className="text-[13px] font-medium text-slate-400 mt-1">Audit and verify settlement requests from policyholders.</p>
+                </div>
 
-                <Reveal direction="right">
-                    <div className="flex flex-wrap items-center gap-8">
-                        <div className="relative group w-full md:w-80">
-                            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 w-5 h-5 group-focus-within:text-[#007ea7] transition-colors" strokeWidth={3} />
-                            <input 
-                                type="text" 
-                                placeholder="IDENTIFY_INCIDENT..." 
-                                className="bg-white border-2 border-slate-100 rounded-[1.5rem] py-5 pl-16 pr-8 text-[11px] font-black uppercase tracking-[5px] focus:outline-none focus:border-[#007ea7] focus:ring-8 focus:ring-[#007ea7]/5 transition-all shadow-inner w-full text-[#003249] italic placeholder:text-slate-200"
-                            />
-                             <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-20">
-                                <Satellite size={16} strokeWidth={3} />
-                            </div>
-                        </div>
-                    </div>
-                </Reveal>
-            </div>
-
-            {/* Filter Tabs & Export */}
-            <Reveal direction="up" delay={0.2}>
-                <div className="flex flex-col xl:flex-row items-center justify-between gap-10">
-                    <div className="flex flex-wrap gap-5 w-full xl:w-auto">
-                        {["All", "Pending", "Approved", "Rejected"].map(status => (
+                {/* Tab Navigation & Search */}
+                <div className="bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm inline-flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div className="flex flex-wrap items-center gap-1 w-full md:w-auto">
+                        {statusTabs.map(tab => (
                             <button
-                                key={status}
-                                onClick={() => setFilterStatus(status)}
-                                className={`px-10 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[6px] transition-all border-2 italic relative overflow-hidden group/tab ${
-                                    filterStatus === status 
-                                    ? 'bg-[#003249] text-[#80ced7] border-[#003249] shadow-3xl' 
-                                    : 'bg-white text-slate-400 border-slate-50 hover:border-[#007ea7]/30 hover:text-[#003249]'
+                                key={tab}
+                                onClick={() => setActiveStatusTab(tab)}
+                                className={`px-4 py-2 rounded-xl text-[11px] font-bold transition-all ${
+                                    activeStatusTab === tab 
+                                    ? 'bg-[#1e293b] text-white shadow-md' 
+                                    : 'text-slate-500 hover:bg-slate-50'
                                 }`}
                             >
-                                <div className={`absolute bottom-0 left-0 h-1 bg-[#007ea7] transition-all duration-500 ${filterStatus === status ? 'w-full' : 'w-0'}`} />
-                                {status.toUpperCase()}
+                                {tab}
                             </button>
                         ))}
                     </div>
-                    
-                    <button className="h-16 px-10 bg-white border-2 border-slate-100 text-[#003249] rounded-2xl text-[11px] font-black uppercase tracking-[5px] shadow-xl hover:bg-[#003249] hover:text-[#80ced7] hover:border-[#003249] transition-all flex items-center justify-center gap-5 active:scale-95 italic group w-full md:w-auto">
-                        <Download size={20} className="text-[#007ea7] group-hover:rotate-12 transition-transform" strokeWidth={3} /> EXPORT_SETTLEMENT_LOG
-                    </button>
-                </div>
-            </Reveal>
-
-            {/* Claims Table Container */}
-            <Reveal direction="up" delay={0.4}>
-                <div className="saas-card !p-0 overflow-hidden shadow-3xl border-2 border-slate-50">
-                    <div className="p-12 border-b-2 border-slate-50 bg-slate-50/20 flex flex-col xl:flex-row xl:items-center justify-between gap-10 relative">
-                         {/* Tactical Background */}
-                        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
-
-                        <div className="flex items-center gap-8 relative z-10">
-                            <div className="w-18 h-18 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] shadow-3xl border border-white/5">
-                                <Terminal size={36} strokeWidth={2.5} className="animate-pulse" />
-                            </div>
-                            <div className="space-y-1">
-                                <h3 className="text-3xl font-black uppercase tracking-tighter text-[#003249] italic leading-none">Settlement Matrix</h3>
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[5px] italic opacity-60">Global disbursement protocols and vetting logs</p>
-                            </div>
+                    <div className="flex items-center gap-3 w-full md:w-auto">
+                        <div className="relative w-full md:w-64">
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                            <input 
+                                type="text" 
+                                placeholder="Search claims..." 
+                                className="w-full pl-9 pr-4 h-9 bg-slate-50 border-none rounded-xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-[#1e293b]/5 transition-all text-slate-600"
+                                value={searchQuery}
+                                onChange={e => setSearchQuery(e.target.value)}
+                            />
                         </div>
-                        <div className="hidden md:flex items-center gap-6 bg-slate-50 px-10 py-4 rounded-xl border-2 border-slate-50 shadow-inner overflow-hidden relative group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#007ea7]/5 to-transparent animate-shimmer" />
-                            <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_15px_#10b981] animate-pulse" />
-                            <span className="text-[10px] font-black text-[#003249] uppercase tracking-[5px] italic relative z-10">SETTLEMENT_ENGINE_V4.2_ONLINE</span>
-                        </div>
+                        <button className="h-9 px-4 bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-600 flex items-center gap-2 hover:bg-slate-50 transition-all">
+                            <Download size={14} /> Export
+                        </button>
                     </div>
-                    
-                    <div className="overflow-x-auto relative z-10">
+                </div>
+
+                {/* Claims Ledger Table */}
+                <div className="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden min-h-[500px]">
+                    <div className="overflow-x-auto">
                         <table className="w-full text-left">
-                            <thead className="bg-[#003249] text-white">
-                                <tr className="text-[10px] font-black uppercase tracking-[5px] italic border-b border-white/5">
-                                    <th className="px-12 py-10 border-r border-white/5">INCIDENT_ID</th>
-                                    <th className="px-12 py-10 border-r border-white/5">CLIENT_IDENTITY</th>
-                                    <th className="px-12 py-10 border-r border-white/5">TIMESTAMP_FILED</th>
-                                    <th className="px-12 py-10 text-center border-r border-white/5">LIFECYCLE_STATUS</th>
-                                    <th className="px-12 py-10 text-right">COMMAND</th>
+                            <thead>
+                                <tr className="border-b border-slate-100 bg-white">
+                                    <th className="pl-8 pr-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Incident ID</th>
+                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Policyholder</th>
+                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
+                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Filed Date</th>
+                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Status</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-50 italic">
-                                {loading ? (
-                                    [1,2,3,4].map(i => (
-                                        <tr key={i} className="animate-pulse">
-                                            <td colSpan="5" className="px-12 py-12"><div className="h-16 bg-slate-50 rounded-2xl w-full" /></td>
-                                        </tr>
-                                    ))
-                                ) : filteredClaims.length > 0 ? (
-                                    filteredClaims.map((claim, i) => (
-                                        <tr key={claim._id} className="hover:bg-slate-50/50 transition-all duration-500 group cursor-pointer">
-                                            <td className="px-12 py-10">
-                                                <div className="flex items-center gap-4 group/id">
-                                                    <div className="w-1.5 h-10 bg-[#007ea7] rounded-full group-hover:h-12 transition-all duration-500" />
-                                                    <span className="text-xl font-black text-[#003249] italic tracking-tighter group-hover:text-[#007ea7] transition-colors uppercase leading-none">#{claim._id.slice(-8)}</span>
+                            <tbody className="divide-y divide-slate-50">
+                                {filteredClaims?.map(claim => (
+                                    <tr 
+                                        key={claim._id} 
+                                        className={`group hover:bg-slate-50/50 transition-colors cursor-pointer ${selectedClaim?._id === claim._id ? 'bg-[#f1f5f9]' : ''}`}
+                                        onClick={() => setSelectedClaim(claim)}
+                                    >
+                                        <td className="pl-8 pr-4 py-5">
+                                            <span className="text-[12px] font-bold text-[#1e293b]">CLM-{claim._id.slice(-6).toUpperCase()}</span>
+                                        </td>
+                                        <td className="px-4 py-5">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-[#1e293b]/5 flex items-center justify-center text-[10px] font-bold text-[#1e293b]">
+                                                    {claim.userId?.name?.charAt(0)}
                                                 </div>
-                                            </td>
-                                            <td className="px-12 py-10">
-                                                <div className="flex items-center gap-8">
-                                                    <div className="w-16 h-16 rounded-[1.5rem] bg-[#003249] text-[#007ea7] flex items-center justify-center text-2xl font-black shadow-3xl group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 border-2 border-white relative overflow-hidden">
-                                                        <div className="absolute inset-0 bg-gradient-to-br from-[#007ea7]/20 to-transparent pointer-events-none" />
-                                                        {claim.userId?.name?.charAt(0) || "U"}
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <p className="font-black text-[#003249] text-xl leading-none uppercase tracking-tighter group-hover:text-[#007ea7] transition-colors">{claim.userId?.name || "Anonymous Client"}</p>
-                                                        <div className="flex items-center gap-3 opacity-40">
-                                                            <Shield size={14} strokeWidth={3} className="text-[#007ea7]" />
-                                                            <span className="text-[10px] font-black uppercase tracking-[3px] leading-none">{claim.policyId?.title || "Standard Coverage"}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10">
-                                                 <div className="flex items-center gap-4 bg-slate-50 px-6 py-3 rounded-2xl border-2 border-slate-50 w-fit group-hover:bg-white group-hover:border-[#007ea7]/30 transition-all shadow-sm">
-                                                    <Clock size={16} className="text-[#007ea7]" strokeWidth={3} />
-                                                    <span className="text-[11px] font-black text-[#003249] uppercase tracking-[5px] leading-none">
-                                                        {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}
-                                                    </span>
-                                                 </div>
-                                            </td>
-                                            <td className="px-12 py-10 text-center">
-                                                <div className="flex justify-center">
-                                                    <span className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[4px] border-2 shadow-xl italic flex items-center gap-4 ${
-                                                        claim.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-50 shadow-emerald-500/10' :
-                                                        claim.status === 'Rejected' ? 'bg-rose-50 text-rose-600 border-rose-50 shadow-rose-500/10' :
-                                                        'bg-amber-50 text-amber-600 border-amber-50 shadow-amber-500/10'
-                                                    }`}>
-                                                        <div className={`w-2.5 h-2.5 rounded-full ${
-                                                            claim.status === 'Approved' ? 'bg-emerald-500 shadow-[0_0_15px_#10b981]' :
-                                                            claim.status === 'Rejected' ? 'bg-rose-500 shadow-[0_0_15px_#f43f5e]' :
-                                                            'bg-amber-500 animate-pulse'
-                                                        }`} />
-                                                        {claim.status}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-12 py-10 text-right">
-                                                <button className="h-16 w-16 bg-white border-2 border-slate-100 text-[#003249] rounded-2xl shadow-xl hover:bg-[#003249] hover:text-[#80ced7] hover:border-[#003249] transition-all flex items-center justify-center active:scale-95 group/btn">
-                                                    <ArrowUpRight size={24} strokeWidth={4} className="group-hover/btn:rotate-45 transition-transform duration-500" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="5" className="px-12 py-40 text-center">
-                                             <Compass size={64} className="mx-auto mb-8 opacity-5 text-[#003249] animate-spin-slow" strokeWidth={1} />
-                                             <p className="text-[12px] font-black uppercase tracking-[8px] text-slate-300 italic">No active signal identified in settlement quadrant</p>
+                                                <span className="text-[12px] font-bold text-[#1e293b]">{claim.userId?.name}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-5">
+                                            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-tight">{claim.policyId?.title || "Standard Claim"}</span>
+                                        </td>
+                                        <td className="px-4 py-5 text-center">
+                                            <span className="text-[11px] font-bold text-slate-500">
+                                                {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: '2023' })}
+                                            </span>
+                                        </td>
+                                        <td className="px-4 py-5 text-center">
+                                            <div className="flex justify-center">
+                                                <span className={`px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
+                                                    claim.status === 'Approved' ? 'bg-emerald-50 text-emerald-600' :
+                                                    claim.status === 'Rejected' ? 'bg-rose-50 text-rose-600' :
+                                                    'bg-orange-50 text-orange-600'
+                                                }`}>
+                                                    {claim.status}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-5 text-right">
+                                            <button className="p-1.5 text-slate-300 group-hover:text-[#1e293b] transition-colors rounded-lg">
+                                                <ChevronRight size={18} />
+                                            </button>
                                         </td>
                                     </tr>
-                                )}
+                                ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </Reveal>
+            </div>
 
-            {/* Sub-Metadata Footer */}
-            <Reveal direction="up" delay={0.6}>
-                <div className="flex flex-wrap justify-center gap-16 opacity-30 pt-16 border-t-2 border-slate-50">
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
-                        <Fingerprint size={20} strokeWidth={3} className="text-[#007ea7]" /> Agent_ID: {user?.id?.slice(-8).toUpperCase()}
-                    </div>
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
-                        <Layers size={20} strokeWidth={3} className="text-[#007ea7]" /> Settlement_Sync_Active
-                    </div>
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
-                        <Shield size={20} strokeWidth={3} className="text-[#007ea7]" /> Encryption: AES-256
-                    </div>
-                    <div className="flex items-center gap-4 text-[10px] font-black text-[#003249] uppercase tracking-[6px] italic">
-                        <Zap size={20} strokeWidth={3} className="text-[#007ea7]" /> Mainframe_Ping: 1.2ms
-                    </div>
-                </div>
-            </Reveal>
+            {/* Right Panel: Review Claim */}
+            <AnimatePresence>
+                {selectedClaim && (
+                    <motion.div 
+                        initial={{ x: 420, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: 420, opacity: 0 }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed top-[88px] right-6 bottom-6 w-full lg:w-[400px] bg-white rounded-[1.5rem] shadow-2xl shadow-slate-200 border border-slate-200 flex flex-col z-50 overflow-hidden"
+                    >
+                        {/* Panel Header */}
+                        <div className="p-6 bg-[#1e293b] text-white flex items-center justify-between">
+                            <div>
+                                <h3 className="text-[16px] font-bold tracking-tight">Review Claim</h3>
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Incident ID: CLM-{selectedClaim._id.slice(-6).toUpperCase()}</p>
+                            </div>
+                            <button onClick={() => setSelectedClaim(null)} className="w-7 h-7 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-all">
+                                <X size={14} />
+                            </button>
+                        </div>
+
+                        <div className="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar pb-32">
+                            {/* Claimant Details */}
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <User size={12} className="text-slate-300" /> Claimant Details
+                                </div>
+                                <div className="p-4 bg-[#f8fafc] rounded-xl border border-slate-100 grid grid-cols-2 gap-y-4 gap-x-2">
+                                    <div className="space-y-0.5">
+                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Full Name</p>
+                                        <p className="text-[12px] font-bold text-slate-700">{selectedClaim.userId?.name}</p>
+                                    </div>
+                                    <div className="space-y-0.5">
+                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Incident Date</p>
+                                        <p className="text-[12px] font-bold text-slate-700">Oct 12, 2023</p>
+                                    </div>
+                                    <div className="col-span-2 space-y-0.5">
+                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Policy Coverage</p>
+                                        <p className="text-[12px] font-bold text-[#1e293b]">{selectedClaim.policyId?.title || "Standard Comprehensive"}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Proof of Loss Section */}
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <Eye size={12} className="text-slate-300" /> Proof of Loss
+                                </div>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {[
+                                        { label: 'Damage Photo', color: 'bg-rose-50 text-rose-600', icon: Layout },
+                                        { label: 'Police Rpt', color: 'bg-sky-50 text-sky-600', icon: FileText },
+                                        { label: 'Estimate', color: 'bg-emerald-50 text-emerald-600', icon: ShieldCheck }
+                                    ].map((doc, i) => (
+                                        <div key={i} className="space-y-1.5 cursor-pointer group">
+                                            <div className="aspect-[3/4] rounded-lg bg-slate-100 border border-slate-200 overflow-hidden relative shadow-sm transition-transform active:scale-95">
+                                                 <div className={`absolute inset-0 flex items-center justify-center ${doc.color}`}>
+                                                    <doc.icon size={24} />
+                                                 </div>
+                                                 <div className="absolute inset-x-0 bottom-0 py-1.5 bg-white/90 backdrop-blur-sm border-t border-slate-100">
+                                                    <p className="text-[8px] font-extrabold text-[#111] text-center uppercase tracking-tighter">{doc.label}</p>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Settlement Checklist */}
+                            <div className="space-y-4 pt-2">
+                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <Layers size={12} className="text-slate-300" /> Settlement Checklist
+                                </div>
+                                <div className="space-y-2.5">
+                                    {[
+                                        { id: 'incidentReport', label: 'Incident details verified' },
+                                        { id: 'damagePhotos', label: 'Damage evidence confirmed' },
+                                        { id: 'identityProof', label: 'Claimant identity verified' },
+                                        { id: 'policeReport', label: 'Police report cross-checked' }
+                                    ].map(item => (
+                                        <label key={item.id} className="flex items-center justify-between cursor-pointer group px-1">
+                                            <span className="text-[12px] font-bold text-slate-600 group-hover:text-slate-800 transition-colors">{item.label}</span>
+                                            <div className={`w-5 h-5 rounded border-2 transition-all flex items-center justify-center ${checklist[item.id] ? 'bg-emerald-500 border-emerald-500' : 'bg-white border-slate-200 group-hover:border-slate-300'}`}>
+                                                <input 
+                                                    type="checkbox" 
+                                                    className="hidden" 
+                                                    checked={checklist[item.id]}
+                                                    onChange={() => setChecklist(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
+                                                />
+                                                {checklist[item.id] && <CheckCircle size={14} className="text-white" />}
+                                            </div>
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Settlement Notes */}
+                            <div className="space-y-3 pt-2">
+                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <MessageSquare size={12} className="text-slate-300" /> Audit Notes
+                                </div>
+                                <div className="relative group">
+                                    <textarea 
+                                        className="w-full h-24 bg-white border border-slate-200 rounded-xl p-3.5 text-[12px] font-semibold text-slate-600 outline-none focus:ring-4 focus:ring-slate-50 transition-all resize-none italic"
+                                        placeholder="Add settlement notes or audit comments..."
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Sticky Footer Actions */}
+                        <div className="absolute bottom-0 inset-x-0 p-6 bg-white/80 backdrop-blur-md border-t border-slate-100 flex flex-col gap-3">
+                            <div className="grid grid-cols-2 gap-3">
+                                <button className="h-11 bg-[#10b981] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#059669] transition-all shadow-lg shadow-emerald-500/10">
+                                    <CheckCircle size={16} /> Approve
+                                </button>
+                                <button className="h-11 bg-[#ef4444] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#dc2626] transition-all shadow-lg shadow-rose-500/10">
+                                    <X size={16} /> Reject
+                                </button>
+                            </div>
+                            <button className="w-full h-11 bg-white border border-slate-200 text-[#64748b] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-slate-50 hover:text-[#1e293b] transition-all">
+                                <FileText size={16} /> Request Clarification
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

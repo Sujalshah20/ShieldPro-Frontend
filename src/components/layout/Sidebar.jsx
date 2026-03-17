@@ -89,7 +89,7 @@ const ROLE_LINKS = {
 const Sidebar = ({ role, isOpen, setIsOpen }) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
+    const { logout } = useAuth();
     const links = ROLE_LINKS[role] || ROLE_LINKS.customer;
 
     const handleLogout = async () => {
@@ -114,12 +114,12 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
             {/* Sidebar Chassis — Premium Navy Theme */}
             <aside
-                className={`fixed top-0 left-0 z-[70] h-[100dvh] w-64 ${
-                    role === 'agent' ? 'bg-[#1e293b]' : 'bg-[#124C89]'
+                className={`fixed top-0 left-0 z-[70] h-screen w-64 ${
+                    role === 'agent' ? 'bg-[#1a2b4b]' : 'bg-[#124C89]'
                 } text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 {/* Header Section */}
-                <div className="p-8 pb-10 flex flex-col gap-1">
+                <div className="p-6 pb-8 flex flex-col gap-1">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-[#0ea5e9] rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
                             <Shield className="w-6 h-6 text-white" strokeWidth={2.5} />
@@ -134,7 +134,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 </div>
 
                 {/* Navigation Links */}
-                <nav className="flex-1 overflow-y-auto no-scrollbar px-4 space-y-8">
+                <nav className="flex-1 overflow-y-auto no-scrollbar px-3 space-y-8">
                     {/* Main Section */}
                     <div className="space-y-1">
                         {(role === 'agent' ? links.main : (role === 'admin' ? links : links.main)).map((link) => {
@@ -144,9 +144,9 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                         isActive 
-                                            ? "bg-[#14b8a6] text-white shadow-lg shadow-teal-500/20" 
+                                            ? "bg-[#14b8a6] text-white shadow-lg shadow-teal-500/10" 
                                             : "text-slate-400 hover:text-white hover:bg-white/5"
                                     }`}
                                 >
@@ -160,7 +160,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     {/* Support Section for Agent */}
                     {role === 'agent' && (
                         <div className="space-y-4 pt-4">
-                            <span className="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-[2px]">Support & Account</span>
+                            <span className="px-4 text-[10px] font-extrabold text-slate-500 uppercase tracking-widest">Support & Account</span>
                             <div className="space-y-1">
                                 {links.support.map((link) => {
                                     const Icon = link.icon;
@@ -169,7 +169,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                         <Link
                                             key={link.path}
                                             to={link.path}
-                                            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                                                 isActive 
                                                     ? "bg-[#14b8a6] text-white shadow-lg" 
                                                     : "text-slate-400 hover:text-white hover:bg-white/5"
@@ -185,51 +185,40 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     )}
                 </nav>
 
-                {/* Agent Action Button */}
-                {role === 'agent' && (
-                    <div className="p-6 mt-auto">
+                {/* Persistent Action & Profile Area */}
+                <div className="p-4 mt-auto border-t border-white/5 space-y-4">
+                    {role === 'agent' && (
                         <button 
-                            onClick={() => navigate('/agent/clients')} // Or some specific 'new' route
-                            className="w-full flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 text-white px-4 py-4 rounded-xl transition-all border border-white/10 group"
+                            onClick={() => navigate('/agent/clients')} 
+                            className="w-full flex items-center justify-center gap-3 bg-[#ffffff15] hover:bg-[#ffffff25] text-white px-4 py-3.5 rounded-xl transition-all border border-white/5 group"
                         >
                             <PlusCircle size={18} className="group-hover:rotate-90 transition-transform" />
                             <span className="text-[13px] font-bold tracking-tight">New Customer</span>
                         </button>
-                    </div>
-                )}
+                    )}
 
-                {/* Footer Section for Agent or other roles */}
-                {(role === 'agent' ? links.footer : links.footer) && (
-                    <div className="px-4 py-4 border-t border-white/5 space-y-1 mt-auto md:mt-0">
-                        {(role === 'agent' ? links.footer : links.footer).map((link) => {
-                            const Icon = link.icon;
-                            const isActive = location.pathname === link.path;
-                            return link.action === 'logout' ? (
-                                <button
-                                    key={link.path}
-                                    onClick={handleLogout}
-                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5"
-                                >
-                                    <Icon size={20} strokeWidth={2} />
-                                    <span className="text-[13px] font-bold">{link.name}</span>
-                                </button>
-                            ) : (
-                                <Link
-                                    key={link.path}
-                                    to={link.path}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                                        isActive 
-                                            ? "bg-white/10 text-white" 
-                                            : "text-slate-400 hover:text-white hover:bg-white/5"
-                                    }`}
-                                >
-                                    <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                                    <span className="text-[13px] font-bold">{link.name}</span>
-                                </Link>
-                            );
-                        })}
-                    </div>
-                )}
+                    {/* Agent Profile Summary */}
+                    {role === 'agent' && (
+                        <div className="flex items-center gap-3 px-2 py-2">
+                            <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden border border-white/10">
+                                <User size={20} className="text-slate-400" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-[13px] font-bold text-white line-clamp-1">Marcus Thorne</span>
+                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Senior Agent</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Logout Option */}
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-slate-400 hover:text-rose-400 hover:bg-rose-500/5 group"
+                    >
+                        <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
+                        <span className="text-[13px] font-bold">Logout</span>
+                    </button>
+                </div>
             </aside>
         </>
     );
