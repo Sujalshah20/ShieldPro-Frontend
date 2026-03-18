@@ -6,7 +6,7 @@ import {
     Users, UserPlus, ShieldCheck, Activity, TrendingUp, MoreHorizontal,
     Search, Filter, Mail, Phone, Calendar, ChevronRight, 
     ArrowUpRight, FileText, CheckCircle2, XCircle, Clock, 
-    Download, Terminal, Fingerprint, Lock, Shield, Cpu, Layers
+    Download, Terminal, Fingerprint, Lock, Shield, Cpu, Layers, Plus
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
