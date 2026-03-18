@@ -6,27 +6,29 @@ import {
     Search, Bell, FileText, CheckCircle2, 
     AlertCircle, IndianRupee, Clipboard, 
     ChevronDown, Filter, MoreHorizontal, 
-    ShieldCheck, XCircle, Clock, ChevronRight
+    ShieldCheck, XCircle, Clock, ChevronRight,
+    ArrowUpRight, ArrowDownRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
 
 const ClaimStatCard = ({ title, value, trend, icon: Icon, color, isNegative }) => (
-    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+    <div className="bg-white p-7 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-blue-500/20 transition-all duration-300">
         <div className="flex justify-between items-start">
-            <div className={`p-3 rounded-xl ${color} bg-opacity-10`}>
-                <Icon size={24} className={color.replace('bg-', 'text-')} />
+            <div className={`p-4 rounded-2xl ${color} bg-opacity-10 ${color.replace('bg-', 'text-')} group-hover:scale-110 transition-transform`}>
+                <Icon size={24} />
             </div>
             {trend && (
-                <div className={`flex items-center gap-1 font-bold text-sm ${isNegative ? 'text-rose-500' : 'text-emerald-500'}`}>
+                <div className={`flex items-center gap-1 font-bold text-xs px-2 py-1 rounded-lg ${isNegative ? 'bg-rose-50 text-rose-500' : 'bg-emerald-50 text-emerald-500'}`}>
+                    {isNegative ? <ArrowDownRight size={14} /> : <ArrowUpRight size={14} />}
                     {trend}
                 </div>
             )}
         </div>
-        <div className="mt-4 space-y-1">
-            <p className="text-slate-400 text-sm font-medium">{title}</p>
-            <h3 className="text-3xl font-bold text-slate-800 tracking-tight">{value}</h3>
+        <div className="mt-6 space-y-1">
+            <p className="text-slate-400 text-[10px] font-black uppercase tracking-[2px]">{title}</p>
+            <h3 className="text-3xl font-black text-slate-800 tracking-tight italic">{value}</h3>
         </div>
     </div>
 );
@@ -61,37 +63,43 @@ const AdminClaims = () => {
 
     const getPriorityStyle = (priority) => {
         switch(priority) {
-            case 'HIGH': return 'bg-rose-50 text-rose-600';
-            case 'MEDIUM': return 'bg-orange-50 text-orange-600';
-            case 'LOW': return 'bg-blue-50 text-blue-600';
-            default: return 'bg-slate-50 text-slate-600';
+            case 'HIGH': return 'bg-rose-50 text-rose-600 border-rose-100';
+            case 'MEDIUM': return 'bg-orange-50 text-orange-600 border-orange-100';
+            case 'LOW': return 'bg-blue-50 text-blue-600 border-blue-100';
+            default: return 'bg-slate-50 text-slate-600 border-slate-100';
         }
     };
 
     const getStatusStyle = (status) => {
         switch(status) {
-            case 'Approved': return { dot: 'bg-emerald-500', text: 'text-emerald-600' };
-            case 'Pending': return { dot: 'bg-blue-500', text: 'text-blue-600' };
-            case 'Rejected': return { dot: 'bg-rose-500', text: 'text-rose-600' };
-            case 'Review': return { dot: 'bg-amber-500', text: 'text-amber-600' };
-            default: return { dot: 'bg-slate-400', text: 'text-slate-600' };
+            case 'Approved': return { dot: 'bg-emerald-500', text: 'text-emerald-600', bg: 'bg-emerald-50' };
+            case 'Pending': return { dot: 'bg-blue-500', text: 'text-blue-600', bg: 'bg-blue-50' };
+            case 'Rejected': return { dot: 'bg-rose-500', text: 'text-rose-600', bg: 'bg-rose-50' };
+            case 'Review': return { dot: 'bg-amber-500', text: 'text-amber-600', bg: 'bg-amber-50' };
+            default: return { dot: 'bg-slate-400', text: 'text-slate-600', bg: 'bg-slate-50' };
         }
     };
 
     return (
         <div className="space-y-8 pb-10">
-            {/* Breadcrumb & Header */}
-            <div className="flex justify-between items-center">
+            {/* Header Module */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
                     <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
-                            <span>Home</span>
-                            <ChevronRight size={12} />
-                            <span className="text-slate-300">Claims</span>
+                        <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[3px] mb-2">
+                            <span>Admin</span>
+                            <ChevronRight size={12} className="text-slate-300" />
+                            <span className="text-blue-500">Claims Management</span>
                         </div>
-                        <h1 className="text-3xl font-black text-slate-800 tracking-tight">All Claims</h1>
+                        <h1 className="text-4xl font-black text-slate-800 tracking-tight italic">All Insurance Claims</h1>
+                        <p className="text-sm font-medium text-slate-400">Monitor and process client reimbursement requests</p>
                     </div>
                 </Reveal>
+                <div className="flex gap-4">
+                    <button className="h-12 px-6 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm italic">
+                        <FileText size={18} /> Export Audit
+                    </button>
+                </div>
             </div>
 
             {/* Metrics Stripe */}
@@ -103,107 +111,123 @@ const AdminClaims = () => {
             </div>
 
             {/* Table & Filters Container */}
-            <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
                 {/* Tabs */}
-                <div className="flex px-8 border-b border-slate-50 overflow-x-auto scrollbar-hide">
+                <div className="flex px-10 border-b border-slate-50 overflow-x-auto scrollbar-hide bg-slate-50/20">
                     {["All Claims", "Pending", "Under Review", "Approved", "Rejected", "Settled"].map((tab) => (
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-6 py-6 text-sm font-bold transition-all relative whitespace-nowrap ${
+                            className={`px-6 py-6 text-xs font-black uppercase tracking-widest transition-all relative whitespace-nowrap italic ${
                                 activeTab === tab ? "text-blue-600" : "text-slate-400 hover:text-slate-600"
                             }`}
                         >
                             {tab}
                             {activeTab === tab && (
-                                <motion.div layoutId="activeTabClaims" className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
+                                <motion.div layoutId="activeTabClaims" className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full" />
                             )}
                         </button>
                     ))}
                 </div>
 
                 {/* Filters */}
-                <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end border-b border-slate-50 bg-slate-50/20">
+                <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 items-end border-b border-slate-50">
                     {[
-                        { label: "Date Range", val: "Last 30 Days" },
-                        { label: "Claim Type", val: "All Types" },
-                        { label: "Agent", val: "All Agents" },
-                        { label: "Amount Range", val: "Any Amount" }
+                        { label: "Temporal Range", val: "Last 30 Days" },
+                        { label: "Policy Type", val: "All Categories" },
+                        { label: "Origin Agent", val: "All Personnel" },
+                        { label: "Valuation", val: "Any Amount" }
                     ].map((f, i) => (
-                        <div key={i} className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">{f.label}</label>
-                            <button className="w-full h-12 px-4 bg-white border border-slate-100 rounded-xl text-xs font-bold text-slate-700 flex items-center justify-between hover:border-blue-500 transition-all">
+                        <div key={i} className="space-y-3">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] pl-1">{f.label}</label>
+                            <button className="w-full h-13 px-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-700 flex items-center justify-between hover:bg-white hover:border-blue-500 hover:shadow-sm transition-all italic">
                                 {f.val} <ChevronDown size={14} className="text-slate-400" />
                             </button>
                         </div>
                     ))}
-                    <button className="h-12 w-full bg-[#1e3a8a] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#1e40af] transition-all shadow-lg active:scale-95 mb-0.5">
-                        <Filter size={16} /> Apply Filters
+                    <button className="h-13 w-full bg-[#1e293b] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#0f172a] transition-all shadow-lg active:scale-95 italic">
+                        <Filter size={16} /> Filter Results
                     </button>
                 </div>
 
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50">
-                                <th className="px-8 py-6">Claim ID</th>
-                                <th className="px-8 py-6">Customer</th>
-                                <th className="px-8 py-6">Policy</th>
-                                <th className="px-8 py-6">Type</th>
-                                <th className="px-8 py-6">Amount (₹)</th>
-                                <th className="px-8 py-6">Assigned Agent</th>
-                                <th className="px-8 py-6">Date</th>
-                                <th className="px-8 py-6">Priority</th>
-                                <th className="px-8 py-6">Status</th>
+                            <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] border-b border-slate-50 bg-slate-50/10">
+                                <th className="px-10 py-6">Identity</th>
+                                <th className="px-10 py-6">Beneficiary</th>
+                                <th className="px-10 py-6">Asset_Policy</th>
+                                <th className="px-10 py-6">Category</th>
+                                <th className="px-10 py-6 text-right">Valuation (₹)</th>
+                                <th className="px-10 py-6">Temporal_Stamp</th>
+                                <th className="px-10 py-6">Priority</th>
+                                <th className="px-10 py-6">Status_State</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {isLoading ? (
-                                <tr><td colSpan="9" className="px-8 py-20 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Scanning Transmission Logs...</td></tr>
+                                <tr>
+                                    <td colSpan="8" className="px-10 py-32 text-center">
+                                        <div className="flex flex-col items-center gap-4">
+                                            <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                            <span className="text-xs font-black text-slate-400 uppercase tracking-[4px] italic">Retrieving Claim Registry...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : claims?.length === 0 ? (
+                                <tr>
+                                    <td colSpan="8" className="px-10 py-32 text-center">
+                                        <div className="flex flex-col items-center gap-4">
+                                            <AlertCircle size={48} className="text-slate-300" />
+                                            <span className="text-xs font-black text-slate-400 uppercase tracking-[4px] italic">No Claims Found</span>
+                                            <p className="text-sm font-medium text-slate-500">Adjust your filters or check back later.</p>
+                                        </div>
+                                    </td>
+                                </tr>
                             ) : claims?.map((c, i) => {
                                 const typeInfo = mockData[c.policy?.policyType] || mockData.Health;
                                 const statusInfo = getStatusStyle(c.status === 'Pending' ? 'Review' : c.status);
                                 return (
                                     <tr key={c._id} className="group hover:bg-slate-50/50 transition-colors">
-                                        <td className="px-8 py-6">
-                                            <span className="text-sm font-bold text-blue-600 underline cursor-pointer hover:text-blue-800 transition-colors">
+                                        <td className="px-10 py-6">
+                                            <span className="text-[11px] font-black text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100 italic">
                                                 #CLM-{c._id.slice(-5).toUpperCase()}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-100 shadow-sm">
+                                        <td className="px-10 py-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-white shadow-sm group-hover:shadow-md transition-shadow">
                                                     <img src={`https://i.pravatar.cc/100?u=${c.user?._id}`} alt="" />
                                                 </div>
-                                                <span className="text-xs font-bold text-slate-700">{c.user?.name}</span>
+                                                <div className="flex flex-col">
+                                                    <span className="text-sm font-black text-slate-800 tracking-tight italic leading-none mb-1">{c.user?.name}</span>
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Registered Client</span>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
-                                            <span className="text-xs font-medium text-slate-500 leading-tight block max-w-[120px]">{c.policy?.policyName}</span>
+                                        <td className="px-10 py-6">
+                                            <span className="text-xs font-bold text-slate-600 leading-tight block max-w-[150px] italic">{c.policy?.policyName}</span>
                                         </td>
-                                        <td className="px-8 py-6">
-                                            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold ${typeInfo.color}`}>
+                                        <td className="px-10 py-6">
+                                            <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border border-black/5 shadow-sm italic ${typeInfo.color}`}>
                                                 {typeInfo.tag}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6">
-                                            <span className="text-sm font-bold text-slate-800">{c.claimAmount?.toLocaleString()}</span>
+                                        <td className="px-10 py-6 text-right">
+                                            <span className="text-sm font-black text-slate-800 italic">{c.claimAmount?.toLocaleString()}</span>
                                         </td>
-                                        <td className="px-8 py-6 text-xs font-medium text-slate-500">
-                                            {typeInfo.agent}
+                                        <td className="px-10 py-6 text-[11px] font-bold text-slate-400 whitespace-nowrap italic">
+                                            {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </td>
-                                        <td className="px-8 py-6 text-xs font-medium text-slate-400 whitespace-nowrap">
-                                            Oct 24, 2023
-                                        </td>
-                                        <td className="px-8 py-6">
-                                            <span className={`px-2 py-0.5 rounded-lg text-[9px] font-black tracking-widest uppercase ${getPriorityStyle(i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW')}`}>
+                                        <td className="px-10 py-6">
+                                            <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black tracking-widest uppercase border italic ${getPriorityStyle(i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW')}`}>
                                                 {i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW'}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6">
-                                            <div className="flex items-center gap-2">
-                                                <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
-                                                <span className={`text-[10px] font-bold ${statusInfo.text}`}>
+                                        <td className="px-10 py-6">
+                                            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-black/5 ${statusInfo.bg}`}>
+                                                <div className={`w-2 h-2 rounded-full ${statusInfo.dot} shadow-[0_0_8px] ${statusInfo.dot.replace('bg-', 'shadow-')}`} />
+                                                <span className={`text-[10px] font-black uppercase tracking-widest italic ${statusInfo.text}`}>
                                                     {c.status === 'Pending' ? 'Review' : c.status}
                                                 </span>
                                             </div>
@@ -216,11 +240,16 @@ const AdminClaims = () => {
                 </div>
 
                 {/* Pagination */}
-                <div className="px-8 py-6 bg-slate-50/30 border-t border-slate-50 flex items-center justify-between">
-                    <span className="text-xs font-medium text-slate-400">Showing 1-{claims?.length || 0} of 12,450 claims</span>
-                    <div className="flex items-center gap-2">
-                        <button className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-500 hover:bg-white transition-all">Previous</button>
-                        <button className="px-4 py-2 bg-[#1e3a8a] text-white rounded-xl text-xs font-bold shadow-lg shadow-blue-900/10 hover:bg-[#1e40af] transition-all">Next</button>
+                <div className="px-10 py-8 bg-slate-50/20 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[3px] italic">Displaying 1-{claims?.length || 0} of 12,450 records</span>
+                    <div className="flex items-center gap-3">
+                        <button className="h-11 px-5 border-2 border-slate-100 rounded-xl text-xs font-bold text-slate-500 hover:bg-white hover:border-blue-500/20 hover:text-blue-600 transition-all italic">Previous</button>
+                        {[1, 2, 3, "...", 12].map((p, i) => (
+                            <button key={i} className={`w-11 h-11 flex items-center justify-center rounded-xl text-xs font-bold transition-all ${p === 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "text-slate-400 hover:bg-white hover:text-blue-600"}`}>
+                                {p}
+                            </button>
+                        ))}
+                        <button className="h-11 px-5 bg-[#1e293b] text-white rounded-xl text-xs font-bold shadow-lg shadow-slate-900/20 hover:bg-[#0f172a] transition-all italic">Next Cluster</button>
                     </div>
                 </div>
             </div>

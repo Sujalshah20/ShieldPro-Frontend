@@ -7,17 +7,19 @@ import { motion, AnimatePresence } from "framer-motion";
 const DashboardLayout = ({ role }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    const isAdmin = role === 'admin';
+
     return (
         <div className="min-h-screen bg-[#f1f5f9] font-sans overflow-x-hidden">
             {/* Sidebar Component */}
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
             <div className="flex flex-col min-h-screen relative md:ml-64 transition-all duration-300">
-                {/* Unified Premium Header */}
-                <Header role={role} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+                {/* Global Header (Hidden for Admin as they have custom page-level headers) */}
+                {!isAdmin && <Header role={role} isSidebarOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
 
                 {/* Main Dashboard Region */}
-                <main className="flex-1 pt-20 pb-0 relative z-10 w-full max-w-[1700px] mx-auto">
+                <main className={`flex-1 ${isAdmin ? 'pt-8' : 'pt-20'} pb-0 relative z-10 w-full max-w-[1700px] mx-auto`}>
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

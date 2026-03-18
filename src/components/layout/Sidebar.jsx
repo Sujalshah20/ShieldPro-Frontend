@@ -43,11 +43,11 @@ const ROLE_LINKS = {
     admin: [
         { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
         { name: "Manage Policies", path: "/admin/policies", icon: ShieldCheck },
-        { name: "Claims", path: "/admin/claims", icon: FileText },
-        { name: "Customers", path: "/admin/users", icon: Users },
-        { name: "Agents", path: "/admin/agents", icon: Briefcase },
-        { name: "Reports & Analytics", path: "/admin/commissions", icon: PieChart },
-        { name: "Reports & Analytics", path: "/admin/commissions", icon: PieChart },
+        { name: "Manage Customers", path: "/admin/users", icon: Users },
+        { name: "Manage Agents", path: "/admin/agents", icon: Briefcase },
+        { name: "All Claims", path: "/admin/claims", icon: FileText },
+        { name: "Transactions", path: "/admin/transactions", icon: DollarSign },
+        { name: "Reports & Analytics", path: "/admin/commissions", icon: LineChart },
         { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     agent: {

@@ -1,11 +1,12 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../utils/api";
 import { 
-    ShieldCheck, Activity, Zap, Globe, FileText, 
-    ChevronRight, RefreshCcw, ArrowRight, Clock, CheckCircle2,
-    Calendar, IndianRupee, Satellite, Fingerprint, Lock, Terminal
+    Shield, Activity, Zap, Globe, FileText, 
+    ChevronRight, ChevronLeft, ArrowRight, Clock, CheckCircle2,
+    Calendar, IndianRupee, Satellite, Fingerprint, Lock, Terminal,
+    ShieldCheck, Edit, Trash2, ArrowLeft
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "../../components/common/Reveal";
@@ -26,197 +27,175 @@ const PolicyDetails = () => {
         { name: "Third Party Liability", description: "Protection against legal liabilities to third parties.", icon: ShieldCheck },
     ];
 
-    if (isLoading) return <div className="h-screen flex items-center justify-center text-[#003249] font-black uppercase tracking-[10px] animate-pulse">Syncing_Protocol_Data...</div>;
+    if (isLoading) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Loading details...</p>
+        </div>
+    );
 
     return (
-        <div className="space-y-12 pb-20">
+        <div className="space-y-8 pb-20">
+            {/* Breadcrumbs */}
+            <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400">
+                <Link to="/admin" className="hover:text-blue-500 transition-colors">Home</Link>
+                <ChevronRight size={14} />
+                <Link to="/admin/policies" className="hover:text-blue-500 transition-colors">Policies</Link>
+                <ChevronRight size={14} />
+                <span className="text-slate-800">Details</span>
+            </nav>
+
             {/* Header Module */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
-                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Protocol_Specification</span>
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-3 mb-2">
+                             <button 
+                                onClick={() => navigate(-1)}
+                                className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-all"
+                            >
+                                <ArrowLeft size={16} />
+                            </button>
+                            <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 italic">
+                                {policy?.policyType}
+                            </span>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none text-wrap break-all">
-                            {policy?.policyName} <span className="text-[#007ea7]">_SPEC</span>
-                        </h1>
-                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">
-                            Detailed structural manifest of the identified insurance protocol and risk coverage parameters.
-                        </p>
+                        <h1 className="text-4xl font-black text-slate-800 tracking-tight">{policy?.policyName}</h1>
+                        <p className="text-sm font-medium text-slate-400">Configuration and coverage parameters for this insurance plan</p>
                     </div>
                 </Reveal>
                 
-                <Reveal direction="right">
-                    <button 
-                        onClick={() => navigate(-1)}
-                        className="h-16 px-8 border-2 border-slate-100 text-[#003249] rounded-2xl flex items-center gap-4 text-[11px] font-black uppercase tracking-[4px] hover:border-[#007ea7] transition-all italic active:scale-95 group"
-                    >
-                         RETURN_TO_REGISTRY <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+                <div className="flex items-center gap-4">
+                    <button className="h-12 px-6 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+                        <Edit size={18} /> Edit Plan
                     </button>
-                </Reveal>
+                    <button className="h-12 px-6 bg-rose-50 text-rose-600 border border-rose-100 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-rose-100 transition-all shadow-sm">
+                        <Trash2 size={18} /> Delete
+                    </button>
+                </div>
             </div>
 
-            {/* Core Data Module */}
-            <div className="grid lg:grid-cols-3 gap-10">
+            {/* Core Stats Module */}
+            <div className="grid lg:grid-cols-3 gap-8">
                 <Reveal direction="up" className="lg:col-span-2">
-                    <div className="saas-card relative overflow-hidden p-12 shadow-3xl border-2 border-slate-50 h-full">
-                        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
-                        
-                        <div className="flex items-center gap-8 mb-16 relative z-10">
-                            <div className="w-20 h-20 bg-[#003249] rounded-3xl flex items-center justify-center text-[#007ea7] shadow-4xl border border-white/5">
-                                <FileText size={40} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-sm flex flex-col gap-12 h-full">
+                        <div className="flex items-center gap-6 pb-8 border-b border-slate-50">
+                            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 border border-blue-100">
+                                <Shield size={32} />
                             </div>
-                            <div className="space-y-1">
-                                <h3 className="text-3xl font-black uppercase tracking-tighter text-[#003249] leading-none italic">Protocol_Manifest</h3>
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] leading-none italic">Comprehensive definition of coverage bounds</p>
+                            <div>
+                                <h3 className="text-xl font-black text-slate-800 tracking-tight">Financial Blueprint</h3>
+                                <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">Premium and coverage breakdown</p>
                             </div>
                         </div>
 
-                        <div className="space-y-12 relative z-10">
-                            <div className="grid sm:grid-cols-2 gap-12 italic">
-                                {[
-                                    { label: "PROTOCOL_TYPE", val: policy?.policyType, icon: ShieldCheck },
-                                    { label: "FISCAL_MONTHLY", val: `₹${policy?.premiumAmount?.toLocaleString()}`, icon: IndianRupee },
-                                    { label: "COVERAGE_THRESHOLD", val: `₹${policy?.coverageAmount?.toLocaleString()}`, icon: Activity },
-                                    { label: "GRID_SECTOR", val: "GLOBAL_RESIDENTIAL", icon: Globe }
-                                ].map((d, i) => (
-                                    <div key={i} className="space-y-4 group">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[#007ea7] group-hover:bg-[#003249] group-hover:text-white transition-all">
-                                                <d.icon size={20} strokeWidth={2.5} />
-                                            </div>
-                                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-[4px]">{d.label}</span>
-                                        </div>
-                                        <p className="text-4xl font-black text-[#003249] tracking-tighter uppercase group-hover:translate-x-2 transition-transform duration-500">{d.val}</p>
+                        <div className="grid sm:grid-cols-2 gap-12">
+                            {[
+                                { label: "Monthly Premium", val: `₹${policy?.premiumAmount?.toLocaleString()}`, icon: IndianRupee, color: "text-emerald-600", bg: "bg-emerald-50" },
+                                { label: "Max Coverage", val: `₹${policy?.coverageAmount?.toLocaleString()}`, icon: Activity, color: "text-blue-600", bg: "bg-blue-50" },
+                                { label: "Policy Term", val: "12 Months", icon: Clock, color: "text-amber-600", bg: "bg-amber-50" },
+                                { label: "Target Audience", val: "Residential", icon: Globe, color: "text-indigo-600", bg: "bg-indigo-50" }
+                            ].map((d, i) => (
+                                <div key={i} className="flex items-center gap-6 group">
+                                    <div className={`w-14 h-14 ${d.bg} ${d.color} rounded-2xl flex items-center justify-center shadow-sm border border-black/5 group-hover:scale-110 transition-transform`}>
+                                        <d.icon size={26} />
                                     </div>
-                                ))}
-                            </div>
+                                    <div className="flex flex-col">
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{d.label}</span>
+                                        <span className="text-2xl font-black text-slate-800 tracking-tight">{d.val}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
-                            <div className="p-10 bg-slate-50/50 rounded-[2.5rem] border-2 border-slate-50 space-y-6">
-                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[6px] italic leading-none">DESCRIPTION_CORE</h4>
-                                <p className="text-lg font-black text-[#003249]/80 uppercase tracking-tighter italic leading-relaxed">
-                                    {policy?.description}
-                                </p>
-                            </div>
+                        <div className="mt-4 p-8 bg-slate-50 rounded-[2rem] border border-slate-100">
+                            <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 ml-1 italic">Plan Description</h4>
+                            <p className="text-base font-medium text-slate-600 leading-relaxed italic">
+                                "{policy?.description}"
+                            </p>
                         </div>
                     </div>
                 </Reveal>
 
                 <Reveal direction="right">
-                    <div className="saas-card bg-[#003249] text-white p-12 border border-white/5 shadow-5xl h-full flex flex-col justify-between overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none group-hover:scale-150 transition-transform duration-[4000ms]">
+                    <div className="bg-[#1a2332] rounded-[2.5rem] p-10 text-white flex flex-col justify-between h-full relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none group-hover:scale-125 transition-transform duration-1000">
                             <Zap size={200} />
                         </div>
                         
-                        <div className="space-y-12 relative z-10">
+                        <div className="relative z-10 space-y-10">
                             <div className="flex items-center gap-4">
-                                <div className="w-3 h-12 bg-[#80ced7] rounded-full group-hover:h-16 transition-all" />
-                                <h3 className="text-4xl font-black uppercase tracking-tighter italic leading-none">Security_<br />Calibrations</h3>
+                                <div className="w-1 h-8 bg-blue-500 rounded-full" />
+                                <h3 className="text-2xl font-black tracking-tight uppercase italic leading-none">Security<br />Protocol</h3>
                             </div>
                             
                             <div className="space-y-8">
-                                <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-4">
-                                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[4px]">
-                                        <span className="text-slate-400">Auth_Integrity</span>
-                                        <span className="text-emerald-400">100%_SECURE</span>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                        <span>Risk Scrutiny</span>
+                                        <span className="text-emerald-400 font-black italic">Verified</span>
                                     </div>
-                                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                                         <div className="h-full bg-emerald-500 w-full" />
                                     </div>
                                 </div>
-                                
-                                <div className="p-6 bg-white/5 rounded-2xl border border-white/5 space-y-4">
-                                    <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[4px]">
-                                        <span className="text-slate-400">Risk_Assessment</span>
-                                        <span className="text-amber-400">NOMINAL_VAL</span>
+                                <div className="space-y-3">
+                                    <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                        <span>Market Viability</span>
+                                        <span className="text-blue-400 font-black italic">High</span>
                                     </div>
-                                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                                        <div className="h-full bg-amber-500 w-[65%]" />
+                                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                        <div className="h-full bg-blue-500 w-[85%]" />
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="space-y-10 relative z-10">
-                            <div className="grid grid-cols-2 gap-6">
-                                <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/5 group-hover:border-[#80ced7]/20 transition-all">
-                                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Grid_Uptime</span>
-                                    <span className="text-xl font-black text-[#80ced7] italic">99.9%</span>
+                        <div className="relative z-10 pt-10">
+                            <div className="p-6 bg-white/5 rounded-2xl border border-white/10 mb-8 backdrop-blur-sm">
+                                <div className="flex items-center gap-3 text-emerald-400 mb-2">
+                                    <CheckCircle2 size={16} />
+                                    <span className="text-[10px] font-black uppercase tracking-widest">Active Status</span>
                                 </div>
-                                <div className="text-center p-6 bg-white/5 rounded-2xl border border-white/5 group-hover:border-[#80ced7]/20 transition-all">
-                                    <span className="block text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Sync_Rate</span>
-                                    <span className="text-xl font-black text-[#80ced7] italic">1.2ms</span>
-                                </div>
+                                <p className="text-xs text-slate-400 font-medium">This plan is currently live and available for purchase by customers across all enabled regions.</p>
                             </div>
-                            <button className="w-full h-16 bg-[#80ced7] text-[#003249] rounded-2xl flex items-center justify-center gap-4 text-[11px] font-black uppercase tracking-[5px] hover:bg-white transition-all shadow-xl italic">
-                                <Clock size={20} strokeWidth={3} /> INITIALIZE_RECALIBRATION
+                            <button className="w-full h-14 bg-blue-600 text-white rounded-xl flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/40">
+                                <Zap size={18} /> Update Deployment
                             </button>
                         </div>
                     </div>
                 </Reveal>
             </div>
 
-            {/* Sub-Manifest Module */}
-            <div className="grid lg:grid-cols-2 gap-10">
-                 <Reveal direction="up">
-                    <div className="saas-card p-12 border-2 border-slate-50 shadow-3xl">
-                        <div className="flex items-center gap-6 mb-12">
-                            <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-[#003249] shadow-inner">
-                                <Layers size={28} strokeWidth={2.5} />
-                            </div>
-                            <h4 className="text-xl font-black uppercase tracking-tighter text-[#003249] italic">Protocol_Layers</h4>
+            {/* Coverage Grid */}
+            <Reveal direction="up" delay={0.2}>
+                <div className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-sm">
+                    <div className="flex items-center gap-6 mb-10">
+                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-800 shadow-inner border border-slate-100">
+                            <FileText size={28} />
                         </div>
-                        <div className="grid sm:grid-cols-2 gap-8 italic">
-                            {coverageItems.map((item, i) => (
-                                <div key={i} className="p-8 bg-slate-50/50 rounded-[2rem] border-2 border-slate-50 hover:border-[#007ea7]/20 transition-all group">
-                                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#007ea7] shadow-sm mb-6 group-hover:rotate-12 transition-transform">
-                                        <item.icon size={24} strokeWidth={2.5} />
-                                    </div>
-                                    <h5 className="font-black text-[#003249] uppercase tracking-tighter mb-2">{item.name}</h5>
-                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-loose">{item.description}</p>
-                                </div>
-                            ))}
+                        <div>
+                            <h4 className="text-xl font-black text-slate-800 tracking-tight">Coverage Clauses</h4>
+                            <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">Specific protection layers included</p>
                         </div>
                     </div>
-                 </Reveal>
 
-                 <Reveal direction="up" delay={0.2}>
-                    <div className="saas-card relative overflow-hidden p-12 shadow-3xl border-2 border-slate-50 flex flex-col justify-between italic">
-                        <div className="space-y-10">
-                            <div className="flex items-center gap-6">
-                                <div className="w-14 h-14 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] shadow-xl border border-white/5">
-                                    <Fingerprint size={28} strokeWidth={2.5} />
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {coverageItems.map((item, i) => (
+                            <div key={i} className="p-8 bg-slate-50/50 rounded-[2rem] border border-slate-100 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-6 border border-slate-100 group-hover:scale-110 transition-transform">
+                                    <item.icon size={22} />
                                 </div>
-                                <h4 className="text-xl font-black uppercase tracking-tighter text-[#003249] italic">Protocol_Authorization</h4>
+                                <h5 className="font-bold text-slate-800 text-sm mb-2">{item.name}</h5>
+                                <p className="text-[10px] text-slate-400 font-medium leading-relaxed uppercase tracking-wider">{item.description}</p>
                             </div>
-                            <div className="space-y-6">
-                                <div className="flex items-center gap-6 p-6 bg-emerald-50 border-2 border-emerald-50 rounded-2xl">
-                                    <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_#10b981]" />
-                                    <div>
-                                        <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[4px] leading-none mb-1">Clearance_Status</p>
-                                        <p className="text-xs font-black text-[#003249] uppercase tracking-widest leading-none">AUTHENTICATED_SYSTEM_ROOT</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-6 p-6 bg-slate-50 border-2 border-slate-50 rounded-2xl">
-                                    <div className="w-3 h-3 bg-slate-300 rounded-full" />
-                                    <div>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] leading-none mb-1">Operational_Mode</p>
-                                        <p className="text-xs font-black text-[#003249] uppercase tracking-widest leading-none">READ_WRITE_MANIFEST</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="p-10 border-t border-slate-50 flex flex-wrap justify-center gap-12 text-[10px] font-black text-[#003249] uppercase tracking-[5px] opacity-30 mt-10">
-                            <div className="flex items-center gap-3"><Terminal size={14} /> Mainframe_Link: ACTIVE</div>
-                            <div className="flex items-center gap-3"><Satellite size={14} /> Grid_Sync: NOMINAL</div>
-                        </div>
+                        ))}
                     </div>
-                 </Reveal>
-            </div>
+                </div>
+            </Reveal>
         </div>
     );
 };
 
 export default PolicyDetails;
+ils;

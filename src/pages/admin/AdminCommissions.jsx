@@ -1,22 +1,19 @@
 import React, { useState, useContext } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { 
-    DollarSign, CheckCircle2, TrendingUp, BarChart3, Fingerprint, IndianRupee,
-    Search, Filter, Mail, Phone, Calendar, ChevronRight, 
-    ArrowUpRight, FileText, AlertCircle, Clock, Download,
-    Terminal, Lock, Shield, Cpu, Layers, Briefcase, Zap, MoreHorizontal
+    Search, Filter, Download, MoreHorizontal,
+    TrendingUp, BarChart3, PieChart, 
+    ChevronLeft, ChevronRight,
+    Briefcase, Shield, Calendar, RefreshCcw
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
 import { TableSkeleton } from "../../components/common/Skeleton";
 
 const AdminCommissions = () => {
     const { user } = useContext(AuthContext);
-    const { toast } = useToast();
-    const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
 
     const { data: commissions, isLoading } = useQuery({
@@ -25,125 +22,114 @@ const AdminCommissions = () => {
         enabled: !!user?.token
     });
 
-    const filteredCommissions = commissions?.filter(c => 
-        c.agent?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.policy?.policyName?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const totalYield = commissions?.reduce((acc, c) => acc + (c.amount || 0), 0) || 0;
 
     return (
-        <div className="space-y-12 pb-20">
+        <div className="space-y-8 pb-10">
             {/* Header Module */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
-                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Fiscal_Optimization</span>
-                        </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none text-wrap break-all">
-                            Yield <span className="text-[#007ea7]">Analysis_</span>
-                        </h1>
-                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">
-                            Tracking and optimization of incentive disbursements across the operative network.
-                        </p>
+                    <div className="space-y-1">
+                        <h1 className="text-3xl font-black text-slate-800 tracking-tight">Reports & Analytics</h1>
+                        <p className="text-sm font-medium text-slate-400">Track incentive distributions and operational performance</p>
                     </div>
                 </Reveal>
                 
-                <Reveal direction="right">
-                    <div className="flex items-center gap-4 text-xs font-black uppercase tracking-[3px] italic">
-                         <div className="flex flex-col items-end">
-                            <span className="text-slate-300">CALCULATED_TOTAL</span>
-                            <span className="text-2xl text-[#003249] tracking-tight">₹{(filteredCommissions?.reduce((acc, c) => acc + (c.amount || 0), 0) || 0).toLocaleString()}</span>
-                         </div>
-                         <div className="w-16 h-16 bg-[#003249] rounded-2xl flex items-center justify-center text-[#80ced7] shadow-3xl">
-                             <TrendingUp size={28} strokeWidth={3} />
-                         </div>
+                <div className="flex items-center gap-4">
+                    <div className="text-right hidden md:block">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Total Yield</p>
+                        <p className="text-2xl font-black text-slate-800 tracking-tighter">₹{totalYield.toLocaleString()}</p>
                     </div>
-                </Reveal>
+                    <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shadow-sm border border-blue-100">
+                        <TrendingUp size={24} />
+                    </div>
+                </div>
             </div>
 
             {/* Tactical Search Module */}
-            <div className="bg-white p-6 rounded-[2rem] border-2 border-slate-50 shadow-3xl flex flex-col md:flex-row items-center gap-6">
-                <div className="relative flex-1 group w-full">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" size={20} strokeWidth={3} />
+            <div className="flex flex-wrap items-center gap-4">
+                <div className="relative flex-1 min-w-[300px] group">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
                     <input 
                         type="text" 
-                        placeholder="IDENTIFY COMMISSION SIGNAL BY AGENT..." 
-                        className="w-full pl-16 pr-6 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-[11px] font-black uppercase tracking-[3px] text-[#003249] focus:bg-white focus:border-[#007ea7] transition-all outline-none italic"
+                        placeholder="Search by Agent or Policy..." 
+                        className="w-full pl-12 pr-4 h-12 bg-white border border-slate-200 rounded-xl text-sm focus:border-blue-500 outline-none transition-all shadow-sm"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="flex gap-4 w-full md:w-auto">
-                    <button className="h-14 px-8 border-2 border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-[3px] text-[#003249] hover:bg-slate-50 transition-all italic flex items-center gap-3">
-                        <Filter size={18} strokeWidth={3} /> Filter_Sector
+                <div className="flex items-center gap-3">
+                    <button className="h-12 px-5 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
+                        <Download size={18} /> Export Report
                     </button>
-                    <button className="h-14 px-8 bg-[#003249] text-[#80ced7] rounded-2xl text-[10px] font-black uppercase tracking-[3px] hover:bg-[#007ea7] transition-all italic flex items-center gap-3">
-                        <Download size={18} strokeWidth={3} /> EXPORT_YIELD_MANIFEST
+                    <button className="h-12 w-12 bg-white border border-slate-200 text-slate-600 rounded-xl flex items-center justify-center hover:bg-slate-50 transition-all shadow-sm">
+                        <Filter size={18} />
                     </button>
                 </div>
             </div>
 
-            {/* List Module */}
-            <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-4xl overflow-hidden relative">
-                <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
-                
-                <div className="overflow-x-auto relative z-10 font-mono italic">
-                    <table className="w-full text-left border-collapse">
+            {/* Table Module */}
+            <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
+                <div className="overflow-x-auto flex-1">
+                    <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-[4px]">
-                                <th className="px-10 py-10">YIELD_ID</th>
-                                <th className="px-10 py-10">OPERATIVE_MANIFEST</th>
-                                <th className="px-10 py-10">PROTOCOL_DERIVATIVE</th>
-                                <th className="px-10 py-10">FISCAL_INCENTIVE</th>
-                                <th className="px-10 py-10 text-center">CLEARANCE</th>
-                                <th className="px-10 py-10 text-right"></th>
+                            <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50">
+                                <th className="px-8 py-6">Yield ID</th>
+                                <th className="px-8 py-6">Agent Origin</th>
+                                <th className="px-8 py-6">Policy Derivative</th>
+                                <th className="px-8 py-6">Incentive</th>
+                                <th className="px-8 py-6 text-center">Clearance</th>
+                                <th className="px-8 py-6"></th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {isLoading ? (
-                                <tr><td colSpan="6" className="px-10 py-20 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Calculating Yield Deltas...</td></tr>
-                            ) : filteredCommissions?.length === 0 ? (
+                                <tr><td colSpan="6" className="px-8 py-20 text-center"><TableSkeleton /></td></tr>
+                            ) : commissions?.length === 0 ? (
                                 <tr>
-                                    <td colSpan="6" className="px-10 py-32 text-center opacity-30">
-                                        <BarChart3 size={60} className="mx-auto text-[#003249] animate-pulse mb-4" />
-                                        <p className="text-[12px] font-black uppercase tracking-[8px]">No_Yield_Data_Identified</p>
+                                    <td colSpan="6" className="px-8 py-32 text-center">
+                                        <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-200 mx-auto mb-4 border border-slate-100">
+                                            <BarChart3 size={32} />
+                                        </div>
+                                        <p className="text-sm font-bold text-slate-400">No performance data identified for this period</p>
                                     </td>
                                 </tr>
-                            ) : filteredCommissions?.map((c, i) => (
-                                <tr key={c._id} className="group hover:bg-slate-50/50 transition-all duration-500 cursor-pointer">
-                                    <td className="px-10 py-8">
-                                        <span className="text-base font-black text-[#007ea7] tracking-tighter uppercase group-hover:translate-x-2 transition-transform inline-block">#{c._id.slice(-6).toUpperCase()}</span>
+                            ) : commissions?.filter(c => c.agent?.name?.toLowerCase().includes(searchTerm.toLowerCase())).map((c, i) => (
+                                <tr key={c._id} className="group hover:bg-slate-50/50 transition-colors">
+                                    <td className="px-8 py-7 text-xs font-bold text-slate-400 uppercase tracking-tight">
+                                        #YD-{c._id.slice(-6).toUpperCase()}
                                     </td>
-                                    <td className="px-10 py-8">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-14 h-14 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] font-black text-lg shadow-xl border border-white/5">
+                                    <td className="px-8 py-7">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-100 shadow-sm bg-slate-100 flex items-center justify-center font-bold text-slate-500 uppercase">
                                                 {c.agent?.name?.charAt(0)}
                                             </div>
                                             <div className="flex flex-col gap-0.5">
-                                                <span className="text-lg font-black text-[#003249] tracking-tighter italic leading-none group-hover:text-[#007ea7] transition-colors">{c.agent?.name}</span>
-                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest mt-1 italic">SECTOR_AGENT</span>
+                                                <span className="text-sm font-bold text-slate-700 leading-none">{c.agent?.name}</span>
+                                                <span className="text-[10px] font-medium text-slate-400">Sector Agent</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-8">
-                                        <div className="flex items-center gap-3 text-[12px] font-black text-[#003249] uppercase tracking-tighter">
-                                            <Shield size={14} className="text-[#007ea7]" />
+                                    <td className="px-8 py-7">
+                                        <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
+                                            <Shield size={14} className="text-blue-500" />
                                             {c.policy?.policyName}
                                         </div>
                                     </td>
-                                    <td className="px-10 py-8">
-                                        <span className="text-xl font-black text-[#003249] tracking-tighter">₹{c.amount?.toLocaleString()}</span>
+                                    <td className="px-8 py-7">
+                                        <span className="text-sm font-black text-slate-800 tracking-tight">
+                                            ₹{c.amount?.toLocaleString()}
+                                        </span>
                                     </td>
-                                    <td className="px-10 py-8 text-center">
-                                        <div className="inline-flex items-center gap-4 bg-white px-5 py-2.5 rounded-2xl border-2 border-slate-50 group-hover:border-emerald-100 transition-all shadow-sm">
-                                            <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full" />
-                                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[4px]">AUTHORIZED</span>
+                                    <td className="px-8 py-7 text-center">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100">
+                                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                                            <span className="text-[10px] font-black text-emerald-600 uppercase">Authorized</span>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-8 text-right">
-                                        <button className="w-12 h-12 flex items-center justify-center bg-white text-slate-300 hover:text-[#007ea7] rounded-xl transition-all border-2 border-slate-50 shadow-sm">
-                                            <MoreHorizontal size={24} strokeWidth={3} />
+                                    <td className="px-8 py-7 text-right">
+                                        <button className="p-2 text-slate-300 hover:text-slate-600 transition-colors">
+                                            <MoreHorizontal size={20} />
                                         </button>
                                     </td>
                                 </tr>
@@ -152,10 +138,20 @@ const AdminCommissions = () => {
                     </table>
                 </div>
 
-                <div className="p-10 border-t border-slate-50 bg-slate-50/20 flex flex-wrap justify-center gap-12 text-[10px] font-black text-[#003249] uppercase tracking-[5px] opacity-30">
-                    <div className="flex items-center gap-3"><Terminal size={14} /> Yield_Node: ACTIVE</div>
-                    <div className="flex items-center gap-3"><Fingerprint size={14} /> Fiscal_Lock: SECURE</div>
-                    <div className="flex items-center gap-3"><Zap size={14} /> Calc_Latency: 0.2ms</div>
+                {/* Pagination */}
+                <div className="px-8 py-6 bg-slate-50/30 border-t border-slate-50 flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-400">
+                        Showing 1 to {commissions?.length || 0} of {commissions?.length || 0} records
+                    </span>
+                    <div className="flex items-center gap-2">
+                        <button className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-300 hover:text-slate-600 transition-all disabled:opacity-50" disabled>
+                            <ChevronLeft size={18} />
+                        </button>
+                        <button className="w-8 h-8 rounded-lg bg-[#1a2332] text-white text-xs font-bold flex items-center justify-center shadow-lg transition-all">1</button>
+                        <button className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-300 hover:text-slate-600 transition-all disabled:opacity-50" disabled>
+                            <ChevronRight size={18} />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
