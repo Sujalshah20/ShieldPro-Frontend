@@ -43,10 +43,10 @@ const ROLE_LINKS = {
     admin: [
         { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
         { name: "Manage Policies", path: "/admin/policies", icon: ShieldCheck },
-        { name: "Manage Customers", path: "/admin/users", icon: Users },
-        { name: "Manage Agents", path: "/admin/agents", icon: Briefcase },
-        { name: "All Claims", path: "/admin/claims", icon: FileText },
-        { name: "Transactions", path: "/admin/transactions", icon: CreditCard },
+        { name: "Claims", path: "/admin/claims", icon: FileText },
+        { name: "Customers", path: "/admin/users", icon: Users },
+        { name: "Agents", path: "/admin/agents", icon: Briefcase },
+        { name: "Reports & Analytics", path: "/admin/commissions", icon: PieChart },
         { name: "Reports & Analytics", path: "/admin/commissions", icon: PieChart },
         { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
@@ -120,7 +120,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
-                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-[2px] mt-1.5 opacity-60 italic">Insurance Platform</span>
+                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-[2px] mt-1.5 opacity-60 italic">Admin Portal</span>
                         </div>
                     </div>
                 </div>
@@ -178,13 +178,18 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     
                     {/* User Profile Mini Card */}
                     {role === 'admin' && (
-                         <div className="pt-4 flex items-center gap-3 px-2">
-                            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 shadow-lg">
-                                 <img src="https://i.pravatar.cc/100?u=admin" alt="Admin" className="w-full h-full object-cover" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[12px] font-bold text-white tracking-tight">Admin User</span>
-                                <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Super Admin</span>
+                         <div className="pt-4 flex flex-col gap-4">
+                            <button className="w-full bg-[#3b82f6]/10 hover:bg-[#3b82f6]/20 text-white/90 py-3 rounded-xl border border-[#3b82f6]/20 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-lg active:scale-95 group">
+                                <HelpCircle size={16} className="text-[#3b82f6] group-hover:rotate-12 transition-transform" /> Support Center
+                            </button>
+                            <div className="flex items-center gap-3 px-2">
+                                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 shadow-lg">
+                                     <img src="https://i.pravatar.cc/100?u=admin" alt="Admin" className="w-full h-full object-cover" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[12px] font-bold text-white tracking-tight">Admin User</span>
+                                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Super Admin</span>
+                                </div>
                             </div>
                          </div>
                     )}
