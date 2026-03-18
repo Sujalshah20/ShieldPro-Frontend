@@ -61,14 +61,16 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                 >
                     <Menu size={20} />
                 </button>
-                <div className="hidden lg:flex flex-col">
-                    <h2 className="text-xl font-bold text-slate-800 tracking-tight">
-                        {getPageTitle(location.pathname)}
-                    </h2>
-                    <p className="text-[12px] font-medium text-slate-400 mt-0.5">
-                        {location.pathname === '/admin' ? "View and manage your platform today." : "Manage and track your database records."}
-                    </p>
-                </div>
+                {location.pathname !== '/admin' && (
+                    <div className="hidden lg:flex flex-col">
+                        <h2 className="text-xl font-bold text-slate-800 tracking-tight">
+                            {getPageTitle(location.pathname)}
+                        </h2>
+                        <p className="text-[12px] font-medium text-slate-400 mt-0.5">
+                            {location.pathname === '/admin' ? "View and manage your platform today." : "Manage and track your database records."}
+                        </p>
+                    </div>
+                )}
             </div>
 
             {/* Global Search */}

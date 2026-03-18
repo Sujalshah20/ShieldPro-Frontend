@@ -120,7 +120,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
-                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-[2px] mt-1.5 opacity-60 italic">Admin Panel</span>
+                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-[2px] mt-1.5 opacity-60 italic">Insurance Platform</span>
                         </div>
                     </div>
                 </div>
