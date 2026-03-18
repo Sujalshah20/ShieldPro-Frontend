@@ -170,10 +170,10 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     {/* Logout Option */}
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 group"
+                        className="w-full flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-rose-400/70 hover:text-rose-400 hover:bg-rose-500/10 group font-bold"
                     >
-                        <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-[14px] font-semibold">Logout</span>
+                        <LogOut size={20} className="text-rose-500/60 group-hover:text-rose-500 transition-colors" />
+                        <span className="text-[14px]">Logout</span>
                     </button>
                     
                     {/* User Profile Mini Card */}

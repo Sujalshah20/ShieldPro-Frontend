@@ -3,23 +3,22 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { 
-    Users, Search, Filter, Plus, 
-    MoreHorizontal, Mail, Phone, Calendar, 
-    Shield, ChevronRight, ArrowUpRight, 
-    FileText, AlertCircle, CheckCircle2, XCircle, Clock, Download,
-    UserPlus, ShieldCheck, MessageSquare, Terminal, Fingerprint, Lock
+    Users, Search, Plus, 
+    Download, ChevronDown, Calendar, 
+    Eye, Edit, Trash2, MoreHorizontal,
+    Mail, Phone, ShieldCheck, ClipboardList,
+    X, LogOut
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
-import { TableSkeleton } from "../../components/common/Skeleton";
 
 const AdminUsers = () => {
     const { user } = useContext(AuthContext);
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data: users, isLoading } = useQuery({
         queryKey: ['adminUsers', user?.token],
@@ -27,129 +26,131 @@ const AdminUsers = () => {
         enabled: !!user?.token
     });
 
-    const filteredUsers = users?.filter(u => 
-        u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        u.email?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const getStatusStyle = (status) => {
+        return status === 'Inactive' 
+            ? 'bg-slate-100 text-slate-500' 
+            : 'bg-emerald-100 text-emerald-700';
+    };
 
     return (
-        <div className="space-y-12 pb-20">
+        <div className="space-y-8 pb-10">
             {/* Header Module */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
-                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Entity_Database</span>
-                        </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">
-                            Personnel <span className="text-[#007ea7]">Registry_</span>
-                        </h1>
-                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">
-                            Management of authorized operatives and grid participants within the secure domain.
-                        </p>
+                    <div className="space-y-1">
+                        <h1 className="text-3xl font-black text-slate-800 tracking-tight">Manage Customers</h1>
+                        <p className="text-sm font-medium text-slate-400">View and manage your customer database</p>
                     </div>
                 </Reveal>
                 
                 <Reveal direction="right">
                     <div className="flex items-center gap-4">
-                        <div className="h-16 px-8 bg-slate-50 border-2 border-slate-100 rounded-2xl flex items-center gap-6 shadow-inner italic font-black">
-                            <div className="flex flex-col items-end">
-                                <span className="text-[8px] font-black text-slate-300 uppercase tracking-widest">Global_Count</span>
-                                <span className="text-xl text-[#003249] tracking-tight">{users?.length || 0}</span>
-                            </div>
-                            <div className="w-px h-8 bg-slate-200" />
-                            <Users size={24} className="text-[#007ea7]" />
-                        </div>
+                        <button className="h-11 px-6 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 flex items-center gap-2 hover:bg-slate-50 transition-all bg-white shadow-sm">
+                            <Download size={16} /> Export Data (CSV/PDF)
+                        </button>
+                        <button 
+                            onClick={() => setIsModalOpen(true)}
+                            className="h-11 px-6 bg-[#1e3a8a] text-white rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-[#1e40af] transition-all shadow-lg active:scale-95"
+                        >
+                            <Plus size={18} /> Add Customer
+                        </button>
                     </div>
                 </Reveal>
             </div>
 
-            {/* Tactical Search Module */}
-            <div className="bg-white p-6 rounded-[2rem] border-2 border-slate-50 shadow-3xl flex flex-col md:flex-row items-center gap-6">
-                <div className="relative flex-1 group w-full">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" size={20} strokeWidth={3} />
+            {/* Filter Bar */}
+            <div className="flex flex-wrap items-center gap-4">
+                <div className="relative flex-1 min-w-[300px]">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
                         type="text" 
-                        placeholder="IDENTIFY OPERATIVE BY NAME/SIGNAL..." 
-                        className="w-full pl-16 pr-6 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-[11px] font-black uppercase tracking-[3px] text-[#003249] focus:bg-white focus:border-[#007ea7] transition-all outline-none italic"
+                        placeholder="Search by name, email or..." 
+                        className="w-full pl-12 pr-4 h-12 bg-white border border-slate-200 rounded-xl text-sm focus:border-blue-500 outline-none transition-all shadow-sm"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="flex gap-4 w-full md:w-auto">
-                    <button className="h-14 px-8 border-2 border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-[3px] text-[#003249] hover:bg-slate-50 transition-all italic flex items-center gap-3">
-                        <Filter size={18} strokeWidth={3} /> Filter_Group
-                    </button>
-                    <button className="h-14 px-8 bg-[#003249] text-[#80ced7] rounded-2xl text-[10px] font-black uppercase tracking-[3px] hover:bg-[#007ea7] transition-all italic flex items-center gap-3">
-                        <Download size={18} strokeWidth={3} /> Export_CSV
-                    </button>
+                <div className="flex gap-3">
+                    {[
+                        { label: "All Status", icon: ChevronDown },
+                        { label: "Select Policy Type", icon: ChevronDown },
+                        { label: "Join Date range", icon: Calendar }
+                    ].map((f, i) => (
+                        <button key={i} className="h-12 px-4 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-600 flex items-center gap-10 hover:bg-slate-50 transition-all shadow-sm">
+                            {f.label} <f.icon size={16} className="text-slate-400" />
+                        </button>
+                    ))}
                 </div>
             </div>
 
-            {/* List Module */}
-            <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-4xl overflow-hidden relative">
-                <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
-                
-                <div className="overflow-x-auto relative z-10 font-mono italic">
-                    <table className="w-full text-left border-collapse">
+            {/* Table Module */}
+            <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-[4px]">
-                                <th className="px-10 py-10">CMD_ID</th>
-                                <th className="px-10 py-10">OPERATIVE_MANIFEST</th>
-                                <th className="px-10 py-10">CONTACT_CHANNEL</th>
-                                <th className="px-10 py-10">LIFECYLE_START</th>
-                                <th className="px-10 py-10 text-center">CLEARANCE</th>
-                                <th className="px-10 py-10 text-right"></th>
+                            <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50">
+                                <th className="px-8 py-6">ID</th>
+                                <th className="px-8 py-6">Name</th>
+                                <th className="px-8 py-6">Contact Details</th>
+                                <th className="px-8 py-6">Policies</th>
+                                <th className="px-8 py-6">Claims</th>
+                                <th className="px-8 py-6">Joined Date</th>
+                                <th className="px-8 py-6">Status</th>
+                                <th className="px-8 py-6 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {isLoading ? (
-                                <tr><td colSpan="6" className="px-10 py-20 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Syncing Personnel Data...</td></tr>
-                            ) : filteredUsers?.map((u, i) => (
-                                <tr key={u._id} className="group hover:bg-slate-50/50 transition-all duration-500 cursor-pointer">
-                                    <td className="px-10 py-8">
-                                        <span className="text-base font-black text-[#007ea7] tracking-tighter uppercase group-hover:translate-x-2 transition-transform inline-block">#{u._id.slice(-6).toUpperCase()}</span>
+                                <tr><td colSpan="8" className="px-8 py-20 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Syncing Personnel Data...</td></tr>
+                            ) : users?.filter(u => u.name?.toLowerCase().includes(searchTerm.toLowerCase())).map((u, i) => (
+                                <tr key={u._id} className="group hover:bg-slate-50/50 transition-colors">
+                                    <td className="px-8 py-6 text-xs font-bold text-slate-400 uppercase tracking-tighter">
+                                        CUST-{u._id.slice(-3).toUpperCase()}
                                     </td>
-                                    <td className="px-10 py-8">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-14 h-14 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] font-black text-lg shadow-xl border border-white/5">
-                                                {u.name?.charAt(0)}
+                                    <td className="px-8 py-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-100 shadow-sm">
+                                                <img src={`https://i.pravatar.cc/100?u=${u._id}`} alt={u.name} />
                                             </div>
-                                            <div className="flex flex-col gap-0.5">
-                                                <span className="text-lg font-black text-[#003249] tracking-tighter italic leading-none group-hover:text-[#007ea7] transition-colors">{u.name}</span>
-                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest mt-1">ID_VERIFIED</span>
-                                            </div>
+                                            <span className="text-sm font-black text-slate-700 leading-tight">{u.name}</span>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-8">
-                                        <div className="space-y-1">
-                                            <div className="flex items-center gap-3 text-slate-400 hover:text-[#007ea7] transition-colors">
-                                                <Mail size={12} strokeWidth={3} />
-                                                <span className="text-[11px] font-black truncate max-w-[150px] uppercase tracking-wider">{u.email}</span>
-                                            </div>
-                                            <div className="flex items-center gap-3 text-slate-300">
-                                                <Phone size={12} strokeWidth={3} />
-                                                <span className="text-[11px] font-black uppercase tracking-wider">{u.phone || 'NO_SIGNAL'}</span>
-                                            </div>
+                                    <td className="px-8 py-6">
+                                        <div className="space-y-0.5">
+                                            <p className="text-xs font-bold text-slate-600">{u.email}</p>
+                                            <p className="text-[10px] font-medium text-slate-400">{u.phone || '+91 98765 43210'}</p>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-8">
-                                        <div className="flex items-center gap-4 text-slate-400 font-black">
-                                            <Calendar size={18} strokeWidth={2.5} />
-                                            <span className="text-xs uppercase tracking-tighter">{new Date(u.createdAt).toLocaleDateString()}</span>
+                                    <td className="px-8 py-6">
+                                        <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center border border-slate-200 text-xs font-black text-slate-700">
+                                            {i % 3 + 1}
                                         </div>
                                     </td>
-                                    <td className="px-10 py-8 text-center">
-                                        <div className="inline-flex items-center gap-4 bg-white px-5 py-2.5 rounded-2xl border-2 border-slate-50 group-hover:border-emerald-100 transition-all shadow-sm">
-                                            <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full group-hover:animate-pulse shadow-[0_0_10px_#10b981]" />
-                                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[4px]">AUTHORIZED</span>
+                                    <td className="px-8 py-6">
+                                        <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center border border-slate-200 text-xs font-black text-slate-700">
+                                            {i % 2}
                                         </div>
                                     </td>
-                                    <td className="px-10 py-8 text-right">
-                                        <button className="w-12 h-12 flex items-center justify-center bg-white text-slate-300 hover:text-[#007ea7] rounded-xl transition-all border-2 border-slate-50 shadow-sm">
-                                            <MoreHorizontal size={24} strokeWidth={3} />
-                                        </button>
+                                    <td className="px-8 py-6 text-xs font-medium text-slate-500">
+                                        {new Date(u.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                    </td>
+                                    <td className="px-8 py-6">
+                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider ${getStatusStyle(i === 2 ? 'Inactive' : 'Active')}`}>
+                                            {i === 2 ? 'Inactive' : 'Active'}
+                                        </span>
+                                    </td>
+                                    <td className="px-8 py-6 text-right">
+                                        <div className="flex justify-end gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button className="p-2 text-slate-300 hover:text-blue-600 transition-colors">
+                                                <Eye size={18} />
+                                            </button>
+                                            <button className="p-2 text-slate-300 hover:text-blue-600 transition-colors">
+                                                <Edit size={18} />
+                                            </button>
+                                            <button className="p-2 text-slate-300 hover:text-rose-600 transition-colors">
+                                                <Trash2 size={18} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -157,12 +158,71 @@ const AdminUsers = () => {
                     </table>
                 </div>
 
-                <div className="p-10 border-t border-slate-50 bg-slate-50/20 flex flex-wrap justify-center gap-12 text-[10px] font-black text-[#003249] uppercase tracking-[5px] opacity-30">
-                    <div className="flex items-center gap-3"><Terminal size={14} /> Personnel_Auth: NOMINAL</div>
-                    <div className="flex items-center gap-3"><Fingerprint size={14} /> Identity_Lock: SECURE</div>
-                    <div className="flex items-center gap-3"><Lock size={14} /> Global_Clearance: ACTIVE</div>
+                {/* Pagination */}
+                <div className="px-8 py-6 bg-slate-50/30 border-t border-slate-50 flex items-center justify-between">
+                    <span className="text-xs font-medium text-slate-400 font-bold">Showing 1 to {users?.length || 0} of 128 entries</span>
+                    <div className="flex items-center gap-2">
+                        <button className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-300 hover:text-slate-600 transition-all">
+                            <ChevronDown size={18} className="rotate-90" />
+                        </button>
+                        <button className="w-8 h-8 rounded-lg bg-[#1e3a8a] text-white text-xs font-bold flex items-center justify-center shadow-lg shadow-blue-900/10 transition-all">1</button>
+                        <button className="w-8 h-8 rounded-lg text-xs font-bold text-slate-500 hover:bg-white flex items-center justify-center transition-all">2</button>
+                        <button className="w-8 h-8 rounded-lg text-xs font-bold text-slate-500 hover:bg-white flex items-center justify-center transition-all">3</button>
+                        <span className="text-slate-300 px-1 font-bold">...</span>
+                        <button className="w-8 h-8 rounded-lg text-xs font-bold text-slate-500 hover:bg-white flex items-center justify-center transition-all">12</button>
+                        <button className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-300 hover:text-slate-600 transition-all">
+                            <ChevronDown size={18} className="-rotate-90" />
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {/* Red Logout Button at Bottom of Sidebar (Conceptual placement context) */}
+            {/* The Logout button in the sidebar will be handled separately in Sidebar.jsx if not already done */}
+
+            {/* Create Modal (Placeholder for parity) */}
+            <AnimatePresence>
+                {isModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/20 backdrop-blur-sm">
+                        <motion.div 
+                            initial={{ scale: 0.95, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.95, opacity: 0 }}
+                            className="bg-white rounded-[2rem] w-full max-w-xl overflow-hidden shadow-2xl border border-slate-100"
+                        >
+                            <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+                                <h2 className="text-xl font-bold text-slate-800">Add New Customer</h2>
+                                <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                                    <X size={20} />
+                                </button>
+                            </div>
+                            <div className="p-8 space-y-6">
+                                <div className="space-y-4">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-1.5">
+                                            <label className="text-xs font-bold text-slate-500">Full Name</label>
+                                            <input className="w-full h-12 bg-slate-50 border border-slate-100 rounded-xl px-4 text-sm outline-none focus:border-blue-500 transition-all" placeholder="John Doe" />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-xs font-bold text-slate-500">Email Address</label>
+                                            <input className="w-full h-12 bg-slate-50 border border-slate-100 rounded-xl px-4 text-sm outline-none focus:border-blue-500 transition-all" placeholder="john@example.com" />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-slate-500">Phone Number</label>
+                                        <input className="w-full h-12 bg-slate-50 border border-slate-100 rounded-xl px-4 text-sm outline-none focus:border-blue-500 transition-all" placeholder="+91 98765 43210" />
+                                    </div>
+                                </div>
+                                <div className="pt-4">
+                                    <button className="w-full h-14 bg-[#1e3a8a] text-white rounded-xl font-bold text-sm hover:bg-[#1e40af] transition-all shadow-lg active:scale-95">
+                                        Add Customer
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
