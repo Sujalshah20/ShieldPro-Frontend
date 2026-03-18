@@ -20,6 +20,7 @@ const AdminPolicies = lazy(() => import("./pages/admin/AdminPolicies"));
 const AdminApplications = lazy(() => import("./pages/admin/AdminApplications"));
 const AdminClaims = lazy(() => import("./pages/admin/AdminClaims"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
+const AdminAgents = lazy(() => import("./pages/admin/AdminAgents"));
 const AdminCommissions = lazy(() => import("./pages/admin/AdminCommissions"));
 const AdminTransactions = lazy(() => import("./pages/admin/AdminTransactions"));
 const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
@@ -118,6 +119,7 @@ function App() {
                   >
                     <Route index element={<AdminDashboard />} />
                     <Route path="users" element={<AdminUsers />} />
+                    <Route path="agents" element={<AdminAgents />} />
                     <Route path="policies" element={<AdminPolicies />} />
                     <Route path="policies/:id" element={<PolicyDetails />} />
                     <Route path="applications" element={<AdminApplications />} />

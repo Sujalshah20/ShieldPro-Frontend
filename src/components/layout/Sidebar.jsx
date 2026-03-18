@@ -41,14 +41,14 @@ import {
 
 const ROLE_LINKS = {
     admin: [
-        { name: "Node Overview", path: "/admin", icon: LayoutDashboard, tag: "DASHBOARD" },
-        { name: "Operative Directory", path: "/admin/users", icon: Users, tag: "REGISTRY" },
-        { name: "Protocol Matrix", path: "/admin/policies", icon: ShieldCheck, tag: "VAULT" },
-        { name: "Artifact Submissions", path: "/admin/applications", icon: ClipboardList, tag: "QUEUE" },
-        { name: "Fiscal Commissions", path: "/admin/commissions", icon: Briefcase, tag: "LEDGER" },
-        { name: "Transaction Manifest", path: "/admin/transactions", icon: CreditCard, tag: "RECORDS" },
-        { name: "Incident Handling", path: "/admin/claims", icon: FileText, tag: "RESOLVE" },
-        { name: "System Config", path: "/admin/settings", icon: Settings, tag: "CORE" },
+        { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
+        { name: "Manage Policies", path: "/admin/policies", icon: ShieldCheck },
+        { name: "Manage Customers", path: "/admin/users", icon: Users },
+        { name: "Manage Agents", path: "/admin/agents", icon: Briefcase },
+        { name: "All Claims", path: "/admin/claims", icon: FileText },
+        { name: "Transactions", path: "/admin/transactions", icon: CreditCard },
+        { name: "Reports & Analytics", path: "/admin/commissions", icon: PieChart },
+        { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     agent: {
         main: [
@@ -109,29 +109,26 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
             {/* Sidebar Chassis — Premium Navy Theme */}
             <aside
-                className={`fixed top-0 left-0 z-[70] h-screen w-64 ${
-                    role === 'agent' ? 'bg-[#1a2b4b]' : 'bg-[#124C89]'
-                } text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+                className={`fixed top-0 left-0 z-[70] h-screen w-72 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 {/* Header Section */}
-                <div className="p-6 pb-8 flex flex-col gap-1">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#0ea5e9] rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
-                            <Shield className="w-6 h-6 text-white" strokeWidth={2.5} />
+                <div className="p-8 pb-10 flex flex-col gap-1">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 shadow-lg backdrop-blur-md relative overflow-hidden group">
+                           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <Shield className="w-7 h-7 text-white relative z-10" strokeWidth={2} />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
-                            {role === 'agent' && (
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">AGENT PORTAL</span>
-                            )}
+                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-[2px] mt-1.5 opacity-60 italic">Admin Panel</span>
                         </div>
                     </div>
                 </div>
 
                 {/* Navigation Links */}
-                <nav className="flex-1 overflow-y-auto no-scrollbar px-3 space-y-8">
+                <nav className="flex-1 overflow-y-auto no-scrollbar px-6 space-y-2">
                     {/* Main Section */}
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                         {(role === 'agent' ? links.main : (role === 'admin' ? links : links.main)).map((link) => {
                             const Icon = link.icon;
                             const isActive = location.pathname === link.path;
@@ -139,32 +136,58 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                                    className={`flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all relative group ${
                                         isActive 
-                                            ? "bg-[#14b8a6] text-white shadow-lg shadow-teal-500/10" 
+                                            ? "bg-white/10 text-white shadow-xl border-l-[3px] border-blue-500" 
                                             : "text-slate-400 hover:text-white hover:bg-white/5"
                                     }`}
                                 >
-                                    <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                                    <span className="text-[13px] font-bold">{link.name}</span>
+                                    <Icon size={20} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-blue-400" : "group-hover:text-white transition-colors"} />
+                                    <span className={`text-[14px] font-semibold tracking-wide ${isActive ? "text-white" : "group-hover:translate-x-1 transition-transform"}`}>{link.name}</span>
+                                    {isActive && (
+                                        <motion.div 
+                                            layoutId="sidebar-active"
+                                            className="absolute right-3 w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_#3b82f6]" 
+                                        />
+                                    )}
                                 </Link>
                             );
                         })}
                     </div>
-
                 </nav>
 
                 {/* Persistent Action & Profile Area */}
-                <div className="p-4 mt-auto border-t border-white/5 space-y-4">
+                <div className="p-6 mt-auto border-t border-white/5 space-y-4 bg-black/10">
+                    {/* Settings Option */}
+                     <Link
+                        to={`/${role}/settings`}
+                        className={`flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 group ${location.pathname.includes('settings') ? 'text-white bg-white/5' : ''}`}
+                    >
+                        <Settings size={20} />
+                        <span className="text-[14px] font-semibold">Settings</span>
+                    </Link>
 
                     {/* Logout Option */}
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-slate-400 hover:text-rose-400 hover:bg-rose-500/5 group"
+                        className="w-full flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 group"
                     >
-                        <LogOut size={18} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-[13px] font-bold">Logout</span>
+                        <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
+                        <span className="text-[14px] font-semibold">Logout</span>
                     </button>
+                    
+                    {/* User Profile Mini Card */}
+                    {role === 'admin' && (
+                         <div className="pt-4 flex items-center gap-3 px-2">
+                            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 shadow-lg">
+                                 <img src="https://i.pravatar.cc/100?u=admin" alt="Admin" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-[12px] font-bold text-white tracking-tight">Admin User</span>
+                                <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Super Admin</span>
+                            </div>
+                         </div>
+                    )}
                 </div>
             </aside>
         </>
