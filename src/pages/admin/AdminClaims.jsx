@@ -3,21 +3,40 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { 
-    AlertCircle, Shield, Clock, CheckCircle2, XCircle, Search, Filter,
-    ChevronDown, RefreshCcw, ChevronRight, SearchCheck, Satellite, IndianRupee,
-    Terminal, Fingerprint, Lock, ShieldCheck, Activity, TrendingUp, MoreHorizontal,
-    Briefcase, FileText, Download, User, ArrowUpRight
+    Search, Bell, FileText, CheckCircle2, 
+    AlertCircle, IndianRupee, Clipboard, 
+    ChevronDown, Filter, MoreHorizontal, 
+    ShieldCheck, XCircle, Clock, ChevronRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
-import { TableSkeleton } from "../../components/common/Skeleton";
+
+const ClaimStatCard = ({ title, value, trend, icon: Icon, color, isNegative }) => (
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+            <div className={`p-3 rounded-xl ${color} bg-opacity-10`}>
+                <Icon size={24} className={color.replace('bg-', 'text-')} />
+            </div>
+            {trend && (
+                <div className={`flex items-center gap-1 font-bold text-sm ${isNegative ? 'text-rose-500' : 'text-emerald-500'}`}>
+                    {trend}
+                </div>
+            )}
+        </div>
+        <div className="mt-4 space-y-1">
+            <p className="text-slate-400 text-sm font-medium">{title}</p>
+            <h3 className="text-3xl font-bold text-slate-800 tracking-tight">{value}</h3>
+        </div>
+    </div>
+);
 
 const AdminClaims = () => {
     const { user } = useContext(AuthContext);
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
+    const [activeTab, setActiveTab] = useState("All Claims");
 
     const { data: claims, isLoading } = useQuery({
         queryKey: ['adminClaims', user?.token],
@@ -29,158 +48,180 @@ const AdminClaims = () => {
         mutationFn: (data) => api.put(`/admin/claims/${data.id}/status`, { status: data.status }, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminClaims']);
-            toast({ title: "Signal state updated" });
+            toast({ title: "Claim status updated" });
         }
     });
 
-    const filteredClaims = claims?.filter(c => 
-        c.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        c.policy?.policyName?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const mockData = {
+        Health: { tag: "Health", color: "bg-blue-50 text-blue-600", agent: "Vikram Malhotra" },
+        Motor: { tag: "Motor", color: "bg-slate-50 text-slate-600", agent: "Anjali Kapoor" },
+        Life: { tag: "Life", color: "bg-purple-50 text-purple-600", agent: "Rahul Sharma" },
+        Property: { tag: "Property", color: "bg-emerald-50 text-emerald-600", agent: "Anjali Kapoor" }
+    };
+
+    const getPriorityStyle = (priority) => {
+        switch(priority) {
+            case 'HIGH': return 'bg-rose-50 text-rose-600';
+            case 'MEDIUM': return 'bg-orange-50 text-orange-600';
+            case 'LOW': return 'bg-blue-50 text-blue-600';
+            default: return 'bg-slate-50 text-slate-600';
+        }
+    };
 
     const getStatusStyle = (status) => {
         switch(status) {
-            case 'Approved': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
-            case 'Pending': return 'bg-amber-50 text-amber-600 border-amber-100 animate-pulse';
-            case 'Rejected': return 'bg-rose-50 text-rose-600 border-rose-100';
-            default: return 'bg-slate-50 text-slate-500';
+            case 'Approved': return { dot: 'bg-emerald-500', text: 'text-emerald-600' };
+            case 'Pending': return { dot: 'bg-blue-500', text: 'text-blue-600' };
+            case 'Rejected': return { dot: 'bg-rose-500', text: 'text-rose-600' };
+            case 'Review': return { dot: 'bg-amber-500', text: 'text-amber-600' };
+            default: return { dot: 'bg-slate-400', text: 'text-slate-600' };
         }
     };
 
     return (
-        <div className="space-y-12 pb-20">
-            {/* Header Module */}
-            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
+        <div className="space-y-8 pb-10">
+            {/* Breadcrumb & Header */}
+            <div className="flex justify-between items-center">
                 <Reveal direction="left">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
-                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Incident_Control</span>
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                            <span>Home</span>
+                            <ChevronRight size={12} />
+                            <span className="text-slate-300">Claims</span>
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none">
-                            Incident <span className="text-[#007ea7]">Response_</span>
-                        </h1>
-                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">
-                            Processing and adjudication of protection claims across all authorized grid sectors.
-                        </p>
-                    </div>
-                </Reveal>
-                
-                <Reveal direction="right">
-                    <div className="flex items-center gap-4">
-                        <div className="h-16 px-8 bg-slate-50 border-2 border-slate-100 rounded-2xl flex items-center gap-6 shadow-inner italic font-black">
-                            <div className="flex flex-col items-end">
-                                <span className="text-[8px] font-black text-slate-300 uppercase tracking-widest">Global_Claims</span>
-                                <span className="text-2xl text-[#003249] tracking-tight">{claims?.length || 0}</span>
-                            </div>
-                            <AlertCircle size={28} className="text-[#007ea7]" />
-                        </div>
+                        <h1 className="text-3xl font-black text-slate-800 tracking-tight">All Claims</h1>
                     </div>
                 </Reveal>
             </div>
 
-            {/* Tactical Search Module */}
-            <div className="bg-white p-6 rounded-[2rem] border-2 border-slate-50 shadow-3xl flex flex-col md:flex-row items-center gap-6">
-                <div className="relative flex-1 group w-full">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" size={20} strokeWidth={3} />
-                    <input 
-                        type="text" 
-                        placeholder="IDENTIFY INCIDENT BY CLIENT/POLICY..." 
-                        className="w-full pl-16 pr-6 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-[11px] font-black uppercase tracking-[3px] text-[#003249] focus:bg-white focus:border-[#007ea7] transition-all outline-none italic"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                <div className="flex gap-4 w-full md:w-auto">
-                    <button className="h-14 px-8 border-2 border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-[3px] text-[#003249] hover:bg-slate-50 transition-all italic flex items-center gap-3">
-                        <Filter size={18} strokeWidth={3} /> Filter_Group
-                    </button>
-                    <button className="h-14 px-8 bg-[#003249] text-[#80ced7] rounded-2xl text-[10px] font-black uppercase tracking-[3px] hover:bg-[#007ea7] transition-all italic flex items-center gap-3">
-                        <Download size={18} strokeWidth={3} /> EXPORT_SIGNAL_LOG
-                    </button>
-                </div>
+            {/* Metrics Stripe */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <ClaimStatCard title="Total Claims" value="12,450" trend="+12.5%" icon={Clipboard} color="bg-blue-500" />
+                <ClaimStatCard title="Pending Review" value="842" trend="+5.2%" icon={Clock} color="bg-orange-500" />
+                <ClaimStatCard title="Approved (Month)" value="3,120" trend="-2.1%" icon={CheckCircle2} color="bg-emerald-500" isNegative />
+                <ClaimStatCard title="Total Disbursed" value="₹45.2 Cr" trend="+8.4%" icon={IndianRupee} color="bg-purple-600" />
             </div>
 
-            {/* List Module */}
-            <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-4xl overflow-hidden relative">
-                <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
-                
-                <div className="overflow-x-auto relative z-10 font-mono italic">
-                    <table className="w-full text-left border-collapse">
+            {/* Table & Filters Container */}
+            <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden">
+                {/* Tabs */}
+                <div className="flex px-8 border-b border-slate-50 overflow-x-auto scrollbar-hide">
+                    {["All Claims", "Pending", "Under Review", "Approved", "Rejected", "Settled"].map((tab) => (
+                        <button 
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            className={`px-6 py-6 text-sm font-bold transition-all relative whitespace-nowrap ${
+                                activeTab === tab ? "text-blue-600" : "text-slate-400 hover:text-slate-600"
+                            }`}
+                        >
+                            {tab}
+                            {activeTab === tab && (
+                                <motion.div layoutId="activeTabClaims" className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
+                            )}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Filters */}
+                <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end border-b border-slate-50 bg-slate-50/20">
+                    {[
+                        { label: "Date Range", val: "Last 30 Days" },
+                        { label: "Claim Type", val: "All Types" },
+                        { label: "Agent", val: "All Agents" },
+                        { label: "Amount Range", val: "Any Amount" }
+                    ].map((f, i) => (
+                        <div key={i} className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">{f.label}</label>
+                            <button className="w-full h-12 px-4 bg-white border border-slate-100 rounded-xl text-xs font-bold text-slate-700 flex items-center justify-between hover:border-blue-500 transition-all">
+                                {f.val} <ChevronDown size={14} className="text-slate-400" />
+                            </button>
+                        </div>
+                    ))}
+                    <button className="h-12 w-full bg-[#1e3a8a] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#1e40af] transition-all shadow-lg active:scale-95 mb-0.5">
+                        <Filter size={16} /> Apply Filters
+                    </button>
+                </div>
+
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-[4px]">
-                                <th className="px-10 py-10">INCIDENT_ID</th>
-                                <th className="px-10 py-10">ENTITY_ORIGIN</th>
-                                <th className="px-10 py-10">PROTOCOL_REF</th>
-                                <th className="px-10 py-10">FISCAL_MAGNITUDE</th>
-                                <th className="px-10 py-10 text-center">LIFECYLE</th>
-                                <th className="px-10 py-10 text-right"></th>
+                            <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50">
+                                <th className="px-8 py-6">Claim ID</th>
+                                <th className="px-8 py-6">Customer</th>
+                                <th className="px-8 py-6">Policy</th>
+                                <th className="px-8 py-6">Type</th>
+                                <th className="px-8 py-6">Amount (₹)</th>
+                                <th className="px-8 py-6">Assigned Agent</th>
+                                <th className="px-8 py-6">Date</th>
+                                <th className="px-8 py-6">Priority</th>
+                                <th className="px-8 py-6">Status</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                             {isLoading ? (
-                                <tr><td colSpan="6" className="px-10 py-20 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Scanning Transmission Logs...</td></tr>
-                            ) : filteredClaims?.length === 0 ? (
-                                <tr>
-                                    <td colSpan="6" className="px-10 py-32 text-center opacity-30">
-                                        <Satellite size={60} className="mx-auto text-[#003249] animate-pulse mb-4" />
-                                        <p className="text-[12px] font-black uppercase tracking-[8px]">No_Inbound_Signal_Detected</p>
-                                    </td>
-                                </tr>
-                            ) : filteredClaims?.map((c, i) => (
-                                <tr key={c._id} className="group hover:bg-slate-50/50 transition-all duration-500 cursor-pointer">
-                                    <td className="px-10 py-8">
-                                        <span className="text-base font-black text-[#007ea7] tracking-tighter uppercase group-hover:translate-x-2 transition-transform inline-block">#{c._id.slice(-6).toUpperCase()}</span>
-                                    </td>
-                                    <td className="px-10 py-8">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-14 h-14 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] font-black text-lg shadow-xl border border-white/5">
-                                                {c.user?.name?.charAt(0)}
+                                <tr><td colSpan="9" className="px-8 py-20 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Scanning Transmission Logs...</td></tr>
+                            ) : claims?.map((c, i) => {
+                                const typeInfo = mockData[c.policy?.policyType] || mockData.Health;
+                                const statusInfo = getStatusStyle(c.status === 'Pending' ? 'Review' : c.status);
+                                return (
+                                    <tr key={c._id} className="group hover:bg-slate-50/50 transition-colors">
+                                        <td className="px-8 py-6">
+                                            <span className="text-sm font-bold text-blue-600 underline cursor-pointer hover:text-blue-800 transition-colors">
+                                                #CLM-{c._id.slice(-5).toUpperCase()}
+                                            </span>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-100 shadow-sm">
+                                                    <img src={`https://i.pravatar.cc/100?u=${c.user?._id}`} alt="" />
+                                                </div>
+                                                <span className="text-xs font-bold text-slate-700">{c.user?.name}</span>
                                             </div>
-                                            <div className="flex flex-col gap-0.5">
-                                                <span className="text-lg font-black text-[#003249] tracking-tighter italic leading-none group-hover:text-[#007ea7] transition-colors">{c.user?.name}</span>
-                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest mt-1 italic">{c.user?.email}</span>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <span className="text-xs font-medium text-slate-500 leading-tight block max-w-[120px]">{c.policy?.policyName}</span>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold ${typeInfo.color}`}>
+                                                {typeInfo.tag}
+                                            </span>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <span className="text-sm font-bold text-slate-800">{c.claimAmount?.toLocaleString()}</span>
+                                        </td>
+                                        <td className="px-8 py-6 text-xs font-medium text-slate-500">
+                                            {typeInfo.agent}
+                                        </td>
+                                        <td className="px-8 py-6 text-xs font-medium text-slate-400 whitespace-nowrap">
+                                            Oct 24, 2023
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <span className={`px-2 py-0.5 rounded-lg text-[9px] font-black tracking-widest uppercase ${getPriorityStyle(i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW')}`}>
+                                                {i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW'}
+                                            </span>
+                                        </td>
+                                        <td className="px-8 py-6">
+                                            <div className="flex items-center gap-2">
+                                                <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
+                                                <span className={`text-[10px] font-bold ${statusInfo.text}`}>
+                                                    {c.status === 'Pending' ? 'Review' : c.status}
+                                                </span>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-10 py-8 text-[12px] font-black text-[#003249] uppercase tracking-tighter italic">
-                                        {c.policy?.policyName}
-                                    </td>
-                                    <td className="px-10 py-8">
-                                        <span className="text-xl font-black text-[#003249] tracking-tighter">₹{c.claimAmount?.toLocaleString()}</span>
-                                    </td>
-                                    <td className="px-10 py-8 text-center">
-                                        <div className="inline-flex items-center gap-4 bg-white px-5 py-2.5 rounded-2xl border-2 border-slate-50 group-hover:border-[#007ea7]/20 transition-all shadow-sm">
-                                            <div className={`w-2.5 h-2.5 rounded-full ${c.status === 'Approved' ? 'bg-emerald-500' : c.status === 'Pending' ? 'bg-amber-500 animate-pulse' : 'bg-rose-500'}`} />
-                                            <span className={`text-[10px] font-black uppercase tracking-[4px] ${getStatusStyle(c.status).split(' ')[1]}`}>{c.status.toUpperCase()}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-10 py-8 text-right">
-                                        <div className="flex justify-end gap-3">
-                                            <button 
-                                                onClick={() => statusMutation.mutate({ id: c._id, status: 'Approved' })}
-                                                className="w-12 h-12 flex items-center justify-center bg-white text-slate-300 hover:text-emerald-500 rounded-xl transition-all border-2 border-slate-50 shadow-sm"
-                                            >
-                                                <CheckCircle2 size={20} strokeWidth={2.5} />
-                                            </button>
-                                            <button 
-                                                onClick={() => statusMutation.mutate({ id: c._id, status: 'Rejected' })}
-                                                className="w-12 h-12 flex items-center justify-center bg-white text-slate-300 hover:text-rose-500 rounded-xl transition-all border-2 border-slate-50 shadow-sm"
-                                            >
-                                                <XCircle size={20} strokeWidth={2.5} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
 
-                <div className="p-10 border-t border-slate-50 bg-slate-50/20 flex flex-wrap justify-center gap-12 text-[10px] font-black text-[#003249] uppercase tracking-[5px] opacity-30 font-mono">
-                    <div className="flex items-center gap-3"><Clock size={14} /> ADJUDICATION_LATENCY: 1.4h</div>
-                    <div className="flex items-center gap-3"><Activity size={14} /> GRID_RISK: LOW</div>
-                    <div className="flex items-center gap-3"><Shield size={14} /> SECURITY_OVERRIDE: INACTIVE</div>
+                {/* Pagination */}
+                <div className="px-8 py-6 bg-slate-50/30 border-t border-slate-50 flex items-center justify-between">
+                    <span className="text-xs font-medium text-slate-400">Showing 1-{claims?.length || 0} of 12,450 claims</span>
+                    <div className="flex items-center gap-2">
+                        <button className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-bold text-slate-500 hover:bg-white transition-all">Previous</button>
+                        <button className="px-4 py-2 bg-[#1e3a8a] text-white rounded-xl text-xs font-bold shadow-lg shadow-blue-900/10 hover:bg-[#1e40af] transition-all">Next</button>
+                    </div>
                 </div>
             </div>
         </div>
