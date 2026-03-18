@@ -1,246 +1,180 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "../../context/AuthContext";
+import { api } from "../../utils/api";
 import { 
-    Settings, Shield, Lock, Bell, 
-    Monitor, Database, Zap,
-    Activity, Fingerprint,
-    Command, Layout, Info,
-    Power, AlertTriangle, RefreshCcw, Save, ClipboardList, ShieldCheck,
-    Cpu, Globe, HardDrive, Terminal, Award, ChevronRight,
-    ArrowUpRight, Target, Layers, Satellite, BarChart3, Search,
-    CheckCircle2, X
+    Settings, Shield, Zap, Globe, Lock, RefreshCcw, IndianRupee,
+    Search, Filter, Mail, Phone, Calendar, ChevronRight, 
+    ArrowUpRight, FileText, AlertCircle, Clock, Download,
+    Terminal, Fingerprint, Lock as LockIcon, ShieldCheck, Activity, TrendingUp, MoreHorizontal,
+    Briefcase, Cpu, Layers, Bell, Eye, EyeOff, Save, Database, Server
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
 
 const AdminSettings = () => {
+    const { user } = useContext(AuthContext);
     const { toast } = useToast();
-    const [isMaintenance, setIsMaintenance] = useState(false);
-    const [baselineYield, setBaselineYield] = useState(15);
-    const [securityLevel, setSecurityLevel] = useState("Standard Protection");
-    const [activeTab, setActiveTab] = useState('general');
-
-    const handleSaveProtocols = () => {
-        toast({ title: "Settings synchronized successfully" });
-    };
-
-    const handleToggleMaintenance = () => {
-        setIsMaintenance(!isMaintenance);
-        toast({
-            title: isMaintenance ? "System Online" : "Maintenance Mode Enabled",
-            variant: isMaintenance ? "default" : "destructive"
-        });
-    };
+    const queryClient = useQueryClient();
+    const [activeTab, setActiveTab] = useState("Security");
 
     const tabs = [
-        { id: 'general', label: 'General', icon: Settings },
-        { id: 'security', label: 'Security', icon: ShieldCheck },
-        { id: 'notifications', label: 'Alerts', icon: Bell },
-        { id: 'yield', label: 'Pricing', icon: Zap },
+        { id: "Security", icon: Shield, label: "Grid_Security" },
+        { id: "Protocols", icon: Zap, label: "Protocol_Sync" },
+        { id: "Nodes", icon: Server, label: "Node_Configuration" },
+        { id: "Fiscal", icon: IndianRupee, label: "Fiscal_Rules" }
     ];
 
+    const handleSave = () => {
+        toast({ title: "Calibration parameters synchronized" });
+    };
+
     return (
-        <div className="space-y-8 pb-10">
-            {/* Header section */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-12 pb-20">
+            {/* Header Module */}
+            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
                 <Reveal direction="left">
-                    <div className="space-y-1">
-                        <h1 className="text-3xl font-bold text-slate-800 tracking-tight">System Settings</h1>
-                        <p className="text-slate-500 font-medium">Configure global platform parameters and security protocols.</p>
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4">
+                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
+                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Global_Controller</span>
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none text-wrap break-all">
+                            System <span className="text-[#007ea7]">Calibration_</span>
+                        </h1>
+                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">
+                            Fine-tuning core grid parameters and governing logic for the ShieldPro ecosystem.
+                        </p>
                     </div>
                 </Reveal>
+                
                 <Reveal direction="right">
-                    <div className="flex items-center gap-3">
-                        <div className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-xs font-bold border border-emerald-100 flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Platform Healthy
+                    <div className="flex items-center gap-4">
+                        <div className="h-16 px-8 bg-slate-50 border-2 border-slate-100 rounded-2xl flex items-center gap-6 shadow-inner italic font-black">
+                            <div className="flex flex-col items-end">
+                                <span className="text-[8px] font-black text-slate-300 uppercase tracking-widest">Protocol_Uptime</span>
+                                <span className="text-xl text-[#003249] tracking-tight">99.998%</span>
+                            </div>
+                            <div className="w-3 h-3 bg-[#007ea7] rounded-full animate-ping" />
                         </div>
                     </div>
                 </Reveal>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-                {/* Sidebar Nav */}
-                <div className="xl:col-span-3 space-y-4">
-                    <div className="flex flex-col p-1 bg-slate-100 rounded-2xl">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all ${
-                                    activeTab === tab.id 
-                                    ? "bg-white text-blue-600 shadow-sm" 
-                                    : "text-slate-500 hover:text-slate-700 hover:bg-slate-50/50"
-                                }`}
-                            >
-                                <tab.icon size={18} /> {tab.label}
-                            </button>
-                        ))}
-                    </div>
+            {/* Tactical Navigation */}
+            <div className="flex flex-wrap gap-4 p-3 bg-white border-2 border-slate-50 rounded-[2rem] shadow-3xl">
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`h-16 px-8 rounded-2xl flex items-center gap-4 text-[10px] font-black uppercase tracking-[4px] transition-all italic flex-1 min-w-[180px] ${
+                            activeTab === tab.id 
+                            ? "bg-[#003249] text-[#80ced7] shadow-xl shadow-blue-500/10" 
+                            : "text-slate-400 hover:bg-slate-50 hover:text-[#003249]"
+                        }`}
+                    >
+                        <tab.icon size={20} strokeWidth={3} />
+                        {tab.label}
+                    </button>
+                ))}
+            </div>
 
-                    <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-lg group">
-                        <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6 flex items-center gap-2">
-                            <Activity size={14} className="text-blue-400" /> System Vitality
-                        </h4>
-                        <div className="space-y-6">
-                            <div className="space-y-2">
-                                <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                                    <span>Uptime</span>
-                                    <span className="text-emerald-400">99.9%</span>
+            {/* Main Configuration Interface */}
+            <div className="grid lg:grid-cols-1 gap-12">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeTab}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4 }}
+                        className="bg-white rounded-[3rem] border-2 border-slate-50 shadow-4xl overflow-hidden relative"
+                    >
+                        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
+                        
+                        <div className="p-12 md:p-16 space-y-16 relative z-10 italic">
+                            <div className="flex items-center gap-8">
+                                <div className="w-20 h-20 bg-[#003249] rounded-3xl flex items-center justify-center text-[#007ea7] shadow-4xl border border-white/5">
+                                    {tabs.find(t => t.id === activeTab).icon({ size: 40, strokeWidth: 2.5 })}
                                 </div>
-                                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                    <div className="h-full bg-emerald-500 w-[99.9%] shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                                <div className="space-y-1">
+                                    <h3 className="text-3xl font-black uppercase tracking-tighter text-[#003249] leading-none">{activeTab}_Parameters</h3>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] leading-none">Hardware and software calibration for {activeTab.toLowerCase()} node.</p>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-center">
-                                    <p className="text-[8px] text-slate-500 uppercase font-bold mb-1">Latency</p>
-                                    <p className="text-lg font-bold text-white italic">12ms</p>
-                                </div>
-                                <div className="bg-white/5 p-3 rounded-xl border border-white/5 text-center">
-                                    <p className="text-[8px] text-slate-500 uppercase font-bold mb-1">Nodes</p>
-                                    <p className="text-lg font-bold text-white italic">642</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                {/* Main Settings Panel */}
-                <div className="xl:col-span-9 space-y-8">
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                        <div className="p-6 border-b border-slate-100 bg-slate-50/30 flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-blue-600 shadow-sm">
-                                <Settings size={20} />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-slate-800">Core Configuration</h3>
-                                <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">Mainframe Level Access</p>
-                            </div>
-                        </div>
-
-                        <div className="p-8 space-y-10">
-                            {/* Maintenance */}
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100 group transition-all hover:bg-white hover:shadow-md">
-                                <div className="flex items-center gap-5">
-                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all ${isMaintenance ? 'bg-rose-500 text-white shadow-rose-500/20 shadow-lg' : 'bg-white text-slate-400 border border-slate-200'} `}>
-                                        <Power size={24} />
+                            <div className="grid md:grid-cols-2 gap-12">
+                                <div className="space-y-10">
+                                    <div className="space-y-6">
+                                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] leading-none pl-2">Security_Mode</h4>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <button className="h-20 bg-emerald-50 border-2 border-emerald-100 rounded-2xl flex flex-col items-center justify-center gap-1 group">
+                                                <span className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">STANDARD</span>
+                                                <span className="text-[8px] font-black text-emerald-400/60 uppercase">NOMINAL_VAL</span>
+                                            </button>
+                                            <button className="h-20 bg-slate-50 border-2 border-slate-100 rounded-2xl flex flex-col items-center justify-center gap-1 opacity-40">
+                                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">ELEVATED</span>
+                                                <span className="text-[8px] font-black text-slate-400/60 uppercase">LOCKED_MODE</span>
+                                            </button>
+                                        </div>
                                     </div>
+
+                                    <div className="space-y-6">
+                                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] leading-none pl-2">Sync_Frequency</h4>
+                                        <div className="relative h-12 bg-slate-50 rounded-full overflow-hidden border-2 border-slate-50 italic">
+                                            <div className="absolute inset-y-0 left-0 bg-[#007ea7] w-[75%] flex items-center justify-end pr-6">
+                                                <span className="text-[10px] font-black text-white uppercase tracking-[4px]">750MHz</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-10">
+                                    <div className="space-y-6">
+                                        <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] leading-none pl-2">Notification_Channels</h4>
+                                        <div className="space-y-4 font-mono">
+                                            {[
+                                                { label: "GRID_ALERTS", status: true },
+                                                { label: "FISCAL_SIGNALS", status: true },
+                                                { label: "USER_TELEMETRY", status: false }
+                                            ].map((n, i) => (
+                                                <div key={i} className="flex items-center justify-between p-6 bg-slate-50 rounded-2xl border-2 border-slate-50">
+                                                    <span className="text-[11px] font-black uppercase tracking-[3px] text-[#003249]">{n.label}</span>
+                                                    <div className={`w-12 h-6 rounded-full p-1 transition-all ${n.status ? 'bg-[#007ea7]' : 'bg-slate-200'}`}>
+                                                        <div className={`w-4 h-4 bg-white rounded-full transition-all ${n.status ? 'translate-x-6' : ''}`} />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="pt-16 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-10 font-mono">
+                                <div className="flex items-center gap-6 opacity-30">
+                                    <Fingerprint size={24} />
                                     <div>
-                                        <h4 className="text-base font-bold text-slate-800 mb-1">Maintenance Mode</h4>
-                                        <p className="text-xs font-semibold text-slate-400 max-w-sm">Restrict platform access to administrative staff only during updates.</p>
+                                        <p className="text-[10px] font-black text-[#003249] uppercase tracking-[4px] leading-none mb-1">Authorization_Token</p>
+                                        <p className="text-[8px] font-black text-[#003249] uppercase tracking-widest leading-none">SESSION_SECURE_AES</p>
                                     </div>
                                 </div>
                                 <button 
-                                    onClick={handleToggleMaintenance}
-                                    className={`px-6 h-11 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
-                                        isMaintenance 
-                                        ? 'bg-rose-500 text-white hover:bg-rose-600 shadow-lg shadow-rose-500/20' 
-                                        : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
-                                    }`}
+                                    onClick={handleSave}
+                                    className="h-20 w-full sm:w-auto px-16 bg-[#003249] text-[#80ced7] rounded-[1.5rem] flex items-center justify-center gap-4 text-xs font-black uppercase tracking-[6px] hover:bg-[#007ea7] hover:text-white transition-all shadow-4xl active:scale-95 italic group"
                                 >
-                                    {isMaintenance ? 'Disable Restriction' : 'Enable Restriction'}
+                                    <Save size={24} strokeWidth={3} className="group-hover:scale-110 transition-transform" /> SYNCHRONIZE_CORE
                                 </button>
                             </div>
-
-                            {/* Yield Calibrator */}
-                            <div className="space-y-6">
-                                <div className="flex items-center justify-between">
-                                    <div>
-                                        <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-1">Yield Calibration</h4>
-                                        <p className="text-xs font-semibold text-slate-400">Set the baseline commission rate for all agents.</p>
-                                    </div>
-                                    <span className="text-3xl font-bold text-blue-600 tracking-tighter italic">{baselineYield}.0%</span>
-                                </div>
-                                <div className="relative pt-2">
-                                    <input 
-                                        type="range" 
-                                        min="0" 
-                                        max="50" 
-                                        value={baselineYield}
-                                        onChange={(e) => setBaselineYield(e.target.value)}
-                                        className="w-full h-2 bg-slate-100 rounded-full appearance-none cursor-pointer accent-blue-600"
-                                    />
-                                    <div className="flex justify-between mt-4 text-[10px] font-bold text-slate-300 uppercase tracking-widest">
-                                        <span>Min 0%</span>
-                                        <span>Optimal Range</span>
-                                        <span>Max 50%</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Security Modules */}
-                            <div className="space-y-6">
-                                <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Security Clearance Level</h4>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    {['Standard', 'Advanced', 'Compliance', 'Maximum'].map((level) => (
-                                        <div 
-                                            key={level}
-                                            onClick={() => setSecurityLevel(level)}
-                                            className={`p-5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group ${
-                                                securityLevel.includes(level) 
-                                                ? 'bg-blue-50 border-blue-200 ring-2 ring-blue-500/5' 
-                                                : 'bg-white border-slate-100 hover:border-slate-200'
-                                            }`}
-                                        >
-                                            <div className="flex items-center gap-4">
-                                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                                                    securityLevel.includes(level) ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-400'
-                                                }`}>
-                                                    <Shield size={18} />
-                                                </div>
-                                                <span className={`text-sm font-bold ${securityLevel.includes(level) ? 'text-blue-700' : 'text-slate-500'}`}>{level}</span>
-                                            </div>
-                                            {securityLevel.includes(level) && <CheckCircle2 size={18} className="text-blue-600" />}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
                         </div>
 
-                        <div className="p-6 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between gap-4">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest max-w-xs italic flex items-center gap-2">
-                                <RefreshCcw size={12} className="animate-spin-slow" /> Awaiting synchronization across all regional clusters.
-                            </p>
-                            <button 
-                                onClick={handleSaveProtocols}
-                                className="h-12 px-8 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center gap-2"
-                            >
-                                <Save size={16} /> Synchronize Settings
-                            </button>
+                        <div className="p-10 bg-slate-50/20 border-t border-slate-50 flex flex-wrap justify-center gap-12 text-[10px] font-black text-[#003249] uppercase tracking-[5px] opacity-30 mt-auto">
+                            <div className="flex items-center gap-3"><Database size={14} /> DB_Link: NOMINAL</div>
+                            <div className="flex items-center gap-3"><Activity size={14} /> LOAD_BALANCER: 0.12%</div>
+                            <div className="flex items-center gap-3"><RefreshCcw size={14} /> CLOUD_SYNC: ACTIVE</div>
                         </div>
-                    </div>
-
-                    {/* Operational Log */}
-                    <div className="bg-slate-900 rounded-2xl p-8 border border-slate-800 shadow-xl group">
-                        <div className="flex items-center justify-between mb-8">
-                             <h4 className="text-sm font-bold text-blue-400 uppercase tracking-widest flex items-center gap-3 italic">
-                                <Terminal size={18} /> Operational Event Log
-                             </h4>
-                             <div className="px-3 py-1 bg-white/5 rounded-lg border border-white/5 text-[9px] font-bold text-slate-500 uppercase tracking-widest">
-                                Live Stream Active
-                             </div>
-                        </div>
-                        <div className="space-y-4 font-mono">
-                            {[
-                                { event: 'PROTOCOL_UPDATE', status: 'SUCCESS', time: '12:04:12' },
-                                { event: 'MATRIX_CALIBRATION', status: 'SYNCING', time: '12:04:11' },
-                                { event: 'PERIMETER_SCAN', status: 'SUCCESS', time: '12:04:09' },
-                            ].map((log, i) => (
-                                <div key={i} className="flex items-center justify-between text-[11px] group/log cursor-default border-b border-white/5 pb-3">
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-slate-600">[{log.time}]</span>
-                                        <span className="text-slate-300 font-bold tracking-tighter uppercase italic">{log.event}</span>
-                                    </div>
-                                    <span className={`text-[9px] px-2 py-0.5 rounded border ${
-                                        log.status === 'SUCCESS' ? 'text-emerald-400 border-emerald-400/20 bg-emerald-400/5' : 'text-blue-400 border-blue-400/20 bg-blue-400/5 animate-pulse'
-                                    }`}>
-                                        {log.status}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </AnimatePresence>
             </div>
         </div>
     );

@@ -1,149 +1,138 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "../../context/AuthContext";
+import { api } from "../../utils/api";
 import { 
-    Users, Search, Filter, Plus, 
-    MoreHorizontal, Mail, Phone, 
-    Calendar, Shield, ChevronRight,
-    ArrowUpRight, Star, Briefcase,
-    CheckCircle2, XCircle, Clock
+    Users, UserPlus, ShieldCheck, Activity, TrendingUp, MoreHorizontal,
+    Search, Filter, Mail, Phone, Calendar, ChevronRight, 
+    ArrowUpRight, FileText, CheckCircle2, XCircle, Clock, 
+    Download, Terminal, Fingerprint, Lock, Shield, Cpu, Layers
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
+import { TableSkeleton } from "../../components/common/Skeleton";
 
 const AdminAgents = () => {
-    const [searchQuery, setSearchQuery] = useState("");
+    const { user } = useContext(AuthContext);
+    const { toast } = useToast();
+    const queryClient = useQueryClient();
+    const [searchTerm, setSearchTerm] = useState("");
 
-    const agents = [
-        { id: "AGT-8821", name: "Johnathan Smith", email: "john.s@shieldpro.com", phone: "+91 98765 43210", region: "North Zone", policies: 124, revenue: "₹45.2L", rating: 4.8, status: "Active", joined: "12 Oct 2023" },
-        { id: "AGT-8822", name: "Sarah Jenkins", email: "sarah.j@shieldpro.com", phone: "+91 87654 32109", region: "West Zone", policies: 98, revenue: "₹32.8L", rating: 4.5, status: "Active", joined: "15 Nov 2023" },
-        { id: "AGT-8823", name: "Michael Vance", email: "m.vance@shieldpro.com", phone: "+91 76543 21098", region: "South Zone", policies: 76, revenue: "₹24.5L", rating: 4.2, status: "Inactive", joined: "20 Jan 2024" },
-        { id: "AGT-8824", name: "Priya Sharma", email: "priya.s@shieldpro.com", phone: "+91 65432 10987", region: "East Zone", policies: 145, revenue: "₹52.1L", rating: 4.9, status: "Active", joined: "05 Mar 2024" },
-    ];
+    const { data: agents, isLoading } = useQuery({
+        queryKey: ['adminAgents', user?.token],
+        queryFn: () => api.get('/admin/agents', user.token),
+        enabled: !!user?.token
+    });
 
-    const stats = [
-        { label: "Total Agents", value: "156", icon: Users, color: "blue" },
-        { label: "Active Now", value: "142", icon: CheckCircle2, color: "emerald" },
-        { label: "Top Rated", value: "34", icon: Star, color: "amber" },
-    ];
+    const filteredAgents = agents?.filter(a => 
+        a.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        a.email?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
-        <div className="space-y-8 pb-10">
-            {/* Header section */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-12 pb-20">
+            {/* Header Module */}
+            <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-10">
                 <Reveal direction="left">
-                    <div className="space-y-1">
-                        <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Manage Agents</h1>
-                        <p className="text-slate-500 font-medium">Oversee and manage your insurance agent workforce.</p>
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4">
+                            <div className="w-2 h-10 bg-[#007ea7] rounded-full" />
+                            <span className="text-[11px] font-black uppercase tracking-[6px] text-[#007ea7] italic leading-none">Force_Deployment</span>
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-black text-[#003249] uppercase tracking-tighter italic leading-none text-wrap break-all">
+                            Operative <span className="text-[#007ea7]">Network_</span>
+                        </h1>
+                        <p className="max-w-xl text-slate-400 font-bold uppercase tracking-widest text-xs italic leading-relaxed">
+                            Management of field agents and coordination of localized security asset deployment.
+                        </p>
                     </div>
                 </Reveal>
+                
                 <Reveal direction="right">
-                    <button className="h-11 px-6 bg-blue-600 text-white rounded-xl flex items-center gap-2 text-sm font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/20 active:scale-95">
-                        <Plus size={18} /> Enlist New Agent
-                    </button>
+                    <div className="flex items-center gap-4 text-xs font-black uppercase tracking-[3px] italic">
+                         <div className="flex flex-col items-end">
+                            <span className="text-slate-300">AUTHORIZED_NODES</span>
+                            <span className="text-2xl text-[#003249] tracking-tight">{agents?.length || 0}</span>
+                         </div>
+                         <div className="w-16 h-16 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] shadow-3xl">
+                             <UserPlus size={28} strokeWidth={3} />
+                         </div>
+                    </div>
                 </Reveal>
             </div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {stats.map((s, i) => (
-                    <Reveal key={i} direction="up" delay={i * 0.1}>
-                        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
-                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-${s.color}-50 text-${s.color}-600`}>
-                                <s.icon size={24} />
-                            </div>
-                            <div>
-                                <p className="text-sm font-medium text-slate-400">{s.label}</p>
-                                <h3 className="text-2xl font-bold text-slate-800 tracking-tight">{s.value}</h3>
-                            </div>
-                        </div>
-                    </Reveal>
-                ))}
-            </div>
-
-            {/* Filter Bar */}
-            <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col md:flex-row items-center gap-4">
-                <div className="relative flex-1 group">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
+            {/* Tactical Search Module */}
+            <div className="bg-white p-6 rounded-[2rem] border-2 border-slate-50 shadow-3xl flex flex-col md:flex-row items-center gap-6">
+                <div className="relative flex-1 group w-full">
+                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#007ea7] transition-colors" size={20} strokeWidth={3} />
                     <input 
                         type="text" 
-                        placeholder="Search agents by name, ID or region..." 
-                        className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium focus:bg-white focus:border-blue-500 transition-all outline-none"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="IDENTIFY AGENT BY SIGNAL..." 
+                        className="w-full pl-16 pr-6 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-[11px] font-black uppercase tracking-[3px] text-[#003249] focus:bg-white focus:border-[#007ea7] transition-all outline-none italic"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center gap-3 w-full md:w-auto">
-                    <button className="flex-1 md:flex-none h-11 px-4 flex items-center justify-center gap-2 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">
-                        <Filter size={18} /> Filters
+                <div className="flex gap-4 w-full md:w-auto">
+                    <button className="h-14 px-8 border-2 border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-[3px] text-[#003249] hover:bg-slate-50 transition-all italic flex items-center gap-3 font-mono">
+                        <Filter size={18} strokeWidth={3} /> Filter_Sector
                     </button>
-                    <button className="flex-1 md:flex-none h-11 px-4 flex items-center justify-center gap-2 bg-slate-800 text-white rounded-xl text-sm font-bold hover:bg-slate-900 transition-all">
-                        Export CSV
+                    <button className="h-14 px-8 bg-[#003249] text-[#80ced7] rounded-2xl text-[10px] font-black uppercase tracking-[3px] hover:bg-[#007ea7] transition-all italic flex items-center gap-3">
+                        <Plus size={18} strokeWidth={3} /> NEW_ENROLLMENT
                     </button>
                 </div>
             </div>
 
-            {/* Agents Table */}
-            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <div className="overflow-x-auto">
+            {/* List Module */}
+            <div className="bg-white rounded-[2.5rem] border-2 border-slate-50 shadow-4xl overflow-hidden relative">
+                <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#003249 1.5px, transparent 1.5px)', backgroundSize: '40px 40px' }} />
+                
+                <div className="overflow-x-auto relative z-10 font-mono italic">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-slate-50/50 text-[11px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                                <th className="px-6 py-5">Agent ID</th>
-                                <th className="px-6 py-5">Agent Info</th>
-                                <th className="px-6 py-5">Region</th>
-                                <th className="px-6 py-5">Performance</th>
-                                <th className="px-6 py-5">Status</th>
-                                <th className="px-6 py-5">Joined Date</th>
-                                <th className="px-6 py-5 text-right">Actions</th>
+                            <tr className="bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-[4px]">
+                                <th className="px-10 py-10">AGENT_ID</th>
+                                <th className="px-10 py-10">OPERATIVE_SIGNAL</th>
+                                <th className="px-10 py-10">ASSET_ASSIGNMENT</th>
+                                <th className="px-10 py-10 text-center">PERFORMANCE</th>
+                                <th className="px-10 py-10 text-right"></th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {agents.map((agent, idx) => (
-                                <tr key={agent.id} className="group hover:bg-slate-50/50 transition-all">
-                                    <td className="px-6 py-5">
-                                        <span className="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">#{agent.id.split('-')[1]}</span>
+                        <tbody className="divide-y divide-slate-50">
+                            {isLoading ? (
+                                <tr><td colSpan="5" className="px-10 py-20 text-center text-slate-400 font-bold uppercase tracking-widest animate-pulse">Syncing Agent Data...</td></tr>
+                            ) : filteredAgents?.map((a, i) => (
+                                <tr key={a._id} className="group hover:bg-slate-50/50 transition-all duration-500 cursor-pointer">
+                                    <td className="px-10 py-8">
+                                        <span className="text-base font-black text-[#007ea7] tracking-tighter uppercase group-hover:translate-x-2 transition-transform inline-block">#{a._id.slice(-6).toUpperCase()}</span>
                                     </td>
-                                    <td className="px-6 py-5">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 font-bold overflow-hidden shadow-sm">
-                                                <img src={`https://i.pravatar.cc/100?u=${agent.id}`} alt="" />
+                                    <td className="px-10 py-8">
+                                        <div className="flex items-center gap-6">
+                                            <div className="w-14 h-14 bg-[#003249] rounded-2xl flex items-center justify-center text-[#007ea7] font-black text-lg shadow-xl border border-white/5">
+                                                {a.name?.charAt(0)}
                                             </div>
-                                            <div className="flex flex-col">
-                                                <span className="text-sm font-bold text-slate-700">{agent.name}</span>
-                                                <span className="text-xs font-medium text-slate-400">{agent.email}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-5">
-                                        <div className="flex items-center gap-2 text-sm font-semibold text-slate-600">
-                                           <Briefcase size={14} className="text-slate-400" />
-                                           {agent.region}
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-5">
-                                        <div className="flex flex-col gap-1">
-                                            <div className="flex items-center justify-between text-[11px] font-bold">
-                                                <span className="text-slate-400">{agent.policies} POLICIES</span>
-                                                <span className="text-blue-600">{agent.revenue}</span>
-                                            </div>
-                                            <div className="h-1.5 w-24 bg-slate-100 rounded-full overflow-hidden">
-                                                <div className="h-full bg-blue-500 rounded-full" style={{ width: '70%' }} />
+                                            <div className="flex flex-col gap-0.5">
+                                                <span className="text-lg font-black text-[#003249] tracking-tighter italic leading-none group-hover:text-[#007ea7] transition-colors">{a.name}</span>
+                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest mt-1 italic">{a.email}</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-5">
-                                        <span className={`px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 w-fit ${
-                                            agent.status === 'Active' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-50 text-slate-400'
-                                        }`}>
-                                            {agent.status === 'Active' ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
-                                            {agent.status}
-                                        </span>
+                                    <td className="px-10 py-8">
+                                        <div className="flex items-center gap-4 bg-white px-5 py-2.5 rounded-2xl border-2 border-slate-50 group-hover:border-blue-100 transition-all shadow-sm">
+                                            <Shield size={16} className="text-[#007ea7]" />
+                                            <span className="text-[10px] font-black text-[#003249] uppercase tracking-[4px] italic">Active_Claims: {a.activeClaims || 0}</span>
+                                        </div>
                                     </td>
-                                    <td className="px-6 py-5">
-                                        <span className="text-sm font-bold text-slate-500">{agent.joined}</span>
+                                    <td className="px-10 py-8 text-center">
+                                        <div className="inline-flex items-center gap-4 bg-white px-5 py-2.5 rounded-2xl border-2 border-slate-50 group-hover:border-emerald-100 transition-all shadow-sm">
+                                            <TrendingUp size={16} className="text-emerald-500" />
+                                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-[4px]">TOP_TIER</span>
+                                        </div>
                                     </td>
-                                    <td className="px-6 py-5 text-right">
-                                        <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
-                                            <MoreHorizontal size={20} />
+                                    <td className="px-10 py-8 text-right">
+                                        <button className="w-12 h-12 flex items-center justify-center bg-white text-slate-300 hover:text-[#007ea7] rounded-xl transition-all border-2 border-slate-50 shadow-sm">
+                                            <MoreHorizontal size={24} strokeWidth={3} />
                                         </button>
                                     </td>
                                 </tr>
@@ -151,12 +140,11 @@ const AdminAgents = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className="p-4 bg-slate-50/30 border-t border-slate-100 flex items-center justify-between">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Showing 1 to 4 of 156 Agents</p>
-                    <div className="flex gap-2">
-                         <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-400 cursor-not-allowed">Previous</button>
-                         <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Next</button>
-                    </div>
+
+                <div className="p-10 border-t border-slate-50 bg-slate-50/20 flex flex-wrap justify-center gap-12 text-[10px] font-black text-[#003249] uppercase tracking-[5px] opacity-30">
+                    <div className="flex items-center gap-3"><Terminal size={14} /> Agent_Link: NOMINAL</div>
+                    <div className="flex items-center gap-3"><Cpu size={14} /> Grid_Coordination: ACTIVE</div>
+                    <div className="flex items-center gap-3"><Layers size={14} /> Field_Manifest: SYNCED</div>
                 </div>
             </div>
         </div>
