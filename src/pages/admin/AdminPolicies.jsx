@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { 
-    Shield, Search, Plus, Edit, Trash2, 
+    Shield, Search, Plus, Edit, Trash2, Activity, Layers,
     X, Globe, Zap, ShieldCheck, TrendingUp,
     ChevronDown, RefreshCcw, ChevronRight, SearchCheck, Satellite, IndianRupee, Terminal, Fingerprint,
     MoreHorizontal, CheckCircle2, AlertCircle, Clock

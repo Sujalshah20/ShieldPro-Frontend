@@ -4,11 +4,10 @@ import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { TableSkeleton } from "../../components/common/Skeleton";
 import { 
-    Clock, Search, 
-    ClipboardList, Eye, ShieldCheck, 
+    Clock, Search, ClipboardList, Eye, ShieldCheck, 
     Cpu, Layers, Activity, Filter, Plus, Terminal, Fingerprint, X, Shield, Globe, Lock, AlertCircle,
-    ChevronDown, RefreshCcw, ChevronRight, SearchCheck, Satellite, IndianRupee, Zap, BarChart3,
-    MoreHorizontal, CheckCircle2
+    CheckCircle2, IndianRupee, FileText, ChevronRight, TrendingUp, SearchCheck, Satellite,
+    Zap, BarChart3, MoreHorizontal
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
