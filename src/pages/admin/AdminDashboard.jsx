@@ -7,7 +7,7 @@ import {
     Search, Bell, ChevronRight, FileCheck,
     Briefcase, Shield, Clock, AlertCircle,
     CheckCircle2, DollarSign, UserPlus,
-    Zap, Database, Cpu, Layers, Fingerprint, Globe, Lock, RefreshCcw
+    Zap, Database, Cpu, Layers, Fingerprint, Globe, Lock, RefreshCcw, Terminal
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Reveal from "../../components/common/Reveal";
