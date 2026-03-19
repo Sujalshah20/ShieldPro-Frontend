@@ -89,7 +89,7 @@ const AdminSettings = () => {
                         >
                             <div className="flex items-center gap-4 mb-10">
                                 <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-800 border border-slate-100">
-                                    {tabs.find(t => t.id === activeTab).icon({ size: 24 })}
+                                    {React.createElement(tabs.find(t => t.id === activeTab).icon, { size: 24 })}
                                 </div>
                                 <div>
                                     <h2 className="text-xl font-black text-slate-800 tracking-tight">{activeTab} Parameters</h2>
