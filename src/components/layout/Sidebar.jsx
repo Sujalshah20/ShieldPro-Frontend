@@ -19,7 +19,9 @@ import {
     LineChart,
     Briefcase,
     ClipboardList,
-    ChevronRight
+    ChevronRight,
+    Mail,
+    Database
 } from "lucide-react";
 
 const ROLE_LINKS = {
