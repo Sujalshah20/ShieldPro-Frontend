@@ -9,34 +9,14 @@ import {
     Settings,
     HelpCircle,
     CreditCard,
-    Activity,
     DollarSign,
     Shield,
-    Zap,
-    Target,
-    Fingerprint,
-    Compass,
-    Satellite,
-    Cpu,
-    Lock,
-    ClipboardList,
-    Briefcase,
-    PieChart,
-    MessageSquare,
-    Layout,
-    Headphones,
-    Terminal,
-    ChevronRight,
-    RefreshCcw,
+    LogOut,
     PlusCircle,
     User,
     Bell,
-    LogOut,
     Search,
-    TrendingUp,
-    SearchCheck,
-    LineChart,
-    ClipboardCheck
+    LineChart
 } from "lucide-react";
 
 const ROLE_LINKS = {
@@ -46,9 +26,8 @@ const ROLE_LINKS = {
         { name: "Manage Customers", path: "/admin/users", icon: Users },
         { name: "Manage Agents", path: "/admin/agents", icon: Briefcase },
         { name: "All Claims", path: "/admin/claims", icon: FileText },
-        { name: "Transactions", path: "/admin/transactions", icon: DollarSign },
+        { name: "Financial Ledger", path: "/admin/transactions", icon: DollarSign },
         { name: "Reports & Analytics", path: "/admin/commissions", icon: LineChart },
-        { name: "Settings", path: "/admin/settings", icon: Settings },
     ],
     agent: {
         main: [
@@ -58,10 +37,9 @@ const ROLE_LINKS = {
             { name: "Claims to Process", path: "/agent/claims", icon: ClipboardList },
             { name: "Settings", path: "/agent/settings", icon: Settings },
         ],
-        support: [],
         footer: [
             { name: "Profile", path: "/agent/profile", icon: User },
-            { name: "Logout", path: "/logout", icon: LogOut, action: "logout" },
+            { name: "Logout", path: "/logout", icon: LogOut },
         ]
     },
     customer: {
@@ -76,7 +54,7 @@ const ROLE_LINKS = {
         account: [
             { name: "My Profile", path: "/customer/profile", icon: User },
             { name: "Notifications", path: "/customer/notifications", icon: Bell },
-            { name: "Logout", path: "/logout", icon: LogOut, action: "logout" },
+            { name: "Logout", path: "/logout", icon: LogOut },
         ]
     }
 };
@@ -94,7 +72,6 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
     return (
         <>
-            {/* Professional Overlay */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -107,11 +84,9 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 )}
             </AnimatePresence>
 
-            {/* Sidebar Chassis — Premium Navy Theme */}
             <aside
                 className={`fixed top-0 left-0 z-[70] h-screen w-72 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
-                {/* Header Section */}
                 <div className="p-8 pb-10 flex flex-col gap-1">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 shadow-lg backdrop-blur-md relative overflow-hidden group">
@@ -125,9 +100,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     </div>
                 </div>
 
-                {/* Navigation Links */}
                 <nav className="flex-1 overflow-y-auto no-scrollbar px-6 space-y-2">
-                    {/* Main Section */}
                     <div className="space-y-1.5">
                         {(role === 'agent' ? links.main : (role === 'admin' ? links : links.main)).map((link) => {
                             const Icon = link.icon;
@@ -156,9 +129,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     </div>
                 </nav>
 
-                {/* Persistent Action & Profile Area */}
                 <div className="p-6 mt-auto border-t border-white/5 space-y-4 bg-black/10">
-                    {/* Settings Option */}
                      <Link
                         to={`/${role}/settings`}
                         className={`flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 group ${location.pathname.includes('settings') ? 'text-white bg-white/5' : ''}`}
@@ -167,7 +138,6 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         <span className="text-[14px] font-semibold">Settings</span>
                     </Link>
 
-                    {/* Logout Option */}
                     <button
                         onClick={handleLogout}
                         className="w-full flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-rose-400/70 hover:text-rose-400 hover:bg-rose-500/10 group font-bold"
@@ -176,7 +146,6 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         <span className="text-[14px]">Logout</span>
                     </button>
                     
-                    {/* User Profile Mini Card */}
                     {role === 'admin' && (
                          <div className="pt-4 flex flex-col gap-4">
                             <button className="w-full bg-[#3b82f6]/10 hover:bg-[#3b82f6]/20 text-white/90 py-3 rounded-xl border border-[#3b82f6]/20 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-lg active:scale-95 group">
