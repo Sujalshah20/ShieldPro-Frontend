@@ -126,7 +126,9 @@ function App() {
                     <Route path="commissions" element={<AdminCommissions />} />
                     <Route path="transactions" element={<AdminTransactions />} />
                     <Route path="claims" element={<AdminClaims />} />
-                    <Route path="settings" element={<AdminSettings />} />
+                    <Route path="settings" element={<AdminSettings />}>
+                      <Route path=":tab" element={<AdminSettings />} />
+                    </Route>
                   </Route>
 
                   {/* -------- AGENT ROUTES -------- */}

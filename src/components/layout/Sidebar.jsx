@@ -18,7 +18,8 @@ import {
     Search,
     LineChart,
     Briefcase,
-    ClipboardList
+    ClipboardList,
+    ChevronRight
 } from "lucide-react";
 
 const ROLE_LINKS = {
@@ -30,6 +31,13 @@ const ROLE_LINKS = {
         { name: "All Claims", path: "/admin/claims", icon: FileText },
         { name: "Financial Ledger", path: "/admin/transactions", icon: DollarSign },
         { name: "Reports & Analytics", path: "/admin/commissions", icon: LineChart },
+    ],
+    settings: [
+        { name: "General", path: "/admin/settings/general", icon: Settings },
+        { name: "Email Templates", path: "/admin/settings/email", icon: Mail },
+        { name: "Payment Gateway", path: "/admin/settings/payment", icon: CreditCard },
+        { name: "Roles & Permissions", path: "/admin/settings/roles", icon: Shield },
+        { name: "Backup", path: "/admin/settings/backup", icon: Database },
     ],
     agent: {
         main: [
@@ -72,6 +80,20 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
         navigate("/login");
     };
 
+    const isSettings = location.pathname.includes('/admin/settings');
+    const settingsLinks = ROLE_LINKS.settings;
+    const adminLinks = ROLE_LINKS.admin;
+    
+    // Determine which links to show
+    const getLinks = () => {
+        if (role === 'admin' && isSettings) return settingsLinks;
+        if (role === 'agent') return links.main;
+        if (role === 'admin') return links;
+        return links.main;
+    };
+
+    const currentLinks = getLinks();
+
     return (
         <>
             <AnimatePresence>
@@ -89,7 +111,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
             <aside
                 className={`fixed top-0 left-0 z-[70] h-screen w-72 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
-                <div className="p-8 pb-10 flex flex-col gap-1">
+                <div className="p-8 pb-6 flex flex-col gap-1">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 shadow-lg backdrop-blur-md relative overflow-hidden group">
                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -102,9 +124,21 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     </div>
                 </div>
 
+                {isSettings && (
+                    <div className="px-6 pb-4">
+                        <Link 
+                            to="/admin"
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 text-slate-400 hover:text-white transition-all text-xs font-bold uppercase tracking-widest border border-white/5 hover:border-white/10 shadow-lg group"
+                        >
+                            <ChevronRight size={14} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+                            Back to Home
+                        </Link>
+                    </div>
+                )}
+
                 <nav className="flex-1 overflow-y-auto no-scrollbar px-6 space-y-2">
                     <div className="space-y-1.5">
-                        {(role === 'agent' ? links.main : (role === 'admin' ? links : links.main)).map((link) => {
+                        {currentLinks.map((link) => {
                             const Icon = link.icon;
                             const isActive = location.pathname === link.path;
                             return (
