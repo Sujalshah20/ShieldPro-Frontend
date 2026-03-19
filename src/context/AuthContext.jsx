@@ -5,25 +5,52 @@ import { api } from "../utils/api";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("shieldpro_user")) || null
-  );
+  const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [isInitializing, setIsInitializing] = useState(true);
   const activityTimer = useRef(null);
+
+  // Initial session check from HTTP-Only cookie 
+  useEffect(() => {
+    const verifySession = async () => {
+        try {
+            const userData = await api.get('/auth/me');
+            setUser(userData);
+        } catch (error) {
+            setUser(null);
+        } finally {
+            setIsInitializing(false);
+        }
+    };
+    verifySession();
+  }, []);
   
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    try {
+        await api.post('/auth/logout');
+    } catch (e) {
+        console.error("Logout failed", e);
+    }
     setUser(null);
     setProfile(null);
-    localStorage.removeItem("shieldpro_user");
   }, []);
 
-  // 30 mins inactivity Auto-Logout
+  // Set Auth Data Manually for specific cases (like OAuth in Login page returning data)
+  const setAuthData = useCallback((userData) => {
+      setUser(userData);
+  }, []);
+
+  // 30 mins inactivity Auto-Logout (Only if user didn't check Remember Me)
+  // Since we can't reliably read HttpOnly cookie settings (expires) from JS,
+  // the server enforces the true expiration.
+  // We'll still keep the client-side inactivity timer as an extra security layer.
   useEffect(() => {
     if (!user) return;
 
     const resetTimer = () => {
       if (activityTimer.current) clearTimeout(activityTimer.current);
       // 30 minutes = 30 * 60 * 1000 = 1800000 ms
+      // The server also enforces this on its token.
       activityTimer.current = setTimeout(logout, 1800000);
     };
 
@@ -38,11 +65,10 @@ export const AuthProvider = ({ children }) => {
     };
   }, [user, logout]);
 
-  const login = async (email, password) => {
+  const login = async (email, password, rememberMe) => {
     try {
-      const data = await api.post('/auth/login', { email, password });
+      const data = await api.post('/auth/login', { email, password, rememberMe });
       setUser(data);
-      localStorage.setItem("shieldpro_user", JSON.stringify(data));
       return data;
     } catch (error) {
       console.error("Login Error:", error.message);
@@ -60,9 +86,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // logout is now useCallback above to avoid dependency loops
+  if (isInitializing) {
+      return null; // Don't render App until session check completes (avoids brief flash of login screen)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, profile, setProfile, login, logout, register }}>
+    <AuthContext.Provider value={{ user, profile, setProfile, login, logout, register, setAuthData }}>
       {children}
     </AuthContext.Provider>
   );

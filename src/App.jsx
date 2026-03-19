@@ -110,9 +110,9 @@ function App() {
                   <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
                   <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
                   <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
-                  <Route path="/verify-email/:token" element={<PageWrapper><VerifyEmail /></PageWrapper>} />
+                  <Route path="/verify-email" element={<PageWrapper><VerifyEmail /></PageWrapper>} />
                   <Route path="/forgot-password" element={<PageWrapper><ForgotPassword /></PageWrapper>} />
-                  <Route path="/reset-password/:token" element={<PageWrapper><ResetPassword /></PageWrapper>} />
+                  <Route path="/reset-password" element={<PageWrapper><ResetPassword /></PageWrapper>} />
 
                   {/* -------- ADMIN ROUTES -------- */}
                   <Route

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
     Shield, CheckCircle2, ArrowRight, Loader2, Eye, EyeOff
@@ -21,30 +21,58 @@ const Register = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
 
+    // Password Strength
+    const passwordStrength = (password) => {
+        if (!password) return { label: '', color: 'bg-transparent', width: 'w-0' };
+        let strength = 0;
+        if (password.length >= 8) strength++;
+        if (/(?=.*[a-z])/.test(password)) strength++;
+        if (/(?=.*[A-Z])/.test(password)) strength++;
+        if (/(?=.*\d)/.test(password)) strength++;
+        if (/(?=.*[@$!%*?&])/.test(password)) strength++;
+        
+        if (strength <= 2) return { label: 'Weak', color: 'bg-red-500', width: 'w-1/3' };
+        if (strength <= 4) return { label: 'Medium', color: 'bg-yellow-500', width: 'w-2/3' };
+        return { label: 'Strong', color: 'bg-emerald-500', width: 'w-full' };
+    };
+
+    const pStrength = passwordStrength(formData.password);
+
     // Validation Rules
     const validateField = (name, value) => {
         let error = "";
         switch (name) {
             case "name":
-                if (value.length < 3) error = "Full Name must be at least 3 characters.";
+                if (value.trim().length < 3 || value.trim().length > 50) {
+                    error = "Full Name must be between 3 and 50 characters.";
+                } else if (!/^[a-zA-Z\s]*$/.test(value)) {
+                    error = "Name can only contain letters and spaces.";
+                }
                 break;
             case "email":
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = "Please enter a valid email address.";
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value)) {
+                    error = "Please enter a valid email address.";
+                } else if ((value.match(/@/g) || []).length > 1) {
+                    error = "Only one @ allowed.";
+                } else if (/\s/.test(value)) {
+                    error = "No spaces allowed in email.";
+                }
                 break;
             case "phone":
-                if (!/^[0-9]{10}$/.test(value)) error = "Phone number must be exactly 10 digits.";
+                if (!/^[0-9]{10}$/.test(value)) error = "Mobile number must be exactly 10 digits.";
                 break;
             case "password":
-                if (value.length < 8) {
-                    error = "Password must be at least 8 characters.";
+                if (value.length < 8 || value.length > 20) {
+                    error = "Password must be 8-20 characters.";
                 } else if (!/(?=.*[a-z])/.test(value)) {
-                    error = "Password must include at least 1 lowercase letter.";
+                    error = "Include at least 1 lowercase letter.";
                 } else if (!/(?=.*[A-Z])/.test(value)) {
-                    error = "Password must include at least 1 uppercase letter.";
+                    error = "Include at least 1 uppercase letter.";
                 } else if (!/(?=.*\d)/.test(value)) {
-                    error = "Password must include at least 1 number.";
+                    error = "Include at least 1 number.";
                 } else if (!/(?=.*[@$!%*?&])/.test(value)) {
-                    error = "Password must include at least 1 special character (@, #, etc.)";
+                    error = "Include at least 1 special character (@, #, etc.)";
                 }
                 break;
             case "confirmPassword":
@@ -58,6 +86,12 @@ const Register = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        
+        // Stop typing immediately for hard limits
+        if (name === "name" && value.length > 50) return;
+        if (name === "phone" && value.length > 10) return;
+        if (name === "password" && value.length > 20) return;
+
         setFormData(prev => ({ ...prev, [name]: value }));
         
         const error = validateField(name, value);
@@ -66,11 +100,79 @@ const Register = () => {
             [name]: error
         }));
 
-        // Special case: if password changes, revalidate confirmPassword if it has a value
+        // Cross-revalidation for confirmPassword
         if (name === 'password' && formData.confirmPassword) {
              const confirmError = value !== formData.confirmPassword ? "Passwords do not match." : "";
              setErrors(prev => ({ ...prev, confirmPassword: confirmError }));
         }
+    };
+
+    const handleKeyDown = (e, field) => {
+        const allowedControls = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+        if (allowedControls.includes(e.key) || e.ctrlKey || e.metaKey) return;
+
+        switch (field) {
+            case "name":
+                if (!/^[a-zA-Z\s]$/.test(e.key)) {
+                    e.preventDefault();
+                    toast({ title: 'Invalid Character', description: 'Name can only contain letters and spaces', variant: 'destructive' });
+                }
+                break;
+            case "phone":
+                if (!/^[0-9]$/.test(e.key)) {
+                    e.preventDefault();
+                    toast({ title: 'Invalid Input', description: 'Only numbers are allowed', variant: 'destructive' });
+                }
+                if (formData.phone.length >= 10 && e.key.length === 1) {
+                    e.preventDefault();
+                    toast({ title: 'Limit Exceeded', description: 'Mobile number must be exactly 10 digits', variant: 'destructive' });
+                }
+                break;
+            case "email":
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    toast({ title: 'Invalid Input', description: 'Email cannot contain spaces', variant: 'destructive' });
+                }
+                break;
+            case "password":
+                if (formData.password.length >= 20 && e.key.length === 1) {
+                    e.preventDefault();
+                    toast({ title: 'Limit Exceeded', description: 'Maximum 20 characters allowed', variant: 'destructive' });
+                }
+                break;
+            default:
+                break;
+        }
+    };
+
+    const handlePaste = (e, field) => {
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        let isValid = true;
+        switch(field) {
+            case 'name':
+                if (!/^[a-zA-Z\s]+$/.test(paste)) isValid = false;
+                break;
+            case 'phone':
+                if (!/^\d+$/.test(paste)) isValid = false;
+                break;
+            case 'email':
+                if (/\s/.test(paste)) isValid = false;
+                break;
+            default:
+                break;
+        }
+        if (!isValid) {
+            e.preventDefault();
+            toast({ title: 'Invalid Paste', description: 'The pasted text contains invalid characters.', variant: 'destructive' });
+        }
+    };
+
+    // Determine field borders based on validity
+    const getOuterClass = (fieldName) => {
+        const value = formData[fieldName];
+        if (!value) return "border-slate-50 focus:border-[#134e8d]/20";
+        if (errors[fieldName]) return "border-red-400 focus:border-red-500";
+        return "border-emerald-500 focus:border-emerald-600";
     };
 
     const isFormValid = 
@@ -81,27 +183,44 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (!isFormValid) return;
+        // Prevent double submit manually or trim check
+        if (!isFormValid || isLoading) return;
+
+        // Submitting with trimmed data
+        const submitData = {
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            phone: formData.phone.trim(),
+            password: formData.password
+        };
 
         setIsLoading(true);
         try {
-            await register({
-                name: formData.name,
-                email: formData.email,
-                phone: formData.phone,
-                password: formData.password
-            });
+            await register(submitData);
             toast({ 
-                title: "Registration Successful", 
-                description: "Your account has been created. Please check your email to verify your account." 
+                title: "OTP Sent", 
+                description: "A 6-digit verification code has been sent to your email.",
+                variant: 'default'
             });
-            navigate("/login");
+            setTimeout(() => {
+                navigate(`/verify-email?email=${encodeURIComponent(formData.email.trim())}&type=verification`);
+            }, 1000);
         } catch (error) {
-            toast({ 
-                title: "Registration Failed", 
-                description: error.response?.data?.message || "There was an error creating your account.", 
-                variant: "destructive" 
-            });
+            // Check if it's existing email error based on backend message
+            const msg = error.response?.data?.message || "There was an error creating your account.";
+            if (msg.includes('exists')) {
+                 toast({ 
+                     title: "Registration Failed", 
+                     description: "This email is already registered. Please login instead.", 
+                     variant: "destructive" 
+                 });
+            } else {
+                 toast({ 
+                     title: "Registration Failed", 
+                     description: msg, 
+                     variant: "destructive" 
+                 });
+            }
         } finally {
             setIsLoading(false);
         }
@@ -179,8 +298,13 @@ const Register = () => {
                             <div className="md:col-span-2 space-y-2">
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Full Name</label>
                                 <input 
-                                    name="name" value={formData.name} onChange={handleInputChange}
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.name ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                    name="name" 
+                                    value={formData.name} 
+                                    onChange={handleInputChange}
+                                    onKeyDown={(e) => handleKeyDown(e, 'name')}
+                                    onPaste={(e) => handlePaste(e, 'name')}
+                                    autoFocus
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('name')}`}
                                     placeholder="Enter your full name" 
                                 />
                                 {errors.name && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.name}</p>}
@@ -189,8 +313,13 @@ const Register = () => {
                             <div className="md:col-span-2 space-y-2">
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Email Address</label>
                                 <input 
-                                    type="email" name="email" value={formData.email} onChange={handleInputChange}
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.email ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                    type="email" 
+                                    name="email" 
+                                    value={formData.email} 
+                                    onChange={handleInputChange}
+                                    onKeyDown={(e) => handleKeyDown(e, 'email')}
+                                    onPaste={(e) => handlePaste(e, 'email')}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('email')}`}
                                     placeholder="yourname@example.com" 
                                 />
                                 {errors.email && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.email}</p>}
@@ -199,8 +328,12 @@ const Register = () => {
                             <div className="md:col-span-2 space-y-2">
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Phone Number</label>
                                 <input 
-                                    name="phone" value={formData.phone} onChange={handleInputChange}
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.phone ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                    name="phone" 
+                                    value={formData.phone} 
+                                    onChange={handleInputChange}
+                                    onKeyDown={(e) => handleKeyDown(e, 'phone')}
+                                    onPaste={(e) => handlePaste(e, 'phone')}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('phone')}`}
                                     placeholder="10-digit number" 
                                 />
                                 {errors.phone && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.phone}</p>}
@@ -211,8 +344,11 @@ const Register = () => {
                                 <div className="relative">
                                     <input 
                                         type={showPassword ? "text" : "password"} 
-                                        name="password" value={formData.password} onChange={handleInputChange}
-                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.password ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                        name="password" 
+                                        value={formData.password} 
+                                        onChange={handleInputChange}
+                                        onKeyDown={(e) => handleKeyDown(e, 'password')}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('password')}`}
                                         placeholder="••••••••" 
                                     />
                                     <button 
@@ -224,6 +360,16 @@ const Register = () => {
                                     </button>
                                 </div>
                                 {errors.password && <p className="text-red-500 text-xs mt-1 pl-2 font-medium leading-relaxed">{errors.password}</p>}
+                                {formData.password.length > 0 && (
+                                    <div className="flex items-center gap-3 mt-2 pl-2">
+                                        <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div className={`h-full ${pStrength.width} ${pStrength.color} transition-all duration-300`}></div>
+                                        </div>
+                                        <span className={`text-[10px] uppercase font-bold ${pStrength.color.replace('bg-', 'text-')}`}>
+                                            {pStrength.label}
+                                        </span>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="md:col-span-2 space-y-2">
@@ -231,8 +377,10 @@ const Register = () => {
                                 <div className="relative">
                                     <input 
                                         type={showConfirmPassword ? "text" : "password"} 
-                                        name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange}
-                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.confirmPassword ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                        name="confirmPassword" 
+                                        value={formData.confirmPassword} 
+                                        onChange={handleInputChange}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('confirmPassword')}`}
                                         placeholder="••••••••" 
                                     />
                                     <button 
