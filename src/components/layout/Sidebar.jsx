@@ -97,7 +97,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         </div>
                         <div className="flex flex-col">
                             <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
-                            <span className="text-[11px] font-medium text-slate-400 uppercase tracking-[2px] mt-1.5 opacity-60 italic">Admin Portal</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[3px] mt-1.5 opacity-60">Management</span>
                         </div>
                     </div>
                 </div>
@@ -140,28 +140,34 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                         <span className="text-[14px] font-semibold">Settings</span>
                     </Link>
 
-                    <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-rose-400/70 hover:text-rose-400 hover:bg-rose-500/10 group font-bold"
-                    >
-                        <LogOut size={20} className="text-rose-500/60 group-hover:text-rose-500 transition-colors" />
-                        <span className="text-[14px]">Logout</span>
-                    </button>
+                    {role !== 'admin' && (
+                        <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-rose-400/70 hover:text-rose-400 hover:bg-rose-500/10 group font-bold"
+                        >
+                            <LogOut size={20} className="text-rose-500/60 group-hover:text-rose-500 transition-colors" />
+                            <span className="text-[14px]">Logout</span>
+                        </button>
+                    )}
                     
                     {role === 'admin' && (
                          <div className="pt-4 flex flex-col gap-4">
-                            <button className="w-full bg-[#3b82f6]/10 hover:bg-[#3b82f6]/20 text-white/90 py-3 rounded-xl border border-[#3b82f6]/20 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-lg active:scale-95 group">
-                                <HelpCircle size={16} className="text-[#3b82f6] group-hover:rotate-12 transition-transform" /> Support Center
-                            </button>
                             <div className="flex items-center gap-3 px-2">
                                 <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 shadow-lg">
-                                     <img src="https://i.pravatar.cc/100?u=admin" alt="Admin" className="w-full h-full object-cover" />
+                                     <img src="https://i.pravatar.cc/100?u=robert" alt="Admin" className="w-full h-full object-cover" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[12px] font-bold text-white tracking-tight">Admin User</span>
-                                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Super Admin</span>
+                                    <span className="text-[12px] font-bold text-white tracking-tight">Robert Admin</span>
+                                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Super Administrator</span>
                                 </div>
                             </div>
+                            <button
+                                onClick={handleLogout}
+                                className="w-full h-11 flex items-center justify-center gap-3 px-5 rounded-xl transition-all bg-white/5 hover:bg-white/10 text-white/80 hover:text-white group border border-white/5 font-bold text-xs"
+                            >
+                                <LogOut size={16} className="text-slate-400 group-hover:text-white transition-colors" />
+                                <span>Logout</span>
+                            </button>
                          </div>
                     )}
                 </div>
