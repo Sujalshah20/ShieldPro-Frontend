@@ -89,8 +89,8 @@ const AdminPolicies = () => {
                             <ChevronRight size={12} className="text-slate-300" />
                             <span className="text-blue-500">Asset Management</span>
                         </div>
-                        <h1 className="text-4xl font-black text-slate-800 tracking-tight italic">Policy Architect</h1>
-                        <p className="text-sm font-medium text-slate-400">Configure and deploy coverage protocols for the network</p>
+                        <h1 className="text-2xl font-black text-slate-800 tracking-tight italic">Policy Architect</h1>
+                        <p className="text-xs font-medium text-slate-400">Configure and deploy coverage protocols for the network</p>
                     </div>
                 </Reveal>
                 <Reveal direction="right">
@@ -110,7 +110,7 @@ const AdminPolicies = () => {
                     <input 
                         type="text" 
                         placeholder="Search Policy Manifest by Identity or Type Node..." 
-                        className="w-full pl-14 pr-6 h-14 bg-white border border-slate-100 rounded-[1.5rem] text-xs font-bold focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all shadow-sm italic"
+                        className="w-full pl-14 pr-6 h-12 bg-white border border-slate-100 rounded-xl text-xs font-bold focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all shadow-sm italic"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -132,7 +132,7 @@ const AdminPolicies = () => {
             </div>
 
             {/* Table Container */}
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                 {/* Tabs */}
                 <div className="flex px-10 border-b border-slate-50 bg-slate-50/20">
                     {["All Policies", "Active", "Inactive", "Draft"].map((tab) => (
@@ -155,14 +155,14 @@ const AdminPolicies = () => {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] border-b border-slate-50 bg-slate-50/5">
-                                <th className="px-10 py-6">Identity_Tag</th>
-                                <th className="px-10 py-6">Protocol_Name</th>
-                                <th className="px-10 py-6">Category_Node</th>
-                                <th className="px-10 py-6 text-right">Valuation_Range</th>
-                                <th className="px-10 py-6 text-center">Lifecycle</th>
-                                <th className="px-10 py-6 text-center">Nexus_Load</th>
-                                <th className="px-10 py-6">Current_State</th>
-                                <th className="px-10 py-6 text-right">Operations</th>
+                                <th className="px-6 py-4">Identity_Tag</th>
+                                <th className="px-6 py-4">Protocol_Name</th>
+                                <th className="px-6 py-4">Category_Node</th>
+                                <th className="px-6 py-4 text-right">Valuation_Range</th>
+                                <th className="px-6 py-4 text-center">Lifecycle</th>
+                                <th className="px-6 py-4 text-center">Nexus_Load</th>
+                                <th className="px-6 py-4">Current_State</th>
+                                <th className="px-6 py-4 text-right">Operations</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -179,48 +179,48 @@ const AdminPolicies = () => {
                                 const stats = mockStats[p.policyType] || mockStats.Health;
                                 return (
                                     <tr key={p._id} className="group hover:bg-slate-50/50 transition-colors">
-                                        <td className="px-10 py-6">
+                                        <td className="px-6 py-4">
                                             <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-100 uppercase italic">
                                                 #POL-{p._id.slice(-5).toUpperCase()}
                                             </span>
                                         </td>
-                                        <td className="px-10 py-6">
-                                            <span className="text-sm font-black text-slate-800 block max-w-[200px] leading-snug italic tracking-tight">{p.policyName}</span>
+                                        <td className="px-6 py-4">
+                                            <span className="text-xs font-black text-slate-800 block max-w-[200px] leading-snug italic tracking-tight">{p.policyName}</span>
                                         </td>
-                                        <td className="px-10 py-6">
+                                        <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
                                                 <div className="text-slate-400">{getTypeIcon(p.policyType)}</div>
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic">{p.policyType}</span>
                                             </div>
                                         </td>
-                                        <td className="px-10 py-6 text-right">
-                                            <span className="text-sm font-black text-slate-800 italic">{stats.range}</span>
+                                        <td className="px-6 py-4 text-right">
+                                            <span className="text-xs font-black text-slate-800 italic">{stats.range}</span>
                                         </td>
-                                        <td className="px-10 py-6 text-center">
-                                            <span className="text-[11px] font-bold text-slate-400 italic">{stats.duration}</span>
+                                        <td className="px-6 py-4 text-center">
+                                            <span className="text-[10px] font-bold text-slate-400 italic">{stats.duration}</span>
                                         </td>
-                                        <td className="px-10 py-6 text-center font-black text-slate-800 italic">
+                                        <td className="px-6 py-4 text-center font-black text-slate-800 italic text-xs">
                                             {stats.customers}
                                         </td>
-                                        <td className="px-10 py-6">
-                                            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border italic ${getStatusStyle(stats.status)}`}>
-                                                <div className={`w-1.5 h-1.5 rounded-full ${stats.status === 'Active' ? 'bg-emerald-500 shadow-[0_0_8px_bg-emerald-500]' : 'bg-slate-400'}`} />
-                                                <span className="text-[10px] font-black uppercase tracking-widest">{stats.status}</span>
+                                        <td className="px-6 py-4">
+                                            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-xl border italic ${getStatusStyle(stats.status)}`}>
+                                                <div className={`w-1 h-1 rounded-full ${stats.status === 'Active' ? 'bg-emerald-500 shadow-[0_0_8px_bg-emerald-500]' : 'bg-slate-400'}`} />
+                                                <span className="text-[9px] font-black uppercase tracking-widest">{stats.status}</span>
                                             </div>
                                         </td>
-                                        <td className="px-10 py-6 text-right">
+                                        <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all">
-                                                <button className="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 rounded-xl shadow-sm hover:scale-110 transition-all">
-                                                    <Edit size={16} />
+                                                <button className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all">
+                                                    <Edit size={14} />
                                                 </button>
-                                                <button className="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 rounded-xl shadow-sm hover:scale-110 transition-all">
-                                                    <Eye size={16} />
+                                                <button className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all">
+                                                    <Eye size={14} />
                                                 </button>
                                                 <button 
                                                     onClick={() => deleteMutation.mutate(p._id)}
-                                                    className="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-rose-600 rounded-xl shadow-sm hover:scale-110 transition-all"
+                                                    className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-rose-600 rounded-lg shadow-sm hover:scale-110 transition-all"
                                                 >
-                                                    <Trash2 size={16} />
+                                                    <Trash2 size={14} />
                                                 </button>
                                             </div>
                                         </td>

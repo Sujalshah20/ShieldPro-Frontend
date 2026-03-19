@@ -51,16 +51,16 @@ const AdminAgents = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div className="space-y-1">
                     <Reveal direction="left">
-                        <h1 className="text-4xl font-black text-slate-800 tracking-tight">Agent Management</h1>
-                        <p className="text-base font-medium text-slate-500 max-w-2xl">
+                        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Agent Management</h1>
+                        <p className="text-xs font-medium text-slate-500 max-w-2xl">
                             Create, edit, and oversee all insurance agent profiles and performance metrics.
                         </p>
                     </Reveal>
                 </div>
                 
                 <Reveal direction="right">
-                    <button className="h-14 px-8 bg-[#1e293b] text-white rounded-xl text-sm font-bold flex items-center gap-3 hover:bg-slate-800 transition-all shadow-xl active:scale-95 whitespace-nowrap">
-                        <Plus size={20} strokeWidth={3} /> Create New Agent
+                    <button className="h-12 px-6 bg-[#1e293b] text-white rounded-xl text-xs font-bold flex items-center gap-3 hover:bg-slate-800 transition-all shadow-xl active:scale-95 whitespace-nowrap">
+                        <Plus size={18} strokeWidth={3} /> Create New Agent
                     </button>
                 </Reveal>
             </div>
@@ -108,7 +108,7 @@ const AdminAgents = () => {
             </div>
 
             {/* Table Module */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                 {/* Tabs */}
                 <div className="px-8 border-b border-slate-50">
                     <div className="flex items-center gap-8">
@@ -132,13 +132,13 @@ const AdminAgents = () => {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="text-[11px] font-black text-slate-400 uppercase tracking-[2px] border-b border-slate-50">
-                                <th className="px-8 py-6">Agent ID</th>
-                                <th className="px-8 py-6">Name</th>
-                                <th className="px-8 py-6">Region</th>
-                                <th className="px-8 py-6">Total Policies</th>
-                                <th className="px-8 py-6">Total Revenue</th>
-                                <th className="px-8 py-6">Status</th>
-                                <th className="px-8 py-6 text-right">Actions</th>
+                                <th className="px-6 py-4">Agent ID</th>
+                                <th className="px-6 py-4">Name</th>
+                                <th className="px-6 py-4">Region</th>
+                                <th className="px-6 py-4">Total Policies</th>
+                                <th className="px-6 py-4">Total Revenue</th>
+                                <th className="px-6 py-4">Status</th>
+                                <th className="px-6 py-4 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -146,50 +146,50 @@ const AdminAgents = () => {
                                 <tr><td colSpan="7" className="px-8 py-20"><TableSkeleton /></td></tr>
                             ) : agents?.filter(a => a.name?.toLowerCase().includes(searchTerm.toLowerCase())).map((a, i) => (
                                 <tr key={a._id} className="group hover:bg-slate-50/50 transition-colors">
-                                    <td className="px-8 py-6 text-xs font-bold text-slate-400">
+                                    <td className="px-6 py-4 text-[10px] font-bold text-slate-400">
                                         AGT - {a._id.slice(-4).toUpperCase()}
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-slate-100 shadow-sm">
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-slate-100 shadow-sm">
                                                 <img src={`https://i.pravatar.cc/100?u=${a._id}`} alt={a.name} className="w-full h-full object-cover" />
                                             </div>
                                             <div className="flex flex-col">
-                                                <span className="text-sm font-bold text-slate-800 tracking-tight">{a.name}</span>
-                                                <span className="text-[11px] font-medium text-slate-400">{a.email}</span>
+                                                <span className="text-xs font-bold text-slate-800 tracking-tight">{a.name}</span>
+                                                <span className="text-[10px] font-medium text-slate-400">{a.email}</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <div className="flex items-center gap-2 text-slate-600 font-semibold text-xs">
-                                            <MapPin size={14} className="text-slate-300" />
+                                    <td className="px-6 py-4">
+                                        <div className="flex items-center gap-2 text-slate-600 font-semibold text-[11px]">
+                                            <MapPin size={12} className="text-slate-300" />
                                             {["North Division", "South Hub", "Central Region", "West Coast"][i % 4]}
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <span className="text-sm font-bold text-slate-700">{(1200 + i * 45).toLocaleString()}</span>
+                                    <td className="px-6 py-4">
+                                        <span className="text-xs font-bold text-slate-700">{(1200 + i * 45).toLocaleString()}</span>
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <span className="text-sm font-black text-slate-800 tracking-tight">
+                                    <td className="px-6 py-4">
+                                        <span className="text-xs font-black text-slate-800 tracking-tight">
                                             ₹{(125000 + i * 25000).toLocaleString()}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-6">
-                                        <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider border ${getStatusStyle(i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding')}`}>
-                                            <span className={`w-1.5 h-1.5 rounded-full ${getStatusDot(i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding')}`} />
+                                    <td className="px-6 py-4">
+                                        <span className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border ${getStatusStyle(i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding')}`}>
+                                            <span className={`w-1 h-1 rounded-full ${getStatusDot(i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding')}`} />
                                             {i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding'}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-6 text-right">
+                                    <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <button className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
-                                                <Edit2 size={16} />
+                                            <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                                                <Edit2 size={14} />
                                             </button>
-                                            <button className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all">
-                                                <Eye size={16} />
+                                            <button className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all">
+                                                <Eye size={14} />
                                             </button>
-                                            <button className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
-                                                <Trash2 size={16} />
+                                            <button className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">
+                                                <Trash2 size={14} />
                                             </button>
                                         </div>
                                     </td>

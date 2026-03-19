@@ -97,7 +97,7 @@ const AgentClaims = () => {
                 </div>
 
                 {/* Claims Ledger Table */}
-                <div className="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden min-h-[500px]">
+                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[500px]">
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
@@ -168,7 +168,7 @@ const AgentClaims = () => {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: 420, opacity: 0 }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed top-[88px] right-6 bottom-6 w-full lg:w-[400px] bg-white rounded-[1.5rem] shadow-2xl shadow-slate-200 border border-slate-200 flex flex-col z-50 overflow-hidden"
+                        className="fixed top-[88px] right-6 bottom-6 w-full lg:w-[400px] bg-white rounded-2xl shadow-2xl shadow-slate-200 border border-slate-200 flex flex-col z-50 overflow-hidden"
                     >
                         {/* Panel Header */}
                         <div className="p-6 bg-[#1e293b] text-white flex items-center justify-between">

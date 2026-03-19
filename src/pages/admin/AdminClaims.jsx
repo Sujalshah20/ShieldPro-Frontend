@@ -14,7 +14,7 @@ import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
 
 const ClaimStatCard = ({ title, value, trend, icon: Icon, color, isNegative }) => (
-    <div className="bg-white p-7 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-blue-500/20 transition-all duration-300">
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between group hover:border-blue-500/20 transition-all duration-300">
         <div className="flex justify-between items-start">
             <div className={`p-4 rounded-2xl ${color} bg-opacity-10 ${color.replace('bg-', 'text-')} group-hover:scale-110 transition-transform`}>
                 <Icon size={24} />
@@ -26,9 +26,9 @@ const ClaimStatCard = ({ title, value, trend, icon: Icon, color, isNegative }) =
                 </div>
             )}
         </div>
-        <div className="mt-6 space-y-1">
-            <p className="text-slate-400 text-[10px] font-black uppercase tracking-[2px]">{title}</p>
-            <h3 className="text-3xl font-black text-slate-800 tracking-tight italic">{value}</h3>
+        <div className="mt-4 space-y-1">
+            <p className="text-slate-400 text-[9px] font-black uppercase tracking-[2px]">{title}</p>
+            <h3 className="text-2xl font-black text-slate-800 tracking-tight italic">{value}</h3>
         </div>
     </div>
 );
@@ -91,8 +91,8 @@ const AdminClaims = () => {
                             <ChevronRight size={12} className="text-slate-300" />
                             <span className="text-blue-500">Claims Management</span>
                         </div>
-                        <h1 className="text-4xl font-black text-slate-800 tracking-tight italic">All Insurance Claims</h1>
-                        <p className="text-sm font-medium text-slate-400">Monitor and process client reimbursement requests</p>
+                        <h1 className="text-2xl font-black text-slate-800 tracking-tight italic">All Insurance Claims</h1>
+                        <p className="text-xs font-medium text-slate-400">Monitor and process client reimbursement requests</p>
                     </div>
                 </Reveal>
                 <div className="flex gap-4">
@@ -111,7 +111,7 @@ const AdminClaims = () => {
             </div>
 
             {/* Table & Filters Container */}
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 {/* Tabs */}
                 <div className="flex px-10 border-b border-slate-50 overflow-x-auto scrollbar-hide bg-slate-50/20">
                     {["All Claims", "Pending", "Under Review", "Approved", "Rejected", "Settled"].map((tab) => (
@@ -154,14 +154,14 @@ const AdminClaims = () => {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] border-b border-slate-50 bg-slate-50/10">
-                                <th className="px-10 py-6">Identity</th>
-                                <th className="px-10 py-6">Beneficiary</th>
-                                <th className="px-10 py-6">Asset_Policy</th>
-                                <th className="px-10 py-6">Category</th>
-                                <th className="px-10 py-6 text-right">Valuation (₹)</th>
-                                <th className="px-10 py-6">Temporal_Stamp</th>
-                                <th className="px-10 py-6">Priority</th>
-                                <th className="px-10 py-6">Status_State</th>
+                                <th className="px-6 py-4">Identity</th>
+                                <th className="px-6 py-4">Beneficiary</th>
+                                <th className="px-6 py-4">Asset_Policy</th>
+                                <th className="px-6 py-4">Category</th>
+                                <th className="px-6 py-4 text-right">Valuation (₹)</th>
+                                <th className="px-6 py-4">Temporal_Stamp</th>
+                                <th className="px-6 py-4">Priority</th>
+                                <th className="px-6 py-4">Status_State</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -189,45 +189,45 @@ const AdminClaims = () => {
                                 const statusInfo = getStatusStyle(c.status === 'Pending' ? 'Review' : c.status);
                                 return (
                                     <tr key={c._id} className="group hover:bg-slate-50/50 transition-colors">
-                                        <td className="px-10 py-6">
-                                            <span className="text-[11px] font-black text-blue-600 bg-blue-50 px-2.5 py-1 rounded-lg border border-blue-100 italic">
+                                        <td className="px-6 py-4">
+                                            <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-lg border border-blue-100 italic">
                                                 #CLM-{c._id.slice(-5).toUpperCase()}
                                             </span>
                                         </td>
-                                        <td className="px-10 py-6">
+                                        <td className="px-6 py-4">
                                             <div className="flex items-center gap-4">
-                                                <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-white shadow-sm group-hover:shadow-md transition-shadow">
+                                                <div className="w-8 h-8 rounded-xl overflow-hidden border-2 border-white shadow-sm group-hover:shadow-md transition-shadow">
                                                     <img src={`https://i.pravatar.cc/100?u=${c.user?._id}`} alt="" />
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm font-black text-slate-800 tracking-tight italic leading-none mb-1">{c.user?.name}</span>
-                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Registered Client</span>
+                                                    <span className="text-xs font-black text-slate-800 tracking-tight italic leading-none mb-1">{c.user?.name}</span>
+                                                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Registered Client</span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-10 py-6">
-                                            <span className="text-xs font-bold text-slate-600 leading-tight block max-w-[150px] italic">{c.policy?.policyName}</span>
+                                        <td className="px-6 py-4">
+                                            <span className="text-[11px] font-bold text-slate-600 leading-tight block max-w-[150px] italic">{c.policy?.policyName}</span>
                                         </td>
-                                        <td className="px-10 py-6">
-                                            <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border border-black/5 shadow-sm italic ${typeInfo.color}`}>
+                                        <td className="px-6 py-4">
+                                            <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border border-black/5 shadow-sm italic ${typeInfo.color}`}>
                                                 {typeInfo.tag}
                                             </span>
                                         </td>
-                                        <td className="px-10 py-6 text-right">
-                                            <span className="text-sm font-black text-slate-800 italic">{c.claimAmount?.toLocaleString()}</span>
+                                        <td className="px-6 py-4 text-right">
+                                            <span className="text-xs font-black text-slate-800 italic">{c.claimAmount?.toLocaleString()}</span>
                                         </td>
-                                        <td className="px-10 py-6 text-[11px] font-bold text-slate-400 whitespace-nowrap italic">
+                                        <td className="px-6 py-4 text-[10px] font-bold text-slate-400 whitespace-nowrap italic">
                                             {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </td>
-                                        <td className="px-10 py-6">
-                                            <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black tracking-widest uppercase border italic ${getPriorityStyle(i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW')}`}>
+                                        <td className="px-6 py-4">
+                                            <span className={`px-2 py-1 rounded-lg text-[9px] font-black tracking-widest uppercase border italic ${getPriorityStyle(i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW')}`}>
                                                 {i % 3 === 0 ? 'HIGH' : i % 3 === 1 ? 'MEDIUM' : 'LOW'}
                                             </span>
                                         </td>
-                                        <td className="px-10 py-6">
-                                            <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-black/5 ${statusInfo.bg}`}>
-                                                <div className={`w-2 h-2 rounded-full ${statusInfo.dot} shadow-[0_0_8px] ${statusInfo.dot.replace('bg-', 'shadow-')}`} />
-                                                <span className={`text-[10px] font-black uppercase tracking-widest italic ${statusInfo.text}`}>
+                                        <td className="px-6 py-4">
+                                            <div className={`inline-flex items-center gap-2 px-2 py-1 rounded-lg border border-black/5 ${statusInfo.bg}`}>
+                                                <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot} shadow-[0_0_8px] ${statusInfo.dot.replace('bg-', 'shadow-')}`} />
+                                                <span className={`text-[9px] font-black uppercase tracking-widest italic ${statusInfo.text}`}>
                                                     {c.status === 'Pending' ? 'Review' : c.status}
                                                 </span>
                                             </div>

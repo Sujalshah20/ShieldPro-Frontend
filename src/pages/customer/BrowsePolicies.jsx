@@ -110,7 +110,7 @@ const BrowsePolicies = () => {
             <header className="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between sticky top-0 z-40">
                 <div className="flex items-center gap-3">
                     <Search className="text-gray-400" size={18} />
-                    <h1 className="text-lg font-bold text-[#002b45]">Browse Policies</h1>
+                    <h1 className="text-base font-bold text-[#002b45]">Browse Policies</h1>
                 </div>
                 <div className="flex items-center gap-5 text-gray-500">
                     <button className="hover:text-[#002b45] transition-colors">

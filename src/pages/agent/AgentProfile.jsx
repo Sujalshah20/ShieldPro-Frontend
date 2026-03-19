@@ -51,13 +51,13 @@ const AgentProfile = () => {
 
             {/* Profile Header Card */}
             <Reveal delay={0.1}>
-                <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm overflow-hidden relative group">
+                <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm overflow-hidden relative group">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-teal-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-50 transition-opacity group-hover:opacity-80" />
                     
                     <div className="relative flex flex-col md:flex-row items-center md:items-start gap-8">
                         {/* Avatar */}
                         <div className="relative">
-                            <div className="w-32 h-32 rounded-3xl bg-slate-100 flex items-center justify-center border-4 border-white shadow-xl overflow-hidden">
+                            <div className="w-32 h-32 rounded-2xl bg-slate-100 flex items-center justify-center border-4 border-white shadow-xl overflow-hidden">
                                 <User size={64} className="text-slate-400" />
                             </div>
                             <button className="absolute -bottom-2 -right-2 p-2 bg-[#14b8a6] text-white rounded-xl shadow-lg border-2 border-white hover:scale-110 transition-transform">
@@ -137,7 +137,7 @@ const AgentProfile = () => {
                 <div className="lg:col-span-8 space-y-8">
                     {/* Personal Details Section */}
                     <Reveal delay={0.2}>
-                        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                             <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
                                 <h3 className="font-bold text-slate-800 flex items-center gap-2">
                                     <User size={18} className="text-[#14b8a6]" />
@@ -161,7 +161,7 @@ const AgentProfile = () => {
 
                     {/* Certificates Section */}
                     <Reveal delay={0.3}>
-                        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                             <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
                                 <h3 className="font-bold text-slate-800 flex items-center gap-2">
                                     <Award size={18} className="text-amber-500" />
@@ -196,7 +196,7 @@ const AgentProfile = () => {
                 <div className="lg:col-span-4 space-y-8">
                     {/* Performance Stats */}
                     <Reveal delay={0.4}>
-                        <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                        <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm">
                             <h3 className="font-bold text-slate-800 mb-8 flex items-center gap-2">
                                 <BarChart3 size={18} className="text-blue-500" />
                                 Performance Highlights
@@ -212,7 +212,7 @@ const AgentProfile = () => {
 
                     {/* Commission Card */}
                     <Reveal delay={0.5}>
-                        <div className="bg-[#1a2b4b] rounded-3xl p-8 text-white relative overflow-hidden group shadow-xl shadow-blue-900/10">
+                        <div className="bg-[#1a2b4b] rounded-2xl p-8 text-white relative overflow-hidden group shadow-xl shadow-blue-900/10">
                             {/* Decorative blur */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-[#14b8a6] rounded-full blur-[80px] -mr-16 -mt-16 opacity-30" />
                             

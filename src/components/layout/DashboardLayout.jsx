@@ -14,17 +14,17 @@ const DashboardLayout = ({ role }) => {
             {/* Sidebar Component */}
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
-            <div className="flex flex-col min-h-screen relative md:ml-64 transition-all duration-300">
+            <div className="flex flex-col min-h-screen relative md:ml-60 transition-all duration-300">
                 {/* Global Header (Hidden for Admin as they have custom page-level headers) */}
                 {!isAdmin && <Header role={role} isSidebarOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
 
                 {/* Main Dashboard Region */}
-                <main className={`flex-1 ${isAdmin ? 'pt-8' : 'pt-20'} pb-0 relative z-10 w-full max-w-[1700px] mx-auto`}>
+                <main className={`flex-1 ${isAdmin ? 'pt-8' : 'pt-20'} pb-0 relative z-10 w-full max-w-[1400px] mx-auto`}>
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.4 }}
-                        className="h-full px-4 md:px-6"
+                        className="h-full px-4 md:px-8"
                     >
                         <Outlet />
                     </motion.div>

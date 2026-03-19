@@ -56,8 +56,8 @@ const AdminApplications = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
                     <div className="space-y-1">
-                        <h1 className="text-3xl font-black text-slate-800 tracking-tight">Vetting Center</h1>
-                        <p className="text-sm font-medium text-slate-400">Review and authorize incoming policy applications</p>
+                        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Vetting Center</h1>
+                        <p className="text-xs font-medium text-slate-400">Review and authorize incoming policy applications</p>
                     </div>
                 </Reveal>
                 
@@ -90,17 +90,17 @@ const AdminApplications = () => {
             </div>
 
             {/* Table Module */}
-            <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
                 <div className="overflow-x-auto flex-1">
                     <table className="w-full text-left">
                         <thead>
                             <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50">
-                                <th className="px-8 py-6">ID</th>
-                                <th className="px-8 py-6">Client</th>
-                                <th className="px-8 py-6">Policy</th>
-                                <th className="px-8 py-6">Premium</th>
-                                <th className="px-8 py-6 text-center">Lifecycle</th>
-                                <th className="px-8 py-6"></th>
+                                <th className="px-6 py-4">ID</th>
+                                <th className="px-6 py-4">Client</th>
+                                <th className="px-6 py-4">Policy</th>
+                                <th className="px-6 py-4">Premium</th>
+                                <th className="px-6 py-4 text-center">Lifecycle</th>
+                                <th className="px-6 py-4"></th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -117,40 +117,40 @@ const AdminApplications = () => {
                                 </tr>
                             ) : filteredApps.map((app) => (
                                 <tr key={app._id} className="group hover:bg-slate-50/50 transition-colors cursor-pointer" onClick={() => setSelectedApp(app)}>
-                                    <td className="px-8 py-7 text-xs font-bold text-slate-400 uppercase tracking-tight">
+                                    <td className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-tight">
                                         #{app._id.slice(-6).toUpperCase()}
                                     </td>
-                                    <td className="px-8 py-7">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-100 shadow-sm bg-slate-100 flex items-center justify-center font-bold text-slate-500 uppercase text-xs">
+                                    <td className="px-6 py-5">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-100 shadow-sm bg-slate-100 flex items-center justify-center font-bold text-slate-500 uppercase text-[10px]">
                                                 {app.user?.name?.charAt(0)}
                                             </div>
                                             <div className="flex flex-col gap-0.5">
-                                                <span className="text-sm font-bold text-slate-700">{app.user?.name}</span>
-                                                <span className="text-[10px] font-medium text-slate-400">{app.user?.email}</span>
+                                                <span className="text-xs font-bold text-slate-700">{app.user?.name}</span>
+                                                <span className="text-[9px] font-medium text-slate-400">{app.user?.email}</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-7">
-                                        <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
-                                            <Shield size={14} className="text-blue-500" />
+                                    <td className="px-6 py-5">
+                                        <div className="flex items-center gap-2 text-[11px] font-bold text-slate-600">
+                                            <Shield size={12} className="text-blue-500" />
                                             {app.policy?.policyName}
                                         </div>
                                     </td>
-                                    <td className="px-8 py-7">
-                                        <span className="text-sm font-black text-slate-800 tracking-tight">
+                                    <td className="px-6 py-5">
+                                        <span className="text-xs font-black text-slate-800 tracking-tight">
                                             ₹{app.amount?.toLocaleString()}
                                         </span>
                                     </td>
-                                    <td className="px-8 py-7 text-center">
+                                    <td className="px-6 py-5 text-center">
                                         <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border ${getStatusStyle(app.status)}`}>
                                             <div className="w-1.5 h-1.5 rounded-full bg-current" />
-                                            <span className="text-[10px] font-black uppercase tracking-wider">{app.status}</span>
+                                            <span className="text-[9px] font-black uppercase tracking-wider">{app.status}</span>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-7 text-right">
-                                        <button className="p-2 text-slate-300 group-hover:text-blue-500 transition-colors">
-                                            <ChevronRight size={20} />
+                                    <td className="px-6 py-5 text-right">
+                                        <button className="p-1.5 text-slate-300 group-hover:text-blue-500 transition-colors">
+                                            <ChevronRight size={18} />
                                         </button>
                                     </td>
                                 </tr>

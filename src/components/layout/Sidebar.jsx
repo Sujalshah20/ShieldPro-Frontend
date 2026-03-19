@@ -111,7 +111,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
             </AnimatePresence>
 
             <aside
-                className={`fixed top-0 left-0 z-[70] h-screen w-72 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+                className={`fixed top-0 left-0 z-[70] h-screen w-60 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 <div className="p-8 pb-6 flex flex-col gap-1">
                     <div className="flex items-center gap-4">

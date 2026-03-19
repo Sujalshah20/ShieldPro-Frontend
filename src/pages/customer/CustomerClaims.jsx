@@ -69,13 +69,13 @@ const CustomerClaims = () => {
                 <table className="w-full min-w-[800px] text-left">
                     <thead className="bg-gray-50/50 border-b border-gray-100">
                         <tr>
-                            <th className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Claim ID</th>
-                            <th className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Policy</th>
-                            <th className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Type</th>
-                            <th className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Amount</th>
-                            <th className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Date</th>
-                            <th className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
-                            <th className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Action</th>
+                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Claim ID</th>
+                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Policy</th>
+                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Type</th>
+                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Amount</th>
+                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Date</th>
+                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                            <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
@@ -91,25 +91,25 @@ const CustomerClaims = () => {
                                 className={`hover:bg-gray-50/50 transition-colors cursor-pointer ${selectedClaim?._id === claim._id ? 'bg-[#002b45]/5' : ''}`}
                                 onClick={() => setSelectedClaim(claim)}
                             >
-                                <td className="px-5 py-3.5 font-bold text-[#002b45] text-[13px]">
+                                <td className="px-6 py-4 font-bold text-[#002b45] text-[13px]">
                                     CLM-{claim._id.slice(-4).toUpperCase()}
                                 </td>
-                                <td className="px-5 py-3.5 text-gray-600 text-[13px]">
+                                <td className="px-6 py-4 text-gray-600 text-[13px]">
                                     {claim.userPolicy?.policy?.policyName || "Unknown Policy"}
                                 </td>
-                                <td className="px-5 py-3.5 text-gray-600 text-[13px]">
+                                <td className="px-6 py-4 text-gray-600 text-[13px]">
                                     {claim.userPolicy?.policy?.policyType || "General"}
                                 </td>
-                                <td className="px-5 py-3.5 font-bold text-gray-900 text-[13px]">
+                                <td className="px-6 py-4 font-bold text-gray-900 text-[13px]">
                                     ${claim.amount.toLocaleString()}
                                 </td>
-                                <td className="px-5 py-3.5 text-gray-500 text-[12px]">
+                                <td className="px-6 py-4 text-gray-500 text-[12px]">
                                     {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric'})}
                                 </td>
-                                <td className="px-5 py-3.5">
+                                <td className="px-6 py-4">
                                     <span className={getStatusStyle(claim.status)}>{claim.status}</span>
                                 </td>
-                                <td className="px-5 py-3.5">
+                                <td className="px-6 py-4">
                                     <button className="text-[#002b45] font-bold text-[12px] hover:underline">
                                         View
                                     </button>

@@ -43,8 +43,8 @@ const AdminUsers = () => {
                             <ChevronRight size={12} className="text-slate-300" />
                             <span className="text-blue-500">Client Directory</span>
                         </div>
-                        <h1 className="text-4xl font-black text-slate-800 tracking-tight italic">Manage Customers</h1>
-                        <p className="text-sm font-medium text-slate-400">Omni-channel view of your registered policyholders</p>
+                        <h1 className="text-2xl font-black text-slate-800 tracking-tight italic">Manage Customers</h1>
+                        <p className="text-xs font-medium text-slate-400">Omni-channel view of your registered policyholders</p>
                     </div>
                 </Reveal>
                 
@@ -89,19 +89,19 @@ const AdminUsers = () => {
             </div>
 
             {/* Table Module */}
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
                             <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] border-b border-slate-50 bg-slate-50/10">
-                                <th className="px-10 py-6">Reference ID</th>
-                                <th className="px-10 py-6">Identity</th>
-                                <th className="px-10 py-6">Comm_Channels</th>
-                                <th className="px-10 py-6 text-center">Policies</th>
-                                <th className="px-10 py-6 text-center">Claims</th>
-                                <th className="px-10 py-6">Nexus_Entry</th>
-                                <th className="px-10 py-6">State</th>
-                                <th className="px-10 py-6 text-right">Operations</th>
+                                <th className="px-6 py-4">Reference ID</th>
+                                <th className="px-6 py-4">Identity</th>
+                                <th className="px-6 py-4">Comm_Channels</th>
+                                <th className="px-6 py-4 text-center">Policies</th>
+                                <th className="px-6 py-4 text-center">Claims</th>
+                                <th className="px-6 py-4">Nexus_Entry</th>
+                                <th className="px-6 py-4">State</th>
+                                <th className="px-6 py-4 text-right">Operations</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -116,56 +116,56 @@ const AdminUsers = () => {
                                 </tr>
                             ) : users?.filter(u => u.name?.toLowerCase().includes(searchTerm.toLowerCase())).map((u, i) => (
                                 <tr key={u._id} className="group hover:bg-slate-50/50 transition-colors">
-                                    <td className="px-10 py-6">
+                                    <td className="px-6 py-4">
                                         <span className="text-[10px] font-black text-slate-400 bg-slate-50 px-2 py-1 rounded border border-slate-100 uppercase tracking-tighter italic">
                                             CUST-{u._id.slice(-5).toUpperCase()}
                                         </span>
                                     </td>
-                                    <td className="px-10 py-6">
+                                    <td className="px-6 py-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-11 h-11 rounded-2xl overflow-hidden border-2 border-white shadow-sm group-hover:scale-110 transition-transform">
+                                            <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-white shadow-sm group-hover:scale-110 transition-transform">
                                                 <img src={`https://i.pravatar.cc/100?u=${u._id}`} alt={u.name} />
                                             </div>
                                             <div className="flex flex-col">
-                                                <span className="text-sm font-black text-slate-800 leading-none mb-1 italic tracking-tight">{u.name}</span>
-                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[2px]">Verified User</span>
+                                                <span className="text-xs font-black text-slate-800 leading-none mb-1 italic tracking-tight">{u.name}</span>
+                                                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-[2px]">Verified User</span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-6">
+                                    <td className="px-6 py-4">
                                         <div className="space-y-1">
                                             <p className="text-xs font-bold text-blue-600 italic leading-none">{u.email}</p>
                                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">{u.phone || '+91 98765 43210'}</p>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-6 text-center">
-                                        <div className="inline-flex w-9 h-9 rounded-xl bg-blue-50 items-center justify-center border border-blue-100 text-xs font-black text-blue-700 italic shadow-inner">
+                                    <td className="px-6 py-4 text-center">
+                                        <div className="inline-flex w-8 h-8 rounded-lg bg-blue-50 items-center justify-center border border-blue-100 text-[11px] font-black text-blue-700 italic shadow-inner">
                                             {i % 3 + 1}
                                         </div>
                                     </td>
-                                    <td className="px-10 py-6 text-center">
-                                        <div className="inline-flex w-9 h-9 rounded-xl bg-orange-50 items-center justify-center border border-orange-100 text-xs font-black text-orange-700 italic shadow-inner">
+                                    <td className="px-6 py-4 text-center">
+                                        <div className="inline-flex w-8 h-8 rounded-lg bg-orange-50 items-center justify-center border border-orange-100 text-[11px] font-black text-orange-700 italic shadow-inner">
                                             {i % 2}
                                         </div>
                                     </td>
-                                    <td className="px-10 py-6 text-[11px] font-bold text-slate-400 whitespace-nowrap italic">
+                                    <td className="px-6 py-4 text-[10px] font-bold text-slate-400 whitespace-nowrap italic">
                                         {new Date(u.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                                     </td>
-                                    <td className="px-10 py-6">
-                                        <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[2px] border italic ${getStatusStyle(i === 2 ? 'Inactive' : 'Active')}`}>
+                                    <td className="px-6 py-4">
+                                        <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[2px] border italic ${getStatusStyle(i === 2 ? 'Inactive' : 'Active')}`}>
                                             {i === 2 ? 'Inactive' : 'Active'}
                                         </span>
                                     </td>
-                                    <td className="px-10 py-6 text-right">
+                                    <td className="px-6 py-4 text-right">
                                         <div className="flex justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all">
-                                            <button className="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-200 rounded-xl shadow-sm transition-all hover:scale-110">
-                                                <Eye size={16} />
+                                            <button className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-200 rounded-lg shadow-sm transition-all hover:scale-110">
+                                                <Eye size={14} />
                                             </button>
-                                            <button className="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-emerald-600 hover:border-emerald-200 rounded-xl shadow-sm transition-all hover:scale-110">
-                                                <Edit size={16} />
+                                            <button className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-emerald-600 hover:border-emerald-200 rounded-lg shadow-sm transition-all hover:scale-110">
+                                                <Edit size={14} />
                                             </button>
-                                            <button className="p-2.5 bg-white border border-slate-100 text-slate-400 hover:text-rose-600 hover:border-rose-200 rounded-xl shadow-sm transition-all hover:scale-110">
-                                                <Trash2 size={16} />
+                                            <button className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-rose-600 hover:border-rose-200 rounded-lg shadow-sm transition-all hover:scale-110">
+                                                <Trash2 size={14} />
                                             </button>
                                         </div>
                                     </td>

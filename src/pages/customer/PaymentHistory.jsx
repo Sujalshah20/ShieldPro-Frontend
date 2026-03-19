@@ -115,13 +115,13 @@ const PaymentHistory = () => {
                 <table className="w-full min-w-[760px] text-left">
                     <thead className="bg-gray-50/50 border-b border-gray-100">
                         <tr>
-                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">TRANSACTION ID</th>
-                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">POLICY NAME</th>
-                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest text-right">AMOUNT (₹)</th>
-                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">DATE & TIME</th>
-                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">METHOD</th>
-                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">STATUS</th>
-                            <th className="px-5 py-3 text-[9px] font-black text-gray-400 uppercase tracking-widest">RECEIPT</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">TRANSACTION ID</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">POLICY NAME</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">AMOUNT (₹)</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">DATE & TIME</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">METHOD</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">STATUS</th>
+                            <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">RECEIPT</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
@@ -133,28 +133,28 @@ const PaymentHistory = () => {
                                 key={txn.id}
                                 className="hover:bg-gray-50/50 transition-colors"
                             >
-                                <td className="px-5 py-3.5 font-bold text-[#002b45] text-xs">{txn.id}</td>
-                                <td className="px-5 py-3.5">
+                                <td className="px-6 py-4 font-bold text-[#002b45] text-xs">{txn.id}</td>
+                                <td className="px-6 py-4">
                                     <p className="font-bold text-gray-900 text-[13px]">{txn.policy}</p>
                                     <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">ID: {txn.policyId}</p>
                                 </td>
-                                <td className="px-5 py-3.5 text-right font-bold text-gray-900 text-sm">{txn.amount}</td>
-                                <td className="px-5 py-3.5">
+                                <td className="px-6 py-4 text-right font-bold text-gray-900 text-sm">{txn.amount}</td>
+                                <td className="px-6 py-4">
                                     <p className="text-[13px] text-gray-700">{txn.date}</p>
                                     <p className="text-[11px] text-gray-400 mt-0.5">{txn.time}</p>
                                 </td>
-                                <td className="px-5 py-3.5">
+                                <td className="px-6 py-4">
                                     <div className="flex items-center gap-2 text-gray-500 text-xs font-medium">
                                         {React.cloneElement(txn.methodIcon, { size: 14 })} {txn.method}
                                     </div>
                                 </td>
-                                <td className="px-5 py-3.5">
+                                <td className="px-6 py-4">
                                     <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1.5 w-fit ${getStatusStyle(txn.status)}`}>
                                         <span className={`w-1 h-1 rounded-full ${txn.status === 'Successful' ? 'bg-emerald-500' : txn.status === 'Pending' ? 'bg-amber-500' : 'bg-rose-500'}`} />
                                         {txn.status}
                                     </span>
                                 </td>
-                                <td className="px-5 py-3.5">
+                                <td className="px-6 py-4">
                                     <button className={`text-gray-400 hover:text-[#002b45] transition-colors ${txn.status !== 'Successful' ? 'opacity-30 cursor-not-allowed' : ''}`} disabled={txn.status !== 'Successful'}>
                                         <Download size={16} />
                                     </button>

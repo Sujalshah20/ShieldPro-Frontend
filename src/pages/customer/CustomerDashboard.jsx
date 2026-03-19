@@ -47,7 +47,7 @@ const CustomerDashboard = () => {
             <Reveal direction="up">
                 <div className="relative overflow-hidden bg-[#124C89] rounded-[1.5rem] p-8 md:p-10 text-white shadow-xl">
                     <div className="relative z-10 max-w-xl">
-                        <h1 className="text-3xl md:text-4xl font-bold mb-3 drop-shadow-sm flex items-center gap-3">
+                        <h1 className="text-2xl md:text-3xl font-bold mb-3 drop-shadow-sm flex items-center gap-3">
                             Welcome back, {userName}! 👋
                         </h1>
                         <p className="text-white/80 text-base md:text-lg font-medium leading-relaxed">
@@ -83,7 +83,7 @@ const CustomerDashboard = () => {
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Left Column: Active Policies */}
-                <div className="lg:col-span-8 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="p-6 pb-3 flex items-center justify-between">
                         <h2 className="text-lg font-bold text-slate-800">My Active Policies</h2>
                         <button className="text-[11px] font-bold text-[#124C89] hover:underline">View All</button>
@@ -133,7 +133,7 @@ const CustomerDashboard = () => {
                 </div>
 
                 {/* Right Column: Recent Claims */}
-                <div className="lg:col-span-4 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
+                <div className="lg:col-span-4 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="p-6 pb-3 flex items-center justify-between">
                         <h2 className="text-lg font-bold text-slate-800">Recent Claims</h2>
                     </div>
@@ -178,7 +178,7 @@ const CustomerDashboard = () => {
                         { label: "Support", icon: Headphones },
                     ].map((action, i) => (
                         <div key={i} className="group cursor-pointer">
-                            <div className="bg-white aspect-square rounded-[1.5rem] border border-slate-100 shadow-sm flex items-center justify-center group-hover:shadow-lg group-hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
+                            <div className="bg-white aspect-square rounded-2xl border border-slate-100 shadow-sm flex items-center justify-center group-hover:shadow-lg group-hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
                                 <div className="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 <action.icon size={24} strokeWidth={2.5} className="text-slate-800 group-hover:text-[#124C89] transition-colors relative z-10" />
                             </div>

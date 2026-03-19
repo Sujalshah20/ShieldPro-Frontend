@@ -40,8 +40,8 @@ const AdminSettings = () => {
             {/* Header Module */}
             <div className="space-y-1">
                 <Reveal direction="left">
-                    <h1 className="text-4xl font-black text-slate-800 tracking-tight">{activeTab} Settings</h1>
-                    <p className="text-base font-medium text-slate-500">
+                    <h1 className="text-2xl font-black text-slate-800 tracking-tight">{activeTab} Settings</h1>
+                    <p className="text-xs font-medium text-slate-500">
                         {activeTab === "General" 
                             ? "Configure your corporate identity and global system parameters."
                             : `Manage and configure your ${activeTab.toLowerCase()} parameters.`}
@@ -59,10 +59,10 @@ const AdminSettings = () => {
                     >
                         {/* Company Information Section */}
                         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="px-8 py-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-lg font-bold text-slate-800">Company Information</h3>
+                            <div className="px-6 py-4 border-b border-slate-50 bg-slate-50/30">
+                                <h3 className="text-base font-bold text-slate-800">Company Information</h3>
                             </div>
-                            <div className="p-8 grid md:grid-cols-2 gap-10">
+                            <div className="p-6 grid md:grid-cols-2 gap-8">
                                 {/* Logo Upload Area */}
                                 <div className="space-y-4">
                                     <label className="text-sm font-bold text-slate-700">Company Logo</label>
@@ -119,10 +119,10 @@ const AdminSettings = () => {
 
                         {/* Terms & Conditions Section */}
                         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="px-8 py-6 border-b border-slate-50 bg-slate-50/30">
-                                <h3 className="text-lg font-bold text-slate-800">Terms & Conditions</h3>
+                            <div className="px-6 py-4 border-b border-slate-50 bg-slate-50/30">
+                                <h3 className="text-base font-bold text-slate-800">Terms & Conditions</h3>
                             </div>
-                            <div className="p-8 space-y-6">
+                            <div className="p-6 space-y-6">
                                 <div className="flex items-start gap-3 p-4 bg-blue-50/50 rounded-xl border border-blue-50 text-blue-700 text-sm">
                                     <Info size={18} className="mt-0.5 flex-shrink-0" />
                                     <p className="font-medium text-slate-500 text-sm">This content will be displayed to all clients during the policy onboarding process.</p>
@@ -160,12 +160,12 @@ const AdminSettings = () => {
                         </div>
                     </motion.div>
                 ) : (
-                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-20 text-center space-y-4">
-                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mx-auto">
-                            <Settings size={40} />
+                    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-12 text-center space-y-4">
+                        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mx-auto">
+                            <Settings size={32} />
                         </div>
-                        <h3 className="text-xl font-bold text-slate-800">{activeTab} Interface</h3>
-                        <p className="text-slate-400 max-w-sm mx-auto font-medium">This module is currently in standard operational status. Access the parameters view to configure {activeTab.toLowerCase()} logic.</p>
+                        <h3 className="text-lg font-bold text-slate-800">{activeTab} Interface</h3>
+                        <p className="text-slate-400 max-w-sm mx-auto text-xs font-medium">This module is currently in standard operational status. Access the parameters view to configure {activeTab.toLowerCase()} logic.</p>
                     </div>
                 )}
             </div>

@@ -50,7 +50,7 @@ const StatCard = ({ title, value, trend, icon: Icon, color, sparkline }) => (
 );
 
 const RevenueTrends = () => (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
         <div className="flex justify-between items-center mb-10">
             <h3 className="text-xl font-bold text-slate-800">Revenue Trends</h3>
             <span className="text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">Last 12 Months</span>
@@ -94,8 +94,8 @@ const RevenueTrends = () => (
 );
 
 const PolicyDistribution = () => (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-col items-center">
-        <h3 className="text-xl font-bold text-slate-800 self-start mb-8">Policy Distribution</h3>
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center">
+        <h3 className="text-lg font-bold text-slate-800 self-start mb-6">Policy Distribution</h3>
         <div className="relative w-48 h-48 mb-8">
             <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
                 <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
@@ -134,9 +134,9 @@ const PolicyDistribution = () => (
 );
 
 const RecentActivities = () => (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
-        <div className="flex justify-between items-center mb-8">
-            <h3 className="text-xl font-bold text-slate-800">Recent Activities</h3>
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg font-bold text-slate-800">Recent Activities</h3>
             <button className="text-xs font-bold text-blue-600 hover:underline">View All</button>
         </div>
         <div className="space-y-8">
@@ -160,9 +160,9 @@ const RecentActivities = () => (
 );
 
 const TopAgents = () => (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm flex-1">
-        <div className="flex justify-between items-center mb-8">
-            <h3 className="text-xl font-bold text-slate-800">Top Performing Agents</h3>
+    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex-1">
+        <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg font-bold text-slate-800">Top Performing Agents</h3>
             <button className="text-[10px] font-bold text-slate-500 border border-slate-100 px-3 py-1.5 rounded-lg hover:bg-slate-50">Export Table</button>
         </div>
         <div className="overflow-x-auto">
@@ -221,8 +221,8 @@ const AdminDashboard = () => {
             <div className="flex flex-col md:flex-row justify-between md:items-center gap-6">
                 <Reveal direction="left">
                     <div className="space-y-1">
-                        <h1 className="text-3xl font-black text-slate-800 tracking-tight">Welcome back, Administrator!</h1>
-                        <p className="text-sm font-medium text-slate-400 font-bold uppercase tracking-widest text-[10px]">Here's what's happening with your platform today.</p>
+                        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Welcome back, Administrator!</h1>
+                        <p className="text-sm font-medium text-slate-400 font-bold uppercase tracking-widest text-[9px]">Here's what's happening with your platform today.</p>
                     </div>
                 </Reveal>
             </div>

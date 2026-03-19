@@ -113,7 +113,7 @@ const CustomerPolicies = () => {
 
             {/* Policy List */}
             {filteredPolicies.length === 0 ? (
-                <div className="text-center py-24 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                <div className="text-center py-24 bg-white rounded-2xl border border-gray-100 shadow-sm">
                     <Shield size={64} className="mx-auto text-gray-200 mb-6" />
                     <h3 className="text-xl font-bold text-[#002b45] mb-2">No policies found</h3>
                     <p className="text-gray-500 mb-8">You don't have any {activeTab.toLowerCase()} right now.</p>
@@ -221,7 +221,7 @@ const CustomerPolicies = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="bg-gray-50 rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-8 border border-gray-200"
+                    className="bg-gray-50 rounded-2xl p-6 flex flex-col lg:flex-row items-center justify-between gap-8 border border-gray-200"
                 >
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 md:gap-12">
                         <div>

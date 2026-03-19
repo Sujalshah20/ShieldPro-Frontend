@@ -107,7 +107,7 @@ const AgentClients = () => {
             </div>
 
             {/* Customer Table */}
-            <div className="bg-white rounded-[1.25rem] border border-slate-200 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>

@@ -146,7 +146,7 @@ const AgentDashboard = () => {
                 </div>
 
                 {/* Policies by Type Donut Chart */}
-                <div className="bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm flex flex-col">
+                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
                     <h3 className="text-lg font-bold text-slate-800 mb-6">Policies by Type</h3>
                     <div className="relative flex-1 flex flex-col justify-center items-center">
                         <div className="h-[200px] w-full">
@@ -189,7 +189,7 @@ const AgentDashboard = () => {
             {/* Tables Section */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Recent Applications */}
-                <div className="lg:col-span-7 bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden">
+                <div className="lg:col-span-12 xl:col-span-5 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="flex justify-between items-center mb-6 px-1">
                         <h3 className="text-lg font-bold text-slate-800">Recent Applications</h3>
                         <button className="text-[11px] font-bold text-[#14b8a6] hover:underline">View All</button>
@@ -198,11 +198,11 @@ const AgentDashboard = () => {
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="border-b border-slate-50">
-                                    <th className="pb-3 px-1 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Customer</th>
-                                    <th className="pb-3 px-1 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Policy</th>
-                                    <th className="pb-3 px-1 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Date</th>
-                                    <th className="pb-3 px-1 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Status</th>
-                                    <th className="pb-3 px-1 text-[9px] font-black uppercase tracking-[1px] text-slate-400 text-right">Action</th>
+                                    <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Customer</th>
+                                    <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Policy</th>
+                                    <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Date</th>
+                                    <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Status</th>
+                                    <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400 text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -212,15 +212,15 @@ const AgentDashboard = () => {
                                     { name: "Amit Singh", policy: "Vehicle Guard", date: "Oct 09", status: "PENDING", statusColor: "bg-orange-50 text-orange-600" },
                                 ].map((row, i) => (
                                     <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
-                                        <td className="py-3.5 px-1 font-bold text-slate-700 text-[12px]">{row.name}</td>
-                                        <td className="py-3.5 px-1 font-medium text-slate-500 text-[12px]">{row.policy}</td>
-                                        <td className="py-3.5 px-1 font-medium text-slate-400 text-[12px]">{row.date}</td>
-                                        <td className="py-3.5 px-1">
+                                        <td className="py-4 px-4 font-bold text-slate-700 text-[12px]">{row.name}</td>
+                                        <td className="py-4 px-4 font-medium text-slate-500 text-[12px]">{row.policy}</td>
+                                        <td className="py-4 px-4 font-medium text-slate-400 text-[12px]">{row.date}</td>
+                                        <td className="py-4 px-4">
                                             <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${row.statusColor}`}>
                                                 {row.status}
                                             </span>
                                         </td>
-                                        <td className="py-3.5 px-1 text-right">
+                                        <td className="py-4 px-4 text-right">
                                             <button className="text-slate-400 hover:text-[#124C89] transition-colors font-bold text-[11px]">View</button>
                                         </td>
                                     </tr>
