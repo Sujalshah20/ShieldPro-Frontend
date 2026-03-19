@@ -1,57 +1,99 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
-    Shield, User, Mail, Phone, Calendar, 
-    MapPin, Globe, CheckCircle2, ChevronRight, ArrowRight, Loader2, ChevronDown
+    Shield, CheckCircle2, ArrowRight, Loader2, Eye, EyeOff
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
 import Reveal from "../../components/common/Reveal";
 
 const Register = () => {
     const [formData, setFormData] = useState({
-        name: "", email: "", password: "",
-        confirmPassword: "", phone: "", 
-        dob: "", gender: "Male", address: "",
-        aadhar: ""
+        name: "", email: "", phone: "", password: "", confirmPassword: ""
     });
+    const [terms, setTerms] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    
     const { register } = useAuth();
     const navigate = useNavigate();
     const { toast } = useToast();
 
+    // Validation Rules
+    const validateField = (name, value) => {
+        let error = "";
+        switch (name) {
+            case "name":
+                if (value.length < 3) error = "Full Name must be at least 3 characters.";
+                break;
+            case "email":
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = "Please enter a valid email address.";
+                break;
+            case "phone":
+                if (!/^[0-9]{10}$/.test(value)) error = "Phone number must be exactly 10 digits.";
+                break;
+            case "password":
+                if (value.length < 8) {
+                    error = "Password must be at least 8 characters.";
+                } else if (!/(?=.*[a-z])/.test(value)) {
+                    error = "Password must include at least 1 lowercase letter.";
+                } else if (!/(?=.*[A-Z])/.test(value)) {
+                    error = "Password must include at least 1 uppercase letter.";
+                } else if (!/(?=.*\d)/.test(value)) {
+                    error = "Password must include at least 1 number.";
+                } else if (!/(?=.*[@$!%*?&])/.test(value)) {
+                    error = "Password must include at least 1 special character (@, #, etc.)";
+                }
+                break;
+            case "confirmPassword":
+                if (value !== formData.password) error = "Passwords do not match.";
+                break;
+            default:
+                break;
+        }
+        return error;
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+        
+        const error = validateField(name, value);
+        setErrors(prev => ({
+            ...prev,
+            [name]: error
+        }));
+
+        // Special case: if password changes, revalidate confirmPassword if it has a value
+        if (name === 'password' && formData.confirmPassword) {
+             const confirmError = value !== formData.confirmPassword ? "Passwords do not match." : "";
+             setErrors(prev => ({ ...prev, confirmPassword: confirmError }));
+        }
     };
+
+    const isFormValid = 
+        Object.values(errors).every(err => err === "") &&
+        Object.values(formData).every(val => val.trim() !== "") &&
+        terms;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        if (formData.password !== formData.confirmPassword) {
-            return toast({ 
-                title: "Error", 
-                description: "Passwords do not match.", 
-                variant: "destructive" 
-            });
-        }
+        if (!isFormValid) return;
 
         setIsLoading(true);
         try {
             await register({
                 name: formData.name,
                 email: formData.email,
-                password: formData.password,
                 phone: formData.phone,
-                dob: formData.dob,
-                gender: formData.gender,
-                address: formData.address,
-                nationalId: formData.aadhar
+                password: formData.password
             });
             toast({ 
                 title: "Registration Successful", 
-                description: "Your account has been created. Please login." 
+                description: "Your account has been created. Please check your email to verify your account." 
             });
             navigate("/login");
         } catch (error) {
@@ -138,100 +180,90 @@ const Register = () => {
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Full Name</label>
                                 <input 
                                     name="name" value={formData.name} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none"
-                                    placeholder="Enter your full name" required
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.name ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                    placeholder="Enter your full name" 
                                 />
+                                {errors.name && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.name}</p>}
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="md:col-span-2 space-y-2">
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Email Address</label>
                                 <input 
                                     type="email" name="email" value={formData.email} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none"
-                                    placeholder="yourname@gmail.com" required
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.email ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                    placeholder="yourname@example.com" 
                                 />
+                                {errors.email && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.email}</p>}
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="md:col-span-2 space-y-2">
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Phone Number</label>
                                 <input 
                                     name="phone" value={formData.phone} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none"
-                                    placeholder="+91 OOOO OOOO OO" required
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.phone ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                    placeholder="10-digit number" 
                                 />
+                                {errors.phone && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.phone}</p>}
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Date of Birth</label>
-                                <input 
-                                    type="date" name="dob" value={formData.dob} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none" required
-                                />
-                            </div>
-
-                            <div className="space-y-2 relative">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Gender</label>
-                                <select 
-                                    name="gender" value={formData.gender} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none appearance-none cursor-pointer"
-                                >
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                                <div className="absolute right-6 bottom-5 pointer-events-none text-slate-400">
-                                    <ChevronDown size={18} />
-                                </div>
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Aadhar Number</label>
-                                <input 
-                                    name="aadhar" value={formData.aadhar} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none"
-                                    placeholder="12 digit aadhar number"
-                                />
-                            </div>
-                            
-                            <div className="space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Current Address</label>
-                                <input 
-                                    name="address" value={formData.address} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none"
-                                    placeholder="Enter your address" required
-                                />
-                            </div>
-
-                            <div className="space-y-2">
+                            <div className="md:col-span-2 space-y-2">
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Password</label>
-                                <input 
-                                    type="password" name="password" value={formData.password} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none"
-                                    placeholder="••••••••" required
-                                />
+                                <div className="relative">
+                                    <input 
+                                        type={showPassword ? "text" : "password"} 
+                                        name="password" value={formData.password} onChange={handleInputChange}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.password ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                        placeholder="••••••••" 
+                                    />
+                                    <button 
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+                                {errors.password && <p className="text-red-500 text-xs mt-1 pl-2 font-medium leading-relaxed">{errors.password}</p>}
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="md:col-span-2 space-y-2">
                                 <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Confirm Password</label>
-                                <input 
-                                    type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange}
-                                    className="w-full h-14 bg-slate-50 border-2 border-slate-50 rounded-2xl px-6 text-[#002b45] font-bold text-sm focus:bg-white focus:border-[#134e8d]/20 transition-all outline-none"
-                                    placeholder="••••••••" required
-                                />
+                                <div className="relative">
+                                    <input 
+                                        type={showConfirmPassword ? "text" : "password"} 
+                                        name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm focus:bg-white transition-all outline-none ${errors.confirmPassword ? 'border-red-400/50 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                        placeholder="••••••••" 
+                                    />
+                                    <button 
+                                        type="button"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+                                {errors.confirmPassword && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.confirmPassword}</p>}
                             </div>
 
                             <div className="md:col-span-2 flex items-center gap-3 py-2">
-                                <input type="checkbox" id="terms" className="w-5 h-5 rounded-lg border-2 border-slate-200 text-[#10b981] transition-all focus:ring-0 cursor-pointer" required />
-                                <label htmlFor="terms" className="text-[13px] font-medium text-slate-500">
-                                    By registering, I agree to the <a href="#" className="text-[#134e8d] font-bold">Terms & Conditions</a>.
+                                <input 
+                                    type="checkbox" 
+                                    id="terms" 
+                                    checked={terms}
+                                    onChange={(e) => setTerms(e.target.checked)}
+                                    className="w-5 h-5 rounded-lg border-2 border-slate-200 text-[#10b981] transition-all focus:ring-0 cursor-pointer" 
+                                />
+                                <label htmlFor="terms" className="text-[13px] font-medium text-slate-500 select-none cursor-pointer">
+                                    By registering, I agree to the <a href="#" className="text-[#134e8d] font-bold hover:underline">Terms & Conditions</a>.
                                 </label>
                             </div>
 
                             <div className="md:col-span-2 pt-4">
                                 <button 
                                     type="submit"
-                                    disabled={isLoading}
-                                    className="w-full h-16 bg-[#10b981] text-white rounded-2xl text-[16px] font-bold shadow-xl shadow-emerald-500/20 hover:bg-[#0da371] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3"
+                                    disabled={isLoading || !isFormValid}
+                                    className="w-full h-16 bg-[#10b981] text-white rounded-2xl text-[16px] font-bold shadow-xl shadow-emerald-500/20 hover:bg-[#0da371] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                                 >
                                     {isLoading ? (
                                         <><Loader2 className="animate-spin" /> Creating Account...</>

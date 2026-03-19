@@ -1,19 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
+import { useLocation } from "react-router-dom";
 import { 
     Printer, Download, User as UserIcon, Check, Shield, 
     Banknote, UploadCloud, MessageSquare, Send, Plus, TextSelect, FileText, Image as ImageIcon
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";
+import SubmitClaimForm from "./SubmitClaimForm";
 
 const CustomerClaims = () => {
     const { user } = useContext(AuthContext);
     const { toast } = useToast();
     const queryClient = useQueryClient();
+    const location = useLocation();
     const [selectedClaim, setSelectedClaim] = useState(null);
+    const [isCreatingClaim, setIsCreatingClaim] = useState(false);
+
+    // Auto-open the claim form if navigated with openNewClaim state
+    useEffect(() => {
+        if (location.state?.openNewClaim) {
+            setIsCreatingClaim(true);
+            // Clear state to prevent re-triggering on revisit
+            window.history.replaceState({}, document.title);
+        }
+    }, [location.state]);
 
     const { data: myClaims = [], isLoading } = useQuery({
         queryKey: ['myClaims', user?.token],
@@ -53,13 +66,37 @@ const CustomerClaims = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-20">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <AnimatePresence mode="wait">
+                {isCreatingClaim ? (
+                    <SubmitClaimForm 
+                        key="submit-form"
+                        onCancel={() => setIsCreatingClaim(false)} 
+                        onSubmit={(data) => {
+                            console.log("Submit claim data:", data);
+                            toast({
+                                title: "Claim Submitted Successfully!",
+                                description: "Your new claim has been forwarded for processing.",
+                            });
+                            setIsCreatingClaim(false);
+                        }}
+                    />
+                ) : (
+                    <motion.div 
+                        key="claims-list"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                    >
+                        {/* Header */}
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-bold text-[#002b45] mb-1">My Claims</h1>
                     <p className="text-gray-500 text-xs">Track and manage your insurance claim requests in real-time.</p>
                 </div>
-                <button className="flex items-center justify-center gap-2 bg-[#002b45] text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#003b5c] transition-colors shadow-sm">
+                <button 
+                    onClick={() => setIsCreatingClaim(true)}
+                    className="flex items-center justify-center gap-2 bg-[#002b45] text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#003b5c] transition-colors shadow-sm"
+                >
                     <Plus size={18} /> New Claim
                 </button>
             </div>
@@ -266,6 +303,9 @@ const CustomerClaims = () => {
                     </div>
                 </div>
             )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

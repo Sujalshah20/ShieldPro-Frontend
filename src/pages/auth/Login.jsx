@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
     Shield, Mail, Lock, Eye, EyeOff, 
-    CheckCircle2, Chrome, ChevronRight, Activity, Zap, ShieldCheck, Loader2, ArrowRight, Facebook
+    Chrome, Activity, Zap, ShieldCheck, Loader2, ArrowRight, Facebook
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
-import { motion } from "framer-motion";
 import Reveal from "../../components/common/Reveal";
 import loginIllustration from "../../assets/login_security_illustration.png";
 
@@ -14,16 +13,26 @@ const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [activeTab, setActiveTab] = useState("Customer");
+    const [rememberMe, setRememberMe] = useState(false);
+    const [failedAttempts, setFailedAttempts] = useState(0);
+    
     const { login } = useAuth();
     const navigate = useNavigate();
     const { toast } = useToast();
 
+    // Verify valid form data before enabling submit
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    const isPasswordValid = formData.password.length >= 8;
+    const isFormValid = isEmailValid && isPasswordValid;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        if (!isFormValid) return;
+
         setIsLoading(true);
         try {
-            const user = await login(formData.email, formData.password);
+            const user = await login(formData.email, formData.password, rememberMe);
             toast({ 
                 title: "Login Successful", 
                 description: "Welcome back to Secure Shield.",
@@ -36,9 +45,10 @@ const Login = () => {
                 else navigate('/customer');
             }, 500);
         } catch (error) {
+            setFailedAttempts(prev => prev + 1);
             toast({ 
                 title: "Login Failed", 
-                description: "Invalid credentials. Please try again.", 
+                description: error.response?.data?.message || "Invalid email or password. Please try again.", 
                 variant: "destructive" 
             });
         } finally {
@@ -123,9 +133,8 @@ const Login = () => {
                                         type="email" 
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full h-16 bg-slate-50 border-2 border-slate-50 rounded-2xl pl-16 pr-6 text-[#002b45] font-bold text-base outline-none focus:bg-white focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
-                                        placeholder="yourname@gmail.com"
-                                        required
+                                        className={`w-full h-16 bg-slate-50 border-2 rounded-2xl pl-16 pr-6 text-[#002b45] font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${formData.email.length > 0 && !isEmailValid ? 'border-red-400 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                        placeholder="yourname@example.com"
                                     />
                                 </div>
                             </div>
@@ -133,7 +142,7 @@ const Login = () => {
                             <div className="space-y-3">
                                 <div className="flex justify-between items-center">
                                     <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Password</label>
-                                    <button type="button" className="text-[11px] font-bold text-[#134e8d] hover:underline uppercase tracking-wider">Forgot Password?</button>
+                                    <Link to="/forgot-password" className="text-[11px] font-bold text-[#134e8d] hover:underline uppercase tracking-wider">Forgot Password?</Link>
                                 </div>
                                 <div className="relative">
                                     <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 transition-colors">
@@ -143,9 +152,8 @@ const Login = () => {
                                         type={showPassword ? "text" : "password"}
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                        className="w-full h-16 bg-slate-50 border-2 border-slate-50 rounded-2xl pl-16 pr-16 text-[#002b45] font-bold text-base outline-none focus:bg-white focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
-                                        placeholder="••••••••"
-                                        required
+                                        className={`w-full h-16 bg-slate-50 border-2 rounded-2xl pl-16 pr-16 text-[#002b45] font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${formData.password.length > 0 && !isPasswordValid ? 'border-red-400 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                        placeholder="Min 8 characters"
                                     />
                                     <button 
                                         type="button"
@@ -158,14 +166,33 @@ const Login = () => {
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <input type="checkbox" id="remember" className="w-5 h-5 rounded-lg border-2 border-slate-200 text-[#10b981] transition-all focus:ring-0 cursor-pointer" />
-                                <label htmlFor="remember" className="text-sm font-medium text-slate-500 cursor-pointer">Remember me for 30 days</label>
+                                <input 
+                                    type="checkbox" 
+                                    id="remember" 
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                    className="w-5 h-5 rounded-lg border-2 border-slate-200 text-[#10b981] transition-all focus:ring-0 cursor-pointer" 
+                                />
+                                <label htmlFor="remember" className="text-sm font-medium text-slate-500 cursor-pointer select-none">Remember me for 30 days</label>
                             </div>
+
+                            {failedAttempts >= 3 && (
+                                <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-100 flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <input type="checkbox" id="captcha" required className="w-5 h-5 rounded-sm border-2 border-slate-300 text-[#134e8d] focus:ring-0 cursor-pointer" />
+                                        <label htmlFor="captcha" className="text-sm font-bold text-[#002b45] cursor-pointer">I am not a robot</label>
+                                    </div>
+                                    <div className="flex flex-col items-center">
+                                        <ShieldCheck size={24} className="text-emerald-500 mb-1" />
+                                        <span className="text-[10px] text-slate-400 font-bold uppercase">reCAPTCHA</span>
+                                    </div>
+                                </div>
+                            )}
 
                             <button 
                                 type="submit"
-                                disabled={isLoading}
-                                className="w-full h-16 bg-[#10b981] text-white rounded-2xl text-[18px] font-bold shadow-xl shadow-emerald-500/20 hover:bg-[#0da371] active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-3"
+                                disabled={isLoading || !isFormValid}
+                                className="w-full h-16 bg-[#10b981] text-white rounded-2xl text-[18px] font-bold shadow-xl shadow-emerald-500/20 hover:bg-[#0da371] active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
                             >
                                 {isLoading ? (
                                     <><Loader2 className="animate-spin" /> Logging you in...</>

@@ -19,7 +19,7 @@ const CustomerProfile = () => {
     const [form, setForm] = useState({
         name: '', email: '', phone: '', address: '', dob: '', gender: 'Male',
         nationalId: '', panNumber: '',
-        occupation: '', annualIncome: ''
+        occupation: '', annualIncome: '', profilePic: ''
     });
 
     const { data: profileData, isLoading } = useQuery({
@@ -40,7 +40,8 @@ const CustomerProfile = () => {
                 nationalId: profileData.nationalId || '',
                 panNumber: profileData.panNumber || '',
                 occupation: profileData.employment?.occupation || '',
-                annualIncome: profileData.employment?.annualIncome || ''
+                annualIncome: profileData.employment?.annualIncome || '',
+                profilePic: profileData.profilePic || ''
             });
         }
     }, [profileData, user]);
@@ -48,6 +49,17 @@ const CustomerProfile = () => {
     const handleChange = e => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setForm(prev => ({ ...prev, profilePic: reader.result }));
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleSave = async () => {
@@ -63,7 +75,8 @@ const CustomerProfile = () => {
                 employment: {
                     occupation: form.occupation,
                     annualIncome: Number(form.annualIncome)
-                }
+                },
+                profilePic: form.profilePic
             };
             const updated = await api.put('/users/profile', payload, user.token);
             setAuthProfile(updated);
@@ -104,11 +117,16 @@ const CustomerProfile = () => {
                     <div className="flex flex-col md:flex-row items-center md:items-end gap-5 md:gap-6 -mt-20 md:-mt-16">
                         <div className="relative group">
                             <div className="w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-white shadow-sm overflow-hidden bg-[#002b45] flex items-center justify-center text-4xl font-bold text-white relative z-10">
-                                {form.name?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                                {form.profilePic ? (
+                                    <img src={form.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                                ) : (
+                                    form.name?.charAt(0) || user.email.charAt(0).toUpperCase()
+                                )}
                             </div>
-                            <button className="absolute bottom-1 right-1 w-7 h-7 bg-[#002b45] text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm hover:bg-[#003b5c] transition-colors z-20">
+                            <label className="absolute bottom-1 right-1 w-7 h-7 bg-[#002b45] text-white rounded-full flex items-center justify-center border-2 border-white shadow-sm hover:bg-[#003b5c] transition-colors z-20 cursor-pointer">
                                 <Camera size={12} />
-                            </button>
+                                <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                            </label>
                         </div>
                         <div className="text-center md:text-left">
                             <h1 className="text-xl font-bold text-[#002b45] mb-0.5">{form.name || 'User'}</h1>

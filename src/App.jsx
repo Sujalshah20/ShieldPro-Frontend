@@ -13,6 +13,9 @@ import { AuthProvider } from "./context/AuthContext";
 /* Lazy Loaded Pages */
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
+const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
 const Home = lazy(() => import("./pages/Home"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -107,6 +110,9 @@ function App() {
                   <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
                   <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
                   <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+                  <Route path="/verify-email/:token" element={<PageWrapper><VerifyEmail /></PageWrapper>} />
+                  <Route path="/forgot-password" element={<PageWrapper><ForgotPassword /></PageWrapper>} />
+                  <Route path="/reset-password/:token" element={<PageWrapper><ResetPassword /></PageWrapper>} />
 
                   {/* -------- ADMIN ROUTES -------- */}
                   <Route

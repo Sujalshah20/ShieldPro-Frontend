@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { 
-    Search, Bell, Settings, Heart, Car, Home, 
+    Search, Heart, Car, Home, 
     Users, Plane, Activity, CheckCircle2, ChevronDown,
     ChevronLeft, ChevronRight
 } from "lucide-react";
@@ -105,25 +105,8 @@ const BrowsePolicies = () => {
         : policyData.filter(p => p.type === activeTab);
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] font-sans pb-12">
-            {/* Header */}
-            <header className="bg-white border-b border-gray-200 px-6 py-2.5 flex items-center justify-between sticky top-0 z-40">
-                <div className="flex items-center gap-3">
-                    <Search className="text-gray-400" size={18} />
-                    <h1 className="text-base font-bold text-[#002b45]">Browse Policies</h1>
-                </div>
-                <div className="flex items-center gap-5 text-gray-500">
-                    <button className="hover:text-[#002b45] transition-colors">
-                        <Bell size={18} />
-                    </button>
-                    <button className="hover:text-[#002b45] transition-colors">
-                        <Settings size={18} />
-                    </button>
-                </div>
-            </header>
-
-            <div className="max-w-7xl mx-auto px-6 pt-6">
-                {/* Search & Filters */}
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-12">
+            {/* Search & Filters */}
                 <div className="bg-white p-3 rounded-lg border border-gray-200 flex flex-col md:flex-row gap-3 mb-6">
                     <div className="flex-1 relative">
                         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -254,7 +237,6 @@ const BrowsePolicies = () => {
                         </button>
                     </div>
                 </div>
-            </div>
         </div>
     );
 };
