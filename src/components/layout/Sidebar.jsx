@@ -16,7 +16,9 @@ import {
     User,
     Bell,
     Search,
-    LineChart
+    LineChart,
+    Briefcase,
+    ClipboardList
 } from "lucide-react";
 
 const ROLE_LINKS = {
