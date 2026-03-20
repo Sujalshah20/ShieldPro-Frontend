@@ -181,7 +181,7 @@ const AgentPolicies = () => {
                 <div className="text-center py-60">
                     <Reveal direction="up">
                         <Command size={100} className="mx-auto mb-10 opacity-5 text-[#003249] animate-pulse" strokeWidth={1} />
-                        <p className="text-[14px] font-black uppercase tracking-[10px] text-slate-200 italic">No asset identifiers identified in current scan range</p>
+                        <p className="text-[14px] font-black uppercase tracking-[10px] text-slate-400 italic">No policies yet. Create your first policy!</p>
                     </Reveal>
                 </div>
             )}

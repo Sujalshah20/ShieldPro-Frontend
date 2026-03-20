@@ -40,35 +40,45 @@ const getOptions = (method, headers = {}, body = null, isFormData = false) => {
     return options;
 };
 
+const getHeaders = (token, isFormData = false) => {
+    const headers = {};
+    const authToken = token || localStorage.getItem('token');
+    
+    if (authToken) {
+        headers['Authorization'] = `Bearer ${authToken}`;
+    }
+    
+    if (!isFormData) {
+        headers['Content-Type'] = 'application/json';
+    }
+    
+    return headers;
+};
+
 export const api = {
     get: async (endpoint, token) => {
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await fetch(`${API_URL}${endpoint}`, getOptions('GET', headers));
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('GET', getHeaders(token)));
         return handleResponse(response);
     },
 
     post: async (endpoint, body, token) => {
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', headers, body));
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', getHeaders(token), body));
         return handleResponse(response);
     },
 
     postForm: async (endpoint, formData, token) => {
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        // Content-Type is set automatically by the browser for FormData
-        const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', headers, formData, true));
+        // Content-Type is set automatically by the browser for FormData, so we pass true
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', getHeaders(token, true), formData, true));
         return handleResponse(response);
     },
 
     put: async (endpoint, body, token) => {
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await fetch(`${API_URL}${endpoint}`, getOptions('PUT', headers, body));
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('PUT', getHeaders(token), body));
         return handleResponse(response);
     },
 
     delete: async (endpoint, token) => {
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await fetch(`${API_URL}${endpoint}`, getOptions('DELETE', headers));
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('DELETE', getHeaders(token)));
         return handleResponse(response);
     }
 };

@@ -12,12 +12,14 @@ export const AuthProvider = ({ children }) => {
   const { toast } = useToast();
   const activityTimer = useRef(null);
 
-  // Initial session check from HTTP-Only cookie 
+  // Initial session check from HTTP-Only cookie OR LocalStorage token
   useEffect(() => {
     const verifySession = async () => {
+        const localToken = localStorage.getItem('token');
         try {
-            const userData = await api.get('/auth/me');
-            setUser(userData);
+            // Even if we have a token, we verify it with the backend
+            const userData = await api.get('/auth/me', localToken);
+            setUser({ ...userData, token: localToken });
         } catch (error) {
             if (error.status === 401 && user) {
                 toast({
@@ -26,6 +28,7 @@ export const AuthProvider = ({ children }) => {
                     variant: "destructive"
                 });
             }
+            localStorage.removeItem('token');
             setUser(null);
         } finally {
             setIsInitializing(false);
@@ -40,12 +43,16 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
         console.error("Logout failed", e);
     }
+    localStorage.removeItem('token');
     setUser(null);
     setProfile(null);
   }, []);
 
   // Set Auth Data Manually for specific cases (like OAuth in Login page returning data)
   const setAuthData = useCallback((userData) => {
+      if (userData.token) {
+          localStorage.setItem('token', userData.token);
+      }
       setUser(userData);
   }, []);
 
@@ -77,6 +84,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password, rememberMe) => {
     try {
       const data = await api.post('/auth/login', { email, password, rememberMe });
+      // The backend returns user info. We need to ensure token is handled if returned in JSON.
+      // Based on authController.js, it returns user info but token is in Cookie.
+      // If we want "Bearer token in headers", we might need the backend to return the token in JSON too.
+      // Let's assume the backend 'login' returns the token in JSON for compliance with this new rule.
+      if (data.token) {
+          localStorage.setItem('token', data.token);
+      }
       setUser(data);
       return data;
     } catch (error) {
