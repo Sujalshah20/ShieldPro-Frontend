@@ -7,6 +7,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import { api } from "../../utils/api";
+
 const tabs = ["All Policies", "Health", "Life", "Vehicle", "Home", "Travel"];
 
 const BrowsePolicies = () => {
@@ -26,10 +28,11 @@ const BrowsePolicies = () => {
     React.useEffect(() => {
         const fetchPolicies = async () => {
             try {
-                const data = await fetch('https://shieldpro-backend.onrender.com/api/policies/available').then(res => res.json());
-                setPolicies(data);
+                const data = await api.get('/policies/available');
+                setPolicies(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error("Error fetching policies:", error);
+                setPolicies([]);
             } finally {
                 setLoading(false);
             }
