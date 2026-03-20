@@ -7,97 +7,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const policyData = [
-    {
-        id: 1,
-        title: "Elite Health Plus",
-        provider: "Guardian Life Insurance Co.",
-        type: "Health",
-        tag: "BEST SELLER",
-        tagColor: "bg-emerald-500",
-        icon: <Heart size={28} className="text-[#002b45]" />,
-        features: [
-            "Coverage: Up to $1,000,000",
-            "Premium: $120/mo",
-            "Claim Settlement: 98.4%",
-            "Cashless Hospitals: 5000+"
-        ]
-    },
-    {
-        id: 2,
-        title: "AutoGuard Premier",
-        provider: "Swift Auto Insurance",
-        type: "Vehicle",
-        icon: <Car size={28} className="text-[#002b45]" />,
-        features: [
-            "Coverage: Comprehensive & Theft",
-            "Premium: $85/mo",
-            "24/7 Roadside Assistance",
-            "Zero Depreciation Cover"
-        ]
-    },
-    {
-        id: 3,
-        title: "SecureHome Shield",
-        provider: "Everest Property Group",
-        type: "Home",
-        tag: "RECOMMENDED",
-        tagColor: "bg-[#002b45]",
-        icon: <Home size={28} className="text-[#002b45]" />,
-        features: [
-            "Coverage: Fire & Natural Disasters",
-            "Premium: $45/mo",
-            "Home Content Protection",
-            "Temporary Living Expenses"
-        ]
-    },
-    {
-        id: 4,
-        title: "Legacy Life Term",
-        provider: "Prudential Heritage",
-        type: "Life",
-        icon: <Users size={28} className="text-[#002b45]" />,
-        features: [
-            "Coverage: $500,000 Payout",
-            "Premium: $65/mo",
-            "Flexible Term: 10-30 Years",
-            "Critical Illness Rider"
-        ]
-    },
-    {
-        id: 5,
-        title: "Globetrotter Travel",
-        provider: "Nomad Insurance Co.",
-        type: "Travel",
-        tag: "BEST SELLER",
-        tagColor: "bg-emerald-500",
-        icon: <Plane size={28} className="text-[#002b45]" />,
-        features: [
-            "Global Medical Coverage",
-            "Premium: $25 per trip",
-            "Trip Cancellation Protection",
-            "Baggage Delay/Loss Cover"
-        ]
-    },
-    {
-        id: 6,
-        title: "Basic Health Saver",
-        provider: "Core Care Insurers",
-        type: "Health",
-        icon: <Activity size={28} className="text-[#002b45]" />,
-        features: [
-            "Coverage: Essential Care",
-            "Premium: $55/mo",
-            "Annual Health Checkups",
-            "Tele-consultation Included"
-        ]
-    }
-];
-
 const tabs = ["All Policies", "Health", "Life", "Vehicle", "Home", "Travel"];
 
 const BrowsePolicies = () => {
     const navigate = useNavigate();
+    const [policies, setPolicies] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("All Policies");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedType, setSelectedType] = useState("All Types");
@@ -108,21 +23,36 @@ const BrowsePolicies = () => {
     const [showPriceDropdown, setShowPriceDropdown] = useState(false);
     const [showDurationDropdown, setShowDurationDropdown] = useState(false);
 
-    const filteredPolicies = policyData.filter(policy => {
-        const matchesTab = activeTab === "All Policies" || policy.type === activeTab;
-        const matchesSearch = policy.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                             policy.provider.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesType = selectedType === "All Types" || policy.type === selectedType;
+    React.useEffect(() => {
+        const fetchPolicies = async () => {
+            try {
+                const data = await fetch('https://shieldpro-backend.onrender.com/api/policies/available').then(res => res.json());
+                setPolicies(data);
+            } catch (error) {
+                console.error("Error fetching policies:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPolicies();
+    }, []);
+
+    const filteredPolicies = policies.filter(policy => {
+        const matchesTab = activeTab === "All Policies" || policy.policyType === activeTab;
+        const matchesSearch = policy.policyName.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesType = selectedType === "All Types" || policy.policyType === selectedType;
         
-        // Price filtering logic (extracting from features array)
-        const premium = parseInt(policy.features[1].split('$')[1].split('/')[0]);
+        // Price filtering logic (extracting from premiumAmount)
+        const premium = policy.premiumAmount;
         let matchesPrice = true;
-        if (priceRange === "Under $50") matchesPrice = premium < 50;
-        else if (priceRange === "$50 - $100") matchesPrice = premium >= 50 && premium <= 100;
-        else if (priceRange === "Over $100") matchesPrice = premium > 100;
+        if (priceRange === "Under $50") matchesPrice = premium < 4000; // rough 50*80
+        else if (priceRange === "$50 - $100") matchesPrice = premium >= 4000 && premium <= 8000;
+        else if (priceRange === "Over $100") matchesPrice = premium > 8000;
 
         return matchesTab && matchesSearch && matchesType && matchesPrice;
     });
+
+    if (loading) return <div className="p-20 text-center font-bold text-[#002b45]">Loading policies...</div>;
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-12">
@@ -220,54 +150,45 @@ const BrowsePolicies = () => {
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            key={policy.id} 
+                            key={policy._id} 
                             className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm relative flex flex-col"
                         >
-                            {policy.tag && (
-                                <div className={`absolute top-4 right-4 ${policy.tagColor} text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider`}>
-                                    {policy.tag}
-                                </div>
-                            )}
-
                             <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-50 flex items-center justify-center mb-4">
-                                {React.cloneElement(policy.icon, { size: 22 })}
+                                {policy.policyType === 'Health' ? <Heart size={22} className="text-rose-500" /> :
+                                 policy.policyType === 'Vehicle' ? <Car size={22} className="text-blue-500" /> :
+                                 policy.policyType === 'Home' ? <Home size={22} className="text-orange-500" /> :
+                                 policy.policyType === 'Life' ? <Users size={22} className="text-purple-500" /> :
+                                 policy.policyType === 'Travel' ? <Plane size={22} className="text-emerald-500" /> :
+                                 <Activity size={22} className="text-gray-500" />}
                             </div>
 
-                            <h3 className="text-lg font-bold text-[#002b45] mb-0.5">{policy.title}</h3>
-                            <p className="text-[12px] text-gray-500 mb-4">{policy.provider}</p>
+                            <h3 className="text-lg font-bold text-[#002b45] mb-0.5">{policy.policyName}</h3>
+                            <p className="text-[12px] text-gray-500 mb-4">Underwritten by ShieldPro Insurance</p>
 
-                            <div className="space-y-2.5 mb-6 flex-1">
-                                {policy.features.map((feature, i) => (
-                                    <div key={i} className="flex items-start gap-2.5">
-                                        <CheckCircle2 size={15} className="text-[#10b981] shrink-0 mt-0.5" />
-                                        <span className="text-xs text-gray-600">{feature}</span>
-                                    </div>
-                                ))}
+                            <div className="space-y-2.5 mb-6 flex-1 text-xs">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 size={15} className="text-emerald-500" />
+                                    <span>Coverage: ₹{policy.coverageAmount.toLocaleString()}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 size={15} className="text-emerald-500" />
+                                    <span>Premium: ₹{policy.premiumAmount}/mo</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 size={15} className="text-emerald-500" />
+                                    <span>Duration: {policy.durationYears} Years</span>
+                                </div>
                             </div>
 
                             <div className="flex items-center gap-2">
                                 <button 
-                                    onClick={() => navigate(`/customer/policies/${policy.id}`, { state: { policy: {
-                                        policyName: policy.title,
-                                        provider: policy.provider,
-                                        policyType: policy.type,
-                                        premiumAmount: parseInt(policy.features[1].split('$')[1].split('/')[0]) * 80, // rough conversion
-                                        coverageAmount: 500000,
-                                        description: "Comprehensive insurance coverage tailored to your needs."
-                                    }}})}
+                                    onClick={() => navigate(`/customer/policies/${policy._id}`, { state: { policy } })}
                                     className="flex-1 py-2 px-3 text-[12px] font-semibold text-[#002b45] bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                                 >
                                     Details
                                 </button>
                                 <button 
-                                    onClick={() => navigate('/customer/apply', { state: { policy: {
-                                        policyName: policy.title,
-                                        provider: policy.provider,
-                                        policyType: policy.type,
-                                        premiumAmount: parseInt(policy.features[1].split('$')[1].split('/')[0]) * 80, // rough conversion
-                                        coverageAmount: 500000,
-                                        _id: policy.id
-                                    }}})}
+                                    onClick={() => navigate('/customer/apply', { state: { policy } })}
                                     className="flex-1 py-2 px-3 text-[12px] font-semibold text-white bg-[#10b981] border border-transparent rounded-lg hover:bg-[#059669] transition-colors shadow-sm"
                                 >
                                     Buy Now
