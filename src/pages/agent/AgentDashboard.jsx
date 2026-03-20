@@ -10,19 +10,6 @@ import {
     CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell, Legend
 } from 'recharts';
-import { motion } from "framer-motion";
-
-import { 
-    Users, FileText, ShieldCheck, 
-    Bell, ChevronDown, MoreHorizontal,
-    ArrowUpRight, AlertCircle, PieChart as PieChartIcon,
-    CreditCard
-} from "lucide-react";
-import { 
-    BarChart, Bar, XAxis, YAxis, 
-    CartesianGrid, Tooltip, ResponsiveContainer,
-    PieChart, Pie, Cell, Legend
-} from 'recharts';
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../utils/api";
