@@ -31,6 +31,31 @@ const AgentApplications = () => {
         photo: false,
         income: false
     });
+    const [agentNotes, setAgentNotes] = useState("");
+
+    const updateAppMutation = useMutation({
+        mutationFn: ({ appId, status }) =>
+            api.put(`/applications/${appId}/status`, { status }, user.token),
+        onSuccess: (_, variables) => {
+            toast({
+                title: `Application ${variables.status}`,
+                description: `Application has been ${variables.status.toLowerCase()} successfully.`,
+            });
+            queryClient.invalidateQueries(['agentApps']);
+            queryClient.invalidateQueries(['recentApplications']);
+            setSelectedApp(null);
+            setAgentNotes("");
+            setChecklist({ aadhar: false, pan: false, photo: false, income: false });
+        },
+        onError: (err) => {
+            toast({ title: "Action failed", description: err.message, variant: "destructive" });
+        }
+    });
+
+    const handleAppStatus = (status) => {
+        if (!selectedApp) return;
+        updateAppMutation.mutate({ appId: selectedApp._id, status });
+    };
 
     const { data: applications, isLoading } = useQuery({
         queryKey: ['agentApps', user?.token],
@@ -198,7 +223,7 @@ const AgentApplications = () => {
                                     </div>
                                     <div className="space-y-0.5">
                                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Contact</p>
-                                        <p className="text-[12px] font-bold text-slate-700">+91 98765 43210</p>
+                                        <p className="text-[12px] font-bold text-slate-700">{selectedApp.user?.phone || 'N/A'}</p>
                                     </div>
                                     <div className="col-span-2 space-y-0.5">
                                         <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Plan Details</p>
@@ -269,6 +294,8 @@ const AgentApplications = () => {
                                     <textarea 
                                         className="w-full h-24 bg-white border border-slate-200 rounded-xl p-3.5 text-[12px] font-semibold text-slate-600 outline-none focus:ring-4 focus:ring-slate-50 transition-all resize-none italic"
                                         placeholder="Add a comment or internal note..."
+                                        value={agentNotes}
+                                        onChange={(e) => setAgentNotes(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -277,15 +304,27 @@ const AgentApplications = () => {
                         {/* Sticky Footer Actions */}
                         <div className="absolute bottom-0 inset-x-0 p-6 bg-white/80 backdrop-blur-md border-t border-slate-100 flex flex-col gap-3">
                             <div className="grid grid-cols-2 gap-3">
-                                <button className="h-11 bg-[#10b981] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#059669] transition-all shadow-lg shadow-emerald-500/10">
+                                <button 
+                                    onClick={() => handleAppStatus('Approved')}
+                                    disabled={updateAppMutation.isPending}
+                                    className="h-11 bg-[#10b981] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#059669] transition-all shadow-lg shadow-emerald-500/10 disabled:opacity-60"
+                                >
                                     <CheckCircle size={16} /> Approve
                                 </button>
-                                <button className="h-11 bg-[#ef4444] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#dc2626] transition-all shadow-lg shadow-rose-500/10">
+                                <button 
+                                    onClick={() => handleAppStatus('Rejected')}
+                                    disabled={updateAppMutation.isPending}
+                                    className="h-11 bg-[#ef4444] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#dc2626] transition-all shadow-lg shadow-rose-500/10 disabled:opacity-60"
+                                >
                                     <X size={16} /> Reject
                                 </button>
                             </div>
-                            <button className="w-full h-11 bg-white border border-slate-200 text-[#64748b] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-slate-50 hover:text-[#1e293b] transition-all">
-                                <FileText size={16} /> Request More Docs
+                            <button 
+                                onClick={() => handleAppStatus('Documents Verified')}
+                                disabled={updateAppMutation.isPending}
+                                className="w-full h-11 bg-white border border-slate-200 text-[#64748b] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-slate-50 hover:text-[#1e293b] transition-all disabled:opacity-60"
+                            >
+                                <FileText size={16} /> Mark Docs Verified
                             </button>
                         </div>
                     </motion.div>

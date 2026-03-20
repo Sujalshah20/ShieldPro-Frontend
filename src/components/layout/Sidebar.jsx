@@ -74,7 +74,7 @@ const ROLE_LINKS = {
 const Sidebar = ({ role, isOpen, setIsOpen }) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
     const links = ROLE_LINKS[role] || ROLE_LINKS.customer;
 
     const handleLogout = async () => {
@@ -111,7 +111,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
             </AnimatePresence>
 
             <aside
-                className={`fixed top-0 left-0 z-[70] h-screen w-60 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+                className={`fixed top-0 left-0 z-[70] h-screen w-64 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 <div className="p-8 pb-6 flex flex-col gap-1">
                     <div className="flex items-center gap-4">
@@ -147,6 +147,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 <Link
                                     key={link.path}
                                     to={link.path}
+                                    state={link.state}
                                     className={`flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all relative group ${
                                         isActive 
                                             ? "bg-white/10 text-white shadow-xl border-l-[3px] border-blue-500" 
@@ -168,44 +169,40 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 </nav>
 
                 <div className="p-6 mt-auto border-t border-white/5 space-y-4 bg-black/10">
-                     <Link
-                        to={`/${role}/settings`}
-                        className={`flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 group ${location.pathname.includes('settings') ? 'text-white bg-white/5' : ''}`}
-                    >
-                        <Settings size={20} />
-                        <span className="text-[14px] font-semibold">Settings</span>
-                    </Link>
+                    <div className="flex items-center gap-4 rounded-2xl bg-white/5 p-4 border border-white/5">
+                        <div className="w-10 h-10 rounded-xl bg-[#007ea7] flex items-center justify-center overflow-hidden border border-white/20 shadow-sm font-bold text-[#003249]">
+                            {user?.profilePic ? (
+                                <img src={user.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                user?.name?.charAt(0) || user?.email?.charAt(0).toUpperCase()
+                            )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-[13px] font-black text-white leading-none mb-1 shadow-sm truncate">
+                                {user?.name || 'User'}
+                            </p>
+                            <p className="text-[9px] text-emerald-400 font-bold uppercase tracking-[2px] opacity-80 italic">
+                                {user?.role || 'Member'}
+                            </p>
+                        </div>
+                    </div>
 
-                    {role !== 'admin' && (
+                    <div className="flex flex-col gap-1">
+                        <Link
+                            to={`/${role}/profile`}
+                            className={`flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-slate-400 hover:text-white hover:bg-white/5 group ${location.pathname.includes('profile') ? 'text-white bg-white/5' : ''}`}
+                        >
+                            <User size={18} />
+                            <span className="text-[13px] font-semibold">My Profile</span>
+                        </Link>
                         <button
                             onClick={handleLogout}
                             className="w-full flex items-center gap-4 px-5 py-3 rounded-xl transition-all text-rose-400/70 hover:text-rose-400 hover:bg-rose-500/10 group font-bold"
                         >
-                            <LogOut size={20} className="text-rose-500/60 group-hover:text-rose-500 transition-colors" />
-                            <span className="text-[14px]">Logout</span>
+                            <LogOut size={18} className="text-rose-500/60 group-hover:text-rose-500 transition-colors" />
+                            <span className="text-[13px]">Logout Session</span>
                         </button>
-                    )}
-                    
-                    {role === 'admin' && (
-                         <div className="pt-4 flex flex-col gap-4">
-                            <div className="flex items-center gap-3 px-2">
-                                <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/10 shadow-lg">
-                                     <img src="https://i.pravatar.cc/100?u=robert" alt="Admin" className="w-full h-full object-cover" />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[12px] font-bold text-white tracking-tight">{user?.name || "Admin"}</span>
-                                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">{user?.role || "Administrator"}</span>
-                                </div>
-                            </div>
-                            <button
-                                onClick={handleLogout}
-                                className="w-full h-11 flex items-center justify-center gap-3 px-5 rounded-xl transition-all bg-white/5 hover:bg-white/10 text-white/80 hover:text-white group border border-white/5 font-bold text-xs"
-                            >
-                                <LogOut size={16} className="text-slate-400 group-hover:text-white transition-colors" />
-                                <span>Logout</span>
-                            </button>
-                         </div>
-                    )}
+                    </div>
                 </div>
             </aside>
         </>

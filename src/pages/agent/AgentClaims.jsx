@@ -3,10 +3,10 @@ import {
     Search, Clock, AlertCircle, CheckCircle, 
     FileText, User, Eye, X, ChevronRight,
     ShieldCheck, Layers, MessageSquare, Download,
-    Layout
+    Layout, Loader2
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { api } from "../../utils/api";
 import { useToast } from "../../hooks/use-toast";
@@ -15,15 +15,45 @@ import { AuthContext } from "../../context/AuthContext";
 const AgentClaims = () => {
     const { user } = useContext(AuthContext);
     const { toast } = useToast();
+    const queryClient = useQueryClient();
     const [selectedClaim, setSelectedClaim] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [activeStatusTab, setActiveStatusTab] = useState('All Claims');
+    const [auditNotes, setAuditNotes] = useState("");
     const [checklist, setChecklist] = useState({
         incidentReport: false,
         damagePhotos: false,
         identityProof: false,
         policeReport: false
     });
+
+    const updateClaimMutation = useMutation({
+        mutationFn: ({ claimId, status, comment }) =>
+            api.put(`/claims/${claimId}/status`, { status, comment }, user.token),
+        onSuccess: (_, variables) => {
+            toast({
+                title: `Claim ${variables.status}`,
+                description: `Claim has been successfully ${variables.status.toLowerCase()}.`,
+            });
+            queryClient.invalidateQueries(['agentClaims']);
+            queryClient.invalidateQueries(['recentClaims']);
+            setSelectedClaim(null);
+            setAuditNotes("");
+            setChecklist({ incidentReport: false, damagePhotos: false, identityProof: false, policeReport: false });
+        },
+        onError: (err) => {
+            toast({ title: "Action failed", description: err.message, variant: "destructive" });
+        }
+    });
+
+    const handleStatusUpdate = (status) => {
+        if (!selectedClaim) return;
+        updateClaimMutation.mutate({
+            claimId: selectedClaim._id,
+            status,
+            comment: auditNotes
+        });
+    };
 
     const { data: claims, isLoading } = useQuery({
         queryKey: ['agentClaims', user?.token],
@@ -265,6 +295,8 @@ const AgentClaims = () => {
                                     <textarea 
                                         className="w-full h-24 bg-white border border-slate-200 rounded-xl p-3.5 text-[12px] font-semibold text-slate-600 outline-none focus:ring-4 focus:ring-slate-50 transition-all resize-none italic"
                                         placeholder="Add settlement notes or audit comments..."
+                                        value={auditNotes}
+                                        onChange={(e) => setAuditNotes(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -273,15 +305,27 @@ const AgentClaims = () => {
                         {/* Sticky Footer Actions */}
                         <div className="absolute bottom-0 inset-x-0 p-6 bg-white/80 backdrop-blur-md border-t border-slate-100 flex flex-col gap-3">
                             <div className="grid grid-cols-2 gap-3">
-                                <button className="h-11 bg-[#10b981] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#059669] transition-all shadow-lg shadow-emerald-500/10">
-                                    <CheckCircle size={16} /> Approve
+                                <button 
+                                    onClick={() => handleStatusUpdate('Approved')}
+                                    disabled={updateClaimMutation.isPending}
+                                    className="h-11 bg-[#10b981] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#059669] transition-all shadow-lg shadow-emerald-500/10 disabled:opacity-60"
+                                >
+                                    {updateClaimMutation.isPending ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle size={16} />} Approve
                                 </button>
-                                <button className="h-11 bg-[#ef4444] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#dc2626] transition-all shadow-lg shadow-rose-500/10">
-                                    <X size={16} /> Reject
+                                <button 
+                                    onClick={() => handleStatusUpdate('Rejected')}
+                                    disabled={updateClaimMutation.isPending}
+                                    className="h-11 bg-[#ef4444] text-white rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-[#dc2626] transition-all shadow-lg shadow-rose-500/10 disabled:opacity-60"
+                                >
+                                    {updateClaimMutation.isPending ? <Loader2 size={16} className="animate-spin" /> : <X size={16} />} Reject
                                 </button>
                             </div>
-                            <button className="w-full h-11 bg-white border border-slate-200 text-[#64748b] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-slate-50 hover:text-[#1e293b] transition-all">
-                                <FileText size={16} /> Request Clarification
+                            <button 
+                                onClick={() => handleStatusUpdate('In Progress')}
+                                disabled={updateClaimMutation.isPending}
+                                className="w-full h-11 bg-white border border-slate-200 text-[#64748b] rounded-xl font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-slate-50 hover:text-[#1e293b] transition-all disabled:opacity-60"
+                            >
+                                <FileText size={16} /> Mark In Progress
                             </button>
                         </div>
                     </motion.div>

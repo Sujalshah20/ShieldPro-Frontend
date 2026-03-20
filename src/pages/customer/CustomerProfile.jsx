@@ -210,7 +210,7 @@ const CustomerProfile = () => {
                         </div>
                         <div className="text-center md:text-left">
                             <h1 className="text-xl font-bold text-[#002b45] mb-0.5">{form.name || 'User'}</h1>
-                            <p className="text-xs text-gray-500">{user.email} • Member since Jan 2022</p>
+                            <p className="text-xs text-gray-500">{user.email} • Member since {profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : 'Jan 2022'}</p>
                         </div>
                     </div>
                     
@@ -443,53 +443,30 @@ const CustomerProfile = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        <div className="border border-gray-200 rounded-xl p-3.5 flex items-center justify-between group hover:border-[#002b45] hover:shadow-sm transition-all">
-                            <div className="flex items-center gap-3.5">
-                                <div className="w-9 h-9 rounded-lg bg-red-50 text-red-500 flex items-center justify-center shrink-0">
-                                    <span className="text-[9px] font-black uppercase">PDF</span>
+                        {profileData?.documents && profileData.documents.length > 0 ? profileData.documents.map((doc, i) => (
+                            <div key={i} className="border border-gray-200 rounded-xl p-3.5 flex items-center justify-between group hover:border-[#002b45] hover:shadow-sm transition-all bg-white">
+                                <div className="flex items-center gap-3.5">
+                                    <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0 font-black text-[10px]">
+                                        {doc.name?.split('.').pop()?.toUpperCase() || 'FILE'}
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-xs text-[#002b45] mb-0.5 truncate max-w-[120px]">{doc.name}</p>
+                                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                                            {doc.type} • {new Date(doc.uploadedAt).toLocaleDateString()}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="font-bold text-xs text-[#002b45] mb-0.5">Aadhar_Card.pdf</p>
-                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">2.4 MB • May 20</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button className="text-gray-400 hover:text-[#002b45]"><Eye size={14} /></button>
-                                <button className="text-gray-400 hover:text-[#002b45]"><Download size={14} /></button>
-                            </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-xl p-3.5 flex items-center justify-between group hover:border-[#002b45] hover:shadow-sm transition-all">
-                            <div className="flex items-center gap-3.5">
-                                <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-                                    <ImageIcon size={16} />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-xs text-[#002b45] mb-0.5">PAN_Card_Front.jpg</p>
-                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">1.1 MB • May 21</p>
+                                <div className="flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#002b45]"><Eye size={14} /></a>
+                                    <a href={doc.url} download className="text-gray-400 hover:text-[#002b45]"><Download size={14} /></a>
                                 </div>
                             </div>
-                            <div className="flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button className="text-gray-400 hover:text-[#002b45]"><Eye size={14} /></button>
-                                <button className="text-gray-400 hover:text-[#002b45]"><Download size={14} /></button>
+                        )) : (
+                            <div className="col-span-1 md:col-span-2 lg:col-span-3 py-12 text-center border-2 border-dashed border-gray-100 rounded-2xl bg-gray-50/30">
+                                <FileText className="mx-auto text-gray-200 mb-3" size={32} />
+                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">No documents uploaded yet</p>
                             </div>
-                        </div>
-
-                        <div className="border border-gray-200 rounded-xl p-3.5 flex items-center justify-between group hover:border-[#002b45] hover:shadow-sm transition-all">
-                            <div className="flex items-center gap-3.5">
-                                <div className="w-9 h-9 rounded-lg bg-green-50 text-green-500 flex items-center justify-center shrink-0">
-                                    <FileText size={16} />
-                                </div>
-                                <div>
-                                    <p className="font-bold text-xs text-[#002b45] mb-0.5">Employment_Cert...</p>
-                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">3.8 MB • Jun 05</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button className="text-gray-400 hover:text-[#002b45]"><Eye size={14} /></button>
-                                <button className="text-gray-400 hover:text-[#002b45]"><Download size={14} /></button>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </div>

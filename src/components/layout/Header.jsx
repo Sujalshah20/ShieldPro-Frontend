@@ -97,14 +97,21 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                 <div className="relative">
                     <button
                         onClick={() => setIsProfileOpen(!isProfileOpen)}
-                        className="flex items-center gap-4 p-1 rounded-xl transition-all group"
+                        className="flex items-center gap-3 p-1 rounded-xl transition-all group"
                     >
-                         <div className="text-right hidden xl:block">
-                            <p className="text-[14px] font-bold text-slate-800 leading-none">{user?.name || "User"}</p>
-                            <p className="text-[11px] font-medium text-slate-400 mt-1.5 uppercase tracking-wider">{user?.role || "Guest"}</p>
-                        </div>
-                        <div className="w-11 h-11 rounded-xl overflow-hidden border-2 border-white shadow-md group-hover:shadow-lg transition-shadow">
-                             <img src={`https://i.pravatar.cc/100?u=admin`} alt="User" className="w-full h-full object-cover" />
+                        {/* User Profile */}
+                        <div className="flex items-center gap-3 pl-4 border-l border-gray-100">
+                            <div className="text-right hidden sm:block">
+                                <p className="text-[13px] font-bold text-[#002b45] leading-none">{user?.name || 'User'}</p>
+                                <p className="text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">{user?.role || 'Guest'}</p>
+                            </div>
+                            <div className="w-10 h-10 rounded-xl bg-[#002b45] overflow-hidden border-2 border-white shadow-sm flex items-center justify-center text-white font-bold">
+                                {user?.profilePic ? (
+                                    <img src={user.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                                ) : (
+                                    user?.name?.charAt(0) || 'U'
+                                )}
+                            </div>
                         </div>
                         <ChevronDown size={16} className={`text-slate-400 transition-transform duration-300 hidden sm:block ${isProfileOpen ? 'rotate-180' : ''}`} />
                     </button>

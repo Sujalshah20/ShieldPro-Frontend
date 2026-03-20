@@ -112,32 +112,44 @@ const HeroSection = () => (
     </section>
 );
 
-const StatsSection = () => (
-    <section className="py-20 relative bg-white border-b border-slate-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
-                {[
-                    { val: "50+", label: "POLICIES", icon: Shield, color: "text-blue-600" },
-                    { val: "10,000+", label: "CUSTOMERS", icon: UserPlus, color: "text-emerald-500" },
-                    { val: "99%", label: "CLAIM SETTLEMENT", icon: FileCheck, color: "text-blue-800" },
-                    { val: "100+", label: "PARTNER COMPANIES", icon: Globe, color: "text-slate-600" }
-                ].map((s, i) => (
-                    <Reveal key={i} direction="up" delay={i * 0.1}>
-                        <div className="space-y-4 group">
-                            <div className={`mx-auto w-12 h-12 flex items-center justify-center rounded-xl bg-slate-50 ${s.color} group-hover:scale-110 transition-transform`}>
-                                <s.icon size={24} strokeWidth={2.5} />
+const StatsSection = () => {
+    const { data: publicStats, isLoading } = useQuery({
+        queryKey: ['publicStats'],
+        queryFn: () => api.get('/stats/public'),
+        staleTime: 600000 // 10 minutes
+    });
+
+    const stats = [
+        { val: publicStats?.policies || "0+", label: "POLICIES", icon: Shield, color: "text-blue-600" },
+        { val: publicStats?.customers || "0+", label: "CUSTOMERS", icon: UserPlus, color: "text-emerald-500" },
+        { val: publicStats?.settlementRate || "99%", label: "CLAIM SETTLEMENT", icon: FileCheck, color: "text-blue-800" },
+        { val: publicStats?.partners || "100+", label: "PARTNER COMPANIES", icon: Globe, color: "text-slate-600" }
+    ];
+
+    return (
+        <section className="py-20 relative bg-white border-b border-slate-50">
+            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+                    {stats.map((s, i) => (
+                        <Reveal key={i} direction="up" delay={i * 0.1}>
+                            <div className="space-y-4 group">
+                                <div className={`mx-auto w-12 h-12 flex items-center justify-center rounded-xl bg-slate-50 ${s.color} group-hover:scale-110 transition-transform`}>
+                                    <s.icon size={24} strokeWidth={2.5} />
+                                </div>
+                                <div className="space-y-1">
+                                    <h3 className="text-4xl font-extrabold text-[#002b45] tracking-tight">
+                                        {isLoading ? "..." : s.val}
+                                    </h3>
+                                    <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest">{s.label}</p>
+                                </div>
                             </div>
-                            <div className="space-y-1">
-                                <h3 className="text-4xl font-extrabold text-[#002b45] tracking-tight">{s.val}</h3>
-                                <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest">{s.label}</p>
-                            </div>
-                        </div>
-                    </Reveal>
-                ))}
+                        </Reveal>
+                    ))}
+                </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 const PolicySection = () => (
     <section className="py-24 bg-[#f8fafc] relative overflow-hidden">
