@@ -62,16 +62,96 @@ const CustomerProfile = () => {
         }
     };
 
+    const validateEmail = (email) => {
+        const re = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+        if (!email) return false;
+        if (email.includes(' ') || email.includes('..') || email.startsWith('.') || email.split('@').length !== 2) return false;
+        return re.test(email.toLowerCase());
+    };
+
+    const validateName = (name) => /^[A-Za-z\s]{3,50}$/.test(name);
+    const validateAadhaar = (val) => /^\d{12}$/.test(val.replace(/\s/g, ''));
+    const validatePAN = (val) => /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(val.toUpperCase());
+    const validateMobile = (val) => /^[6-9]\d{9}$/.test(val);
+
+    const getFieldStatus = (name, value) => {
+        if (!value) return 'none';
+        switch (name) {
+            case 'name': return validateName(value) ? 'valid' : 'invalid';
+            case 'email': return validateEmail(value) ? 'valid' : 'invalid';
+            case 'phone': return validateMobile(value) ? 'valid' : 'invalid';
+            case 'nationalId': return validateAadhaar(value) ? 'valid' : 'invalid';
+            case 'panNumber': return validatePAN(value) ? 'valid' : 'invalid';
+            default: return 'none';
+        }
+    };
+
+    const blockInvalidChar = (e, name) => {
+        const key = e.key;
+        const ctrlShift = e.ctrlKey || e.metaKey || e.shiftKey;
+        
+        // Allow navigation/editing keys
+        if (['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Enter'].includes(key) || (e.ctrlKey && ['c', 'v', 'x', 'a'].includes(key.toLowerCase()))) return;
+
+        if (name === 'name') {
+            if (!/^[A-Za-z\s]$/.test(key)) {
+                e.preventDefault();
+                toast({ title: "Invalid Input", description: "Name can only contain letters and spaces", variant: "destructive" });
+            }
+        } else if (name === 'phone' || name === 'nationalId') {
+            if (!/^\d$/.test(key)) {
+                e.preventDefault();
+                toast({ title: "Invalid Input", description: "Only numbers are allowed in this field", variant: "destructive" });
+            }
+            if (name === 'phone' && form.phone.length >= 10) e.preventDefault();
+            if (name === 'nationalId' && form.nationalId.replace(/\s/g, '').length >= 12) e.preventDefault();
+        } else if (name === 'panNumber') {
+            const raw = form.panNumber.toUpperCase();
+            const pos = raw.length;
+            if (pos >= 10) { e.preventDefault(); return; }
+            if (pos < 5 || pos === 9) { // Should be letter
+                if (!/^[A-Za-z]$/.test(key)) {
+                    e.preventDefault();
+                    toast({ title: "Format Error", description: "This position must be a letter (A-Z)", variant: "destructive" });
+                }
+            } else { // Should be number
+                if (!/^\d$/.test(key)) {
+                    e.preventDefault();
+                    toast({ title: "Format Error", description: "This position must be a number (0-9)", variant: "destructive" });
+                }
+            }
+        }
+    };
+
+    const handlePaste = (e, name) => {
+        const text = e.clipboardData.getData('text');
+        if (name === 'name' && !/^[A-Za-z\s]*$/.test(text)) e.preventDefault();
+        if ((name === 'phone' || name === 'nationalId') && !/^\d*$/.test(text)) e.preventDefault();
+    };
+
+    const formatAadhaar = (val) => {
+        const cleaned = val.replace(/\s/g, '').slice(0, 12);
+        return cleaned.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+    };
+
     const handleSave = async () => {
+        // Final Validation Check
+        if (!validateName(form.name)) return toast({ title: "Invalid Name", description: "3-50 letters only", variant: "destructive" });
+        if (!validateEmail(form.email)) return toast({ title: "Invalid Email", description: "Please enter a valid email", variant: "destructive" });
+        if (!validateMobile(form.phone)) return toast({ title: "Invalid Mobile", description: "Must be 10 digits starting with 6-9", variant: "destructive" });
+        if (!validateAadhaar(form.nationalId)) return toast({ title: "Invalid Aadhaar", description: "Must be exactly 12 digits", variant: "destructive" });
+        if (!validatePAN(form.panNumber)) return toast({ title: "Invalid PAN", description: "Must be in format ABCDE1234F", variant: "destructive" });
+
         try {
             const payload = {
                 name: form.name,
                 phone: form.phone,
+                email: form.email,
                 address: form.address,
                 dob: form.dob,
                 gender: form.gender,
-                nationalId: form.nationalId,
-                panNumber: form.panNumber,
+                nationalId: form.nationalId.replace(/\s/g, ''),
+                panNumber: form.panNumber.toUpperCase(),
                 employment: {
                     occupation: form.occupation,
                     annualIncome: Number(form.annualIncome)
@@ -185,15 +265,34 @@ const CustomerProfile = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Full Name</label>
-                                    <input name="name" value={form.name} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors" />
+                                    <input 
+                                        name="name" 
+                                        value={form.name} 
+                                        onChange={handleChange} 
+                                        onKeyDown={(e) => blockInvalidChar(e, 'name')}
+                                        onPaste={(e) => handlePaste(e, 'name')}
+                                        className={`w-full bg-white border ${getFieldStatus('name', form.name) === 'valid' ? 'border-emerald-500' : getFieldStatus('name', form.name) === 'invalid' ? 'border-red-500' : 'border-gray-200'} rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none transition-colors`} 
+                                    />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Email Address</label>
-                                    <input name="email" value={form.email} readOnly className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] text-gray-500 outline-none" />
+                                    <input 
+                                        name="email" 
+                                        value={form.email} 
+                                        readOnly 
+                                        className={`w-full bg-gray-50 border ${getFieldStatus('email', form.email) === 'valid' ? 'border-emerald-500 focus:border-emerald-500' : 'border-gray-200'} rounded-lg px-3.5 py-2.5 text-[13px] text-gray-500 outline-none`} 
+                                    />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Phone Number</label>
-                                    <input name="phone" value={form.phone} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors" />
+                                    <input 
+                                        name="phone" 
+                                        value={form.phone} 
+                                        onChange={handleChange} 
+                                        onKeyDown={(e) => blockInvalidChar(e, 'phone')}
+                                        onPaste={(e) => handlePaste(e, 'phone')}
+                                        className={`w-full bg-white border ${getFieldStatus('phone', form.phone) === 'valid' ? 'border-emerald-500' : getFieldStatus('phone', form.phone) === 'invalid' ? 'border-red-500' : 'border-gray-200'} rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none transition-colors`} 
+                                    />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">Date of Birth</label>
@@ -218,11 +317,27 @@ const CustomerProfile = () => {
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Aadhar Number</label>
-                                    <input name="nationalId" value={form.nationalId} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors tracking-widest font-mono" placeholder="XXXX XXXX 1234" />
+                                    <input 
+                                        name="nationalId" 
+                                        value={formatAadhaar(form.nationalId)} 
+                                        onChange={(e) => setForm(prev => ({ ...prev, nationalId: e.target.value.replace(/\s/g, '') }))} 
+                                        onKeyDown={(e) => blockInvalidChar(e, 'nationalId')}
+                                        onPaste={(e) => handlePaste(e, 'nationalId')}
+                                        className={`w-full bg-white border ${getFieldStatus('nationalId', form.nationalId) === 'valid' ? 'border-emerald-500' : getFieldStatus('nationalId', form.nationalId) === 'invalid' ? 'border-red-500' : 'border-gray-200'} rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none transition-colors tracking-widest font-mono`} 
+                                        placeholder="XXXX XXXX 1234" 
+                                    />
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">PAN Card Number</label>
-                                    <input name="panNumber" value={form.panNumber} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors tracking-widest font-mono uppercase" placeholder="ABCDE1234F" />
+                                    <input 
+                                        name="panNumber" 
+                                        value={form.panNumber.toUpperCase()} 
+                                        onChange={(e) => setForm(prev => ({ ...prev, panNumber: e.target.value.toUpperCase() }))} 
+                                        onKeyDown={(e) => blockInvalidChar(e, 'panNumber')}
+                                        onPaste={(e) => handlePaste(e, 'panNumber')}
+                                        className={`w-full bg-white border ${getFieldStatus('panNumber', form.panNumber) === 'valid' ? 'border-emerald-500' : getFieldStatus('panNumber', form.panNumber) === 'invalid' ? 'border-red-500' : 'border-gray-200'} rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none transition-colors tracking-widest font-mono uppercase`} 
+                                        placeholder="ABCDE1234F" 
+                                    />
                                 </div>
                                 
                                 <div className="md:col-span-2 space-y-1.5">

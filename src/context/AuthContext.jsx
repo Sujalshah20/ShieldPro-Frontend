@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
 import { api } from "../utils/api";
+import { useToast } from "../hooks/use-toast";
 
 export const AuthContext = createContext();
 
@@ -8,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [isInitializing, setIsInitializing] = useState(true);
+  const { toast } = useToast();
   const activityTimer = useRef(null);
 
   // Initial session check from HTTP-Only cookie 
@@ -17,6 +19,13 @@ export const AuthProvider = ({ children }) => {
             const userData = await api.get('/auth/me');
             setUser(userData);
         } catch (error) {
+            if (error.status === 401 && user) {
+                toast({
+                    title: "Session Expired",
+                    description: "Your session has expired. Please login again.",
+                    variant: "destructive"
+                });
+            }
             setUser(null);
         } finally {
             setIsInitializing(false);
