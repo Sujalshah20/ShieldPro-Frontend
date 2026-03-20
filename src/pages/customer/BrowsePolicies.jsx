@@ -99,33 +99,96 @@ const tabs = ["All Policies", "Health", "Life", "Vehicle", "Home", "Travel"];
 const BrowsePolicies = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("All Policies");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedType, setSelectedType] = useState("All Types");
+    const [priceRange, setPriceRange] = useState("All Prices");
+    const [duration, setDuration] = useState("All Durations");
+    
+    const [showTypeDropdown, setShowTypeDropdown] = useState(false);
+    const [showPriceDropdown, setShowPriceDropdown] = useState(false);
+    const [showDurationDropdown, setShowDurationDropdown] = useState(false);
 
-    const filteredPolicies = activeTab === "All Policies" 
-        ? policyData 
-        : policyData.filter(p => p.type === activeTab);
+    const filteredPolicies = policyData.filter(policy => {
+        const matchesTab = activeTab === "All Policies" || policy.type === activeTab;
+        const matchesSearch = policy.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             policy.provider.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesType = selectedType === "All Types" || policy.type === selectedType;
+        
+        // Price filtering logic (extracting from features array)
+        const premium = parseInt(policy.features[1].split('$')[1].split('/')[0]);
+        let matchesPrice = true;
+        if (priceRange === "Under $50") matchesPrice = premium < 50;
+        else if (priceRange === "$50 - $100") matchesPrice = premium >= 50 && premium <= 100;
+        else if (priceRange === "Over $100") matchesPrice = premium > 100;
+
+        return matchesTab && matchesSearch && matchesType && matchesPrice;
+    });
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-12">
             {/* Search & Filters */}
-                <div className="bg-white p-3 rounded-lg border border-gray-200 flex flex-col md:flex-row gap-3 mb-6">
+                <div className="bg-white p-3 rounded-lg border border-gray-200 flex flex-col md:flex-row gap-3 mb-6 relative z-50">
                     <div className="flex-1 relative">
                         <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <input 
                             type="text" 
                             placeholder="Search for insurance policies, companies..." 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-[#002b45]/20 focus:border-[#002b45] transition-all"
                         />
                     </div>
                     <div className="flex gap-2">
-                        <button className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[12px] font-medium text-gray-600 flex items-center justify-between min-w-[120px] hover:bg-gray-100 transition-colors">
-                            Type <ChevronDown size={14} />
-                        </button>
-                        <button className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[12px] font-medium text-gray-600 flex items-center justify-between min-w-[120px] hover:bg-gray-100 transition-colors">
-                            Price Range <ChevronDown size={14} />
-                        </button>
-                        <button className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[12px] font-medium text-gray-600 flex items-center justify-between min-w-[120px] hover:bg-gray-100 transition-colors">
-                            Duration <ChevronDown size={14} />
-                        </button>
+                        {/* Type Filter */}
+                        <div className="relative">
+                            <button 
+                                onClick={() => setShowTypeDropdown(!showTypeDropdown)}
+                                className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[12px] font-medium text-gray-600 flex items-center justify-between min-w-[120px] hover:bg-gray-100 transition-colors"
+                            >
+                                {selectedType} <ChevronDown size={14} />
+                            </button>
+                            {showTypeDropdown && (
+                                <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                                    {["All Types", "Health", "Life", "Vehicle", "Home", "Travel"].map(t => (
+                                        <button key={t} onClick={() => { setSelectedType(t); setShowTypeDropdown(false); }} className="w-full text-left px-3 py-1.5 text-xs hover:bg-gray-50">{t}</button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Price Filter */}
+                        <div className="relative">
+                            <button 
+                                onClick={() => setShowPriceDropdown(!showPriceDropdown)}
+                                className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[12px] font-medium text-gray-600 flex items-center justify-between min-w-[120px] hover:bg-gray-100 transition-colors"
+                            >
+                                {priceRange} <ChevronDown size={14} />
+                            </button>
+                            {showPriceDropdown && (
+                                <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                                    {["All Prices", "Under $50", "$50 - $100", "Over $100"].map(p => (
+                                        <button key={p} onClick={() => { setPriceRange(p); setShowPriceDropdown(false); }} className="w-full text-left px-3 py-1.5 text-xs hover:bg-gray-50">{p}</button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Duration Filter */}
+                        <div className="relative">
+                            <button 
+                                onClick={() => setShowDurationDropdown(!showDurationDropdown)}
+                                className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-[12px] font-medium text-gray-600 flex items-center justify-between min-w-[120px] hover:bg-gray-100 transition-colors"
+                            >
+                                {duration} <ChevronDown size={14} />
+                            </button>
+                            {showDurationDropdown && (
+                                <div className="absolute top-full mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                                    {["All Durations", "1 Year", "2 Years", "3 Years", "5 Years"].map(d => (
+                                        <button key={d} onClick={() => { setDuration(d); setShowDurationDropdown(false); }} className="w-full text-left px-3 py-1.5 text-xs hover:bg-gray-50">{d}</button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 

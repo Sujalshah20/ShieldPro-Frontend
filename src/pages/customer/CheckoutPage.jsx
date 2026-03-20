@@ -22,6 +22,12 @@ const CheckoutPage = () => {
     const { toast } = useToast();
     const [loading, setLoading] = useState(false);
     const [showCVV, setShowCVV] = useState(false);
+    const [cardData, setCardData] = useState({
+        name: '',
+        number: '',
+        expiry: '',
+        cvv: ''
+    });
 
     const policy = state?.policy;
     const applicationId = state?.applicationId;
@@ -62,7 +68,12 @@ const CheckoutPage = () => {
                 policyId: policy._id,
                 applicationId: applicationId,
                 amount: policy.premiumAmount,
-                paymentMethod: "Credit Card"
+                paymentMethod: "Credit Card",
+                cardDetails: {
+                    holderName: cardData.name,
+                    lastFour: cardData.number.slice(-4),
+                    expiry: cardData.expiry
+                }
             }, user.token);
 
             if (result.success) {
@@ -279,6 +290,8 @@ const CheckoutPage = () => {
                                                 type="text"
                                                 placeholder="AUTHORIZED_IDENT_NAME"
                                                 required
+                                                value={cardData.name}
+                                                onChange={(e) => setCardData({ ...cardData, name: e.target.value.toUpperCase() })}
                                                 className="w-full h-28 bg-slate-50/50 backdrop-blur-sm border-4 border-slate-50 rounded-[3.5rem] px-16 font-black text-xl uppercase tracking-[10px] outline-none focus:border-[#007ea7] focus:bg-white transition-all text-[#003249] shadow-inner italic"
                                             />
                                             <div className="absolute right-16 top-1/2 -translate-y-1/2 text-[#007ea7] opacity-0 group-focus-within/input:opacity-100 group-focus-within/input:rotate-[360deg] transition-all duration-1000"><SearchCheck size={36} strokeWidth={4} /></div>
@@ -296,6 +309,12 @@ const CheckoutPage = () => {
                                                 type="text"
                                                 placeholder="0000 0000 0000 0000"
                                                 required
+                                                value={cardData.number}
+                                                maxLength={16}
+                                                onChange={(e) => {
+                                                    const val = e.target.value.replace(/\D/g, '').slice(0, 16);
+                                                    setCardData({ ...cardData, number: val });
+                                                }}
                                                 className="w-full h-32 bg-[#003249] border-8 border-white rounded-[4rem] pl-28 px-16 font-black text-4xl tracking-[15px] outline-none focus:border-[#007ea7] transition-all text-[#80ced7] shadow-4xl italic overflow-hidden"
                                             />
                                             <CreditCard size={48} className="absolute left-12 top-1/2 -translate-y-1/2 text-white/5 group-focus-within/input:text-[#007ea7] group-focus-within/input:rotate-12 transition-all duration-1000" strokeWidth={3} />
@@ -314,6 +333,13 @@ const CheckoutPage = () => {
                                                 type="text"
                                                 placeholder="MM / YY"
                                                 required
+                                                value={cardData.expiry}
+                                                maxLength={5}
+                                                onChange={(e) => {
+                                                    let val = e.target.value.replace(/\D/g, '');
+                                                    if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2, 4);
+                                                    setCardData({ ...cardData, expiry: val });
+                                                }}
                                                 className="w-full h-28 bg-slate-50 border-4 border-slate-50 rounded-[3.5rem] px-16 font-black text-2xl tracking-[12px] outline-none focus:border-[#007ea7] focus:bg-white transition-all text-center text-[#003249] shadow-inner italic"
                                             />
                                         </div>
@@ -328,6 +354,12 @@ const CheckoutPage = () => {
                                                     type={showCVV ? "text" : "password"}
                                                     placeholder="***"
                                                     required
+                                                    value={cardData.cvv}
+                                                    maxLength={3}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value.replace(/\D/g, '').slice(0, 3);
+                                                        setCardData({ ...cardData, cvv: val });
+                                                    }}
                                                     className="w-full h-28 bg-slate-50 border-4 border-slate-50 rounded-[3.5rem] px-16 font-black text-4xl tracking-[35px] outline-none focus:border-[#007ea7] focus:bg-white transition-all text-center text-[#003249] shadow-inner italic pl-32"
                                                 />
                                                 <button 

@@ -108,7 +108,7 @@ const AdminTransactions = () => {
                                     <td className="px-6 py-5">
                                         <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase">
                                             <CreditCard size={12} className="text-blue-500" />
-                                            {t.method || 'Card Payment'}
+                                            {t.paymentMethod || 'Card Payment'}
                                         </div>
                                     </td>
                                     <td className="px-6 py-5">
@@ -117,8 +117,8 @@ const AdminTransactions = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-5 text-center">
-                                        <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border ${getStatusStyle('finalized')}`}>
-                                            Finalized
+                                        <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border ${getStatusStyle(t.status)}`}>
+                                            {t.status || 'Finalized'}
                                         </span>
                                     </td>
                                     <td className="px-6 py-5 text-right">

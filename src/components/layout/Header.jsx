@@ -74,7 +74,7 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
             </div>
 
             {/* Global Search */}
-            <div className="flex-1 max-w-md relative mx-8 hidden sm:block">
+            <div className={`flex-1 max-w-md relative mx-8 hidden ${location.pathname === '/customer/browse' ? 'sm:hidden' : 'sm:block'}`}>
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input
                     type="text"
@@ -100,8 +100,8 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                         className="flex items-center gap-4 p-1 rounded-xl transition-all group"
                     >
                          <div className="text-right hidden xl:block">
-                            <p className="text-[14px] font-bold text-slate-800 leading-none">Admin User</p>
-                            <p className="text-[11px] font-medium text-slate-400 mt-1.5 uppercase tracking-wider">Super Admin</p>
+                            <p className="text-[14px] font-bold text-slate-800 leading-none">{user?.name || "User"}</p>
+                            <p className="text-[11px] font-medium text-slate-400 mt-1.5 uppercase tracking-wider">{user?.role || "Guest"}</p>
                         </div>
                         <div className="w-11 h-11 rounded-xl overflow-hidden border-2 border-white shadow-md group-hover:shadow-lg transition-shadow">
                              <img src={`https://i.pravatar.cc/100?u=admin`} alt="User" className="w-full h-full object-cover" />
@@ -128,27 +128,15 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                                     <div className="px-4 py-3 border-b border-slate-50 mb-1">
                                         <p className="text-sm font-bold text-slate-800 uppercase tracking-tight">Account System</p>
                                     </div>
-                                    <Link
-                                        to={`/admin/profile`}
+                                     <Link
+                                        to={`/${user?.role || 'customer'}/profile`}
                                         className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-all"
                                         onClick={() => setIsProfileOpen(false)}
                                     >
                                         <User size={18} /> My Profile
                                     </Link>
-                                    <Link
-                                        to={`/admin/settings`}
-                                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-all"
-                                        onClick={() => setIsProfileOpen(false)}
-                                    >
-                                        <Settings size={18} /> Settings
-                                    </Link>
                                     <div className="h-px bg-slate-100 my-2" />
-                                    <button
-                                        onClick={handleLogout}
-                                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-rose-500 hover:bg-rose-50 transition-all text-left"
-                                    >
-                                        <LogOut size={18} /> Logout
-                                    </button>
+                                    <p className="px-4 py-1 text-[10px] text-slate-400 font-bold uppercase">Actions in Sidebar</p>
                                 </motion.div>
                             </>
                         )}

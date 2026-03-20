@@ -38,7 +38,42 @@ const ApplicationPage = () => {
 
     if (!policy) return null;
 
-    const handleNext = () => setStep(s => Math.min(5, s + 1));
+    const validateStep = () => {
+        if (step === 2) {
+            const requiredFields = ['name', 'dob', 'phone', 'email', 'aadhar', 'pan', 'address'];
+            for (const field of requiredFields) {
+                if (!formData[field]) {
+                    toast({ title: "Validation Error", description: `${field.charAt(0).toUpperCase() + field.slice(1)} is required.`, variant: "destructive" });
+                    return false;
+                }
+            }
+            
+            // Phone validation (10 digits)
+            if (!/^\d{10}$/.test(formData.phone)) {
+                toast({ title: "Invalid Phone", description: "Phone number must be exactly 10 digits.", variant: "destructive" });
+                return false;
+            }
+            
+            // Aadhar validation (12 digits)
+            if (!/^\d{12}$/.test(formData.aadhar)) {
+                toast({ title: "Invalid Aadhaar", description: "Aadhaar number must be exactly 12 digits.", variant: "destructive" });
+                return false;
+            }
+            
+            // PAN validation
+            if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
+                toast({ title: "Invalid PAN", description: "PAN format must be ABCDE1234F.", variant: "destructive" });
+                return false;
+            }
+        }
+        return true;
+    };
+
+    const handleNext = () => {
+        if (validateStep()) {
+            setStep(s => Math.min(5, s + 1));
+        }
+    };
     const handleBack = () => setStep(s => Math.max(1, s - 1));
 
     const handleFileChange = (e) => {
@@ -189,12 +224,12 @@ const ApplicationPage = () => {
                         <h3 className="text-sm font-bold text-[#002b45]">Personal Details</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {[
-                                { label: "Full Name", name: "name", type: "text", placeholder: "Enter your full name" },
-                                { label: "Date of Birth", name: "dob", type: "date", placeholder: "" },
-                                { label: "Phone Number", name: "phone", type: "tel", placeholder: "+91 98765 43210" },
-                                { label: "Email Address", name: "email", type: "email", placeholder: "you@example.com" },
-                                { label: "Aadhar Number", name: "aadhar", type: "text", placeholder: "XXXX XXXX XXXX" },
-                                { label: "PAN Number", name: "pan", type: "text", placeholder: "ABCDE1234F" },
+                                { label: "Full Name", name: "name", type: "text", placeholder: "Enter your full name", required: true },
+                                { label: "Date of Birth", name: "dob", type: "date", placeholder: "", required: true },
+                                { label: "Phone Number (10 Digits)", name: "phone", type: "tel", placeholder: "9876543210", pattern: "[0-9]*", maxLength: 10 },
+                                { label: "Email Address", name: "email", type: "email", placeholder: "you@example.com", required: true },
+                                { label: "Aadhaar Number (12 Digits)", name: "aadhar", type: "text", placeholder: "XXXX XXXX XXXX", maxLength: 12 },
+                                { label: "PAN Number", name: "pan", type: "text", placeholder: "ABCDE1234F", maxLength: 10 },
                             ].map(field => (
                                 <div key={field.name} className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{field.label}</label>
@@ -202,7 +237,16 @@ const ApplicationPage = () => {
                                         type={field.type}
                                         placeholder={field.placeholder}
                                         value={formData[field.name] || ''}
-                                        onChange={e => setFormData(prev => ({ ...prev, [field.name]: e.target.value }))}
+                                        maxLength={field.maxLength}
+                                        onChange={e => {
+                                            const val = e.target.value;
+                                            if ((field.name === 'phone' || field.name === 'aadhar') && val && !/^\d+$/.test(val)) return;
+                                            if (field.name === 'pan') {
+                                                setFormData(prev => ({ ...prev, [field.name]: val.toUpperCase() }));
+                                            } else {
+                                                setFormData(prev => ({ ...prev, [field.name]: val }));
+                                            }
+                                        }}
                                         className="w-full border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors bg-gray-50/30"
                                     />
                                 </div>

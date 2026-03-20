@@ -60,7 +60,7 @@ const ROLE_LINKS = {
             { name: "Browse Policies", path: "/customer/browse", icon: Search },
             { name: "My Policies", path: "/customer/policies", icon: ShieldCheck },
             { name: "My Claims", path: "/customer/claims", icon: ClipboardList },
-            { name: "Submit New Claim", path: "/customer/claims/new", icon: PlusCircle },
+            { name: "Submit New Claim", path: "/customer/claims", state: { openNewClaim: true }, icon: PlusCircle },
             { name: "Payment History", path: "/customer/payments", icon: CreditCard },
         ],
         account: [
@@ -193,8 +193,8 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                      <img src="https://i.pravatar.cc/100?u=robert" alt="Admin" className="w-full h-full object-cover" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[12px] font-bold text-white tracking-tight">Robert Admin</span>
-                                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Super Administrator</span>
+                                    <span className="text-[12px] font-bold text-white tracking-tight">{user?.name || "Admin"}</span>
+                                    <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">{user?.role || "Administrator"}</span>
                                 </div>
                             </div>
                             <button
