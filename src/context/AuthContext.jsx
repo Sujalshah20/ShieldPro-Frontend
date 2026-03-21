@@ -16,6 +16,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifySession = async () => {
         const localToken = localStorage.getItem('token');
+        
+        // Skip verification if no token is present to avoid unnecessary 401 errors
+        if (!localToken || localToken === 'undefined' || localToken === 'null') {
+            setIsInitializing(false);
+            return;
+        }
+
         try {
             // Even if we have a token, we verify it with the backend
             const userData = await api.get('/auth/me', localToken);

@@ -91,7 +91,7 @@ const CheckoutPage = () => {
                     });
                 }, 2000);
 
-                navigate("/customer");
+                navigate("/customer/policies");
             }
         } catch (error) {
             toast({

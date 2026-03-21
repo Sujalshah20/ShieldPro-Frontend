@@ -43,7 +43,7 @@ const CustomerDashboard = () => {
         enabled: !!user?.token,
     });
 
-    const activePolicies = myPolicies.filter(p => new Date(p.expiryDate) > new Date()).slice(0, 3);
+    const activePolicies = myPolicies.filter(p => new Date(p.endDate) > new Date()).slice(0, 3);
     const recentClaims = myClaims.slice(0, 3);
 
     const totalPremium = myTransactions.reduce((acc, t) => acc + (t.amount || 0), 0);
@@ -162,7 +162,7 @@ const CustomerDashboard = () => {
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
                                                     <span className="text-sm font-bold text-slate-800 mb-0.5">₹{policy.policy?.premiumAmount?.toLocaleString() || '—'}/mo</span>
-                                                    <span className="text-[10px] font-semibold text-slate-400">Exp: {new Date(policy.expiryDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                                    <span className="text-[10px] font-semibold text-slate-400">Exp: {new Date(policy.endDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-right">

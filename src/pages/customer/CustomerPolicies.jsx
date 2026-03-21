@@ -60,9 +60,9 @@ const CustomerPolicies = () => {
     const displayCoverage = totalCoverage > 100000 ? `${(totalCoverage/100000).toFixed(1)}L` : totalCoverage.toLocaleString();
 
     const filteredPolicies = activeTab === "Active Policies" 
-        ? myPolicies.filter(p => new Date(p.expiryDate) > new Date())
+        ? myPolicies.filter(p => new Date(p.endDate) > new Date())
         : activeTab === "Expired Policies" 
-        ? myPolicies.filter(p => new Date(p.expiryDate) <= new Date())
+        ? myPolicies.filter(p => new Date(p.endDate) <= new Date())
         : myPolicies;
 
     const tabs = ["Active Policies", "Expired Policies", "All Policies"];
@@ -127,7 +127,7 @@ const CustomerPolicies = () => {
             ) : (
                 <div className="space-y-4 mb-8">
                     {filteredPolicies.map((p, idx) => {
-                        const timeStatus = calculateTimeRemaining(p.expiryDate);
+                        const timeStatus = calculateTimeRemaining(p.endDate);
                         
                         return (
                             <motion.div 

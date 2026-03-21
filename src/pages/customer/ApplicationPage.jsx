@@ -105,8 +105,8 @@ const ApplicationPage = () => {
             }, user.token);
 
             if (application._id) {
-                toast({ title: "Application Submitted!", description: "Your application has been queued for verification." });
-                navigate("/customer/policies");
+                toast({ title: "Application Submitted!", description: "Your application has been queued for verification. Proceed to payment." });
+                navigate("/customer/checkout", { state: { policy, applicationId: application._id } });
             }
         } catch (error) {
             toast({ 
