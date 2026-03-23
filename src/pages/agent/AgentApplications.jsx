@@ -63,14 +63,21 @@ const AgentApplications = () => {
         enabled: !!user?.token
     });
 
-    const statusTabs = ['All Applications', 'Pending Review', 'Documents Verified', 'Approved', 'Rejected'];
+    const statusTabs = ['All Applications', 'Pending Review', 'Documents Verified', 'Approved', 'Rejected', 'Paid'];
 
     const filteredApplications = applications?.filter(app => {
         const matchesSearch = app.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             app.policy?.policyName?.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesTab = activeStatusTab === 'All Applications' || 
-                          app.status === activeStatusTab || 
-                          (activeStatusTab === 'Pending Review' && app.status === 'Pending');
+        
+        let matchesTab = false;
+        if (activeStatusTab === 'All Applications') {
+            matchesTab = true;
+        } else if (activeStatusTab === 'Pending Review') {
+            matchesTab = app.status === 'Pending';
+        } else {
+            matchesTab = app.status === activeStatusTab;
+        }
+
         return matchesSearch && matchesTab;
     });
 
