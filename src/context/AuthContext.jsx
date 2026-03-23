@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfileState] = useState(null);
   const [isInitializing, setIsInitializing] = useState(true);
   const { toast } = useToast();
   const activityTimer = useRef(null);
@@ -44,6 +44,18 @@ export const AuthProvider = ({ children }) => {
     verifySession();
   }, []);
   
+  const setProfile = useCallback((profileData) => {
+    setProfileState(profileData);
+    if (profileData && user) {
+        setUser(prevUser => ({
+            ...prevUser,
+            ...profileData,
+            // Ensure token is preserved if it exists only in the auth user state
+            token: prevUser.token || profileData.token 
+        }));
+    }
+  }, [user]);
+
   const logout = useCallback(async () => {
     try {
         await api.post('/auth/logout');

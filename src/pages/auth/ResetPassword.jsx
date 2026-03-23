@@ -22,7 +22,7 @@ const ResetPassword = () => {
         { label: "Matches current requirement", met: password.length > 0 && password.length <= 20 },
         { label: "Uppercase & Lowercase", met: /[A-Z]/.test(password) && /[a-z]/.test(password) },
         { label: "Contains a number", met: /\d/.test(password) },
-        { label: "Special character", met: /[@$!%*?&]/.test(password) }
+        { label: "Special character (@$!%*?&)", met: /[@$!%*?&]/.test(password) }
     ];
 
     const isMatch = confirmPassword.length > 0 && password === confirmPassword;

@@ -119,7 +119,7 @@ const Register = () => {
                 } else if (!/(?=.*\d)/.test(value)) {
                     error = "Include at least 1 number.";
                 } else if (!/(?=.*[@$!%*?&])/.test(value)) {
-                    error = "Include at least 1 special character (@, #, etc.)";
+                    error = "Include at least 1 special character (@, $, !, %, *, ?, &)";
                 }
                 break;
             case "confirmPassword":
