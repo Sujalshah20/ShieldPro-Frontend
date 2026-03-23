@@ -342,14 +342,14 @@ const Footer = () => (
             <div className="grid lg:grid-cols-4 gap-16 mb-20">
                 <div className="space-y-8">
                     <Link to="/" className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-[#134e8d] border border-white/10 overflow-hidden relative">
+                        <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-white border border-white/20 overflow-hidden relative">
                             <Shield size={22} strokeWidth={2.5} />
                         </div>
-                        <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
+                        <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-sky-400">Shield</span></span>
                     </Link>
-                    <p className="text-white/50 text-[14px] font-medium leading-[1.8]">
+                    <div className="!text-white text-[14px] font-medium leading-[1.8]">
                         Leading insurance platform in India providing innovative and customer-centric insurance solutions. Protecting your legacy with trust and transparency.
-                    </p>
+                    </div>
                     <div className="flex gap-4">
                         {[Facebook, Twitter, Instagram].map((Icon, i) => (
                             <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-[#134e8d] transition-all border border-white/5 hover:scale-110">
@@ -363,7 +363,7 @@ const Footer = () => (
                     <h4 className="text-[14px] font-bold text-white/90 uppercase tracking-widest mb-10">Quick Links</h4>
                     <ul className="space-y-4">
                         {["Home", "About Us", "Our Policies", "Careers", "Contact Support"].map(l => (
-                            <li key={l}><a href="#" className="text-white/40 hover:text-white text-[14px] font-semibold transition-all">{l}</a></li>
+                            <li key={l}><a href="#" className="text-slate-300 hover:text-white text-[14px] font-semibold transition-all">{l}</a></li>
                         ))}
                     </ul>
                 </div>
@@ -372,7 +372,7 @@ const Footer = () => (
                     <h4 className="text-[14px] font-bold text-white/90 uppercase tracking-widest mb-10">Policies</h4>
                     <ul className="space-y-4">
                         {["Health Insurance", "Life Insurance", "Vehicle Insurance", "Home Insurance", "Travel Insurance"].map(l => (
-                            <li key={l}><a href="#" className="text-white/40 hover:text-white text-[14px] font-semibold transition-all">{l}</a></li>
+                            <li key={l}><a href="#" className="text-slate-300 hover:text-white text-[14px] font-semibold transition-all">{l}</a></li>
                         ))}
                     </ul>
                 </div>
@@ -380,16 +380,16 @@ const Footer = () => (
                 <div>
                     <h4 className="text-[14px] font-bold text-white/90 uppercase tracking-widest mb-10">Contact</h4>
                     <ul className="space-y-6">
-                        <li className="flex gap-4 text-white/40">
-                            <MapPin size={20} className="text-[#134e8d] shrink-0" />
+                        <li className="flex gap-4 text-slate-100">
+                            <MapPin size={20} className="text-sky-400 shrink-0" />
                             <span className="text-[14px] font-semibold">123 Finance Tower, BKC, Mumbai, Maharashtra 400051</span>
                         </li>
-                        <li className="flex gap-4 text-white/40">
-                            <Phone size={20} className="text-[#134e8d] shrink-0" />
+                        <li className="flex gap-4 text-slate-100">
+                            <Phone size={20} className="text-sky-400 shrink-0" />
                             <span className="text-[14px] font-semibold">1800-SECURE-SHIELD</span>
                         </li>
-                        <li className="flex gap-4 text-white/40">
-                            <Mail size={20} className="text-[#134e8d] shrink-0" />
+                        <li className="flex gap-4 text-slate-100">
+                            <Mail size={20} className="text-sky-400 shrink-0" />
                             <span className="text-[14px] font-semibold">support@secureshield.in</span>
                         </li>
                     </ul>
@@ -397,8 +397,8 @@ const Footer = () => (
             </div>
 
             <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-                <p className="text-white/20 text-[12px] font-semibold tracking-wide">© 2024 Secure Shield Insurance Services. All rights reserved.</p>
-                <div className="flex gap-8 text-white/20 text-[12px] font-semibold tracking-wide">
+                <div className="!text-slate-400 text-[12px] font-semibold tracking-wide">© 2024 Secure Shield Insurance Services. All rights reserved.</div>
+                <div className="flex gap-8 !text-slate-400 text-[12px] font-semibold tracking-wide">
                     <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
                     <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
                     <a href="#" className="hover:text-white transition-colors">Help Center</a>

@@ -47,6 +47,7 @@ const CustomerSettings = lazy(() => import("./pages/customer/CustomerSettings"))
 const CustomerPolicies = lazy(() => import("./pages/customer/CustomerPolicies"));
 const BrowsePolicies = lazy(() => import("./pages/customer/BrowsePolicies"));
 const CustomerClaims = lazy(() => import("./pages/customer/CustomerClaims"));
+const CheckoutSuccess = lazy(() => import("./pages/customer/CheckoutSuccessPage"));
 
 const ApplicationPage = lazy(() => import("./pages/customer/ApplicationPage"));
 const PolicyDetail = lazy(() => import("./pages/customer/PolicyDetail"));
@@ -176,8 +177,10 @@ function App() {
                     <Route path="settings" element={<CustomerSettings />} />
                     <Route path="payments" element={<PaymentHistory />} />
                     <Route path="apply" element={<ApplicationPage />} />
-                    <Route path="checkout" element={<Checkout />} />
                   </Route>
+
+                  <Route path="/customer/checkout" element={<ProtectedRoute role="customer"><PageWrapper><Checkout /></PageWrapper></ProtectedRoute>} />
+                  <Route path="/customer/checkout-success" element={<ProtectedRoute role="customer"><PageWrapper><CheckoutSuccess /></PageWrapper></ProtectedRoute>} />
 
                   {/* -------- MESSAGES ROUTE (shared) -------- */}
                   <Route path="/messages" element={<ProtectedRoute role={null}><PageWrapper><MessagesPage /></PageWrapper></ProtectedRoute>} />
