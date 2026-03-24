@@ -21,8 +21,8 @@ const StatCard = ({ title, value, icon: Icon, color, sparkline }) => (
             </div>
         </div>
         <div className="space-y-1">
-            <p className="text-slate-400 text-sm font-medium">{title}</p>
-            <h3 className="text-3xl font-bold text-slate-800 tracking-tight">{value}</h3>
+            <p className="text-black text-sm font-bold">{title}</p>
+            <h3 className="text-3xl font-bold text-black tracking-tight">{value}</h3>
         </div>
         {sparkline && (
             <div className="mt-4 h-12 w-full">
@@ -43,8 +43,8 @@ const StatCard = ({ title, value, icon: Icon, color, sparkline }) => (
 const RevenueTrends = ({ data = [] }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
         <div className="flex justify-between items-center mb-10">
-            <h3 className="text-xl font-bold text-slate-800">Growth Trends</h3>
-            <span className="text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">Monthly Purchases</span>
+            <h3 className="text-xl font-bold text-black">Growth Trends</h3>
+            <span className="text-xs font-bold text-black bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">Monthly Purchases</span>
         </div>
         <div className="h-64 relative group">
             {data.length > 0 ? (
@@ -52,8 +52,8 @@ const RevenueTrends = ({ data = [] }) => (
                     <svg viewBox="0 0 800 200" className="w-full h-full">
                         <defs>
                             <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor="#1e3a8a" stopOpacity="0.1" />
-                                <stop offset="100%" stopColor="#1e3a8a" stopOpacity="0" />
+                                <stop offset="0%" stopColor="#000000" stopOpacity="0.1" />
+                                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
                             </linearGradient>
                         </defs>
                         {[0, 50, 100, 150].map((y) => (
@@ -62,19 +62,19 @@ const RevenueTrends = ({ data = [] }) => (
                         <path 
                             d={`M0 160 ${data.map((d, i) => `L ${i * (800 / (data.length - 1))} ${160 - (d.value * 20)}`).join(' ')}`} 
                             fill="none" 
-                            stroke="#1e3a8a" 
+                            stroke="#000000" 
                             strokeWidth="5" 
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             className="drop-shadow-lg"
                         />
                     </svg>
-                    <div className="flex justify-between mt-6 px-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    <div className="flex justify-between mt-6 px-2 text-[10px] font-bold text-black uppercase tracking-widest">
                         {data.map(d => <span key={d.name}>{d.name}</span>)}
                     </div>
                 </>
             ) : (
-                <div className="h-full flex items-center justify-center text-slate-400 font-medium italic uppercase tracking-widest text-xs">No trend data available</div>
+                <div className="h-full flex items-center justify-center text-black font-medium italic uppercase tracking-widest text-xs">No trend data available</div>
             )}
         </div>
     </div>
@@ -82,7 +82,7 @@ const RevenueTrends = ({ data = [] }) => (
 
 const PolicyDistribution = ({ data = [] }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center">
-        <h3 className="text-lg font-bold text-slate-800 self-start mb-6">Policy Distribution</h3>
+        <h3 className="text-lg font-bold text-black self-start mb-6">Policy Distribution</h3>
         <div className="relative w-48 h-48 mb-8">
             <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
                 <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f1f5f9" strokeWidth="12" />
@@ -93,7 +93,7 @@ const PolicyDistribution = ({ data = [] }) => (
                             key={i} 
                             cx="50" cy="50" r="40" 
                             fill="transparent" 
-                            stroke={['#10b981', '#3b82f6', '#003249', '#f59e0b', '#ef4444'][i % 5]} 
+                            stroke={['#10b981', '#3b82f6', '#000000', '#f59e0b', '#ef4444'][i % 5]} 
                             strokeWidth="12" 
                             strokeDasharray={`${d.value * 2.512} 251.2`} 
                             strokeDashoffset={-offset}
@@ -102,20 +102,20 @@ const PolicyDistribution = ({ data = [] }) => (
                 })}
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-black text-slate-800 leading-none">{data.reduce((a, b) => a + b.value, 0)}%</span>
+                <span className="text-3xl font-black text-black leading-none">{data.reduce((a, b) => a + b.value, 0)}%</span>
             </div>
         </div>
         <div className="w-full space-y-3">
             {data.map((d, i) => (
                 <div key={i} className="flex items-center justify-between text-xs font-bold">
                     <div className="flex items-center gap-3">
-                        <div className={`w-2 h-2 rounded-full ${['bg-emerald-500', 'bg-blue-500', 'bg-[#003249]', 'bg-orange-500', 'bg-rose-500'][i % 5]}`} />
-                        <span className="text-slate-500">{d.name}</span>
+                        <div className={`w-2 h-2 rounded-full ${['bg-emerald-500', 'bg-blue-500', 'bg-black', 'bg-orange-500', 'bg-rose-500'][i % 5]}`} />
+                        <span className="text-black">{d.name}</span>
                     </div>
-                    <span className="text-slate-800">{d.value}%</span>
+                    <span className="text-black">{d.value}%</span>
                 </div>
             ))}
-            {data.length === 0 && <div className="text-center text-slate-400 text-[10px] font-bold italic py-4">NO DATA</div>}
+            {data.length === 0 && <div className="text-center text-black text-[10px] font-bold italic py-4">NO DATA</div>}
         </div>
     </div>
 );
@@ -123,7 +123,7 @@ const PolicyDistribution = ({ data = [] }) => (
 const RecentActivities = ({ activities = [] }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
         <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-slate-800">Recent Activities</h3>
+            <h3 className="text-lg font-bold text-black">Recent Activities</h3>
         </div>
         <div className="space-y-8">
             {activities.length > 0 ? activities.map((activity, i) => (
@@ -133,12 +133,12 @@ const RecentActivities = ({ activities = [] }) => (
                         activity.type === 'new_policy' ? 'bg-emerald-500' : 'bg-amber-500'
                     }`} />
                     <div className="space-y-1">
-                        <p className="text-sm font-bold text-slate-800 leading-tight">{activity.description}</p>
-                        <p className="text-[10px] font-black text-slate-300 tracking-wider mt-1">{new Date(activity.date).toLocaleString()}</p>
+                        <p className="text-sm font-bold text-black leading-tight">{activity.description}</p>
+                        <p className="text-[10px] font-black text-black tracking-wider mt-1">{new Date(activity.date).toLocaleString()}</p>
                     </div>
                 </div>
             )) : (
-                <div className="py-20 text-center text-slate-300 font-bold uppercase tracking-[5px] text-[10px] italic">No activity detected</div>
+                <div className="py-20 text-center text-black font-bold uppercase tracking-[5px] text-[10px] italic">No activity detected</div>
             )}
         </div>
     </div>
@@ -147,13 +147,13 @@ const RecentActivities = ({ activities = [] }) => (
 const TopAgents = ({ agents = [] }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex-1">
         <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-slate-800">Top Performing Agents</h3>
+            <h3 className="text-lg font-bold text-black">Top Performing Agents</h3>
         </div>
         <div className="overflow-x-auto">
             {agents.length > 0 ? (
                 <table className="w-full text-left">
                     <thead>
-                        <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50">
+                        <tr className="text-[10px] font-bold text-black uppercase tracking-widest border-b border-slate-50">
                             <th className="pb-4">Agent Name</th>
                             <th className="pb-4">Policies Sold</th>
                             <th className="pb-4">Revenue Generated</th>
@@ -165,14 +165,14 @@ const TopAgents = ({ agents = [] }) => (
                             <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
                                 <td className="py-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[#003249] font-black text-[10px]">
+                                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-black font-black text-[10px]">
                                             {agent.name.charAt(0)}
                                         </div>
-                                        <span className="text-xs font-bold text-slate-700">{agent.name}</span>
+                                        <span className="text-xs font-bold text-black">{agent.name}</span>
                                     </div>
                                 </td>
-                                <td className="py-4 text-xs font-medium text-slate-600">{agent.policiesSold}</td>
-                                <td className="py-4 text-xs font-bold text-slate-800">₹{agent.revenue.toLocaleString()}</td>
+                                <td className="py-4 text-xs font-bold text-black">{agent.policiesSold}</td>
+                                <td className="py-4 text-xs font-bold text-black">₹{agent.revenue.toLocaleString()}</td>
                                 <td className="py-4">
                                     <div className="flex gap-0.5">
                                         {[...Array(5)].map((_, star) => (
@@ -185,7 +185,7 @@ const TopAgents = ({ agents = [] }) => (
                     </tbody>
                 </table>
             ) : (
-                <div className="py-20 text-center text-slate-300 font-bold uppercase tracking-[5px] text-[10px] italic">No agents recorded</div>
+                <div className="py-20 text-center text-black font-bold uppercase tracking-[5px] text-[10px] italic">No agents recorded</div>
             )}
         </div>
     </div>
@@ -218,8 +218,8 @@ const AdminDashboard = () => {
             <div className="flex flex-col md:flex-row justify-between md:items-center gap-6">
                 <Reveal direction="left">
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-black text-slate-800 tracking-tight">System Core_</h1>
-                        <p className="text-sm font-medium text-slate-400 font-bold uppercase tracking-widest text-[9px]">Administrative node: Global Oversight Synchronization Active.</p>
+                        <h1 className="text-2xl font-black text-black tracking-tight">System Core_</h1>
+                        <p className="text-sm font-bold text-black font-bold uppercase tracking-widest text-[9px]">Administrative node: Global Oversight Synchronization Active.</p>
                     </div>
                 </Reveal>
             </div>

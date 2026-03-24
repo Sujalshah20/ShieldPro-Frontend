@@ -84,21 +84,21 @@ const AdminPolicies = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
                     <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[3px] mb-2">
+                        <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] mb-2 italic">
                             <span>Admin</span>
-                            <ChevronRight size={12} className="text-slate-300" />
-                            <span className="text-blue-500">Asset Management</span>
+                            <ChevronRight size={12} className="text-black opacity-20" />
+                            <span className="text-black opacity-100">Asset Management</span>
                         </div>
-                        <h1 className="text-2xl font-black text-slate-800 tracking-tight italic">Policy Architect</h1>
-                        <p className="text-xs font-medium text-slate-400">Configure and deploy coverage protocols for the network</p>
+                        <h1 className="text-2xl font-black text-black tracking-tighter italic uppercase">Policy Architect_</h1>
+                        <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic leading-relaxed">Configure and deploy coverage protocols for the network // DATA_LAYER_01</p>
                     </div>
                 </Reveal>
                 <Reveal direction="right">
                     <button 
                         onClick={() => setIsModalOpen(true)}
-                        className="h-12 px-8 bg-[#1e293b] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#0f172a] transition-all shadow-xl shadow-slate-900/10 active:scale-95 italic border-b-4 border-black/20 flex items-center gap-2"
+                        className="h-12 px-8 bg-black text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-black/90 transition-all shadow-3xl active:scale-95 italic border-b-4 border-white/10 flex items-center gap-2"
                     >
-                        <Plus size={18} /> Deploy New Policy
+                        <Plus size={18} strokeWidth={3} /> DEPLOY_NEW_POLICY
                     </button>
                 </Reveal>
             </div>
@@ -106,11 +106,11 @@ const AdminPolicies = () => {
             {/* Filter Bar */}
             <div className="flex flex-wrap items-center gap-4">
                 <div className="relative flex-1 min-w-[300px] group">
-                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
+                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-black opacity-20 group-focus-within:text-black group-focus-within:opacity-100 transition-all font-black" size={20} strokeWidth={3} />
                     <input 
                         type="text" 
-                        placeholder="Search Policy Manifest by Identity or Type Node..." 
-                        className="w-full pl-14 pr-6 h-12 bg-white border border-slate-100 rounded-xl text-xs font-bold focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all shadow-sm italic"
+                        placeholder="SEARCH_POLICY_MANIFEST_NODE..." 
+                        className="w-full pl-14 pr-6 h-14 bg-white border border-slate-100 rounded-2xl text-[11px] font-black uppercase tracking-widest focus:border-black/10 focus:ring-8 focus:ring-black/5 outline-none transition-all shadow-sm italic placeholder:text-black/10"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -121,12 +121,12 @@ const AdminPolicies = () => {
                         { label: "State", icon: ChevronDown },
                         { label: "Valuation", icon: ChevronDown }
                     ].map((f, i) => (
-                        <button key={i} className="h-14 px-6 bg-white border border-slate-100 rounded-[1.5rem] text-[11px] font-black uppercase tracking-widest text-slate-600 flex items-center gap-8 hover:bg-slate-50 transition-all shadow-sm italic">
-                            {f.label} <f.icon size={16} className="text-slate-400" />
+                        <button key={i} className="h-14 px-6 bg-white border border-slate-100 rounded-2xl text-[11px] font-black uppercase tracking-[3px] text-black hover:bg-slate-50 transition-all shadow-sm italic">
+                            <span className="opacity-40">{f.label}</span> <f.icon size={16} className="text-black opacity-20" strokeWidth={3} />
                         </button>
                     ))}
-                    <button className="h-14 w-14 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-[1.5rem] flex items-center justify-center transition-all">
-                        <Filter size={18} />
+                    <button className="h-14 w-14 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-100 text-black opacity-30 hover:opacity-100 rounded-2xl flex items-center justify-center transition-all shadow-sm active:scale-95">
+                        <Filter size={18} strokeWidth={3} />
                     </button>
                 </div>
             </div>
@@ -139,13 +139,13 @@ const AdminPolicies = () => {
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-8 py-6 text-xs font-black uppercase tracking-widest transition-all relative italic ${
-                                activeTab === tab ? "text-blue-600" : "text-slate-400 hover:text-slate-600"
+                            className={`px-8 py-6 text-[10px] font-black uppercase tracking-[4px] transition-all relative italic ${
+                                activeTab === tab ? "text-black" : "text-black/20 hover:text-black"
                             }`}
                         >
                             {tab}
                             {activeTab === tab && (
-                                <motion.div layoutId="activeTabPolicies" className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full" />
+                                <motion.div layoutId="activeTabPolicies" className="absolute bottom-0 left-0 right-0 h-1.5 bg-black rounded-t-full shadow-[0_0_10px_rgba(0,0,0,0.2)]" />
                             )}
                         </button>
                     ))}
@@ -154,7 +154,7 @@ const AdminPolicies = () => {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] border-b border-slate-50 bg-slate-50/5">
+                            <tr className="text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] border-b border-slate-100 bg-slate-50/5 italic">
                                 <th className="px-6 py-4">Identity_Tag</th>
                                 <th className="px-6 py-4">Protocol_Name</th>
                                 <th className="px-6 py-4">Category_Node</th>
@@ -180,17 +180,17 @@ const AdminPolicies = () => {
                                 return (
                                     <tr key={p._id} className="group hover:bg-slate-50/50 transition-colors">
                                         <td className="px-6 py-4">
-                                            <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2.5 py-1 rounded border border-blue-100 uppercase italic">
+                                            <span className="text-[10px] font-black text-black/40 bg-slate-50 px-2.5 py-1 rounded border border-slate-100 uppercase italic">
                                                 #POL-{p._id.slice(-5).toUpperCase()}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="text-xs font-black text-slate-800 block max-w-[200px] leading-snug italic tracking-tight">{p.policyName}</span>
+                                            <span className="text-xs font-black text-black block max-w-[200px] leading-snug italic tracking-tighter uppercase">{p.policyName}</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
-                                                <div className="text-slate-400">{getTypeIcon(p.policyType)}</div>
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 italic">{p.policyType}</span>
+                                                <div className="text-black opacity-20">{getTypeIcon(p.policyType)}</div>
+                                                <span className="text-[10px] font-black uppercase tracking-[3px] text-black opacity-40 italic">{p.policyType}</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
@@ -199,7 +199,7 @@ const AdminPolicies = () => {
                                         <td className="px-6 py-4 text-center">
                                             <span className="text-[10px] font-bold text-slate-400 italic">{stats.duration}</span>
                                         </td>
-                                        <td className="px-6 py-4 text-center font-black text-slate-800 italic text-xs">
+                                        <td className="px-6 py-4 text-center font-black text-black italic text-xs tracking-tighter uppercase leading-none opacity-80">
                                             {stats.customers}
                                         </td>
                                         <td className="px-6 py-4">
@@ -210,17 +210,17 @@ const AdminPolicies = () => {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all">
-                                                <button className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all">
-                                                    <Edit size={14} />
+                                                <button className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black">
+                                                    <Edit size={14} strokeWidth={3} />
                                                 </button>
-                                                <button className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all">
-                                                    <Eye size={14} />
+                                                <button className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black">
+                                                    <Eye size={14} strokeWidth={3} />
                                                 </button>
                                                 <button 
                                                     onClick={() => deleteMutation.mutate(p._id)}
-                                                    className="p-2 bg-white border border-slate-100 text-slate-400 hover:text-rose-600 rounded-lg shadow-sm hover:scale-110 transition-all"
+                                                    className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-rose-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black"
                                                 >
-                                                    <Trash2 size={14} />
+                                                    <Trash2 size={14} strokeWidth={3} />
                                                 </button>
                                             </div>
                                         </td>
@@ -235,15 +235,15 @@ const AdminPolicies = () => {
                 <div className="px-10 py-8 bg-slate-50/20 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
                     <span className="text-[10px] font-black text-slate-400 uppercase tracking-[3px] italic">Displaying {policies?.length || 0} of 24 active protocols</span>
                     <div className="flex items-center gap-3">
-                        <button className="h-11 px-5 border-2 border-slate-100 rounded-xl text-xs font-bold text-slate-400 hover:bg-white hover:text-blue-600 transition-all italic">Previous</button>
+                        <button className="h-11 px-5 border-2 border-slate-100 rounded-xl text-[11px] font-black text-black opacity-30 hover:opacity-100 hover:bg-white hover:text-blue-600 transition-all italic uppercase tracking-widest">Previous</button>
                         {[1, 2, 3].map(page => (
-                            <button key={page} className={`w-11 h-11 flex items-center justify-center rounded-xl text-xs font-bold transition-all ${
-                                page === 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "text-slate-400 hover:bg-white"
+                            <button key={page} className={`w-11 h-11 flex items-center justify-center rounded-xl text-[11px] font-black transition-all italic ${
+                                page === 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "text-black opacity-20 hover:opacity-100 hover:bg-white"
                             }`}>
                                 {page}
                             </button>
                         ))}
-                        <button className="h-11 px-5 bg-slate-800 text-white rounded-xl text-xs font-bold shadow-lg hover:bg-black transition-all italic">Next Cluster</button>
+                        <button className="h-11 px-6 bg-[#1e293b] text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg hover:bg-black transition-all italic active:scale-95">Next Cluster</button>
                     </div>
                 </div>
             </div>
@@ -270,11 +270,11 @@ const AdminPolicies = () => {
                         >
                             <div className="pt-12 px-12 pb-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/20">
                                 <div className="space-y-1">
-                                    <h2 className="text-3xl font-black text-slate-800 tracking-tight italic leading-tight">Define Coverage Node</h2>
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[3px]">Asset Configuration Protocol v4.2</p>
+                                    <h2 className="text-3xl font-black text-black tracking-tight italic leading-tight uppercase">Define Coverage Node</h2>
+                                    <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">Asset Configuration Protocol v4.2 // MASTER_ARCHITECT</p>
                                 </div>
-                                <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-slate-400 hover:text-rose-500 hover:scale-110 transition-all shadow-sm">
-                                    <X size={24} />
+                                <button onClick={() => setIsModalOpen(false)} className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-black opacity-20 hover:opacity-100 hover:text-rose-500 hover:scale-110 transition-all shadow-sm">
+                                    <X size={24} strokeWidth={3} />
                                 </button>
                             </div>
                             <form 
@@ -284,19 +284,19 @@ const AdminPolicies = () => {
                                 <div className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="space-y-2.5">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] pl-1">Protocol Identifier</label>
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Protocol Identifier</label>
                                             <input 
-                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-[1.25rem] px-6 text-sm font-bold italic outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all shadow-inner"
+                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all shadow-inner tracking-tight"
                                                 placeholder="e.g. Aegis Health Standard"
                                                 value={newPolicy.policyName}
                                                 onChange={e => setNewPolicy({...newPolicy, policyName: e.target.value})}
                                             />
                                         </div>
                                         <div className="space-y-2.5">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] pl-1">Categorization Node</label>
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Categorization Node</label>
                                             <div className="relative">
                                                 <select 
-                                                    className="w-full h-15 bg-slate-50 border border-slate-100 rounded-[1.25rem] px-6 text-sm font-bold italic outline-none focus:bg-white focus:border-blue-500 transition-all appearance-none cursor-pointer shadow-inner"
+                                                    className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all appearance-none cursor-pointer shadow-inner tracking-tight"
                                                     value={newPolicy.policyType}
                                                     onChange={e => setNewPolicy({...newPolicy, policyType: e.target.value})}
                                                 >
@@ -305,14 +305,14 @@ const AdminPolicies = () => {
                                                     <option>Auto</option>
                                                     <option>Home</option>
                                                 </select>
-                                                <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                                                <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-black opacity-20 pointer-events-none" size={18} strokeWidth={3} />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="space-y-2.5">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] pl-1">Coverage Scope Matrix</label>
+                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Coverage Scope Matrix</label>
                                         <textarea 
-                                            className="w-full h-32 bg-slate-50 border border-slate-100 rounded-[1.25rem] px-6 py-5 text-sm font-bold italic outline-none focus:bg-white focus:border-blue-500 transition-all resize-none shadow-inner"
+                                            className="w-full h-32 bg-slate-50 border border-slate-100 rounded-2xl px-6 py-5 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all resize-none shadow-inner tracking-tight"
                                             placeholder="Detailed parameters of policy coverage..."
                                             value={newPolicy.description}
                                             onChange={e => setNewPolicy({...newPolicy, description: e.target.value})}
@@ -320,20 +320,20 @@ const AdminPolicies = () => {
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="space-y-2.5">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] pl-1">Base Premium (₹)</label>
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Base Premium (₹)</label>
                                             <input 
                                                 type="number"
-                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-[1.25rem] px-6 text-sm font-bold italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner"
+                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
                                                 placeholder="999"
                                                 value={newPolicy.premiumAmount}
                                                 onChange={e => setNewPolicy({...newPolicy, premiumAmount: e.target.value})}
                                             />
                                         </div>
                                         <div className="space-y-2.5">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] pl-1">Coverage Ceiling (₹)</label>
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Coverage Ceiling (₹)</label>
                                             <input 
                                                 type="number"
-                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-[1.25rem] px-6 text-sm font-bold italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner"
+                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
                                                 placeholder="10,00,000"
                                                 value={newPolicy.coverageAmount}
                                                 onChange={e => setNewPolicy({...newPolicy, coverageAmount: e.target.value})}
@@ -345,7 +345,7 @@ const AdminPolicies = () => {
                                     <button 
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 h-16 bg-white border-2 border-slate-100 text-slate-400 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all italic"
+                                        className="flex-1 h-16 bg-white border-2 border-slate-100 text-black opacity-30 hover:opacity-100 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-slate-50 transition-all italic active:scale-95"
                                     >
                                         Abort
                                     </button>

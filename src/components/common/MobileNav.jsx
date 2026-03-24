@@ -28,9 +28,9 @@ const MobileNav = ({ isOpen, onClose, children }) => {
                             <div className="p-4">
                                 <button
                                     onClick={onClose}
-                                    className="absolute top-4 right-4 p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                                    className="absolute top-4 right-4 p-2 rounded-lg hover:bg-slate-50 transition-colors"
                                 >
-                                    <X size={24} className="text-slate-700" />
+                                    <X size={24} className="text-black" />
                                 </button>
 
                                 <div className="mt-12">

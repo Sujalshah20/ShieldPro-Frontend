@@ -19,7 +19,7 @@ const CustomGoogleLoginButton = ({ onSuccess, onError }) => {
         <button 
             type="button" 
             onClick={() => login()}
-            className="flex-1 h-14 bg-white border-2 border-slate-50 rounded-2xl flex items-center justify-center gap-4 text-white font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+            className="flex-1 h-14 bg-white border-2 border-slate-50 rounded-2xl flex items-center justify-center gap-4 text-black font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
         >
             <Chrome size={20} className="text-slate-400 group-hover:text-[#134e8d] transition-colors" />
             Google
@@ -334,16 +334,16 @@ const Register = () => {
                                     <div className="w-8 h-8 bg-[#134e8d] rounded-lg flex items-center justify-center text-white">
                                         <Shield size={20} strokeWidth={2.5} />
                                     </div>
-                                    <span className="text-xl font-bold text-white">Secure Shield</span>
+                                    <span className="text-xl font-bold text-black">Secure Shield</span>
                                 </Link>
                              </div>
-                            <h1 className="text-4xl font-extrabold text-white tracking-tight">Create Account</h1>
-                            <p className="text-slate-500 font-medium text-sm">Please fill in your details to get started.</p>
+                            <h1 className="text-4xl font-extrabold text-black tracking-tight">Create Account</h1>
+                            <p className="text-black font-medium text-sm">Please fill in your details to get started.</p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="md:col-span-2 space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Full Name</label>
+                                <label className="text-[12px] font-bold text-black uppercase tracking-widest pl-1">Full Name</label>
                                 <input 
                                     name="name" 
                                     value={formData.name} 
@@ -351,14 +351,14 @@ const Register = () => {
                                     onKeyDown={(e) => handleKeyDown(e, 'name')}
                                     onPaste={(e) => handlePaste(e, 'name')}
                                     autoFocus
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('name')}`}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-black font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('name')}`}
                                     placeholder="Enter your full name" 
                                 />
                                 {errors.name && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.name}</p>}
                             </div>
 
                             <div className="md:col-span-2 space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Email Address</label>
+                                <label className="text-[12px] font-bold text-black uppercase tracking-widest pl-1">Email Address</label>
                                 <input 
                                     type="email" 
                                     name="email" 
@@ -366,28 +366,28 @@ const Register = () => {
                                     onChange={handleInputChange}
                                     onKeyDown={(e) => handleKeyDown(e, 'email')}
                                     onPaste={(e) => handlePaste(e, 'email')}
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('email')}`}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-black font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('email')}`}
                                     placeholder="yourname@example.com" 
                                 />
                                 {errors.email && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.email}</p>}
                             </div>
 
                             <div className="md:col-span-2 space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Phone Number</label>
+                                <label className="text-[12px] font-bold text-black uppercase tracking-widest pl-1">Phone Number</label>
                                 <input 
                                     name="phone" 
                                     value={formData.phone} 
                                     onChange={handleInputChange}
                                     onKeyDown={(e) => handleKeyDown(e, 'phone')}
                                     onPaste={(e) => handlePaste(e, 'phone')}
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('phone')}`}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-black font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('phone')}`}
                                     placeholder="10-digit number" 
                                 />
                                 {errors.phone && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.phone}</p>}
                             </div>
 
                             <div className="md:col-span-2 space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Password</label>
+                                <label className="text-[12px] font-bold text-black uppercase tracking-widest pl-1">Password</label>
                                 <div className="relative">
                                     <input 
                                         type={showPassword ? "text" : "password"} 
@@ -395,7 +395,7 @@ const Register = () => {
                                         value={formData.password} 
                                         onChange={handleInputChange}
                                         onKeyDown={(e) => handleKeyDown(e, 'password')}
-                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('password')}`}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-black font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('password')}`}
                                         placeholder="••••••••" 
                                     />
                                     <button 
@@ -427,7 +427,7 @@ const Register = () => {
                                         name="confirmPassword" 
                                         value={formData.confirmPassword} 
                                         onChange={handleInputChange}
-                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('confirmPassword')}`}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-black font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('confirmPassword')}`}
                                         placeholder="••••••••" 
                                     />
                                     <button 
@@ -449,7 +449,7 @@ const Register = () => {
                                     onChange={(e) => setTerms(e.target.checked)}
                                     className="w-5 h-5 rounded-lg border-2 border-slate-200 text-[#10b981] transition-all focus:ring-0 cursor-pointer" 
                                 />
-                                <label htmlFor="terms" className="text-[13px] font-medium text-slate-500 select-none cursor-pointer">
+                                <label htmlFor="terms" className="text-[13px] font-medium text-black select-none cursor-pointer">
                                     By registering, I agree to the <a href="#" className="text-[#134e8d] font-bold hover:underline">Terms & Conditions</a>.
                                 </label>
                             </div>
@@ -496,7 +496,7 @@ const Register = () => {
                                                     <button 
                                                         onClick={renderProps.onClick}
                                                         disabled={renderProps.isDisabled}
-                                                        className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-white font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+                                                        className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-black font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
                                                     >
                                                         <Facebook size={20} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
                                                         Facebook
@@ -506,7 +506,7 @@ const Register = () => {
                                         </div>
                                     </GoogleOAuthProvider>
 
-                                    <p className="text-center text-slate-500 font-medium text-sm pt-4">
+                                    <p className="text-center text-black font-medium text-sm pt-4">
                                         Already have an account? <Link to="/login" className="text-[#134e8d] font-bold hover:underline">Log in</Link>
                                     </p>
                                 </div>

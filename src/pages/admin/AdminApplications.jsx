@@ -56,18 +56,18 @@ const AdminApplications = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Vetting Center</h1>
-                        <p className="text-xs font-medium text-slate-400">Review and authorize incoming policy applications</p>
+                        <h1 className="text-2xl font-black text-black tracking-tight uppercase italic">Vetting Center</h1>
+                        <p className="text-[10px] font-black text-black/40 uppercase tracking-[2px] italic">Review and authorize incoming policy applications</p>
                     </div>
                 </Reveal>
                 
                 <div className="flex items-center gap-4">
                     <div className="text-right hidden md:block">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">In Queue</p>
-                        <p className="text-2xl font-black text-slate-800 tracking-tighter">{filteredApps?.length || 0}</p>
+                        <p className="text-[10px] font-black text-black/20 uppercase tracking-widest leading-none italic">In Queue</p>
+                        <p className="text-2xl font-black text-black tracking-tighter italic">{filteredApps?.length || 0}</p>
                     </div>
-                    <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shadow-sm border border-blue-100">
-                        <ClipboardList size={24} />
+                    <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-white shadow-3xl border border-white/5">
+                        <ClipboardList size={24} strokeWidth={2.5} />
                     </div>
                 </div>
             </div>
@@ -75,17 +75,17 @@ const AdminApplications = () => {
             {/* Tactical Search Module */}
             <div className="flex flex-wrap items-center gap-4">
                 <div className="relative flex-1 min-w-[300px] group">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20 group-focus-within:text-black transition-colors" size={18} />
                     <input 
                         type="text" 
-                        placeholder="Search by Client or Policy..." 
-                        className="w-full pl-12 pr-4 h-12 bg-white border border-slate-200 rounded-xl text-sm focus:border-blue-500 outline-none transition-all shadow-sm"
+                        placeholder="IDENTIFY_CLIENT_OR_PLAN..." 
+                        className="w-full pl-12 pr-4 h-12 bg-white border border-slate-100 rounded-xl text-[11px] font-black uppercase tracking-[3px] focus:border-black/10 focus:ring-8 focus:ring-black/5 outline-none transition-all shadow-inner placeholder:text-black/10 italic"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <button className="h-12 px-5 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
-                    <Filter size={18} /> Filter Status
+                <button className="h-12 px-6 bg-white border border-slate-100 text-black rounded-xl text-[10px] font-black uppercase tracking-[3px] flex items-center gap-2 hover:bg-black hover:text-white transition-all shadow-xl italic">
+                    <Filter size={18} strokeWidth={3} /> FILTER_STATUS
                 </button>
             </div>
 
@@ -94,12 +94,12 @@ const AdminApplications = () => {
                 <div className="overflow-x-auto flex-1">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50">
-                                <th className="px-6 py-4">ID</th>
-                                <th className="px-6 py-4">Client</th>
-                                <th className="px-6 py-4">Policy</th>
-                                <th className="px-6 py-4">Premium</th>
-                                <th className="px-6 py-4 text-center">Lifecycle</th>
+                            <tr className="text-[10px] font-black text-black/20 uppercase tracking-[4px] border-b border-slate-50 italic">
+                                <th className="px-6 py-4">OPERATIONAL_ID</th>
+                                <th className="px-6 py-4">ENTITY_IDENTITY</th>
+                                <th className="px-6 py-4">ASSET_SCHEME</th>
+                                <th className="px-6 py-4">FISC_PREMIUM</th>
+                                <th className="px-6 py-4 text-center">LIFECYCLE_STATUS</th>
                                 <th className="px-6 py-4"></th>
                             </tr>
                         </thead>
@@ -117,40 +117,40 @@ const AdminApplications = () => {
                                 </tr>
                             ) : filteredApps.map((app) => (
                                 <tr key={app._id} className="group hover:bg-slate-50/50 transition-colors cursor-pointer" onClick={() => setSelectedApp(app)}>
-                                    <td className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-tight">
+                                    <td className="px-6 py-5 text-[10px] font-black text-black/20 uppercase tracking-widest italic">
                                         #{app._id.slice(-6).toUpperCase()}
                                     </td>
                                     <td className="px-6 py-5">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full overflow-hidden border border-slate-100 shadow-sm bg-slate-100 flex items-center justify-center font-bold text-slate-500 uppercase text-[10px]">
+                                        <div className="flex items-center gap-4 group/entity">
+                                            <div className="w-10 h-10 rounded-2xl overflow-hidden border-2 border-slate-100 shadow-3xl bg-slate-50 flex items-center justify-center font-black text-black/20 uppercase text-[12px] group-hover:rotate-6 transition-transform italic">
                                                 {app.user?.name?.charAt(0)}
                                             </div>
-                                            <div className="flex flex-col gap-0.5">
-                                                <span className="text-xs font-bold text-slate-700">{app.user?.name}</span>
-                                                <span className="text-[9px] font-medium text-slate-400">{app.user?.email}</span>
+                                            <div className="flex flex-col">
+                                                <span className="text-[12px] font-black text-black tracking-tighter uppercase italic">{app.user?.name}</span>
+                                                <span className="text-[9px] font-black text-black/30 uppercase tracking-widest italic">{app.user?.email}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-5">
-                                        <div className="flex items-center gap-2 text-[11px] font-bold text-slate-600">
-                                            <Shield size={12} className="text-blue-500" />
+                                        <div className="flex items-center gap-3 text-[11px] font-black text-black uppercase tracking-[2px] italic">
+                                            <Shield size={14} className="text-black/40" strokeWidth={3} />
                                             {app.policy?.policyName}
                                         </div>
                                     </td>
                                     <td className="px-6 py-5">
-                                        <span className="text-xs font-black text-slate-800 tracking-tight">
+                                        <span className="text-[14px] font-black text-black tracking-tighter uppercase italic">
                                             ₹{app.amount?.toLocaleString()}
                                         </span>
                                     </td>
                                     <td className="px-6 py-5 text-center">
-                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border ${getStatusStyle(app.status)}`}>
-                                            <div className="w-1.5 h-1.5 rounded-full bg-current" />
-                                            <span className="text-[9px] font-black uppercase tracking-wider">{app.status}</span>
+                                        <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border shadow-xl italic ${getStatusStyle(app.status)}`}>
+                                            <div className="w-1.5 h-1.5 rounded-full bg-current shadow-[0_0_10px_currentColor]" />
+                                            <span className="text-[9px] font-black uppercase tracking-widest">{app.status.toUpperCase()}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-5 text-right">
-                                        <button className="p-1.5 text-slate-300 group-hover:text-blue-500 transition-colors">
-                                            <ChevronRight size={18} />
+                                        <button className="p-2 text-black/10 group-hover:text-black transition-colors">
+                                            <ChevronRight size={20} strokeWidth={3} />
                                         </button>
                                     </td>
                                 </tr>
@@ -170,62 +170,63 @@ const AdminApplications = () => {
                             exit={{ opacity: 0, scale: 0.95, y: 20 }}
                             className="bg-white rounded-[2.5rem] w-full max-w-2xl overflow-hidden shadow-2xl flex flex-col"
                         >
-                            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between">
+                            <div className="px-10 py-8 border-b border-slate-100 flex items-center justify-between bg-white">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-800 border border-slate-100">
-                                        <FileText size={24} />
+                                    <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center text-white border border-white/10 shadow-3xl">
+                                        <FileText size={24} strokeWidth={2.5} />
                                     </div>
                                     <div>
-                                        <h2 className="text-xl font-black text-slate-800 tracking-tight text-nowrap">Application Details</h2>
-                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">ID: #{selectedApp._id.toUpperCase()}</p>
+                                        <h2 className="text-xl font-black text-black tracking-tight text-nowrap uppercase italic">Application Details</h2>
+                                        <p className="text-[10px] font-black text-black/30 uppercase tracking-[4px] leading-none italic">ID: #{selectedApp._id.toUpperCase()}</p>
                                     </div>
                                 </div>
                                 <button 
                                     onClick={() => setSelectedApp(null)}
-                                    className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all"
+                                    className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-black/20 hover:text-black hover:bg-slate-100 transition-all border border-slate-100 italic"
                                 >
-                                    <X size={20} />
+                                    <X size={20} strokeWidth={3} />
                                 </button>
                             </div>
 
                             <div className="p-10 space-y-8 overflow-y-auto max-h-[60vh]">
                                 <div className="grid grid-cols-2 gap-8">
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block ml-1">Client Information</label>
-                                        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
-                                            <div className="scale-125 ml-2">
-                                                 <div className="w-8 h-8 rounded-full border border-slate-200 shadow-sm bg-white flex items-center justify-center font-bold text-slate-500 uppercase text-[10px]">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-black/20 uppercase tracking-[6px] block ml-1 italic">CLIENT_ENTITY</label>
+                                        <div className="p-6 bg-slate-50 rounded-[2rem] border-2 border-slate-50 flex items-center gap-5 shadow-inner">
+                                            <div className="scale-110">
+                                                 <div className="w-12 h-12 rounded-2xl border-2 border-white shadow-3xl bg-black flex items-center justify-center font-black text-white uppercase text-[12px] italic">
                                                     {selectedApp.user?.name?.charAt(0)}
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <span className="text-sm font-bold text-slate-700">{selectedApp.user?.name}</span>
-                                                <span className="text-[10px] font-medium text-slate-400">{selectedApp.user?.email}</span>
+                                                <span className="text-[14px] font-black text-black tracking-tighter uppercase italic">{selectedApp.user?.name}</span>
+                                                <span className="text-[10px] font-black text-black/30 uppercase tracking-widest italic">{selectedApp.user?.email}</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block ml-1">Policy Selected</label>
-                                        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
-                                                <Shield size={20} />
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-black/20 uppercase tracking-[6px] block ml-1 italic">ASSET_PLAN</label>
+                                        <div className="p-6 bg-slate-50 rounded-[2rem] border-2 border-slate-50 flex items-center gap-5 shadow-inner">
+                                            <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center text-white shadow-3xl border border-white/5">
+                                                <Shield size={22} strokeWidth={2.5} />
                                             </div>
                                             <div className="flex flex-col">
-                                                <span className="text-sm font-bold text-slate-700">{selectedApp.policy?.policyName}</span>
-                                                <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">{selectedApp.policy?.policyType}</span>
+                                                <span className="text-[14px] font-black text-black tracking-tighter uppercase italic">{selectedApp.policy?.policyName}</span>
+                                                <span className="text-[10px] font-black text-black/30 uppercase tracking-widest italic">{selectedApp.policy?.policyType?.toUpperCase()}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="p-6 bg-[#1a2332] rounded-[1.5rem] flex items-center justify-between text-white">
+                                <div className="p-8 bg-black rounded-[2.5rem] flex items-center justify-between text-white shadow-3xl border-2 border-white/5 relative overflow-hidden italic">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none" />
                                     <div>
-                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Calculated Premium</p>
-                                        <h3 className="text-3xl font-black tracking-tight">₹{selectedApp.amount?.toLocaleString()}</h3>
+                                        <p className="text-[10px] font-black text-white/40 uppercase tracking-[4px] leading-none mb-3 italic">FISCAL_PREMIUM</p>
+                                        <h3 className="text-4xl font-black tracking-tighter">₹{selectedApp.amount?.toLocaleString()}</h3>
                                     </div>
-                                    <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20 ${selectedApp.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-slate-300'}`}>
-                                        {selectedApp.status}
+                                    <div className={`px-6 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[4px] border border-white/20 shadow-xl ${selectedApp.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-white/60'}`}>
+                                        {selectedApp.status.toUpperCase()}
                                     </div>
                                 </div>
                             </div>

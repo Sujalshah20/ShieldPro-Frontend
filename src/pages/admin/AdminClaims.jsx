@@ -27,8 +27,8 @@ const ClaimStatCard = ({ title, value, trend, icon: Icon, color, isNegative }) =
             )}
         </div>
         <div className="mt-4 space-y-1">
-            <p className="text-slate-400 text-[9px] font-black uppercase tracking-[2px]">{title}</p>
-            <h3 className="text-2xl font-black text-slate-800 tracking-tight italic">{value}</h3>
+            <p className="text-black/30 text-[9px] font-black uppercase tracking-[2px]">{title}</p>
+            <h3 className="text-2xl font-black text-black tracking-tight italic">{value}</h3>
         </div>
     </div>
 );
@@ -86,18 +86,18 @@ const AdminClaims = () => {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <Reveal direction="left">
                     <div className="space-y-1">
-                        <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-[3px] mb-2">
+                        <div className="flex items-center gap-2 text-[10px] font-black text-black/30 uppercase tracking-[3px] mb-2">
                             <span>Admin</span>
-                            <ChevronRight size={12} className="text-slate-300" />
-                            <span className="text-blue-500">Claims Management</span>
+                            <ChevronRight size={12} className="text-black/20" />
+                            <span className="text-black">Claims Management</span>
                         </div>
-                        <h1 className="text-2xl font-black text-slate-800 tracking-tight italic">All Insurance Claims</h1>
-                        <p className="text-xs font-medium text-slate-400">Monitor and process client reimbursement requests</p>
+                        <h1 className="text-2xl font-black text-black tracking-tight italic uppercase">All Insurance Claims</h1>
+                        <p className="text-[10px] font-black text-black/40 uppercase tracking-[2px] italic leading-none">Monitor and process client reimbursement requests</p>
                     </div>
                 </Reveal>
                 <div className="flex gap-4">
-                    <button className="h-12 px-6 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm italic">
-                        <FileText size={18} /> Export Audit
+                    <button className="h-12 px-6 bg-white border border-slate-100 text-black rounded-xl text-[10px] font-black uppercase tracking-[3px] flex items-center gap-2 hover:bg-black hover:text-white transition-all shadow-xl italic">
+                        <FileText size={18} strokeWidth={3} /> EXPORT_AUDIT
                     </button>
                 </div>
             </div>
@@ -118,13 +118,13 @@ const AdminClaims = () => {
                         <button 
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`px-6 py-6 text-xs font-black uppercase tracking-widest transition-all relative whitespace-nowrap italic ${
-                                activeTab === tab ? "text-blue-600" : "text-slate-400 hover:text-slate-600"
+                            className={`px-6 py-6 text-[10px] font-black uppercase tracking-widest transition-all relative whitespace-nowrap italic ${
+                                activeTab === tab ? "text-black" : "text-black/30 hover:text-black"
                             }`}
                         >
                             {tab}
                             {activeTab === tab && (
-                                <motion.div layoutId="activeTabClaims" className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full" />
+                                <motion.div layoutId="activeTabClaims" className="absolute bottom-0 left-0 right-0 h-1.5 bg-black rounded-t-full shadow-[0_0_10px_rgba(0,0,0,0.2)]" />
                             )}
                         </button>
                     ))}
@@ -139,14 +139,14 @@ const AdminClaims = () => {
                         { label: "Valuation", val: "Any Amount" }
                     ].map((f, i) => (
                         <div key={i} className="space-y-3">
-                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[2px] pl-1">{f.label}</label>
-                            <button className="w-full h-13 px-4 bg-slate-50 border border-slate-100 rounded-xl text-xs font-bold text-slate-700 flex items-center justify-between hover:bg-white hover:border-blue-500 hover:shadow-sm transition-all italic">
-                                {f.val} <ChevronDown size={14} className="text-slate-400" />
+                            <label className="text-[10px] font-black text-black/20 uppercase tracking-[3px] pl-1 italic">{f.label}</label>
+                            <button className="w-full h-13 px-4 bg-slate-50 border border-slate-100 rounded-xl text-[11px] font-black text-black/60 flex items-center justify-between hover:bg-white hover:border-black/10 hover:shadow-xl transition-all italic uppercase tracking-widest">
+                                {f.val} <ChevronDown size={14} className="text-black/20" />
                             </button>
                         </div>
                     ))}
-                    <button className="h-13 w-full bg-[#1e293b] text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#0f172a] transition-all shadow-lg active:scale-95 italic">
-                        <Filter size={16} /> Filter Results
+                    <button className="h-13 w-full bg-black text-white rounded-xl font-black text-[10px] uppercase tracking-[3px] flex items-center justify-center gap-2 hover:bg-black/90 transition-all shadow-3xl active:scale-95 italic">
+                        <Filter size={16} strokeWidth={3} /> APPLY_FILTERS
                     </button>
                 </div>
 
@@ -200,13 +200,13 @@ const AdminClaims = () => {
                                                     <img src={`https://i.pravatar.cc/100?u=${c.user?._id}`} alt="" />
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <span className="text-xs font-black text-slate-800 tracking-tight italic leading-none mb-1">{c.user?.name}</span>
-                                                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest leading-none">Registered Client</span>
+                                                    <span className="text-[12px] font-black text-black tracking-tighter italic leading-none mb-1 uppercase">{c.user?.name}</span>
+                                                    <span className="text-[9px] font-black text-black/30 uppercase tracking-[2px] leading-none italic">REGISTERED_CLIENT</span>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="text-[11px] font-bold text-slate-600 leading-tight block max-w-[150px] italic">{c.policy?.policyName}</span>
+                                            <span className="text-[11px] font-black text-black leading-tight block max-w-[150px] italic uppercase tracking-tighter">{c.policy?.policyName}</span>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border border-black/5 shadow-sm italic ${typeInfo.color}`}>
@@ -214,7 +214,7 @@ const AdminClaims = () => {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <span className="text-xs font-black text-slate-800 italic">{c.claimAmount?.toLocaleString()}</span>
+                                            <span className="text-[14px] font-black text-black italic tracking-tighter uppercase">₹{c.claimAmount?.toLocaleString()}</span>
                                         </td>
                                         <td className="px-6 py-4 text-[10px] font-bold text-slate-400 whitespace-nowrap italic">
                                             {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}

@@ -35,8 +35,8 @@ const CheckoutPage = () => {
                 <div className="w-20 h-20 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 mb-6 border border-rose-100 shadow-xl shadow-rose-500/10">
                     <Shield size={40} />
                 </div>
-                <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">Access Denied</h3>
-                <p className="text-slate-500 max-w-md font-medium mb-12">No valid policy selection found. Please navigate back to choose a policy and start the checkout process.</p>
+                <h3 className="text-3xl font-bold text-black mb-4 tracking-tight">Access Denied</h3>
+                <p className="text-black font-black uppercase tracking-widest text-[11px] opacity-40 max-w-md mb-12 italic leading-relaxed">No valid policy selection found. Please navigate back to choose a policy and start the checkout process.</p>
                 <button 
                     onClick={() => navigate("/customer")} 
                     className="h-14 px-10 bg-[#002b45] text-white rounded-xl font-bold hover:bg-[#134e8d] hover:translate-y-[-2px] transition-all active:scale-95 shadow-lg shadow-blue-900/20"
@@ -99,12 +99,12 @@ const CheckoutPage = () => {
                         <div className="w-10 h-10 bg-[#002b45] rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
                             <Shield size={22} strokeWidth={2.5} />
                         </div>
-                        <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
+                        <span className="text-xl font-bold text-black tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
                     </Link>
                     <div className="h-8 w-px bg-slate-100 hidden md:block" />
                     <button 
                         onClick={() => navigate(-1)}
-                        className="hidden md:flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-colors"
+                        className="hidden md:flex items-center gap-2 text-sm font-bold text-black hover:text-[#134e8d] transition-colors"
                     >
                         <ChevronLeft size={18} />
                         Cancel Transaction
@@ -127,29 +127,29 @@ const CheckoutPage = () => {
                         className="lg:col-span-5 space-y-8"
                     >
                         <div className="bg-white p-10 rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
-                            <h2 className="text-sm font-black text-slate-400 uppercase tracking-[3px] mb-8 border-b border-slate-50 pb-4">
+                            <h2 className="text-sm font-black text-black uppercase tracking-[3px] mb-8 border-b border-slate-50 pb-4">
                                 ORDER SUMMARY
                             </h2>
                             
                             <div className="space-y-6">
                                 <div>
-                                    <h3 className="text-3xl font-extrabold text-white leading-none mb-2">{policy.policyName}</h3>
-                                    <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest bg-slate-50 w-fit px-3 py-1 rounded-lg border border-slate-100">
-                                        {policy.policyType} INSURANCE
+                                    <h3 className="text-3xl font-extrabold text-black leading-none mb-2">{policy.policyName}</h3>
+                                    <p className="text-black font-black uppercase text-[10px] tracking-[4px] bg-slate-50 w-fit px-3 py-1 rounded-lg border border-slate-100 italic opacity-60">
+                                        {policy.policyType} INSURANCE // NODE_LOCKED
                                     </p>
                                 </div>
 
                                 <div className="space-y-4 pt-4 border-t border-slate-50">
                                     <div className="flex justify-between items-center group">
-                                        <p className="text-slate-400 font-bold text-[13px]">Coverage Capacity</p>
-                                        <p className="text-white font-extrabold tracking-tight">₹{(policy.coverageAmount/100000).toFixed(1)}L</p>
+                                        <p className="text-black font-black uppercase tracking-widest text-[9px] opacity-30">Coverage Capacity</p>
+                                        <p className="text-black font-extrabold tracking-tight italic">₹{(policy.coverageAmount/100000).toFixed(1)}L</p>
                                     </div>
                                     <div className="flex justify-between items-center group">
-                                        <p className="text-slate-400 font-bold text-[13px]">Policy Duration</p>
-                                        <p className="text-white font-extrabold tracking-tight">{policy.durationYears} Year</p>
+                                        <p className="text-black font-black uppercase tracking-widest text-[9px] opacity-30">Policy Duration</p>
+                                        <p className="text-black font-extrabold tracking-tight italic">{policy.durationYears} Year</p>
                                     </div>
                                     <div className="flex justify-between items-center pt-6 border-t border-slate-50">
-                                        <p className="text-white font-black text-lg">Total Payable</p>
+                                        <p className="text-black font-black text-lg">Total Payable</p>
                                         <p className="text-3xl font-black text-[#134e8d] tracking-tighter">₹{policy.premiumAmount.toLocaleString()}</p>
                                     </div>
                                 </div>
@@ -182,8 +182,8 @@ const CheckoutPage = () => {
                                         <CreditCard size={28} />
                                     </div>
                                     <div>
-                                        <h2 className="text-2xl font-black text-white tracking-tight">Payment Details</h2>
-                                        <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest mt-1">Authorized transaction node</p>
+                                        <h2 className="text-2xl font-black text-black tracking-tight italic uppercase">Payment Details</h2>
+                                        <p className="text-black opacity-30 text-[10px] font-black uppercase tracking-[4px] mt-1 italic leading-relaxed">Authorized transaction node // SECURE_UPLINK</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-4 opacity-30 hover:opacity-100 transition-opacity">
@@ -194,19 +194,19 @@ const CheckoutPage = () => {
 
                             <form onSubmit={handlePayment} className="space-y-8">
                                 <div className="space-y-3">
-                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Cardholder Name</label>
+                                    <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">Cardholder Name</label>
                                     <input
                                         type="text"
                                         placeholder="AS IT APPEARS ON THE CARD"
                                         required
                                         value={cardData.name}
                                         onChange={(e) => setCardData({ ...cardData, name: e.target.value.toUpperCase() })}
-                                        className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-bold text-slate-800 placeholder:text-slate-300 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg"
+                                        className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-black text-black placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg tracking-tight"
                                     />
                                 </div>
 
                                 <div className="space-y-3">
-                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Card Number</label>
+                                    <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">Card Number</label>
                                     <div className="relative group">
                                         <input
                                             type="text"
@@ -218,15 +218,15 @@ const CheckoutPage = () => {
                                                 const val = e.target.value.replace(/\D/g, '').slice(0, 16);
                                                 setCardData({ ...cardData, number: val });
                                             }}
-                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 pl-14 font-bold text-[#134e8d] placeholder:text-slate-300 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-xl tracking-[4px]"
+                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 pl-14 font-black text-[#134e8d] placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-xl tracking-[4px]"
                                         />
-                                        <CreditCard size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#134e8d] transition-colors" />
+                                        <CreditCard size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-black/20 group-focus-within:text-[#134e8d] transition-colors" />
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-6">
                                     <div className="space-y-3">
-                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Expiry Date</label>
+                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">Expiry Date</label>
                                         <input
                                             type="text"
                                             placeholder="MM / YY"
@@ -238,11 +238,11 @@ const CheckoutPage = () => {
                                                 if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2, 4);
                                                 setCardData({ ...cardData, expiry: val });
                                             }}
-                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-bold text-slate-800 placeholder:text-slate-300 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg text-center tracking-[2px]"
+                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-black text-black placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg text-center tracking-[4px]"
                                         />
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">CVV / CVC</label>
+                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">CVV / CVC</label>
                                         <input
                                             type="password"
                                             placeholder="***"
@@ -253,7 +253,7 @@ const CheckoutPage = () => {
                                                 const val = e.target.value.replace(/\D/g, '').slice(0, 3);
                                                 setCardData({ ...cardData, cvv: val });
                                             }}
-                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-bold text-slate-800 placeholder:text-slate-300 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg text-center tracking-[10px]"
+                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-black text-black placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg text-center tracking-[10px]"
                                         />
                                     </div>
                                 </div>
@@ -272,7 +272,7 @@ const CheckoutPage = () => {
 
                                 <div className="flex items-center justify-center gap-3 opacity-40 pt-6">
                                     <Lock size={14} />
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white">Bank-grade 256-bit SSL encryption</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-black">Bank-grade 256-bit SSL encryption</span>
                                 </div>
                             </form>
                         </div>
@@ -281,8 +281,8 @@ const CheckoutPage = () => {
             </main>
 
             {/* Simple Footer */}
-            <footer className="py-8 border-t border-slate-100 bg-white/50 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-                <p>© 2024 Secure Shield Insurance Services. All rights reserved.</p>
+            <footer className="py-8 border-t border-slate-100 bg-white/50 text-center text-black opacity-30 text-[9px] font-black uppercase tracking-[5px] italic">
+                <p>© 2024 Secure Shield Insurance Services // ALL_SYSTEMS_OPERATIONAL</p>
             </footer>
         </div>
     );

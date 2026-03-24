@@ -45,14 +45,14 @@ const CheckoutSuccessPage = () => {
                     <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
                 </Link>
                 <div className="flex items-center gap-6">
-                    <button className="p-2 text-slate-400 hover:text-[#134e8d] hover:bg-slate-50 rounded-full transition-all relative">
-                        <Bell size={22} />
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+                    <button className="p-2 text-black opacity-30 hover:opacity-100 hover:bg-slate-50 rounded-full transition-all relative">
+                        <Bell size={22} strokeWidth={3} />
+                        <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
                     </button>
-                    <button className="flex items-center gap-3 p-1 pl-3 bg-slate-50 border border-slate-100 rounded-full hover:shadow-md transition-all group">
-                        <span className="text-sm font-bold text-slate-600 group-hover:text-white">Account</span>
-                        <div className="w-10 h-10 bg-[#134e8d] rounded-full flex items-center justify-center text-white shadow-inner">
-                            <User size={20} />
+                    <button className="flex items-center gap-4 p-1 pl-4 bg-slate-50 border border-slate-100 rounded-full hover:shadow-md transition-all group">
+                        <span className="text-[11px] font-black text-black uppercase tracking-widest group-hover:text-[#134e8d] italic">IDENT_VERIFIED</span>
+                        <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white shadow-inner font-black italic">
+                            {user?.name?.charAt(0) || 'U'}
                         </div>
                     </button>
                 </div>
@@ -80,8 +80,8 @@ const CheckoutSuccessPage = () => {
                         <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
                             Congratulations! Your Policy is Active.
                         </h1>
-                        <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
-                            Your health coverage is now live. We've sent a detailed confirmation and the policy kit to your registered email address.
+                        <p className="text-black font-black uppercase tracking-[3px] text-[13px] opacity-40 max-w-2xl mx-auto leading-relaxed italic">
+                            Your health coverage is now live. We've sent a detailed confirmation and the policy kit to your registered email address. NODE_STATUS: SYNC_STABLE.
                         </p>
                     </motion.div>
 
@@ -104,43 +104,43 @@ const CheckoutSuccessPage = () => {
                             <div className="space-y-8">
                                 <div className="flex justify-between items-end border-b border-slate-50 pb-8">
                                     <div>
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">POLICY NAME</p>
-                                        <h3 className="text-2xl font-extrabold text-white">{policy.policyName}</h3>
+                                        <p className="text-[10px] text-black opacity-30 font-black uppercase tracking-[4px] mb-1 italic">POLICY NAME</p>
+                                        <h3 className="text-2xl font-black text-black italic uppercase italic tracking-tighter">{policy.policyName}</h3>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">POLICY NUMBER</p>
-                                        <p className="font-bold text-slate-600">{policy.policyNumber}</p>
+                                        <p className="text-[10px] text-black opacity-30 font-black uppercase tracking-[4px] mb-1 italic">POLICY NUMBER</p>
+                                        <p className="font-black text-black text-[13px] uppercase tracking-widest">{policy.policyNumber}</p>
                                     </div>
                                 </div>
 
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div>
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">COVERAGE AMOUNT</p>
-                                        <p className="text-3xl font-extrabold text-white">₹{policy.coverageAmount?.toLocaleString()}</p>
+                                        <p className="text-[10px] text-black opacity-30 font-black uppercase tracking-[4px] mb-1 italic">COVERAGE AMOUNT</p>
+                                        <p className="text-3xl font-black text-black italic tracking-tighter">₹{policy.coverageAmount?.toLocaleString()}</p>
                                     </div>
                                     <div>
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">PREMIUM PAID</p>
-                                        <p className="text-3xl font-extrabold text-white">₹{policy.premiumAmount?.toLocaleString()} <span className="text-sm font-bold text-slate-400 tracking-normal">/ month</span></p>
+                                        <p className="text-[10px] text-black opacity-30 font-black uppercase tracking-[4px] mb-1 italic">PREMIUM PAID</p>
+                                        <p className="text-3xl font-black text-black italic tracking-tighter">₹{policy.premiumAmount?.toLocaleString()} <span className="text-sm font-black text-black opacity-20 tracking-normal italic">/ month</span></p>
                                     </div>
                                 </div>
 
                                 <div className="bg-[#f0f9ff] p-8 rounded-3xl border border-blue-50 flex flex-col md:flex-row justify-between gap-6">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-sm">
-                                            <Calendar size={20} />
+                                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-black shadow-sm border border-slate-50">
+                                            <Calendar size={20} strokeWidth={3} />
                                         </div>
                                         <div>
-                                            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">START DATE</p>
-                                            <p className="font-bold text-white">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                                            <p className="text-[10px] text-black opacity-30 font-black uppercase tracking-widest italic leading-none">START DATE</p>
+                                            <p className="font-black text-black text-sm italic">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4 text-right">
                                         <div>
-                                            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">PAYMENT MODE</p>
-                                            <p className="font-bold text-white">{policy.paymentMode || 'Auto-pay Enabled'}</p>
+                                            <p className="text-[10px] text-black opacity-30 font-black uppercase tracking-widest italic leading-none">PAYMENT MODE</p>
+                                            <p className="font-black text-black text-sm italic">{policy.paymentMode || 'Auto-pay Enabled'}</p>
                                         </div>
-                                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-sm">
-                                            <CreditCard size={20} />
+                                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-black shadow-sm border border-slate-50">
+                                            <CreditCard size={20} strokeWidth={3} />
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +150,7 @@ const CheckoutSuccessPage = () => {
                         {/* What Happens Next Section */}
                         <motion.div variants={itemVariants} className="lg:col-span-5 flex flex-col gap-6 h-full">
                             <div className="bg-white/50 backdrop-blur-xl p-10 rounded-[2rem] border border-white shadow-xl flex-1 flex flex-col">
-                                <h4 className="text-[12px] font-black uppercase tracking-[3px] text-slate-400 mb-8 border-b border-slate-100 pb-4">
+                                <h4 className="text-[11px] font-black uppercase tracking-[5px] text-black opacity-30 mb-8 border-b border-slate-100 pb-4 italic">
                                     WHAT HAPPENS NEXT?
                                 </h4>
                                 <div className="space-y-10 flex-1">
@@ -164,8 +164,8 @@ const CheckoutSuccessPage = () => {
                                                 {i + 1}
                                             </div>
                                             <div className="space-y-1">
-                                                <h5 className="font-bold text-white leading-none mb-1">{step.title}</h5>
-                                                <p className="text-slate-500 text-[12px] font-medium leading-relaxed">{step.desc}</p>
+                                                <h5 className="font-black text-black leading-none mb-1 text-sm italic uppercase tracking-tighter">{step.title}</h5>
+                                                <p className="text-black opacity-40 text-[11px] font-black leading-relaxed italic">{step.desc}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -212,12 +212,12 @@ const CheckoutSuccessPage = () => {
 
             {/* Footer */}
             <footer className="py-10 border-t border-slate-100 bg-white/50 backdrop-blur-md mt-auto">
-                <div className="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-8 text-slate-400 text-[12px] font-bold uppercase tracking-widest">
+                <div className="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-8 text-black opacity-30 text-[10px] font-black uppercase tracking-[5px] italic">
                     <p>© 2024 Secure Shield Insurance. All rights reserved.</p>
                     <div className="flex gap-12">
-                        <Link to="#" className="hover:text-[#134e8d] transition-colors">Privacy Policy</Link>
-                        <Link to="#" className="hover:text-[#134e8d] transition-colors">Terms of Service</Link>
-                        <Link to="#" className="hover:text-[#134e8d] transition-colors">Contact Support</Link>
+                        <Link to="#" className="hover:text-[#134e8d] transition-colors">Privacy_Protocol</Link>
+                        <Link to="#" className="hover:text-[#134e8d] transition-colors">Term_Terms</Link>
+                        <Link to="#" className="hover:text-[#134e8d] transition-colors">Signal_Node_Support</Link>
                     </div>
                 </div>
             </footer>

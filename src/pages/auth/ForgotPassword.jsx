@@ -62,15 +62,15 @@ const ForgotPassword = () => {
                         <div className="w-12 h-12 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg">
                             <Shield size={24} strokeWidth={2.5} />
                         </div>
-                        <span className="text-2xl font-extrabold text-white tracking-tight">Secure Shield</span>
+                        <span className="text-2xl font-extrabold text-black tracking-tight">Secure Shield</span>
                     </Link>
-                    <h2 className="text-4xl font-extrabold text-white tracking-tight mb-3">Forgot Password?</h2>
-                    <p className="text-slate-500 font-medium">No worries, we'll send a 6-digit secure OTP to your email.</p>
+                    <h2 className="text-4xl font-extrabold text-black tracking-tight mb-3">Forgot Password?</h2>
+                    <p className="text-black font-medium">No worries, we'll send a 6-digit secure OTP to your email.</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-3">
-                        <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Email Address</label>
+                        <label className="text-[12px] font-bold text-black uppercase tracking-widest pl-1">Email Address</label>
                         <div className="relative">
                             <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
                                 <Mail size={20} strokeWidth={2.5} />
@@ -83,7 +83,7 @@ const ForgotPassword = () => {
                                     setErrors("");
                                 }}
                                 onKeyDown={handleKeyDown}
-                                className={`w-full h-16 bg-slate-50 border-2 rounded-2xl pl-16 pr-6 text-white font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${errors ? 'border-red-400 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                className={`w-full h-16 bg-slate-50 border-2 rounded-2xl pl-16 pr-6 text-black font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${errors ? 'border-red-400 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
                                 placeholder="yourname@example.com"
                                 autoFocus
                             />
@@ -105,7 +105,7 @@ const ForgotPassword = () => {
                 </form>
 
                 <div className="mt-10 text-center">
-                    <Link to="/login" className="inline-flex items-center gap-2 text-slate-400 font-bold hover:text-[#134e8d] transition-colors text-sm uppercase tracking-widest">
+                    <Link to="/login" className="inline-flex items-center gap-2 text-black font-bold hover:text-[#134e8d] transition-colors text-sm uppercase tracking-widest">
                         <ArrowLeft size={16} /> Back to Login
                     </Link>
                 </div>

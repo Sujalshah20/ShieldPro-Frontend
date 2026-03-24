@@ -43,29 +43,29 @@ const AgentDashboard = () => {
             label: "Total Customers", 
             value: statsData?.stats?.assignedCustomers || 0, 
             icon: Users, 
-            color: "text-slate-700", 
-            bg: "bg-slate-100"
+            color: "text-black", 
+            bg: "bg-slate-50 shadow-inner"
         },
         { 
             label: "Pending Applications", 
             value: statsData?.stats?.pendingApplications || 0, 
             icon: FileText, 
-            color: "text-orange-600", 
-            bg: "bg-orange-50"
+            color: "text-black", 
+            bg: "bg-black/[0.02] shadow-inner"
         },
         { 
             label: "Claims to Review", 
             value: statsData?.stats?.claimsToReview || 0, 
             icon: AlertCircle, 
-            color: "text-rose-600", 
-            bg: "bg-rose-50"
+            color: "text-black", 
+            bg: "bg-black/[0.02] shadow-inner"
         },
         { 
             label: "Month Commission", 
             value: `₹${(statsData?.stats?.totalCommission || 0).toLocaleString()}`, 
             icon: CreditCard, 
-            color: "text-emerald-600", 
-            bg: "bg-emerald-50"
+            color: "text-black", 
+            bg: "bg-black/[0.02] shadow-inner"
         },
     ];
 
@@ -91,10 +91,10 @@ const AgentDashboard = () => {
         <div className="space-y-6 pb-8 font-sans px-4">
             {/* Welcome Section */}
             <div className="pt-2">
-                <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                <h1 className="text-2xl font-bold text-black flex items-center gap-2">
                     Welcome back, {user?.name}! 📈
                 </h1>
-                <p className="text-slate-500 mt-1 text-sm font-medium">Here's your performance snapshot.</p>
+                <p className="text-black mt-1 text-sm font-bold">Here's your performance snapshot.</p>
             </div>
 
             {/* Stats Grid */}
@@ -105,16 +105,16 @@ const AgentDashboard = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
+                        className="bg-white p-6 rounded-[2rem] border border-slate-50 shadow-xl hover:shadow-3xl transition-all duration-500 relative overflow-hidden group"
                     >
-                        <div className="flex justify-between items-start mb-3">
-                            <div className={`w-10 h-10 ${s.bg} rounded-xl flex items-center justify-center ${s.color}`}>
-                                <s.icon size={20} />
+                        <div className="flex justify-between items-start mb-6">
+                            <div className={`w-12 h-12 ${s.bg} rounded-2xl flex items-center justify-center ${s.color} border border-white transition-all group-hover:rotate-6 group-hover:scale-110`}>
+                                <s.icon size={22} strokeWidth={3} />
                             </div>
                         </div>
                         <div>
-                            <p className="text-slate-400 text-[11px] font-semibold mb-0.5">{s.label}</p>
-                            <h2 className="text-2xl font-bold text-slate-800">{s.value}</h2>
+                            <p className="text-black text-[10px] font-black mb-1 uppercase tracking-[4px] opacity-20 italic">{s.label}</p>
+                            <h2 className="text-3xl font-black text-black tracking-tighter italic uppercase">{s.value}</h2>
                         </div>
                     </motion.div>
                 ))}
@@ -125,7 +125,7 @@ const AgentDashboard = () => {
                 {/* Sales Trend Bar Chart */}
                 <div className="lg:col-span-2 bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm">
                     <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-bold text-slate-800">Policy Sales Trend</h3>
+                        <h3 className="text-lg font-bold text-black">Policy Sales Trend</h3>
                     </div>
                     {salesData.length > 0 ? (
                         <div className="h-[280px] w-full">
@@ -136,7 +136,7 @@ const AgentDashboard = () => {
                                         dataKey="name" 
                                         axisLine={false} 
                                         tickLine={false} 
-                                        tick={{ fill: '#64748b', fontSize: 12, fontWeight: 700 }} 
+                                        tick={{ fill: '#000000', fontSize: 12, fontWeight: 700 }} 
                                         dy={10}
                                     />
                                     <YAxis axisLine={false} tickLine={false} hide />
@@ -149,7 +149,7 @@ const AgentDashboard = () => {
                             </ResponsiveContainer>
                         </div>
                     ) : (
-                        <div className="h-[280px] flex items-center justify-center text-slate-400 font-medium">
+                        <div className="h-[280px] flex items-center justify-center text-black font-medium text-[13px] italic tracking-wider">
                             No sales records found for the last 6 months.
                         </div>
                     )}
@@ -157,7 +157,7 @@ const AgentDashboard = () => {
 
                 {/* Policies by Type Donut Chart */}
                 <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
-                    <h3 className="text-lg font-bold text-slate-800 mb-6">Policies by Type</h3>
+                    <h3 className="text-lg font-bold text-black mb-6">Policies by Type</h3>
                     {policyTypeData.length > 0 ? (
                         <div className="relative flex-1 flex flex-col justify-center items-center">
                             <div className="h-[200px] w-full">
@@ -183,13 +183,13 @@ const AgentDashboard = () => {
                                 {policyTypeData.map((item, idx) => (
                                     <div key={idx} className="flex items-center gap-2">
                                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                                        <span className="text-[10px] font-bold text-slate-600 truncate">{item.name} ({item.value}%)</span>
+                                        <span className="text-[10px] font-bold text-black truncate">{item.name} ({item.value}%)</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     ) : (
-                        <div className="flex-1 flex items-center justify-center text-slate-400 font-medium text-center px-4">
+                        <div className="flex-1 flex items-center justify-center text-black font-medium text-center px-4 italic text-[12px]">
                             Sell your first policy to see the distribution here!
                         </div>
                     )}
@@ -201,7 +201,7 @@ const AgentDashboard = () => {
                 {/* Recent Applications */}
                 <div className="lg:col-span-12 xl:col-span-7 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="flex justify-between items-center mb-6 px-1">
-                        <h3 className="text-lg font-bold text-slate-800">Recent Applications</h3>
+                        <h3 className="text-lg font-bold text-black">Recent Applications</h3>
                         <button onClick={() => navigate('/agent/applications')} className="text-[11px] font-bold text-emerald-600 hover:underline">View All</button>
                     </div>
                     <div className="overflow-x-auto">
@@ -209,36 +209,36 @@ const AgentDashboard = () => {
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-slate-50">
-                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Customer</th>
-                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Policy</th>
-                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Date</th>
-                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400">Status</th>
-                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-slate-400 text-right">Action</th>
+                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-black">Customer</th>
+                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-black">Policy</th>
+                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-black">Date</th>
+                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-black">Status</th>
+                                        <th className="pb-3 px-4 text-[9px] font-black uppercase tracking-[1px] text-black text-right">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50">
                                     {applications.slice(0, 5).map((row, i) => (
                                         <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
-                                            <td className="py-4 px-4 font-bold text-slate-700 text-[12px]">{row.user?.name}</td>
-                                            <td className="py-4 px-4 font-medium text-slate-500 text-[12px]">{row.policy?.policyName}</td>
-                                            <td className="py-4 px-4 font-medium text-slate-400 text-[12px]">{new Date(row.createdAt).toLocaleDateString()}</td>
+                                            <td className="py-4 px-4 font-bold text-black text-[12px]">{row.user?.name}</td>
+                                            <td className="py-4 px-4 font-bold text-black text-[12px]">{row.policy?.policyName}</td>
+                                            <td className="py-4 px-4 font-bold text-black text-[12px]">{new Date(row.createdAt).toLocaleDateString()}</td>
                                             <td className="py-4 px-4">
                                                 <span className={`text-[9px] font-bold px-2 py-0.5 rounded-md ${
                                                     row.status === 'Approved' ? 'bg-emerald-50 text-emerald-600' : 
-                                                    row.status === 'Pending' ? 'bg-orange-50 text-orange-600' : 'bg-slate-50 text-slate-600'
+                                                    row.status === 'Pending' ? 'bg-orange-50 text-orange-600' : 'bg-slate-50 text-black'
                                                 }`}>
                                                     {row.status.toUpperCase()}
                                                 </span>
                                             </td>
-                                            <td className="py-4 px-4 text-right">
-                                                <button onClick={() => navigate('/agent/applications')} className="text-slate-400 hover:text-[#124C89] transition-colors font-bold text-[11px]">View</button>
+                                            <td className="py-4 px-4">
+                                                <button onClick={() => navigate('/agent/applications')} className="h-9 px-4 bg-slate-50 text-black border border-slate-100 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-black hover:text-white transition-all italic">DEPLOY</button>
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         ) : (
-                            <div className="py-12 text-center text-slate-400 font-medium">
+                            <div className="py-12 text-center text-black font-bold uppercase tracking-[2px] text-[11px] italic">
                                 No applications found.
                             </div>
                         )}
@@ -248,7 +248,7 @@ const AgentDashboard = () => {
                 {/* Pending Claims */}
                 <div className="lg:col-span-12 xl:col-span-5 bg-white p-6 rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="flex justify-between items-center mb-6 px-1">
-                        <h3 className="text-lg font-bold text-slate-800">Pending Claims</h3>
+                        <h3 className="text-lg font-bold text-black">Pending Claims</h3>
                         <button onClick={() => navigate('/agent/claims')} className="text-[11px] font-bold text-emerald-600 hover:underline">View All</button>
                     </div>
                     <div className="space-y-4 flex-1">
@@ -260,23 +260,23 @@ const AgentDashboard = () => {
                                             <ShieldCheck size={16} />
                                         </div>
                                         <div>
-                                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-wider leading-none mb-0.5">#{claim._id.slice(-6).toUpperCase()}</p>
-                                            <p className="font-bold text-slate-700 text-sm">{claim.user?.name}</p>
+                                            <p className="text-[8px] font-black text-black uppercase tracking-wider leading-none mb-0.5">#{claim._id.slice(-6).toUpperCase()}</p>
+                                            <p className="font-bold text-black text-sm">{claim.user?.name}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-bold text-slate-800 text-sm">₹{claim.amount.toLocaleString()}</p>
-                                        <p className="text-[9px] font-bold text-slate-400 mt-0.5 uppercase tracking-wider">{new Date(claim.createdAt).toLocaleDateString()}</p>
+                                        <p className="font-bold text-black text-sm">₹{claim.amount.toLocaleString()}</p>
+                                        <p className="text-[9px] font-bold text-black mt-0.5 uppercase tracking-wider">{new Date(claim.createdAt).toLocaleDateString()}</p>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div className="py-12 text-center text-slate-400 font-medium">
+                            <div className="py-12 text-center text-black font-bold uppercase tracking-[2px] text-[11px] italic">
                                 Great! All claims are processed.
                             </div>
                         )}
                     </div>
-                    <button onClick={() => navigate('/agent/claims')} className="w-full mt-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-xl text-[#1e293b] font-bold text-[12px] transition-all">
+                    <button onClick={() => navigate('/agent/claims')} className="w-full mt-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-xl text-black font-bold text-[12px] transition-all">
                         Go to Claims Management
                     </button>
                 </div>

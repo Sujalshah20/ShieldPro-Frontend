@@ -30,19 +30,19 @@ const PolicyDetails = () => {
     if (isLoading) return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 gap-4">
             <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Loading details...</p>
+            <p className="text-[11px] font-black text-black opacity-30 uppercase tracking-[5px] italic">Loading details // SECURE_SYNC</p>
         </div>
     );
 
     return (
         <div className="space-y-8 pb-20">
             {/* Breadcrumbs */}
-            <nav className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400">
-                <Link to="/admin" className="hover:text-blue-500 transition-colors">Home</Link>
-                <ChevronRight size={14} />
-                <Link to="/admin/policies" className="hover:text-blue-500 transition-colors">Policies</Link>
-                <ChevronRight size={14} />
-                <span className="text-slate-800">Details</span>
+            <nav className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[3px] text-black">
+                <Link to="/admin" className="hover:text-blue-500 transition-colors opacity-30 hover:opacity-100">Home</Link>
+                <ChevronRight size={14} className="opacity-20" />
+                <Link to="/admin/policies" className="hover:text-blue-500 transition-colors opacity-30 hover:opacity-100">Policies</Link>
+                <ChevronRight size={14} className="opacity-20" />
+                <span className="text-black italic underline decoration-blue-500/30 underline-offset-4">Details</span>
             </nav>
 
             {/* Header Module */}
@@ -52,22 +52,22 @@ const PolicyDetails = () => {
                         <div className="flex items-center gap-3 mb-2">
                              <button 
                                 onClick={() => navigate(-1)}
-                                className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-all"
+                                className="w-8 h-8 rounded-lg bg-white border border-slate-100 flex items-center justify-center text-black hover:bg-slate-50 transition-all font-black shadow-sm"
                             >
-                                <ArrowLeft size={16} />
+                                <ArrowLeft size={16} strokeWidth={3} />
                             </button>
                             <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-blue-100 italic">
                                 {policy?.policyType}
                             </span>
                         </div>
-                        <h1 className="text-2xl font-black text-slate-800 tracking-tight">{policy?.policyName}</h1>
-                        <p className="text-xs font-medium text-slate-400">Configuration and coverage parameters for this insurance plan</p>
+                        <h1 className="text-2xl font-black text-black tracking-tighter italic uppercase">{policy?.policyName}</h1>
+                        <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic leading-relaxed">Configuration and coverage parameters for this insurance plan // NODE_LOCKED</p>
                     </div>
                 </Reveal>
                 
                 <div className="flex items-center gap-4">
-                    <button className="h-12 px-6 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm">
-                        <Edit size={18} /> Edit Plan
+                    <button className="h-12 px-6 bg-white border border-slate-100 text-black rounded-xl text-[11px] font-black uppercase tracking-widest flex items-center gap-2 hover:bg-slate-50 transition-all shadow-sm italic">
+                        <Edit size={18} strokeWidth={3} /> Edit Plan
                     </button>
                     <button className="h-12 px-6 bg-rose-50 text-rose-600 border border-rose-100 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-rose-100 transition-all shadow-sm">
                         <Trash2 size={18} /> Delete
@@ -84,8 +84,8 @@ const PolicyDetails = () => {
                                 <Shield size={24} />
                             </div>
                             <div>
-                                <h3 className="text-lg font-black text-slate-800 tracking-tight">Financial Blueprint</h3>
-                                <p className="text-xs font-medium text-slate-400 uppercase tracking-widest">Premium and coverage breakdown</p>
+                                <h3 className="text-lg font-black text-black tracking-tight italic uppercase">Financial Blueprint</h3>
+                                <p className="text-[9px] font-black text-black opacity-30 uppercase tracking-[5px] italic">Premium and coverage breakdown</p>
                             </div>
                         </div>
 
@@ -101,16 +101,16 @@ const PolicyDetails = () => {
                                         <d.icon size={22} />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">{d.label}</span>
-                                        <span className="text-xl font-black text-slate-800 tracking-tight">{d.val}</span>
+                                        <span className="text-[9px] font-black text-black opacity-30 uppercase tracking-[4px] mb-1 italic leading-none">{d.label}</span>
+                                        <span className="text-xl font-black text-black tracking-tighter italic">{d.val}</span>
                                     </div>
                                 </div>
                             ))}
                         </div>
 
                         <div className="mt-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                            <h4 className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3 ml-1 italic">Plan Description</h4>
-                            <p className="text-sm font-medium text-slate-600 leading-relaxed italic">
+                            <h4 className="text-[9px] font-black text-black opacity-30 uppercase tracking-[5px] mb-3 ml-1 italic">Plan Description</h4>
+                            <p className="text-sm font-black text-black opacity-70 leading-relaxed italic uppercase tracking-tighter">
                                 "{policy?.description}"
                             </p>
                         </div>
@@ -131,7 +131,7 @@ const PolicyDetails = () => {
                             
                             <div className="space-y-8">
                                 <div className="space-y-3">
-                                    <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                    <div className="flex justify-between text-[10px] font-black uppercase tracking-[4px] text-black opacity-30 italic">
                                         <span>Risk Scrutiny</span>
                                         <span className="text-emerald-400 font-black italic">Verified</span>
                                     </div>
@@ -140,7 +140,7 @@ const PolicyDetails = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-3">
-                                    <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                                    <div className="flex justify-between text-[10px] font-black uppercase tracking-[4px] text-black opacity-30 italic">
                                         <span>Market Viability</span>
                                         <span className="text-blue-400 font-black italic">High</span>
                                     </div>
@@ -154,10 +154,10 @@ const PolicyDetails = () => {
                         <div className="relative z-10 pt-10">
                             <div className="p-6 bg-white/5 rounded-2xl border border-white/10 mb-8 backdrop-blur-sm">
                                 <div className="flex items-center gap-3 text-emerald-400 mb-2">
-                                    <CheckCircle2 size={16} />
-                                    <span className="text-[10px] font-black uppercase tracking-widest">Active Status</span>
+                                    <CheckCircle2 size={16} strokeWidth={3} />
+                                    <span className="text-[10px] font-black uppercase tracking-[4px] italic">Active Status</span>
                                 </div>
-                                <p className="text-xs text-slate-400 font-medium">This plan is currently live and available for purchase by customers across all enabled regions.</p>
+                                <p className="text-[11px] text-black opacity-40 font-black uppercase tracking-widest leading-relaxed italic">This plan is currently live and available for purchase by customers across all enabled regions.</p>
                             </div>
                             <button className="w-full h-14 bg-blue-600 text-white rounded-xl flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/40">
                                 <Zap size={18} /> Update Deployment
@@ -175,8 +175,8 @@ const PolicyDetails = () => {
                             <FileText size={24} />
                         </div>
                         <div>
-                            <h4 className="text-lg font-black text-slate-800 tracking-tight">Coverage Clauses</h4>
-                            <p className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">Specific protection layers included</p>
+                            <h4 className="text-lg font-black text-black tracking-tight italic uppercase">Coverage Clauses</h4>
+                            <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">Specific protection layers included</p>
                         </div>
                     </div>
 
@@ -186,8 +186,8 @@ const PolicyDetails = () => {
                                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4 border border-slate-100 group-hover:scale-110 transition-transform">
                                     <item.icon size={20} />
                                 </div>
-                                <h5 className="font-bold text-slate-800 text-xs mb-2">{item.name}</h5>
-                                <p className="text-[9px] text-slate-400 font-medium leading-relaxed uppercase tracking-wider">{item.description}</p>
+                                <h5 className="font-black text-black text-xs mb-2 uppercase italic tracking-tighter">{item.name}</h5>
+                                <p className="text-[9px] text-black opacity-30 font-black leading-relaxed uppercase tracking-widest italic">{item.description}</p>
                             </div>
                         ))}
                     </div>

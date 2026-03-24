@@ -93,13 +93,13 @@ const AgentApplications = () => {
             {/* Left Content: Applications List */}
             <div className={`flex-1 flex flex-col gap-6 transition-all duration-500 pb-10 ${selectedApp ? 'lg:mr-[420px]' : ''}`}>
                 <div>
-                    <div className="flex items-center gap-2 text-[12px] font-bold text-slate-400 uppercase tracking-widest mb-1">
-                        <Link to="/agent" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-                        <ChevronRight size={12} />
-                        <span className="text-slate-600">Policy Applications</span>
+                    <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] mb-2 italic">
+                        <Link to="/agent" className="hover:text-black hover:opacity-100 transition-colors uppercase italic font-black">Dashboard</Link>
+                        <ChevronRight size={12} className="opacity-40" />
+                        <span className="text-black opacity-100">Policy Applications</span>
                     </div>
-                    <h1 className="text-2xl font-bold text-[#1e293b]">Policy Applications</h1>
-                    <p className="text-[13px] font-medium text-slate-400 mt-1">Review and manage insurance applications assigned to you.</p>
+                    <h1 className="text-2xl font-black text-black tracking-tighter italic uppercase">Policy Applications_</h1>
+                    <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] mt-1 italic leading-relaxed uppercase">Review and manage insurance applications assigned to you // SYNC_ACTIVE</p>
                 </div>
 
                 {/* Tab Navigation & Search */}
@@ -109,10 +109,10 @@ const AgentApplications = () => {
                             <button
                                 key={tab}
                                 onClick={() => setActiveStatusTab(tab)}
-                                className={`px-4 py-2 rounded-xl text-[11px] font-bold transition-all ${
+                                className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all italic ${
                                     activeStatusTab === tab 
-                                    ? 'bg-[#1e293b] text-white shadow-md' 
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-black text-white shadow-3xl' 
+                                    : 'text-black/40 hover:bg-slate-50 hover:text-black'
                                 }`}
                             >
                                 {tab}
@@ -120,11 +120,11 @@ const AgentApplications = () => {
                         ))}
                     </div>
                     <div className="relative w-full md:w-64">
-                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black opacity-20" size={14} strokeWidth={3} />
                         <input 
                             type="text" 
                             placeholder="Search applications..." 
-                            className="w-full pl-9 pr-4 h-9 bg-slate-50 border-none rounded-xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-[#1e293b]/5 transition-all text-slate-600"
+                            className="w-full pl-9 pr-4 h-10 bg-slate-50 border border-transparent rounded-xl text-[11px] font-black italic outline-none focus:bg-white focus:border-slate-100 transition-all text-black uppercase tracking-tighter"
                             value={searchQuery}
                             onChange={e => setSearchQuery(e.target.value)}
                         />
@@ -137,12 +137,12 @@ const AgentApplications = () => {
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="border-b border-slate-100 bg-white">
-                                    <th className="pl-8 pr-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">App ID</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer Name</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Policy Name</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Date Submitted</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Documents</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
+                                    <th className="pl-8 pr-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic">App ID</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Customer Name</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Policy Name</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic text-center">Date Submitted</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic text-center">Documents</th>
+                                    <th className="px-8 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -153,16 +153,16 @@ const AgentApplications = () => {
                                         onClick={() => setSelectedApp(app)}
                                     >
                                         <td className="pl-8 pr-4 py-5">
-                                            <span className="text-[12px] font-bold text-[#1e293b]">APP-{app._id.slice(-4).toUpperCase()}</span>
+                                            <span className="text-[12px] font-black text-black italic uppercase tracking-tighter">APP-{app._id.slice(-4).toUpperCase()}</span>
                                         </td>
                                         <td className="px-4 py-5">
-                                            <span className="text-[12px] font-bold text-[#1e293b]">{app.user?.name}</span>
+                                            <span className="text-[12px] font-black text-black italic uppercase tracking-tighter">{app.user?.name}</span>
                                         </td>
                                         <td className="px-4 py-5">
-                                            <span className="text-[11px] font-bold text-slate-500">{app.policy?.policyName}</span>
+                                            <span className="text-[11px] font-black text-black opacity-40 italic uppercase tracking-tighter">{app.policy?.policyName}</span>
                                         </td>
                                         <td className="px-4 py-5 text-center">
-                                            <span className="text-[11px] font-bold text-slate-500">
+                                            <span className="text-[11px] font-black text-black opacity-40 uppercase tracking-widest italic">
                                                 {new Date(app.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: '2023' })}
                                             </span>
                                         </td>
@@ -184,8 +184,8 @@ const AgentApplications = () => {
                                             </div>
                                         </td>
                                         <td className="px-8 py-5 text-right">
-                                            <button className="p-1.5 text-slate-300 group-hover:text-[#1e293b] transition-colors rounded-lg">
-                                                <ChevronRight size={18} />
+                                            <button className="p-1.5 text-black opacity-20 group-hover:opacity-100 hover:text-black transition-all rounded-lg">
+                                                <ChevronRight size={18} strokeWidth={3} />
                                             </button>
                                         </td>
                                     </tr>
@@ -207,42 +207,42 @@ const AgentApplications = () => {
                         className="fixed top-[88px] right-6 bottom-6 w-full lg:w-[400px] bg-white rounded-[1.5rem] shadow-2xl shadow-slate-200 border border-slate-200 flex flex-col z-50 overflow-hidden"
                     >
                         {/* Panel Header */}
-                        <div className="p-6 bg-[#1e293b] text-white flex items-center justify-between">
+                        <div className="p-6 bg-black text-white flex items-center justify-between border-b border-white/5 shadow-3xl">
                             <div>
-                                <h3 className="text-[16px] font-bold tracking-tight">Review Application</h3>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Application ID: APP-{selectedApp._id.slice(-4).toUpperCase()}</p>
+                                <h3 className="text-[16px] font-black tracking-tighter italic uppercase leading-none">Review Application_</h3>
+                                <p className="text-[9px] font-black text-white/40 uppercase tracking-[4px] mt-1.5 italic">Application ID: APP-{selectedApp._id.slice(-4).toUpperCase()}</p>
                             </div>
-                            <button onClick={() => setSelectedApp(null)} className="w-7 h-7 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-all">
-                                <X size={14} />
+                            <button onClick={() => setSelectedApp(null)} className="w-8 h-8 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/5">
+                                <X size={16} strokeWidth={3} />
                             </button>
                         </div>
 
                         <div className="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar pb-32">
                             {/* Customer Details Section */}
                             <div className="space-y-3">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <User size={12} className="text-slate-300" /> Customer Details
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <User size={12} className="text-black opacity-20" strokeWidth={3} /> Customer Details
                                 </div>
-                                <div className="p-4 bg-[#f8fafc] rounded-xl border border-slate-100 grid grid-cols-2 gap-y-4 gap-x-2">
+                                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 grid grid-cols-2 gap-y-4 gap-x-2 shadow-inner">
                                     <div className="space-y-0.5">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Full Name</p>
-                                        <p className="text-[12px] font-bold text-slate-700">{selectedApp.user?.name}</p>
+                                        <p className="text-[9px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Full Name</p>
+                                        <p className="text-[12px] font-black text-black italic leading-none">{selectedApp.user?.name}</p>
                                     </div>
                                     <div className="space-y-0.5">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Contact</p>
-                                        <p className="text-[12px] font-bold text-slate-700">{selectedApp.user?.phone || 'N/A'}</p>
+                                        <p className="text-[9px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Contact</p>
+                                        <p className="text-[12px] font-black text-black italic leading-none">{selectedApp.user?.phone || 'N/A'}</p>
                                     </div>
-                                    <div className="col-span-2 space-y-0.5">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Plan Details</p>
-                                        <p className="text-[12px] font-bold text-[#1e293b]">{selectedApp.policy?.policyName} • ₹{selectedApp.policy?.premiumAmount?.toLocaleString()}/yr</p>
+                                    <div className="col-span-2 space-y-0.5 mt-2">
+                                        <p className="text-[9px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Plan Details</p>
+                                        <p className="text-[11px] font-black text-black uppercase tracking-widest italic">{selectedApp.policy?.policyName} • <span className="text-emerald-600">₹{selectedApp.policy?.premiumAmount?.toLocaleString()}/yr</span></p>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Document Preview Section */}
                             <div className="space-y-3">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <Eye size={12} className="text-slate-300" /> Document Preview
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <Eye size={12} className="text-black opacity-20" strokeWidth={3} /> Document Preview
                                 </div>
                                 <div className="grid grid-cols-3 gap-2">
                                     {[
@@ -266,8 +266,8 @@ const AgentApplications = () => {
 
                             {/* Verification Checklist */}
                             <div className="space-y-4 pt-2">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <Layers size={12} className="text-slate-300" /> Verification Checklist
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <Layers size={12} className="text-black opacity-20" strokeWidth={3} /> Verification Checklist
                                 </div>
                                 <div className="space-y-2.5">
                                     {[
@@ -277,7 +277,7 @@ const AgentApplications = () => {
                                         { id: 'income', label: 'Income proof valid' }
                                     ].map(item => (
                                         <label key={item.id} className="flex items-center justify-between cursor-pointer group px-1">
-                                            <span className="text-[12px] font-bold text-slate-600 group-hover:text-slate-800 transition-colors">{item.label}</span>
+                                            <span className="text-[12px] font-black text-black opacity-40 group-hover:opacity-100 transition-all uppercase italic tracking-tighter">{item.label}</span>
                                             <div className={`w-5 h-5 rounded border-2 transition-all flex items-center justify-center ${checklist[item.id] ? 'bg-emerald-500 border-emerald-500' : 'bg-white border-slate-200 group-hover:border-slate-300'}`}>
                                                 <input 
                                                     type="checkbox" 
@@ -294,12 +294,12 @@ const AgentApplications = () => {
 
                             {/* Agent Notes */}
                             <div className="space-y-3 pt-2">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <MessageSquare size={12} className="text-slate-300" /> Agent Notes
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <MessageSquare size={12} className="text-black opacity-20" strokeWidth={3} /> Agent Notes
                                 </div>
                                 <div className="relative group">
                                     <textarea 
-                                        className="w-full h-24 bg-white border border-slate-200 rounded-xl p-3.5 text-[12px] font-semibold text-slate-600 outline-none focus:ring-4 focus:ring-slate-50 transition-all resize-none italic"
+                                        className="w-full h-24 bg-white border border-slate-200 rounded-xl p-3.5 text-[11px] font-black text-black outline-none focus:ring-8 focus:ring-black/5 transition-all resize-none italic uppercase tracking-tighter shadow-inner"
                                         placeholder="Add a comment or internal note..."
                                         value={agentNotes}
                                         onChange={(e) => setAgentNotes(e.target.value)}

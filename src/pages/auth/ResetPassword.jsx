@@ -66,12 +66,12 @@ const ResetPassword = () => {
                         <div className="w-12 h-12 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg">
                             <Shield size={24} strokeWidth={2.5} />
                         </div>
-                        <span className="text-2xl font-extrabold text-[#134e8d] tracking-tight">Secure Shield</span>
+                        <span className="text-2xl font-extrabold text-black tracking-tight">Secure Shield</span>
                     </Link>
-                    <h2 className="text-3xl font-extrabold text-[#134e8d] mb-3">Set New Password</h2>
-                    <p className="text-slate-500 font-medium leading-relaxed">
+                    <h2 className="text-3xl font-extrabold text-black mb-3">Set New Password</h2>
+                    <p className="text-black font-medium leading-relaxed">
                         Secure your account with a strong password. <br />
-                        Resetting for <span className="font-bold text-[#134e8d]">{email}</span>
+                        Resetting for <span className="font-bold text-black">{email}</span>
                     </p>
                 </div>
 
@@ -84,14 +84,14 @@ const ResetPassword = () => {
                                     <div className={`w-4 h-4 rounded-full flex items-center justify-center ${rule.met ? 'bg-emerald-500' : 'bg-slate-200'} transition-all`}>
                                         {rule.met && <div className="w-2 h-2 bg-white rounded-full" />}
                                     </div>
-                                    <span className={`text-[11px] font-bold ${rule.met ? 'text-emerald-600' : 'text-slate-400'}`}>{rule.label}</span>
+                                    <span className={`text-[11px] font-bold ${rule.met ? 'text-emerald-600' : 'text-black'}`}>{rule.label}</span>
                                 </div>
                             ))}
                         </div>
 
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">New Password</label>
+                                <label className="text-[12px] font-bold text-black uppercase tracking-widest pl-1">New Password</label>
                                 <div className="relative">
                                     <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
                                         <Lock size={20} strokeWidth={2.5} />
@@ -101,7 +101,7 @@ const ResetPassword = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         onKeyDown={handleKeyDown}
-                                        className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl pl-16 pr-16 text-slate-900 font-bold text-base outline-none focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
+                                        className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl pl-16 pr-16 text-black font-bold text-base outline-none focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
                                         placeholder="8-20 characters"
                                         autoFocus
                                     />
@@ -116,7 +116,7 @@ const ResetPassword = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[12px] font-bold text-slate-500 uppercase tracking-widest pl-1">Confirm Password</label>
+                                <label className="text-[12px] font-bold text-black uppercase tracking-widest pl-1">Confirm Password</label>
                                 <div className="relative">
                                     <div className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
                                         <Lock size={20} strokeWidth={2.5} />
@@ -125,7 +125,7 @@ const ResetPassword = () => {
                                         type="password" 
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
-                                        className={`w-full h-14 bg-white border-2 rounded-2xl pl-16 pr-6 text-slate-900 font-bold text-base outline-none transition-all placeholder:text-slate-300 ${isMatch ? 'border-emerald-500' : confirmPassword.length > 0 ? 'border-red-400' : 'border-slate-200 focus:border-[#134e8d]/20'}`}
+                                        className={`w-full h-14 bg-white border-2 rounded-2xl pl-16 pr-6 text-black font-bold text-base outline-none transition-all placeholder:text-slate-300 ${isMatch ? 'border-emerald-500' : confirmPassword.length > 0 ? 'border-red-400' : 'border-slate-200 focus:border-[#134e8d]/20'}`}
                                         placeholder="Repeat your password"
                                     />
                                 </div>

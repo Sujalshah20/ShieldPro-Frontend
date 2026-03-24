@@ -83,13 +83,13 @@ const AgentClaims = () => {
             {/* Left Content: Claims List */}
             <div className={`flex-1 flex flex-col gap-6 transition-all duration-500 pb-10 ${selectedClaim ? 'lg:mr-[420px]' : ''}`}>
                 <div>
-                    <div className="flex items-center gap-2 text-[12px] font-bold text-slate-400 uppercase tracking-widest mb-1">
-                        <Link to="/agent" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-                        <ChevronRight size={12} />
-                        <span className="text-slate-600">Claims to Process</span>
+                    <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] mb-2 italic">
+                        <Link to="/agent" className="hover:text-black hover:opacity-100 transition-colors uppercase italic font-black">Dashboard</Link>
+                        <ChevronRight size={12} className="opacity-40" />
+                        <span className="text-black opacity-100 italic">Claims to Process</span>
                     </div>
-                    <h1 className="text-2xl font-bold text-[#1e293b]">Claims to Process</h1>
-                    <p className="text-[13px] font-medium text-slate-400 mt-1">Audit and verify settlement requests from policyholders.</p>
+                    <h1 className="text-2xl font-black text-black tracking-tighter italic uppercase">Claims to Process_</h1>
+                    <p className="text-[10px] font-black text-black opacity-30 mt-1 uppercase tracking-[4px] italic leading-relaxed">Audit and verify settlement requests from policyholders // NEXUS_AUDIT</p>
                 </div>
 
                 {/* Tab Navigation & Search */}
@@ -99,10 +99,10 @@ const AgentClaims = () => {
                             <button
                                 key={tab}
                                 onClick={() => setActiveStatusTab(tab)}
-                                className={`px-4 py-2 rounded-xl text-[11px] font-bold transition-all ${
+                                className={`px-4 py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all italic ${
                                     activeStatusTab === tab 
-                                    ? 'bg-[#1e293b] text-white shadow-md' 
-                                    : 'text-slate-500 hover:bg-slate-50'
+                                    ? 'bg-black text-white shadow-3xl' 
+                                    : 'text-black/40 hover:bg-slate-50 hover:text-black'
                                 }`}
                             >
                                 {tab}
@@ -120,8 +120,8 @@ const AgentClaims = () => {
                                 onChange={e => setSearchQuery(e.target.value)}
                             />
                         </div>
-                        <button className="h-9 px-4 bg-white border border-slate-200 rounded-xl text-[11px] font-bold text-slate-600 flex items-center gap-2 hover:bg-slate-50 transition-all">
-                            <Download size={14} /> Export
+                        <button className="h-9 px-4 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-black flex items-center gap-2 hover:bg-slate-50 transition-all italic shadow-inner">
+                            <Download size={14} strokeWidth={3} /> Export
                         </button>
                     </div>
                 </div>
@@ -132,12 +132,12 @@ const AgentClaims = () => {
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="border-b border-slate-100 bg-white">
-                                    <th className="pl-8 pr-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Incident ID</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Policyholder</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Filed Date</th>
-                                    <th className="px-4 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Status</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
+                                    <th className="pl-8 pr-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Incident ID</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Policyholder</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Type</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic text-center">Filed Date</th>
+                                    <th className="px-4 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic text-center">Status</th>
+                                    <th className="px-8 py-4 text-[10px] font-black text-black opacity-30 uppercase tracking-[3px] italic text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -152,17 +152,17 @@ const AgentClaims = () => {
                                         </td>
                                         <td className="px-4 py-5">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-[#1e293b]/5 flex items-center justify-center text-[10px] font-bold text-[#1e293b]">
+                                                <div className="w-8 h-8 rounded-xl bg-black text-white flex items-center justify-center text-[10px] font-black italic shadow-3xl border border-white/10 uppercase">
                                                     {claim.userId?.name?.charAt(0)}
                                                 </div>
-                                                <span className="text-[12px] font-bold text-[#1e293b]">{claim.userId?.name}</span>
+                                                <span className="text-[12px] font-black text-black italic uppercase tracking-tighter">{claim.userId?.name}</span>
                                             </div>
                                         </td>
                                         <td className="px-4 py-5">
-                                            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-tight">{claim.policyId?.title || "Standard Claim"}</span>
+                                            <span className="text-[10px] font-black text-black opacity-40 uppercase tracking-widest italic">{claim.policyId?.title || "Standard Claim"}</span>
                                         </td>
                                         <td className="px-4 py-5 text-center">
-                                            <span className="text-[11px] font-bold text-slate-500">
+                                            <span className="text-[10px] font-black text-black opacity-40 uppercase tracking-widest italic">
                                                 {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: '2023' })}
                                             </span>
                                         </td>
@@ -201,42 +201,42 @@ const AgentClaims = () => {
                         className="fixed top-[88px] right-6 bottom-6 w-full lg:w-[400px] bg-white rounded-2xl shadow-2xl shadow-slate-200 border border-slate-200 flex flex-col z-50 overflow-hidden"
                     >
                         {/* Panel Header */}
-                        <div className="p-6 bg-[#1e293b] text-white flex items-center justify-between">
+                        <div className="p-6 bg-black text-white flex items-center justify-between border-b border-white/5 shadow-3xl">
                             <div>
-                                <h3 className="text-[16px] font-bold tracking-tight">Review Claim</h3>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Incident ID: CLM-{selectedClaim._id.slice(-6).toUpperCase()}</p>
+                                <h3 className="text-[16px] font-black tracking-tighter italic uppercase leading-none">Review Claim_</h3>
+                                <p className="text-[9px] font-black text-white/40 uppercase tracking-[4px] mt-0.5 italic">Incident ID: CLM-{selectedClaim._id.slice(-6).toUpperCase()}</p>
                             </div>
-                            <button onClick={() => setSelectedClaim(null)} className="w-7 h-7 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-all">
-                                <X size={14} />
+                            <button onClick={() => setSelectedClaim(null)} className="w-8 h-8 flex items-center justify-center bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/5">
+                                <X size={16} strokeWidth={3} />
                             </button>
                         </div>
 
                         <div className="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar pb-32">
                             {/* Claimant Details */}
                             <div className="space-y-3">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <User size={12} className="text-slate-300" /> Claimant Details
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <User size={12} className="text-black opacity-20" strokeWidth={3} /> Claimant Details
                                 </div>
-                                <div className="p-4 bg-[#f8fafc] rounded-xl border border-slate-100 grid grid-cols-2 gap-y-4 gap-x-2">
+                                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 grid grid-cols-2 gap-y-4 gap-x-2 shadow-inner">
                                     <div className="space-y-0.5">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Full Name</p>
-                                        <p className="text-[12px] font-bold text-slate-700">{selectedClaim.userId?.name}</p>
+                                        <p className="text-[9px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Full Name</p>
+                                        <p className="text-[12px] font-black text-black italic leading-none">{selectedClaim.userId?.name}</p>
                                     </div>
                                     <div className="space-y-0.5">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Incident Date</p>
-                                        <p className="text-[12px] font-bold text-slate-700">Oct 12, 2023</p>
+                                        <p className="text-[9px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Incident Date</p>
+                                        <p className="text-[12px] font-black text-black italic leading-none">Oct 12, 2023</p>
                                     </div>
-                                    <div className="col-span-2 space-y-0.5">
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Policy Coverage</p>
-                                        <p className="text-[12px] font-bold text-[#1e293b]">{selectedClaim.policyId?.title || "Standard Comprehensive"}</p>
+                                    <div className="col-span-2 space-y-0.5 mt-2">
+                                        <p className="text-[9px] font-black text-black opacity-30 uppercase tracking-[3px] italic">Policy Coverage</p>
+                                        <p className="text-[11px] font-black text-black uppercase tracking-widest italic">{selectedClaim.policyId?.title || "Standard Comprehensive"}</p>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Proof of Loss Section */}
                             <div className="space-y-3">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <Eye size={12} className="text-slate-300" /> Proof of Loss
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <Eye size={12} className="text-black opacity-20" strokeWidth={3} /> Proof of Loss
                                 </div>
                                 <div className="grid grid-cols-3 gap-2">
                                     {[
@@ -260,8 +260,8 @@ const AgentClaims = () => {
 
                             {/* Settlement Checklist */}
                             <div className="space-y-4 pt-2">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <Layers size={12} className="text-slate-300" /> Settlement Checklist
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <Layers size={12} className="text-black opacity-20" strokeWidth={3} /> Settlement Checklist
                                 </div>
                                 <div className="space-y-2.5">
                                     {[
@@ -271,7 +271,7 @@ const AgentClaims = () => {
                                         { id: 'policeReport', label: 'Police report cross-checked' }
                                     ].map(item => (
                                         <label key={item.id} className="flex items-center justify-between cursor-pointer group px-1">
-                                            <span className="text-[12px] font-bold text-slate-600 group-hover:text-slate-800 transition-colors">{item.label}</span>
+                                            <span className="text-[12px] font-black text-black opacity-40 group-hover:opacity-100 transition-all uppercase italic tracking-tighter">{item.label}</span>
                                             <div className={`w-5 h-5 rounded border-2 transition-all flex items-center justify-center ${checklist[item.id] ? 'bg-emerald-500 border-emerald-500' : 'bg-white border-slate-200 group-hover:border-slate-300'}`}>
                                                 <input 
                                                     type="checkbox" 
@@ -288,8 +288,8 @@ const AgentClaims = () => {
 
                             {/* Settlement Notes */}
                             <div className="space-y-3 pt-2">
-                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                    <MessageSquare size={12} className="text-slate-300" /> Audit Notes
+                                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">
+                                    <MessageSquare size={12} className="text-black opacity-20" strokeWidth={3} /> Audit Notes
                                 </div>
                                 <div className="relative group">
                                     <textarea 

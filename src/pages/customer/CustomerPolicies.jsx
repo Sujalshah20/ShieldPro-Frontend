@@ -79,8 +79,8 @@ const CustomerPolicies = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-white mb-1">My Policies</h1>
-                    <p className="text-gray-500 text-xs">Manage and track your active insurance coverage</p>
+                    <h1 className="text-2xl font-black text-black mb-1 italic">My Policies</h1>
+                    <p className="text-black font-black uppercase tracking-widest text-[10px] opacity-60 italic">Manage and track your active insurance coverage</p>
                 </div>
                 <button 
                     onClick={() => navigate('/customer/browse')}
@@ -96,8 +96,8 @@ const CustomerPolicies = () => {
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`pb-3 text-[13px] font-semibold whitespace-nowrap transition-colors relative ${
-                            activeTab === tab ? "text-white" : "text-gray-500 hover:text-gray-800"
+                        className={`pb-3 text-[13px] font-black uppercase tracking-widest whitespace-nowrap transition-all relative ${
+                            activeTab === tab ? "text-black" : "text-black opacity-40 hover:opacity-100"
                         }`}
                     >
                         {tab}
@@ -115,8 +115,8 @@ const CustomerPolicies = () => {
             {filteredPolicies.length === 0 ? (
                 <div className="text-center py-24 bg-white rounded-2xl border border-gray-100 shadow-sm">
                     <Shield size={64} className="mx-auto text-gray-200 mb-6" />
-                    <h3 className="text-xl font-bold text-white mb-2">No policies found</h3>
-                    <p className="text-gray-500 mb-8">You don't have any {activeTab.toLowerCase()} right now.</p>
+                    <h3 className="text-xl font-black text-black mb-2 uppercase tracking-tighter italic">No policies found</h3>
+                    <p className="text-black font-black uppercase tracking-[4px] text-[10px] opacity-40 mb-10 italic">Sector_Manifest: NODE_POLICIES_EMPTY // {activeTab.toUpperCase()}</p>
                     <button 
                         onClick={() => navigate('/customer/browse')}
                         className="bg-[#10b981] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#0ea5e9] transition-colors"
@@ -158,27 +158,27 @@ const CustomerPolicies = () => {
                                         {React.cloneElement(getPolicyIcon(p.policy?.policyType), { size: 24 })}
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-bold text-white mb-0.5">{p.policy?.policyName}</h3>
-                                        <p className="text-[12px] text-gray-500 flex items-center gap-2">
+                                        <h3 className="text-lg font-black text-black mb-0.5 uppercase tracking-tighter italic">{p.policy?.policyName}</h3>
+                                        <p className="text-[10px] text-black font-black uppercase tracking-widest opacity-40 flex items-center gap-2 italic">
                                             <span>No: {p.policyNumber.toUpperCase()}</span> 
                                             <span className="hidden sm:inline">•</span> 
-                                            <span className="hidden sm:inline">ShieldPro Coverage</span>
+                                            <span className="hidden sm:inline">Secure_Sync_Stable</span>
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-6 border-t border-gray-100 xl:border-t-0 xl:pt-0">
                                     <div>
-                                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Premium</p>
-                                        <p className="text-base font-bold text-white">
-                                            ₹{p.policy?.premiumAmount?.toLocaleString() || '1,200'} <span className="text-[12px] text-gray-400 font-medium">/mo</span>
+                                        <p className="text-[9px] font-black text-black uppercase tracking-[3px] opacity-40 mb-1">Monthly_Premium</p>
+                                        <p className="text-base font-black text-black">
+                                            ₹{p.policy?.premiumAmount?.toLocaleString() || '1,200'} <span className="text-[12px] text-black font-black opacity-30">/mo</span>
                                         </p>
                                     </div>
                                     
                                     <div className="w-full xl:max-w-xs">
                                         <div className="flex justify-between items-end mb-1.5">
-                                            <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Time Remaining</p>
-                                            <p className={`text-[11px] font-bold ${timeStatus.isUrgent ? 'text-amber-600' : 'text-white'}`}>{timeStatus.text}</p>
+                                            <p className="text-[9px] font-black text-black uppercase tracking-[3px] opacity-40">Uplink_Lifespan</p>
+                                            <p className={`text-[11px] font-black uppercase italic tracking-widest ${timeStatus.isUrgent ? 'text-amber-600' : 'text-black'}`}>{timeStatus.text}</p>
                                         </div>
                                         <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                                             <div 
@@ -225,16 +225,16 @@ const CustomerPolicies = () => {
                 >
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 md:gap-12">
                         <div>
-                            <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Total Active Policies</p>
-                            <p className="text-2xl font-black text-white">{myPolicies.length < 10 ? `0${myPolicies.length}` : myPolicies.length}</p>
+                            <p className="text-[9px] font-black text-black uppercase tracking-widest mb-1 opacity-40">Active_Nodes</p>
+                            <p className="text-2xl font-black text-black uppercase tracking-tighter">{myPolicies.length < 10 ? `0${myPolicies.length}` : myPolicies.length} SYNCED</p>
                         </div>
                         <div>
-                            <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Monthly Premium</p>
-                            <p className="text-2xl font-black text-white">₹{totalPremium.toLocaleString()}</p>
+                            <p className="text-[9px] font-black text-black uppercase tracking-widest mb-1 opacity-40">Monthly_Vector</p>
+                            <p className="text-2xl font-black text-black uppercase tracking-tighter">₹{totalPremium.toLocaleString()}</p>
                         </div>
                         <div>
-                            <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Total Coverage</p>
-                            <p className="text-2xl font-black text-white">₹{displayCoverage}</p>
+                            <p className="text-[9px] font-black text-black uppercase tracking-widest mb-1 opacity-40">Aggregate_Shield</p>
+                            <p className="text-2xl font-black text-black uppercase tracking-tighter">₹{displayCoverage}</p>
                         </div>
                     </div>
 
@@ -244,9 +244,9 @@ const CustomerPolicies = () => {
                     >
                         <div className="flex flex-col items-end">
                             <span className="text-sm font-medium text-gray-500">Need a custom plan?</span>
-                            <span className="text-white font-bold group-hover:text-amber-500 transition-colors">Talk to our experts</span>
+                            <span className="text-black font-bold group-hover:text-amber-500 transition-colors">Talk to our experts</span>
                         </div>
-                        <ArrowRight size={24} className="text-white group-hover:text-amber-500 transition-colors group-hover:translate-x-1" />
+                        <ArrowRight size={24} className="text-black group-hover:text-amber-500 transition-colors group-hover:translate-x-1" />
                     </button>
                 </motion.div>
             )}

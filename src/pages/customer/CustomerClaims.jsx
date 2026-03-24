@@ -61,7 +61,7 @@ const CustomerClaims = () => {
 
     if (isLoading) return (
         <div className="flex items-center justify-center h-[60vh]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#002b45]"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
         </div>
     );
 
@@ -91,14 +91,14 @@ const CustomerClaims = () => {
                         {/* Header */}
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                             <div>
-                                <h1 className="text-2xl font-bold text-white mb-1">My Claims</h1>
-                                <p className="text-gray-500 text-xs">Track and manage your insurance claim requests in real-time.</p>
+                                <h1 className="text-2xl font-black text-black mb-1 italic">My Claims</h1>
+                                <p className="text-[10px] font-black text-black opacity-40 uppercase tracking-widest italic leading-relaxed">Track and manage your insurance claim requests with secure uplink oversight.</p>
                             </div>
                             <button 
                                 onClick={() => setIsCreatingClaim(true)}
-                                className="flex items-center justify-center gap-2 bg-[#002b45] text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#003b5c] transition-colors shadow-sm"
+                                className="flex items-center justify-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-sm font-black uppercase tracking-[3px] shadow-3xl hover:bg-black/90 transition-all transform active:scale-95 italic border-b-4 border-white/10"
                             >
-                                <Plus size={18} /> New Claim
+                                <Plus size={18} /> NEW_CLAIM_MANIFEST
                             </button>
                         </div>
 
@@ -107,12 +107,12 @@ const CustomerClaims = () => {
                             <table className="w-full min-w-[800px] text-left">
                                 <thead className="bg-gray-50/50 border-b border-gray-100">
                                     <tr>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Claim ID</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Policy</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Type</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Amount</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Date</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Claim_ID</th>
+                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Policy_Node</th>
+                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Module_Type</th>
+                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Credit_Value</th>
+                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Timestamp</th>
+                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Status_Vector</th>
                                         <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Action</th>
                                     </tr>
                                </thead>
@@ -126,29 +126,29 @@ const CustomerClaims = () => {
                                     ) : myClaims.map(claim => (
                                         <tr 
                                             key={claim._id} 
-                                            className={`hover:bg-gray-50/50 transition-colors cursor-pointer ${selectedClaim?._id === claim._id ? 'bg-[#002b45]/5' : ''}`}
+                                            className={`hover:bg-gray-50/50 transition-colors cursor-pointer ${selectedClaim?._id === claim._id ? 'bg-black/5' : ''}`}
                                             onClick={() => setSelectedClaim(claim)}
                                         >
-                                            <td className="px-6 py-4 font-bold text-white text-[13px]">
+                                            <td className="px-6 py-4 font-bold text-black text-[13px]">
                                                 CLM-{claim._id.slice(-4).toUpperCase()}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-600 text-[13px]">
+                                            <td className="px-6 py-4 text-black font-black text-[13px] opacity-60 uppercase italic tracking-tighter">
                                                 {claim.userPolicy?.policy?.policyName || "Unknown Policy"}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-600 text-[13px]">
+                                            <td className="px-6 py-4 text-black font-black text-[13px] opacity-60 uppercase italic tracking-tighter">
                                                 {claim.userPolicy?.policy?.policyType || "General"}
                                             </td>
                                             <td className="px-6 py-4 font-bold text-gray-900 text-[13px]">
                                                 ₹{claim.amount.toLocaleString()}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-500 text-[12px]">
+                                            <td className="px-6 py-4 text-black font-black text-[11px] opacity-40 uppercase tracking-widest italic">
                                                 {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric'})}
                                             </td>
                                             <td className="px-6 py-4">
                                                 <span className={getStatusStyle(claim.status)}>{claim.status}</span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="text-white font-bold text-[12px] hover:underline">
+                                                <button className="text-black font-bold text-[12px] hover:underline">
                                                     View Details
                                                 </button>
                                             </td>
@@ -172,17 +172,17 @@ const CustomerClaims = () => {
                                         <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm relative overflow-hidden">
                                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-12">
                                                 <div>
-                                                    <h2 className="text-xl font-bold text-white mb-2">Claim Lifecycle Tracking</h2>
-                                                    <p className="text-[12px] text-gray-400 font-medium tracking-tight">
-                                                        Case ID: CLM-{(selectedClaim || myClaims[0])._id.slice(-8).toUpperCase()} • Active Response Node
+                                                    <h2 className="text-xl font-black text-black mb-2 uppercase tracking-tighter italic">Claim Lifecycle Tracking</h2>
+                                                    <p className="text-[10px] text-black font-black uppercase tracking-[4px] opacity-30 italic">
+                                                        Case_ID: CLM-{(selectedClaim || myClaims[0])._id.slice(-8).toUpperCase()} // SECTOR_ACTIVE
                                                     </p>
                                                 </div>
                                                 <div className="flex gap-3">
-                                                    <button className="w-12 h-12 rounded-xl border border-gray-100 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-50 transition-all shadow-sm">
+                                                    <button className="w-12 h-12 rounded-xl border border-gray-100 flex items-center justify-center text-gray-400 hover:text-black hover:bg-slate-50 transition-all shadow-sm">
                                                         <Printer size={18} />
                                                     </button>
-                                                    <button className="bg-[#002b45] text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#003b5c] transition-all shadow-lg flex items-center gap-3">
-                                                        <Download size={14} /> Export Report
+                                                    <button className="bg-black text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black/90 transition-all shadow-3xl flex items-center gap-3 italic border-b-4 border-white/10">
+                                                        <Download size={14} /> EXPORT_SIGNAL_REPORT
                                                     </button>
                                                 </div>
                                             </div>
@@ -191,7 +191,7 @@ const CustomerClaims = () => {
                                             <div className="relative pt-6 pb-2">
                                                 <div className="absolute top-10 left-8 right-8 h-1.5 bg-gray-50 -z-10 rounded-full"></div>
                                                 <div 
-                                                    className="absolute top-10 left-8 h-1.5 bg-[#002b45] -z-10 rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(0,43,69,0.3)]"
+                                                    className="absolute top-10 left-8 h-1.5 bg-black -z-10 rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(0,0,0,0.1)]"
                                                     style={{ width: `${(getActiveStep((selectedClaim || myClaims[0]).status) - 1) * 20}%` }}
                                                 ></div>
                                                 <div className="flex justify-between">
@@ -202,13 +202,13 @@ const CustomerClaims = () => {
                                                             <div key={step.id} className="flex flex-col items-center gap-4 group">
                                                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ${
                                                                     isActive 
-                                                                    ? 'bg-[#002b45] text-[#007ea7] shadow-xl scale-110' 
-                                                                    : 'bg-white text-gray-200 border-2 border-gray-50'
+                                                                    ? 'bg-black text-white shadow-3xl scale-110' 
+                                                                    : 'bg-white text-black/10 border-2 border-slate-50'
                                                                 }`}>
                                                                     <Icon size={18} strokeWidth={3} />
                                                                 </div>
-                                                                <span className={`text-[9px] font-black uppercase tracking-[3px] text-center ${
-                                                                    isActive ? 'text-white' : 'text-gray-300'
+                                                                <span className={`text-[9px] font-black uppercase tracking-[3px] text-center italic ${
+                                                                    isActive ? 'text-black' : 'text-black/20'
                                                                 }`}>
                                                                     {step.label}
                                                                 </span>
@@ -222,9 +222,9 @@ const CustomerClaims = () => {
                                         {/* Documents Section */}
                                         <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
                                             <div className="flex items-center justify-between mb-8">
-                                                <h3 className="text-lg font-bold text-white">Evidence Manifest</h3>
-                                                <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest italic">
-                                                    {(selectedClaim || myClaims[0]).documents?.length || 0} FILES_DETACHED
+                                                <h3 className="text-lg font-black text-black uppercase tracking-tighter italic">Evidence Manifest</h3>
+                                                <span className="text-[10px] font-black text-black/30 uppercase tracking-[4px] italic">
+                                                    SYNC_COUNT: {(selectedClaim || myClaims[0]).documents?.length || 0} FILES_DETACHED
                                                 </span>
                                             </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -234,18 +234,18 @@ const CustomerClaims = () => {
                                                         href={doc.url}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="flex items-center justify-between p-5 bg-slate-50/50 rounded-2xl border border-slate-50 group hover:border-[#007ea7]/30 hover:bg-white transition-all shadow-sm"
+                                                        className="flex items-center justify-between p-5 bg-slate-50/50 rounded-2xl border border-slate-50 group hover:border-black/10 hover:bg-white transition-all shadow-sm"
                                                     >
                                                         <div className="flex items-center gap-5">
-                                                            <div className="p-3 bg-white rounded-xl text-[#007ea7] shadow-sm group-hover:scale-110 transition-transform">
+                                                            <div className="p-3 bg-white rounded-xl text-black/40 shadow-sm group-hover:scale-110 transition-transform">
                                                                 <FileText size={20} strokeWidth={2.5} />
                                                             </div>
                                                             <div className="min-w-0">
-                                                                <p className="font-bold text-xs text-[#003249] truncate max-w-[140px] uppercase tracking-wider">{doc.name || `ATTACHMENT_${i+1}`}</p>
+                                                                <p className="font-black text-[11px] text-black truncate max-w-[140px] uppercase tracking-wider italic">{doc.name || `ATTACHMENT_${i+1}`}</p>
                                                                 <p className="text-[9px] text-slate-400 font-bold mt-1">SECURE_SYNC_VERIFIED</p>
                                                             </div>
                                                         </div>
-                                                        <ArrowRight size={16} className="text-slate-300 group-hover:text-[#007ea7] group-hover:translate-x-1 transition-all" strokeWidth={3} />
+                                                        <ArrowRight size={16} className="text-slate-300 group-hover:text-black group-hover:translate-x-1 transition-all" strokeWidth={3} />
                                                     </a>
                                                 )) : (
                                                     <div className="col-span-2 py-12 text-center border-2 border-dashed border-slate-100 rounded-3xl">
@@ -260,18 +260,18 @@ const CustomerClaims = () => {
                                     {/* Right Column: Agent & Logs */}
                                     <div className="space-y-6">
                                         {/* Adjuster Card */}
-                                        <div className="bg-[#003249] rounded-[2.5rem] p-8 text-white relative overflow-hidden group/ad">
-                                            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover/ad:rotate-12 transition-transform duration-1000">
+                                        <div className="bg-black rounded-[2.5rem] p-8 text-white relative overflow-hidden group/ad">
+                                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover/ad:rotate-12 transition-transform duration-1000">
                                                 <Shield size={120} />
                                             </div>
                                             <div className="relative z-10 flex flex-col gap-6">
                                                 <div className="flex items-center gap-5">
-                                                    <div className="w-16 h-16 rounded-[1.5rem] bg-[#007ea7] flex items-center justify-center text-[#003249] shadow-2xl font-black text-xl italic">
+                                                    <div className="w-16 h-16 rounded-[1.5rem] bg-white flex items-center justify-center text-black shadow-2xl font-black text-xl italic">
                                                         {(selectedClaim || myClaims[0]).userPolicy?.agent?.name?.charAt(0) || "A"}
                                                     </div>
                                                     <div>
-                                                        <p className="text-[9px] font-black text-[#007ea7] uppercase tracking-[4px] mb-1 italic">Case_Adjuster</p>
-                                                        <h4 className="text-xl font-bold italic tracking-tight">{(selectedClaim || myClaims[0]).userPolicy?.agent?.name || "Assigning..."}</h4>
+                                                        <p className="text-[9px] font-black text-white/40 uppercase tracking-[4px] mb-1 italic">Case_Adjuster</p>
+                                                        <h4 className="text-xl font-black italic tracking-tighter uppercase">{(selectedClaim || myClaims[0]).userPolicy?.agent?.name || "Assigning..."}</h4>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full w-fit">
@@ -287,13 +287,13 @@ const CustomerClaims = () => {
                                             <div className="space-y-6">
                                                 {(selectedClaim || myClaims[0]).comments?.length > 0 ? (selectedClaim || myClaims[0]).comments.map((comment, i) => (
                                                     <div key={i} className="relative pl-8 border-l-2 border-slate-50 group/log">
-                                                        <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-slate-200 group-hover/log:bg-[#007ea7] transition-colors" />
+                                                        <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-slate-200 group-hover/log:bg-black transition-colors" />
                                                         <div className="space-y-3">
                                                             <div className="flex items-center justify-between">
-                                                                <p className="text-[9px] font-black text-[#003249] uppercase tracking-widest italic">{comment.user?.name || "System"}</p>
-                                                                <p className="text-[8px] font-bold text-slate-300 uppercase tracking-widest">{new Date(comment.createdAt).toLocaleDateString()}</p>
+                                                                <p className="text-[9px] font-black text-black uppercase tracking-[4px] italic">{comment.user?.name || "System_Node"}</p>
+                                                                <p className="text-[8px] font-black text-black/30 uppercase tracking-[3px] italic">{new Date(comment.createdAt).toLocaleDateString()}</p>
                                                             </div>
-                                                            <p className="text-[13px] font-medium text-slate-500 leading-relaxed italic">
+                                                            <p className="text-[13px] font-black text-black opacity-60 leading-relaxed italic tracking-tight">
                                                                 "{comment.text}"
                                                             </p>
                                                         </div>

@@ -111,12 +111,12 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
             </AnimatePresence>
 
             <aside
-                className={`fixed top-0 left-0 z-[70] h-screen w-64 bg-[#1a2332] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+                className={`fixed top-0 left-0 z-[70] h-screen w-64 bg-black text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 border-r border-white/5`}
             >
                 <div className="p-8 pb-6 flex flex-col gap-1">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 shadow-lg backdrop-blur-md relative overflow-hidden group">
-                           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                           <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <Shield className="w-7 h-7 text-white relative z-10" strokeWidth={2} />
                         </div>
                         <div className="flex flex-col">
@@ -150,16 +150,16 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                     state={link.state}
                                     className={`flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all relative group ${
                                         isActive 
-                                            ? "bg-white/10 text-white shadow-xl border-l-[3px] border-blue-500" 
-                                            : "text-slate-400 hover:text-white hover:bg-white/5"
+                                            ? "bg-white/10 text-white shadow-2xl border-l-2 border-white/20" 
+                                            : "text-white/30 hover:text-white hover:bg-white/5"
                                     }`}
                                 >
-                                    <Icon size={20} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-blue-400" : "group-hover:text-white transition-colors"} />
-                                    <span className={`text-[14px] font-semibold tracking-wide ${isActive ? "text-white" : "group-hover:translate-x-1 transition-transform"}`}>{link.name}</span>
+                                    <Icon size={20} strokeWidth={isActive ? 3 : 2} className={isActive ? "text-white" : "group-hover:text-white transition-colors"} />
+                                    <span className={`text-[13px] font-black uppercase tracking-widest italic ${isActive ? "text-white" : "group-hover:translate-x-1 transition-transform"}`}>{link.name}</span>
                                     {isActive && (
                                         <motion.div 
                                             layoutId="sidebar-active"
-                                            className="absolute right-3 w-1.5 h-1.5 bg-blue-500 rounded-full shadow-[0_0_10px_#3b82f6]" 
+                                            className="absolute right-3 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]" 
                                         />
                                     )}
                                 </Link>
@@ -170,7 +170,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
 
                 <div className="p-6 mt-auto border-t border-white/5 space-y-4 bg-black/10">
                     <div className="flex items-center gap-4 rounded-2xl bg-white/5 p-4 border border-white/5">
-                        <div className="w-10 h-10 rounded-xl bg-[#007ea7] flex items-center justify-center overflow-hidden border border-white/20 shadow-sm font-bold text-[#003249]">
+                        <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center overflow-hidden border border-white/20 shadow-sm font-black text-black italic">
                             {user?.profilePic ? (
                                 <img src={user.profilePic} alt="Profile" className="w-full h-full object-cover" />
                             ) : (
@@ -181,7 +181,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                             <p className="text-[13px] font-black !text-white leading-none mb-1 shadow-sm truncate">
                                 {user?.name || 'User'}
                             </p>
-                            <p className="text-[9px] text-emerald-400 font-bold uppercase tracking-[2px] opacity-80 italic">
+                            <p className="text-[9px] text-white/40 font-black uppercase tracking-[2px] italic">
                                 {user?.role || 'Member'}
                             </p>
                         </div>

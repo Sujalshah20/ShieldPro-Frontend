@@ -100,8 +100,8 @@ const CustomerDashboard = () => {
                                 <stat.icon size={20} strokeWidth={2.5} />
                             </div>
                             <div>
-                                <p className="text-xs font-semibold text-slate-500 mb-0.5">{stat.label}</p>
-                                <p className="text-xl font-bold text-slate-800">{stat.value}</p>
+                                <p className="text-xs font-bold text-black mb-0.5">{stat.label}</p>
+                                <p className="text-xl font-bold text-black">{stat.value}</p>
                             </div>
                         </div>
                     </Reveal>
@@ -113,7 +113,7 @@ const CustomerDashboard = () => {
                 {/* Left Column: Active Policies */}
                 <div className="lg:col-span-8 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="p-6 pb-3 flex items-center justify-between">
-                        <h2 className="text-lg font-bold text-slate-800">My Active Policies</h2>
+                        <h2 className="text-lg font-bold text-black">My Active Policies</h2>
                         <button 
                             onClick={() => navigate('/customer/policies')}
                             className="text-[11px] font-bold text-[#124C89] hover:underline flex items-center gap-1"
@@ -123,9 +123,9 @@ const CustomerDashboard = () => {
                     </div>
                     <div className="overflow-x-auto">
                         {activePolicies.length === 0 ? (
-                            <div className="px-6 py-12 text-center text-slate-400">
+                            <div className="px-6 py-12 text-center text-black opacity-40">
                                 <Shield size={40} className="mx-auto mb-3 opacity-30" />
-                                <p className="text-sm font-medium">No active policies found.</p>
+                                <p className="text-sm font-black uppercase tracking-widest italic leading-relaxed">No active policies found in sector.</p>
                                 <button 
                                     onClick={() => navigate('/customer/browse')}
                                     className="mt-3 text-[#124C89] text-xs font-bold hover:underline"
@@ -137,11 +137,11 @@ const CustomerDashboard = () => {
                             <table className="w-full">
                                 <thead className="bg-slate-50/50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-slate-400 uppercase tracking-widest">Policy Detail</th>
-                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
-                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-slate-400 uppercase tracking-widest">Premium</th>
-                                        <th className="px-6 py-3 text-right text-[9px] font-bold text-slate-400 uppercase tracking-widest">Action</th>
+                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-black uppercase tracking-widest">Policy Detail</th>
+                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-black uppercase tracking-widest">Type</th>
+                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-black uppercase tracking-widest">Status</th>
+                                        <th className="px-6 py-3 text-left text-[9px] font-bold text-black uppercase tracking-widest">Premium</th>
+                                        <th className="px-6 py-3 text-right text-[9px] font-bold text-black uppercase tracking-widest">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-50">
@@ -149,11 +149,11 @@ const CustomerDashboard = () => {
                                         <tr key={i} className="group hover:bg-slate-50/50 transition-all">
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm font-bold text-slate-800 mb-0.5">{policy.policy?.policyName || 'Policy'}</span>
-                                                    <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">{policy.policyNumber}</span>
+                                                    <span className="text-sm font-bold text-black mb-0.5">{policy.policy?.policyName || 'Policy'}</span>
+                                                    <span className="text-[11px] font-bold text-black uppercase tracking-wider">{policy.policyNumber}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 text-xs font-bold text-slate-600">{policy.policy?.policyType || '—'}</td>
+                                            <td className="px-6 py-4 text-xs font-bold text-black">{policy.policy?.policyType || '—'}</td>
                                             <td className="px-6 py-4">
                                                 <span className="px-2.5 py-1 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-600 uppercase tracking-wide">
                                                     Active
@@ -161,16 +161,16 @@ const CustomerDashboard = () => {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm font-bold text-slate-800 mb-0.5">₹{policy.policy?.premiumAmount?.toLocaleString() || '—'}/mo</span>
-                                                    <span className="text-[10px] font-semibold text-slate-400">Exp: {new Date(policy.endDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                                    <span className="text-sm font-bold text-black mb-0.5">₹{policy.policy?.premiumAmount?.toLocaleString() || '—'}/mo</span>
+                                                    <span className="text-[10px] font-bold text-black">Exp: {new Date(policy.endDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 text-right">
                                                 <button 
                                                     onClick={() => navigate('/customer/policies')}
-                                                    className="inline-flex w-8 h-8 items-center justify-center bg-slate-100 text-slate-500 rounded-lg hover:bg-[#124C89] hover:text-white transition-all group-hover:shadow-md group-hover:-translate-y-0.5"
+                                                    className="inline-flex w-8 h-8 items-center justify-center bg-slate-100 text-black rounded-lg hover:bg-[#124C89] hover:text-white transition-all group-hover:shadow-md group-hover:-translate-y-0.5"
                                                 >
-                                                    <ExternalLink size={14} strokeWidth={2.5} />
+                                                    <ExternalLink size={14} strokeWidth={3} />
                                                 </button>
                                             </td>
                                         </tr>
@@ -184,7 +184,7 @@ const CustomerDashboard = () => {
                 {/* Right Column: Recent Claims */}
                 <div className="lg:col-span-4 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="p-6 pb-3 flex items-center justify-between">
-                        <h2 className="text-lg font-bold text-slate-800">Recent Claims</h2>
+                        <h2 className="text-lg font-bold text-black">Recent Claims</h2>
                     </div>
                     <div className="flex-1 p-6 pt-3 space-y-4">
                         {recentClaims.length === 0 ? (
@@ -201,16 +201,16 @@ const CustomerDashboard = () => {
                                             <Clock size={16} className={colors.text} />
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="text-[10px] font-bold text-slate-800 uppercase tracking-wider">CLM-{claim._id.slice(-4).toUpperCase()}</span>
-                                            <span className="text-[12px] font-medium text-slate-400 leading-tight">{claim.userPolicy?.policy?.policyName || 'Policy'}</span>
-                                            <span className="text-[13px] font-bold text-slate-800 mt-0.5">₹{claim.amount?.toLocaleString()}</span>
+                                            <span className="text-[10px] font-bold text-black uppercase tracking-wider">CLM-{claim._id.slice(-4).toUpperCase()}</span>
+                                            <span className="text-[12px] font-bold text-black leading-tight">{claim.userPolicy?.policy?.policyName || 'Policy'}</span>
+                                            <span className="text-[13px] font-bold text-black mt-0.5">₹{claim.amount?.toLocaleString()}</span>
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-end gap-2">
                                         <span className={`text-[8px] font-black px-2 py-0.5 rounded-md tracking-wider ${colors.badge}`}>
                                             {claim.status.toUpperCase()}
                                         </span>
-                                        <span className="text-[10px] font-semibold text-slate-400">
+                                        <span className="text-[10px] font-bold text-black">
                                             {new Date(claim.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
                                         </span>
                                     </div>
@@ -221,7 +221,7 @@ const CustomerDashboard = () => {
                     <div className="p-6 pt-0 mt-auto">
                         <button 
                             onClick={() => navigate('/customer/claims')}
-                            className="w-full py-3 border-2 border-slate-100 rounded-[1rem] text-[12px] font-bold text-slate-600 hover:bg-slate-50 hover:border-[#124C89]/20 transition-all active:scale-95"
+                            className="w-full py-3 border-2 border-slate-100 rounded-[1rem] text-[12px] font-bold text-black hover:bg-slate-50 hover:border-[#124C89]/20 transition-all active:scale-95"
                         >
                             View All Claims
                         </button>
@@ -231,7 +231,7 @@ const CustomerDashboard = () => {
 
             {/* Quick Actions */}
             <div className="pb-8">
-                <h2 className="text-lg font-bold text-slate-800 mb-6">Quick Actions</h2>
+                <h2 className="text-lg font-bold text-black mb-6">Quick Actions</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {quickActions.map((action, i) => (
                         <div 
@@ -241,9 +241,9 @@ const CustomerDashboard = () => {
                         >
                             <div className="bg-white aspect-square rounded-2xl border border-slate-100 shadow-sm flex items-center justify-center group-hover:shadow-lg group-hover:-translate-y-1.5 transition-all duration-500 relative overflow-hidden">
                                 <div className="absolute inset-0 bg-blue-50 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                <action.icon size={24} strokeWidth={2.5} className="text-slate-800 group-hover:text-[#124C89] transition-colors relative z-10" />
+                                <action.icon size={24} strokeWidth={2.5} className="text-black group-hover:text-[#124C89] transition-colors relative z-10" />
                             </div>
-                            <p className="mt-3 text-center text-[12px] font-bold text-slate-600 group-hover:text-[#124C89] transition-colors">{action.label}</p>
+                            <p className="mt-3 text-center text-[12px] font-bold text-black group-hover:text-[#124C89] transition-colors">{action.label}</p>
                         </div>
                     ))}
                 </div>

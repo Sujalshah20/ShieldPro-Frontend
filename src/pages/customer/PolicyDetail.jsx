@@ -72,24 +72,24 @@ const PolicyDetail = () => {
             {/* Simple top nav */}
             <header className="bg-white border-b border-gray-100 px-6 py-2.5 flex items-center gap-6 sticky top-0 z-40 shadow-sm">
                 <div className="flex items-center gap-2">
-                    <Shield size={20} className="text-white" />
-                    <span className="font-bold text-white text-base">Secure Shield</span>
+                    <Shield size={20} className="text-black" />
+                    <span className="font-bold text-black text-base">Secure Shield</span>
                 </div>
-                <nav className="hidden md:flex items-center gap-6 ml-8 text-[13px] font-medium text-gray-600">
-                    <button onClick={() => navigate('/customer')} className="hover:text-white transition-colors">Dashboard</button>
-                    <button onClick={() => navigate('/customer/policies')} className="hover:text-white transition-colors border-b-2 border-[#002b45] text-white">Policies</button>
-                    <button onClick={() => navigate('/customer/claims')} className="hover:text-white transition-colors">Claims</button>
-                    <button className="hover:text-white transition-colors">Support</button>
+                <nav className="hidden md:flex items-center gap-6 ml-8 text-[13px] font-black text-black uppercase tracking-wider">
+                    <button onClick={() => navigate('/customer')} className="hover:text-black transition-colors">Dashboard</button>
+                    <button onClick={() => navigate('/customer/policies')} className="hover:text-black transition-colors border-b-2 border-[#002b45] text-black">Policies</button>
+                    <button onClick={() => navigate('/customer/claims')} className="hover:text-black transition-colors">Claims</button>
+                    <button className="hover:text-black transition-colors">Support</button>
                 </nav>
             </header>
 
             <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
                 {/* Breadcrumb */}
-                <div className="flex items-center gap-2 text-[12px] text-gray-400 mb-4">
+                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 mb-4 uppercase tracking-[4px] italic">
                     {BREADCRUMBS.map((crumb, i) => (
                         <React.Fragment key={crumb}>
                             {i > 0 && <ChevronRight size={12} />}
-                            <span className={i === BREADCRUMBS.length - 1 ? 'text-gray-700 font-medium' : 'hover:text-gray-600 cursor-pointer'}>{crumb}</span>
+                            <span className={i === BREADCRUMBS.length - 1 ? 'text-black font-black uppercase tracking-widest' : 'hover:text-[#124C89] cursor-pointer'}>{crumb}</span>
                         </React.Fragment>
                     ))}
                 </div>
@@ -102,22 +102,22 @@ const PolicyDetail = () => {
                             <div className="flex items-start justify-between gap-4 mb-3">
                                 <div>
                                     <div className="flex items-center gap-3 mb-1">
-                                        <h1 className="text-xl font-bold text-white">{display.policyName}</h1>
+                                        <h1 className="text-xl font-bold text-black">{display.policyName}</h1>
                                         <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest">ACTIVE</span>
                                     </div>
-                                    <p className="text-[13px] font-semibold text-gray-500">{display.provider}</p>
+                                    <p className="text-[13px] font-bold text-black uppercase tracking-widest">{display.provider}</p>
                                 </div>
-                                <button className="flex items-center gap-2 text-[13px] font-medium text-gray-500 border border-gray-200 rounded-xl px-3 py-1.5 hover:bg-gray-50 transition-colors shrink-0">
+                                <button className="flex items-center gap-2 text-[13px] font-bold text-black border-2 border-slate-100 rounded-xl px-3 py-1.5 hover:bg-slate-50 transition-all shrink-0">
                                     <Share2 size={14} /> Share
                                 </button>
                             </div>
-                            <p className="text-[13px] text-gray-600 leading-relaxed">{display.description}</p>
+                            <p className="text-[14px] text-black font-medium leading-relaxed italic">{display.description}</p>
                         </div>
 
                         {/* Key Benefits */}
                         <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-                            <h2 className="text-base font-bold text-white flex items-center gap-2 mb-4">
-                                <Shield size={18} className="text-white" /> Key Benefits
+                            <h2 className="text-base font-bold text-black flex items-center gap-2 mb-4">
+                                <Shield size={18} className="text-black" /> Key Benefits
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {keyBenefits.map((b, i) => (
@@ -126,8 +126,8 @@ const PolicyDetail = () => {
                                             {React.cloneElement(b.icon, { size: 18 })}
                                         </div>
                                         <div>
-                                            <p className="font-bold text-white text-[13px] mb-0.5">{b.title}</p>
-                                            <p className="text-[11px] text-gray-500 leading-relaxed">{b.sub}</p>
+                                            <p className="font-bold text-black text-[13px] mb-0.5">{b.title}</p>
+                                            <p className="text-[11px] text-black font-bold leading-relaxed">{b.sub}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -136,21 +136,21 @@ const PolicyDetail = () => {
 
                         {/* Coverage Details */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-5">
-                                <CheckCircle2 size={20} /> Coverage Details
+                            <h2 className="text-lg font-black text-black flex items-center gap-2 mb-5">
+                                <CheckCircle2 size={20} className="text-emerald-500" /> Coverage Details
                             </h2>
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b border-gray-100">
-                                        <th className="text-left text-xs font-bold text-gray-400 uppercase tracking-wider pb-3">Feature</th>
-                                        <th className="text-right text-xs font-bold text-gray-400 uppercase tracking-wider pb-3">Coverage Amount</th>
+                                        <th className="text-left text-[10px] font-black text-black uppercase tracking-[2px] pb-4">Feature</th>
+                                        <th className="text-right text-[10px] font-black text-black uppercase tracking-[2px] pb-4">Coverage Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-50">
                                     {coverageDetails.map((row, i) => (
                                         <tr key={i} className="hover:bg-gray-50/50 transition-colors">
-                                            <td className="py-3.5 text-gray-700">{row.feature}</td>
-                                            <td className="py-3.5 text-right font-semibold text-white">{row.amount}</td>
+                                            <td className="py-3.5 text-black font-medium">{row.feature}</td>
+                                            <td className="py-3.5 text-right font-semibold text-black">{row.amount}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -159,16 +159,16 @@ const PolicyDetail = () => {
 
                         {/* Terms & Conditions (Accordion) */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-white mb-5">Terms & Conditions</h2>
+                            <h2 className="text-lg font-bold text-black mb-5">Terms & Conditions</h2>
                             <div className="space-y-3">
                                 {faqData.map((item, i) => (
                                     <div key={i} className="border border-gray-100 rounded-xl overflow-hidden">
                                         <button
-                                            className="w-full flex items-center justify-between text-left px-5 py-4 text-sm font-semibold text-white hover:bg-gray-50 transition-colors"
+                                            className="w-full flex items-center justify-between text-left px-5 py-4 text-sm font-semibold text-black hover:bg-gray-50 transition-colors"
                                             onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
                                         >
                                             {item.q}
-                                            <ChevronDown size={18} className={`shrink-0 transition-transform text-gray-400 ${openFaq === i ? 'rotate-180' : ''}`} />
+                                            <ChevronDown size={18} className={`shrink-0 transition-transform text-black ${openFaq === i ? 'rotate-180' : ''}`} />
                                         </button>
                                         <AnimatePresence>
                                             {openFaq === i && (
@@ -178,7 +178,7 @@ const PolicyDetail = () => {
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.2 }}
                                                 >
-                                                    <p className="px-5 pb-4 text-sm text-gray-500 leading-relaxed">{item.a}</p>
+                                                    <p className="px-5 pb-4 text-sm text-black font-medium leading-relaxed italic">{item.a}</p>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
@@ -189,12 +189,12 @@ const PolicyDetail = () => {
 
                         {/* Documents Required */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-white mb-5">Documents Required</h2>
+                            <h2 className="text-lg font-bold text-black mb-5">Documents Required</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {documentsRequired.map((doc, i) => (
                                     <div key={i} className="flex items-center gap-3 border border-gray-100 rounded-xl p-4">
-                                        <div className="text-white">{doc.icon}</div>
-                                        <span className="text-sm font-medium text-gray-700">{doc.label}</span>
+                                        <div className="text-black">{doc.icon}</div>
+                                        <span className="text-sm font-bold text-black">{doc.label}</span>
                                     </div>
                                 ))}
                             </div>
@@ -204,19 +204,19 @@ const PolicyDetail = () => {
                     {/* RIGHT: Purchase Sidebar */}
                     <div className="space-y-4">
                         <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-md sticky top-24">
-                            <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">STARTING PREMIUM</p>
+                            <p className="text-[9px] font-black uppercase tracking-[2px] text-black mb-1">STARTING PREMIUM</p>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-3xl font-black text-white">₹{display.premiumAmount?.toLocaleString()}</span>
-                                <span className="text-xs text-gray-400 font-medium">/month</span>
+                                <span className="text-3xl font-black text-black">₹{display.premiumAmount?.toLocaleString()}</span>
+                                <span className="text-xs text-black font-bold uppercase tracking-widest">/month</span>
                             </div>
-                            <p className="text-[11px] text-gray-400 mb-4">or ₹{(display.premiumAmount * 12)?.toLocaleString()} billed annually</p>
+                            <p className="text-[10px] text-black font-bold mt-1 uppercase tracking-wider">or ₹{(display.premiumAmount * 12)?.toLocaleString()} billed annually</p>
 
                             <div className="flex items-center justify-between mb-4 py-3 border-t border-b border-gray-100">
-                                <span className="text-[13px] font-medium text-gray-500">Coverage Amount</span>
-                                <span className="font-bold text-white">₹{display.coverageAmount?.toLocaleString()}</span>
+                                <span className="text-[13px] font-black text-black uppercase tracking-wider">Coverage Amount</span>
+                                <span className="font-bold text-black">₹{display.coverageAmount?.toLocaleString()}</span>
                             </div>
 
-                            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Select Duration</p>
+                            <p className="text-[10px] font-black text-black uppercase tracking-[2px] mb-4">Select Duration</p>
                             <div className="grid grid-cols-3 gap-2 mb-6">
                                 {durations.map(d => (
                                     <button
@@ -225,7 +225,7 @@ const PolicyDetail = () => {
                                         className={`py-2 rounded-xl text-sm font-semibold border transition-all ${
                                             duration === d
                                                 ? 'bg-[#002b45] text-white border-[#002b45]'
-                                                : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                                                : 'bg-white text-black border-2 border-slate-100 hover:bg-slate-50 font-bold'
                                         }`}
                                     >
                                         {d}
@@ -239,23 +239,23 @@ const PolicyDetail = () => {
                             >
                                 Buy This Policy
                             </button>
-                            <button className="w-full flex items-center justify-center gap-2 border border-gray-200 py-2.5 rounded-lg text-[13px] font-semibold text-gray-600 hover:bg-gray-50 transition-colors mb-2">
+                            <button className="w-full flex items-center justify-center gap-2 border-2 border-slate-100 py-3 rounded-xl text-[12px] font-black text-black uppercase tracking-widest hover:bg-slate-50 transition-all mb-3 shadow-sm italic">
                                 <Download size={15} /> Download Brochure
                             </button>
-                            <button className="w-full flex items-center justify-center gap-2 border border-gray-200 py-2.5 rounded-lg text-[13px] font-semibold text-gray-600 hover:bg-gray-50 transition-colors">
+                            <button className="w-full flex items-center justify-center gap-2 border-2 border-slate-100 py-3 rounded-xl text-[12px] font-black text-black uppercase tracking-widest hover:bg-slate-50 transition-all italic">
                                 <Phone size={15} /> Talk to Agent
                             </button>
 
                             <div className="flex items-center justify-around mt-6 pt-5 border-t border-gray-100 text-center">
-                                <div className="flex flex-col items-center gap-1 text-gray-400">
+                                <div className="flex flex-col items-center gap-1 text-black font-bold uppercase tracking-tighter">
                                     <Lock size={18} />
                                     <span className="text-[10px] font-bold uppercase tracking-wider">SECURE PAYMENT</span>
                                 </div>
-                                <div className="flex flex-col items-center gap-1 text-gray-400">
+                                <div className="flex flex-col items-center gap-1 text-black font-bold uppercase tracking-tighter">
                                     <Zap size={18} />
                                     <span className="text-[10px] font-bold uppercase tracking-wider">INSTANT POLICY</span>
                                 </div>
-                                <div className="flex flex-col items-center gap-1 text-gray-400">
+                                <div className="flex flex-col items-center gap-1 text-black font-bold uppercase tracking-tighter">
                                     <Headphones size={18} />
                                     <span className="text-[10px] font-bold uppercase tracking-wider">24/7 SUPPORT</span>
                                 </div>
@@ -281,12 +281,12 @@ const PolicyDetail = () => {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-gray-200 mt-10 py-6 text-center">
-                <div className="flex items-center justify-center gap-2 text-white mb-1">
-                    <Shield size={18} />
-                    <span className="font-bold text-sm">Secure Shield</span>
+            <div className="border-t border-slate-100 mt-10 py-10 text-center">
+                <div className="flex items-center justify-center gap-3 text-black mb-2 opacity-60">
+                    <Shield size={20} strokeWidth={3} />
+                    <span className="font-black text-[12px] uppercase tracking-[4px] italic">Secure Shield</span>
                 </div>
-                <p className="text-xs text-gray-400">© 2024 Secure Shield Insurance Brokers. IRDAI Reg. No. 12345. All rights reserved.</p>
+                <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[5px] italic">© 2024 Secure Shield Insurance Brokers // IRDAI_REG_12345_ACTIVE</p>
             </div>
         </div>
     );

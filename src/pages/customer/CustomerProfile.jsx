@@ -245,13 +245,13 @@ const CustomerProfile = () => {
                             </label>
                         </div>
                         <div className="text-center md:text-left">
-                            <h1 className="text-xl font-bold text-white mb-0.5">{form.name || 'User'}</h1>
-                            <p className="text-xs text-gray-500">{user.email} • Member since {profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : 'Jan 2022'}</p>
+                            <h1 className="text-xl font-black text-black mb-0.5">{form.name || 'User'}</h1>
+                            <p className="text-xs text-black font-black uppercase tracking-widest opacity-60">{user.email} • Member since {profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : 'Jan 2022'}</p>
                         </div>
                     </div>
                     
-                    <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-[13px] font-semibold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
-                        <Edit2 size={14} /> Edit Cover
+                    <button className="flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-[13px] font-black text-black hover:bg-slate-200 transition-all shadow-sm uppercase tracking-widest">
+                        <Edit2 size={14} strokeWidth={3} /> EDIT COVER
                     </button>
                 </div>
 
@@ -265,8 +265,8 @@ const CustomerProfile = () => {
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
-                                className={`pb-3 text-[13px] font-semibold flex items-center gap-2 whitespace-nowrap transition-colors relative ${
-                                    activeTab === tab ? "text-white" : "text-gray-500 hover:text-gray-800"
+                                className={`pb-3 text-[13px] font-black uppercase tracking-widest flex items-center gap-2 whitespace-nowrap transition-all relative ${
+                                    activeTab === tab ? "text-black" : "text-black opacity-40 hover:opacity-100"
                                 }`}
                             >
                                 <Icon size={14} /> {tab}
@@ -292,7 +292,7 @@ const CustomerProfile = () => {
                     <div className="lg:col-span-2 space-y-6">
                         <div className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm">
                             <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-lg font-bold text-white">Personal Information</h2>
+                                <h2 className="text-lg font-bold text-black">Personal Information</h2>
                                 <span className="bg-emerald-50 text-emerald-600 font-bold px-2.5 py-1 rounded-full text-[9px] uppercase tracking-wider">
                                     Verified
                                 </span>
@@ -300,7 +300,7 @@ const CustomerProfile = () => {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-5">
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Full Name</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Full Name</label>
                                     <input 
                                         name="name" 
                                         value={form.name} 
@@ -311,16 +311,16 @@ const CustomerProfile = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Email Address</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Email Address</label>
                                     <input 
                                         name="email" 
                                         value={form.email} 
                                         readOnly 
-                                        className={`w-full bg-gray-50 border ${getFieldStatus('email', form.email) === 'valid' ? 'border-emerald-500 focus:border-emerald-500' : 'border-gray-200'} rounded-lg px-3.5 py-2.5 text-[13px] text-gray-500 outline-none`} 
+                                        className={`w-full bg-slate-50 border ${getFieldStatus('email', form.email) === 'valid' ? 'border-emerald-500 focus:border-emerald-500' : 'border-slate-200'} rounded-lg px-3.5 py-2.5 text-[13px] text-black font-black opacity-60 outline-none`} 
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Phone Number</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Phone Number</label>
                                     <input 
                                         name="phone" 
                                         value={form.phone} 
@@ -331,13 +331,13 @@ const CustomerProfile = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">Date of Birth</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px] flex items-center gap-2">Date of Birth</label>
                                     <div className="relative">
                                         <input type="date" name="dob" value={form.dob?.split('T')[0] || ''} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors appearance-none" />
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Gender</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Gender</label>
                                     <div className="relative">
                                         <select name="gender" value={form.gender} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors appearance-none pr-10">
                                             <option value="Male">Male</option>
@@ -348,11 +348,11 @@ const CustomerProfile = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Occupation</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Occupation</label>
                                     <input name="occupation" value={form.occupation} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors" />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Aadhar Number</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Aadhar Number</label>
                                     <input 
                                         name="nationalId" 
                                         value={formatAadhaar(form.nationalId)} 
@@ -364,7 +364,7 @@ const CustomerProfile = () => {
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">PAN Card Number</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">PAN Card Number</label>
                                     <input 
                                         name="panNumber" 
                                         value={form.panNumber.toUpperCase()} 
@@ -377,12 +377,12 @@ const CustomerProfile = () => {
                                 </div>
                                 
                                 <div className="md:col-span-2 space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Current Address</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Current Address</label>
                                     <textarea name="address" value={form.address} onChange={handleChange} rows="2" className="w-full bg-white border border-gray-200 rounded-lg px-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors resize-none" />
                                 </div>
                                 
                                 <div className="space-y-1.5">
-                                    <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Annual Income (₹)</label>
+                                    <label className="text-[10px] font-black text-black uppercase tracking-[2px]">Annual Income (₹)</label>
                                     <div className="relative">
                                         <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 font-medium">₹</span>
                                         <input type="number" name="annualIncome" value={form.annualIncome} onChange={handleChange} className="w-full bg-white border border-gray-200 rounded-lg pl-8 pr-3.5 py-2.5 text-[13px] focus:outline-none focus:border-[#002b45] transition-colors" />
@@ -405,31 +405,31 @@ const CustomerProfile = () => {
                     <div className="space-y-6">
                         {/* Security Settings Widget */}
                         <div className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-white mb-5">Security Settings</h2>
+                            <h2 className="text-lg font-bold text-black mb-5">Security Settings</h2>
                             
                             <div className="flex items-center justify-between py-3 border-b border-gray-100">
                                 <div>
-                                    <p className="font-bold text-white text-[13px] mb-0.5">Two-Factor Auth</p>
-                                    <p className="text-[11px] text-gray-500">Secure your account</p>
+                                    <p className="font-black text-black text-[13px] mb-0.5 uppercase tracking-wide">Two-Factor Auth</p>
+                                    <p className="text-[11px] text-black font-black opacity-50 uppercase tracking-widest">Secure your account</p>
                                 </div>
-                                <ToggleRight size={28} className="text-white cursor-pointer" />
+                                <ToggleRight size={28} className="text-slate-300 cursor-pointer hover:text-black transition-colors" />
                             </div>
 
                             <div className="pt-5">
-                                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-3">Login History</p>
+                                <p className="text-[9px] font-black text-black mb-3 uppercase tracking-[3px] opacity-40">Login History</p>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">
-                                        <div className="w-1/2"><p className="text-[12px] font-semibold text-white">Chrome / Win</p></div>
+                                        <div className="w-1/2"><p className="text-[12px] font-semibold text-black">Chrome / Win</p></div>
                                         <div className="w-1/2 text-right">
-                                            <p className="text-[9px] text-gray-400 mb-0.5">2 mins ago</p>
-                                            <span className="text-[11px] font-bold text-emerald-600">Active</span>
+                                            <p className="text-[9px] text-black font-black opacity-30 mb-0.5">2 mins ago</p>
+                                            <span className="text-[11px] font-black text-emerald-600 uppercase tracking-widest">Active</span>
                                         </div>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <div className="w-1/2"><p className="text-[12px] font-semibold text-gray-500">iPhone 13 / iOS</p></div>
+                                        <div className="w-1/2"><p className="text-[12px] font-black text-black opacity-50 uppercase tracking-tighter">iPhone 13 / iOS</p></div>
                                         <div className="w-1/2 text-right">
-                                            <p className="text-[9px] text-gray-400 mb-0.5">Yesterday</p>
-                                            <span className="text-[11px] font-bold text-gray-400">Expired</span>
+                                            <p className="text-[9px] text-black font-black opacity-30 mb-0.5 uppercase">Yesterday</p>
+                                            <span className="text-[11px] font-black text-black opacity-20 uppercase tracking-widest">Expired</span>
                                         </div>
                                     </div>
                                 </div>
@@ -472,9 +472,9 @@ const CustomerProfile = () => {
                 {/* Uploaded Documents */}
                 <div className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-bold text-white">Uploaded Documents</h2>
-                        <button className="text-[12px] font-bold text-white hover:text-[#003b5c] flex items-center gap-1 transition-colors">
-                            <Plus size={14} /> Upload New
+                        <h2 className="text-lg font-bold text-black">Uploaded Documents</h2>
+                        <button className="text-[12px] font-black text-black hover:text-blue-600 flex items-center gap-2 transition-all uppercase tracking-widest bg-slate-50 px-4 py-1.5 rounded-lg border border-slate-100">
+                            <Plus size={14} strokeWidth={3} /> UPLOAD NEW
                         </button>
                     </div>
 
@@ -482,25 +482,25 @@ const CustomerProfile = () => {
                         {profileData?.documents && profileData.documents.length > 0 ? profileData.documents.map((doc, i) => (
                             <div key={i} className="border border-gray-200 rounded-xl p-3.5 flex items-center justify-between group hover:border-[#002b45] hover:shadow-sm transition-all bg-white">
                                 <div className="flex items-center gap-3.5">
-                                    <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0 font-black text-[10px]">
+                                    <div className="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 font-black text-[10px] shadow-sm">
                                         {doc.name?.split('.').pop()?.toUpperCase() || 'FILE'}
                                     </div>
                                     <div>
-                                        <p className="font-bold text-xs text-white mb-0.5 truncate max-w-[120px]">{doc.name}</p>
-                                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
+                                        <p className="font-black text-xs text-black mb-0.5 truncate max-w-[120px] uppercase tracking-tighter">{doc.name}</p>
+                                        <p className="text-[9px] font-black text-black opacity-40 uppercase tracking-[2px]">
                                             {doc.type} • {new Date(doc.uploadedAt).toLocaleDateString()}
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white"><Eye size={14} /></a>
-                                    <a href={doc.url} download className="text-gray-400 hover:text-white"><Download size={14} /></a>
+                                <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-all">
+                                    <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-black/30 hover:text-black transition-colors"><Eye size={16} strokeWidth={3} /></a>
+                                    <a href={doc.url} download className="text-black/30 hover:text-black transition-colors"><Download size={16} strokeWidth={3} /></a>
                                 </div>
                             </div>
                         )) : (
-                            <div className="col-span-1 md:col-span-2 lg:col-span-3 py-12 text-center border-2 border-dashed border-gray-100 rounded-2xl bg-gray-50/30">
-                                <FileText className="mx-auto text-gray-200 mb-3" size={32} />
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">No documents uploaded yet</p>
+                            <div className="col-span-1 md:col-span-2 lg:col-span-3 py-16 text-center border-2 border-dashed border-slate-100 rounded-[2.5rem] bg-slate-50/50">
+                                <FileText className="mx-auto text-black/10 mb-6" size={48} strokeWidth={1} />
+                                <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[6px] italic">Sector_Manifest: NODE_DOCUMENTS_EMPTY</p>
                             </div>
                         )}
                     </div>
