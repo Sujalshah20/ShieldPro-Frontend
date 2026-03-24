@@ -59,7 +59,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background-color: #ffffff;
-  color: var(--brand-dark);
+  /* color intentionally NOT set globally — use Tailwind text-* utilities per element */
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: var(--font-body);
   line-height: 1.5;
@@ -86,7 +86,7 @@ h1 {
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin-bottom: var(--space-3);
-  color: var(--brand-dark);
+  /* color not set — let Tailwind text-* classes control it */
 }
 
 h2 {
@@ -95,19 +95,19 @@ h2 {
   line-height: 1.2;
   letter-spacing: -0.01em;
   margin-bottom: var(--space-2);
-  color: var(--brand-dark);
+  /* color not set — let Tailwind text-* classes control it */
 }
 
 h3 {
   font-size: var(--font-h3);
   font-weight: 700;
   line-height: 1.3;
-  color: var(--brand-dark);
+  /* color not set — let Tailwind text-* classes control it */
 }
 
 p {
   font-size: var(--font-body);
-  color: rgba(0, 50, 73, 0.7);
+  /* color not set — let Tailwind text-* classes control it */
 }
 
 /* Components: Standardized SaaS Cards */
