@@ -7,7 +7,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
-import loginIllustration from "../../assets/login_security_illustration.png";
+import loginIllustration from "../../assets/login_security_illustration_v2.jpg";
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { api } from "../../utils/api";
