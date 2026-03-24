@@ -12,7 +12,7 @@ import {
     Fingerprint, Cpu, Satellite, Target, Database, Layers, Radio, Workflow, Quote, ShieldCheck
 } from "lucide-react";
 import Reveal from "../components/common/Reveal";
-import heroIllustration from "../assets/hero_illustration.png";
+import heroIllustration from "../assets/hero_illustration_v2.jpg";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
