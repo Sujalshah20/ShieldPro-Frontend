@@ -34,7 +34,7 @@ const Navbar = () => {
                     <div className="w-10 h-10 bg-[#002b45] rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
                         <Shield size={22} strokeWidth={2.5} />
                     </div>
-                    <span className="text-xl font-bold text-[#002b45] tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
+                    <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
                 </Link>
 
                 {/* Auth Buttons */}
@@ -87,25 +87,32 @@ const HeroSection = () => (
             </Reveal>
 
             <Reveal direction="right">
-                <div className="relative group">
-                    <div className="absolute -inset-10 bg-white/5 blur-[80px] rounded-full opacity-50 transition-all group-hover:opacity-80" />
-                    <div className="relative z-10 bg-white/10 backdrop-blur-3xl rounded-[3rem] p-4 border border-white/20 shadow-2xl overflow-hidden aspect-[16/10] lg:aspect-[4/3] flex items-center justify-center group-hover:scale-[1.02] transition-all duration-700">
-                        <img 
-                            src={heroIllustration} 
-                            alt="Family Protection"
-                            className="w-full h-full object-cover rounded-[2.5rem] shadow-inner"
-                        />
-                        {/* Shimmer effect Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent pointer-events-none" />
+                <div className="relative group mt-8 lg:mt-0">
+                    {/* Outer ambient glow */}
+                    <div className="absolute -inset-6 sm:-inset-8 bg-white/5 blur-[70px] rounded-full opacity-60 transition-all duration-700 group-hover:opacity-90" />
+
+                    {/* Premium border ring — gradient matching site theme */}
+                    <div className="relative z-10 p-[2px] rounded-3xl bg-gradient-to-br from-white/40 via-white/10 to-[#134e8d]/50 shadow-[0_8px_32px_rgba(0,43,69,0.45),0_2px_8px_rgba(19,78,141,0.3)] group-hover:shadow-[0_16px_48px_rgba(0,43,69,0.55),0_4px_16px_rgba(19,78,141,0.4)] transition-all duration-700 group-hover:scale-[1.02]">
+                        {/* Inner card */}
+                        <div className="relative bg-white/10 backdrop-blur-3xl rounded-[calc(1.5rem-2px)] p-3 sm:p-4 overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] flex items-center justify-center">
+                            <img
+                                src={heroIllustration}
+                                alt="Family Protection"
+                                className="w-full h-full object-cover rounded-2xl sm:rounded-3xl shadow-inner"
+                            />
+                            {/* Shimmer overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent pointer-events-none rounded-[calc(1.5rem-2px)]" />
+                        </div>
                     </div>
-                    {/* Floating Tactical Element placeholder from image */}
-                    <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce-slow">
-                        <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500">
-                             <Shield size={24} />
+
+                    {/* Floating badge */}
+                    <div className="absolute -bottom-5 -left-4 sm:-bottom-6 sm:-left-6 bg-white px-4 py-3 sm:p-5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 sm:gap-4">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500 shrink-0">
+                            <Shield size={22} />
                         </div>
                         <div>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status</p>
-                            <p className="text-sm font-bold text-[#002b45]">Highly Secured</p>
+                            <p className="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-wider">Status</p>
+                            <p className="text-xs sm:text-sm font-bold text-white">Highly Secured</p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +146,7 @@ const StatsSection = () => {
                                     <s.icon size={24} strokeWidth={2.5} />
                                 </div>
                                 <div className="space-y-1">
-                                    <h3 className="text-4xl font-extrabold text-[#002b45] tracking-tight">
+                                    <h3 className="text-4xl font-extrabold text-white tracking-tight">
                                         {isLoading ? "..." : s.val}
                                     </h3>
                                     <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest">{s.label}</p>
@@ -158,7 +165,7 @@ const PolicySection = () => (
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-[#002b45] tracking-tight">Our Policies</h2>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">Our Policies</h2>
                     <p className="text-slate-500 text-lg font-medium leading-relaxed">
                         Choose from a wide range of insurance products designed to provide you with maximum coverage and peace of mind.
                     </p>
@@ -179,7 +186,7 @@ const PolicySection = () => (
                             <div className={`w-14 h-14 ${p.color} rounded-2xl flex items-center justify-center mb-8 group-hover:rotate-6 transition-transform`}>
                                 <p.icon size={28} strokeWidth={2.5} />
                             </div>
-                            <h3 className="text-2xl font-bold text-[#002b45] mb-4">{p.title}</h3>
+                            <h3 className="text-2xl font-bold text-white mb-4">{p.title}</h3>
                             <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 flex-1">
                                 {p.desc}
                             </p>
@@ -199,7 +206,7 @@ const HowItWorks = () => (
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-[#002b45] tracking-tight">How It Works</h2>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">How It Works</h2>
                     <p className="text-slate-500 text-lg font-medium">Get started in just 4 simple steps.</p>
                 </Reveal>
             </div>
@@ -220,7 +227,7 @@ const HowItWorks = () => (
                                 <s.icon size={36} strokeWidth={2.5} />
                             </div>
                             <div className="space-y-3">
-                                <h4 className="text-xl font-bold text-[#002b45]">{s.title}</h4>
+                                <h4 className="text-xl font-bold text-white">{s.title}</h4>
                                 <p className="text-slate-500 text-sm font-medium leading-relaxed max-w-[200px] mx-auto">{s.desc}</p>
                             </div>
                         </div>
@@ -236,7 +243,7 @@ const WhyChooseUs = () => (
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-[#002b45] tracking-tight">Why Choose Us</h2>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">Why Choose Us</h2>
                     <p className="text-slate-500 text-lg font-medium">The most reliable choice for insurance in India.</p>
                 </Reveal>
             </div>
@@ -256,7 +263,7 @@ const WhyChooseUs = () => (
                                 <f.icon size={24} strokeWidth={2.5} />
                             </div>
                             <div className="space-y-2">
-                                <h4 className="text-lg font-bold text-[#002b45]">{f.title}</h4>
+                                <h4 className="text-lg font-bold text-white">{f.title}</h4>
                                 <p className="text-slate-500 text-sm font-medium leading-relaxed">{f.desc}</p>
                             </div>
                         </div>
@@ -272,7 +279,7 @@ const Testimonials = () => (
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-4xl md:text-5xl font-extrabold text-[#002b45] tracking-tight">What Our Customers Say</h2>
+                    <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">What Our Customers Say</h2>
                 </Reveal>
             </div>
             
@@ -300,7 +307,7 @@ const Testimonials = () => (
                                      {t.name.split(' ')[0].charAt(0)}{t.name.split(' ')[1].charAt(0)}
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-[#002b45] leading-none mb-1">{t.name}</h4>
+                                    <h4 className="font-bold text-white leading-none mb-1">{t.name}</h4>
                                     <p className="text-[12px] text-slate-400 font-medium">{t.role}</p>
                                 </div>
                             </div>

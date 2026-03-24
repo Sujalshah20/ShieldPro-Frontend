@@ -48,12 +48,12 @@ const CustomerSettings = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#002b45] mb-1">Account Settings</h1>
+                    <h1 className="text-2xl font-bold text-white mb-1">Account Settings</h1>
                     <p className="text-gray-500 text-xs">Manage your profile, security, and notification preferences.</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Last synced: Just now</span>
-                    <button className="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#002b45] transition-colors shadow-sm">
+                    <button className="w-10 h-10 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-white transition-colors shadow-sm">
                         <RefreshCcw size={18} />
                     </button>
                 </div>
@@ -92,10 +92,10 @@ const CustomerSettings = () => {
                             <div className="w-8 h-8 rounded-lg bg-[#002b45] flex items-center justify-center text-white">
                                 <Shield size={16} />
                             </div>
-                            <p className="font-bold text-[#002b45] text-sm">Security Check</p>
+                            <p className="font-bold text-white text-sm">Security Check</p>
                         </div>
                         <p className="text-xs text-gray-500 leading-relaxed mb-4">Your account security is 85% complete. Enable 2FA to reach 100%.</p>
-                        <button className="w-full py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-[#002b45] hover:bg-gray-50 transition-colors">
+                        <button className="w-full py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-white hover:bg-gray-50 transition-colors">
                             Complete Setup
                         </button>
                     </div>
@@ -114,7 +114,7 @@ const CustomerSettings = () => {
                         >
                             <div className="p-5 md:p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
                                 <div>
-                                    <h2 className="text-lg font-bold text-[#002b45]">
+                                    <h2 className="text-lg font-bold text-white">
                                         {tabs.find(t => t.id === activeTab)?.label}
                                     </h2>
                                     <p className="text-[11px] text-gray-400 font-medium">Update your preferences and account configuration</p>
@@ -132,15 +132,15 @@ const CustomerSettings = () => {
                                                 <div className="w-24 h-24 rounded-3xl overflow-hidden border-4 border-gray-100 shadow-md">
                                                     <img src="https://i.pravatar.cc/150?u=rahul" alt="Avatar" className="w-full h-full object-cover" />
                                                 </div>
-                                                <button className="absolute -bottom-2 -right-2 w-8 h-8 bg-white border border-gray-200 rounded-lg shadow-lg flex items-center justify-center text-gray-400 hover:text-[#002b45] transition-colors">
+                                                <button className="absolute -bottom-2 -right-2 w-8 h-8 bg-white border border-gray-200 rounded-lg shadow-lg flex items-center justify-center text-gray-400 hover:text-white transition-colors">
                                                     <RefreshCcw size={14} />
                                                 </button>
                                             </div>
                                             <div>
-                                                <h3 className="font-bold text-[#002b45]">Profile Picture</h3>
+                                                <h3 className="font-bold text-white">Profile Picture</h3>
                                                 <p className="text-xs text-gray-400 mt-1">PNG, JPG or GIF. Max size 2MB.</p>
                                                 <div className="flex gap-3 mt-3">
-                                                    <button className="text-[10px] font-black text-[#002b45] uppercase tracking-wider py-1.5 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Change</button>
+                                                    <button className="text-[10px] font-black text-white uppercase tracking-wider py-1.5 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Change</button>
                                                     <button className="text-[10px] font-black text-rose-500 uppercase tracking-wider py-1.5 px-3 border border-rose-100 rounded-lg hover:bg-rose-50 transition-colors">Remove</button>
                                                 </div>
                                             </div>
@@ -192,12 +192,12 @@ const CustomerSettings = () => {
                                             ].map((item) => (
                                                 <div key={item.id} className="flex items-start justify-between p-4 border border-gray-50 rounded-2xl hover:bg-gray-50/50 transition-colors">
                                                     <div className="flex gap-4">
-                                                        <div className="w-10 h-10 rounded-xl bg-[#002b45]/5 text-[#002b45] flex items-center justify-center shrink-0">
+                                                        <div className="w-10 h-10 rounded-xl bg-[#002b45]/5 text-white flex items-center justify-center shrink-0">
                                                             <item.icon size={20} />
                                                         </div>
                                                         <div>
                                                             <div className="flex items-center gap-2">
-                                                                <p className="font-bold text-[#002b45] text-sm">{item.label}</p>
+                                                                <p className="font-bold text-white text-sm">{item.label}</p>
                                                                 {item.mandatory && <span className="bg-[#002b45] text-white text-[8px] px-1.5 py-0.5 rounded font-black tracking-widest uppercase">Required</span>}
                                                             </div>
                                                             <p className="text-xs text-gray-400 mt-1 max-w-sm">{item.sub}</p>
@@ -224,9 +224,9 @@ const CustomerSettings = () => {
                                 {activeTab === 'security' && (
                                     <div className="space-y-8">
                                         <div className="p-5 bg-blue-50 border border-blue-100 rounded-2xl flex items-start gap-3">
-                                            <Info size={18} className="text-[#002b45] shrink-0 mt-0.5" />
+                                            <Info size={18} className="text-white shrink-0 mt-0.5" />
                                             <div>
-                                                <p className="text-sm font-bold text-[#002b45] mb-1">Two-Factor Authentication is Disabled</p>
+                                                <p className="text-sm font-bold text-white mb-1">Two-Factor Authentication is Disabled</p>
                                                 <p className="text-xs text-blue-700/70 leading-relaxed">Protect your account with an extra layer of security. We recommend using a generator app like Google Authenticator.</p>
                                             </div>
                                         </div>
@@ -274,15 +274,15 @@ const CustomerSettings = () => {
                                                         VISA
                                                     </div>
                                                     <div>
-                                                        <p className="font-bold text-[#002b45] text-sm">•••• •••• •••• 4582</p>
+                                                        <p className="font-bold text-white text-sm">•••• •••• •••• 4582</p>
                                                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">Expires 12/26 • Primary</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex gap-2">
-                                                    <button className="text-[10px] font-black text-[#002b45] uppercase tracking-wider py-1.5 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Edit</button>
+                                                    <button className="text-[10px] font-black text-white uppercase tracking-wider py-1.5 px-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Edit</button>
                                                 </div>
                                             </div>
-                                            <button className="w-full py-4 border-2 border-dashed border-gray-100 rounded-2xl text-gray-400 hover:text-[#002b45] hover:border-[#002b45]/30 hover:bg-[#002b45]/5 transition-all flex items-center justify-center gap-2 text-sm font-bold">
+                                            <button className="w-full py-4 border-2 border-dashed border-gray-100 rounded-2xl text-gray-400 hover:text-white hover:border-[#002b45]/30 hover:bg-[#002b45]/5 transition-all flex items-center justify-center gap-2 text-sm font-bold">
                                                 + Add New Payment Method
                                             </button>
                                         </div>
@@ -290,7 +290,7 @@ const CustomerSettings = () => {
                                         <div className="space-y-4">
                                             <div className="flex items-center justify-between">
                                                 <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Recent Invoices</h4>
-                                                <button className="text-[10px] font-black text-[#002b45] uppercase tracking-widest hover:underline">View All</button>
+                                                <button className="text-[10px] font-black text-white uppercase tracking-widest hover:underline">View All</button>
                                             </div>
                                             <div className="border border-gray-50 rounded-2xl overflow-hidden divide-y divide-gray-50">
                                                 {[
@@ -299,12 +299,12 @@ const CustomerSettings = () => {
                                                 ].map((inv) => (
                                                     <div key={inv.id} className="p-4 flex items-center justify-between bg-white hover:bg-gray-50/50 transition-colors">
                                                         <div className="flex gap-4 items-center font-medium text-sm">
-                                                            <span className="text-[#002b45] font-bold">{inv.id}</span>
+                                                            <span className="text-white font-bold">{inv.id}</span>
                                                             <span className="text-gray-400">{inv.date}</span>
                                                         </div>
                                                         <div className="flex items-center gap-6">
-                                                            <span className="font-bold text-[#002b45] text-sm">{inv.amt}</span>
-                                                            <button className="p-2 text-gray-400 hover:text-[#002b45] transition-colors"><RefreshCcw size={16} /></button>
+                                                            <span className="font-bold text-white text-sm">{inv.amt}</span>
+                                                            <button className="p-2 text-gray-400 hover:text-white transition-colors"><RefreshCcw size={16} /></button>
                                                         </div>
                                                     </div>
                                                 ))}

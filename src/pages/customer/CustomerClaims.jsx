@@ -91,7 +91,7 @@ const CustomerClaims = () => {
                         {/* Header */}
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                             <div>
-                                <h1 className="text-2xl font-bold text-[#002b45] mb-1">My Claims</h1>
+                                <h1 className="text-2xl font-bold text-white mb-1">My Claims</h1>
                                 <p className="text-gray-500 text-xs">Track and manage your insurance claim requests in real-time.</p>
                             </div>
                             <button 
@@ -129,7 +129,7 @@ const CustomerClaims = () => {
                                             className={`hover:bg-gray-50/50 transition-colors cursor-pointer ${selectedClaim?._id === claim._id ? 'bg-[#002b45]/5' : ''}`}
                                             onClick={() => setSelectedClaim(claim)}
                                         >
-                                            <td className="px-6 py-4 font-bold text-[#002b45] text-[13px]">
+                                            <td className="px-6 py-4 font-bold text-white text-[13px]">
                                                 CLM-{claim._id.slice(-4).toUpperCase()}
                                             </td>
                                             <td className="px-6 py-4 text-gray-600 text-[13px]">
@@ -148,7 +148,7 @@ const CustomerClaims = () => {
                                                 <span className={getStatusStyle(claim.status)}>{claim.status}</span>
                                             </td>
                                             <td className="px-6 py-4 text-right">
-                                                <button className="text-[#002b45] font-bold text-[12px] hover:underline">
+                                                <button className="text-white font-bold text-[12px] hover:underline">
                                                     View Details
                                                 </button>
                                             </td>
@@ -172,13 +172,13 @@ const CustomerClaims = () => {
                                         <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm relative overflow-hidden">
                                             <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-12">
                                                 <div>
-                                                    <h2 className="text-xl font-bold text-[#002b45] mb-2">Claim Lifecycle Tracking</h2>
+                                                    <h2 className="text-xl font-bold text-white mb-2">Claim Lifecycle Tracking</h2>
                                                     <p className="text-[12px] text-gray-400 font-medium tracking-tight">
                                                         Case ID: CLM-{(selectedClaim || myClaims[0])._id.slice(-8).toUpperCase()} • Active Response Node
                                                     </p>
                                                 </div>
                                                 <div className="flex gap-3">
-                                                    <button className="w-12 h-12 rounded-xl border border-gray-100 flex items-center justify-center text-gray-400 hover:text-[#002b45] hover:bg-gray-50 transition-all shadow-sm">
+                                                    <button className="w-12 h-12 rounded-xl border border-gray-100 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-50 transition-all shadow-sm">
                                                         <Printer size={18} />
                                                     </button>
                                                     <button className="bg-[#002b45] text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#003b5c] transition-all shadow-lg flex items-center gap-3">
@@ -208,7 +208,7 @@ const CustomerClaims = () => {
                                                                     <Icon size={18} strokeWidth={3} />
                                                                 </div>
                                                                 <span className={`text-[9px] font-black uppercase tracking-[3px] text-center ${
-                                                                    isActive ? 'text-[#002b45]' : 'text-gray-300'
+                                                                    isActive ? 'text-white' : 'text-gray-300'
                                                                 }`}>
                                                                     {step.label}
                                                                 </span>
@@ -222,7 +222,7 @@ const CustomerClaims = () => {
                                         {/* Documents Section */}
                                         <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
                                             <div className="flex items-center justify-between mb-8">
-                                                <h3 className="text-lg font-bold text-[#002b45]">Evidence Manifest</h3>
+                                                <h3 className="text-lg font-bold text-white">Evidence Manifest</h3>
                                                 <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest italic">
                                                     {(selectedClaim || myClaims[0]).documents?.length || 0} FILES_DETACHED
                                                 </span>

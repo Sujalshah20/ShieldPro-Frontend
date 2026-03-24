@@ -152,18 +152,18 @@ const ApplicationPage = () => {
                                     {React.cloneElement(getPolicyIcon(), { size: 24 })}
                                 </div>
                                 <div>
-                                    <p className="font-bold text-[#002b45] text-sm">{policy.policyName}</p>
+                                    <p className="font-bold text-white text-sm">{policy.policyName}</p>
                                     <p className="text-[11px] text-gray-500 mt-0.5">Comprehensive medical coverage with cashless hospitalization.</p>
                                 </div>
                             </div>
-                            <button className="text-[12px] font-bold text-[#002b45] hover:text-[#003b5c] transition-colors border-b border-dashed border-[#002b45]">
+                            <button className="text-[12px] font-bold text-white hover:text-[#003b5c] transition-colors border-b border-dashed border-[#002b45]">
                                 Change
                             </button>
                         </div>
 
                         {/* Choose Duration */}
                         <div>
-                            <h3 className="text-sm font-bold text-[#002b45] flex items-center gap-2 mb-3">
+                            <h3 className="text-sm font-bold text-white flex items-center gap-2 mb-3">
                                 <span className="text-base">📅</span> Choose Duration
                             </h3>
                             <div className="grid grid-cols-3 gap-3">
@@ -182,10 +182,10 @@ const ApplicationPage = () => {
                                         }`}
                                     >
                                         <div className="flex items-start justify-between mb-1.5">
-                                            <span className={`text-[9px] font-black uppercase tracking-wider ${selectedDuration === d.label ? 'text-[#002b45]' : 'text-gray-400'}`}>{d.tag}</span>
-                                            {selectedDuration === d.label && <Check size={14} className="text-[#002b45]" />}
+                                            <span className={`text-[9px] font-black uppercase tracking-wider ${selectedDuration === d.label ? 'text-white' : 'text-gray-400'}`}>{d.tag}</span>
+                                            {selectedDuration === d.label && <Check size={14} className="text-white" />}
                                         </div>
-                                        <p className={`text-base font-black ${selectedDuration === d.label ? 'text-[#002b45]' : 'text-gray-700'}`}>{d.label}</p>
+                                        <p className={`text-base font-black ${selectedDuration === d.label ? 'text-white' : 'text-gray-700'}`}>{d.label}</p>
                                         {d.save && <p className="text-[9px] text-emerald-600 font-bold mt-1">{d.save}</p>}
                                     </button>
                                 ))}
@@ -194,7 +194,7 @@ const ApplicationPage = () => {
 
                         {/* Payment Frequency */}
                         <div>
-                            <h3 className="text-sm font-bold text-[#002b45] flex items-center gap-2 mb-3">
+                            <h3 className="text-sm font-bold text-white flex items-center gap-2 mb-3">
                                 <span className="text-base">💳</span> Payment Frequency
                             </h3>
                             <div className="grid grid-cols-3 gap-3">
@@ -204,7 +204,7 @@ const ApplicationPage = () => {
                                         onClick={() => setSelectedFrequency(f)}
                                         className={`py-3 rounded-xl border-2 text-[13px] font-semibold flex items-center gap-2.5 px-4 transition-all ${
                                             selectedFrequency === f
-                                                ? 'border-[#002b45] bg-[#002b45]/5 text-[#002b45]'
+                                                ? 'border-[#002b45] bg-[#002b45]/5 text-white'
                                                 : 'border-gray-200 text-gray-600 hover:border-gray-300'
                                         }`}
                                     >
@@ -221,7 +221,7 @@ const ApplicationPage = () => {
 
                 {step === 2 && (
                     <div className="space-y-5">
-                        <h3 className="text-sm font-bold text-[#002b45]">Personal Details</h3>
+                        <h3 className="text-sm font-bold text-white">Personal Details</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {[
                                 { label: "Full Name", name: "name", type: "text", placeholder: "Enter your full name", required: true },
@@ -267,7 +267,7 @@ const ApplicationPage = () => {
 
                 {step === 3 && (
                     <div className="space-y-5">
-                        <h3 className="text-sm font-bold text-[#002b45]">Upload Documents</h3>
+                        <h3 className="text-sm font-bold text-white">Upload Documents</h3>
                         <p className="text-[13px] text-gray-500">Please upload clear, readable documents. Supported formats: PDF, JPG, PNG (Max 10MB each)</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <label className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center gap-2.5 text-center cursor-pointer hover:border-[#002b45] hover:bg-[#002b45]/5 transition-all relative">
@@ -300,9 +300,9 @@ const ApplicationPage = () => {
                                             className="flex items-center justify-between border border-gray-100 rounded-lg p-3 bg-white"
                                         >
                                             <div className="flex items-center gap-3">
-                                                <FileText size={16} className="text-[#002b45]" />
+                                                <FileText size={16} className="text-white" />
                                                 <div>
-                                                    <p className="text-[13px] font-semibold text-[#002b45]">{f.name}</p>
+                                                    <p className="text-[13px] font-semibold text-white">{f.name}</p>
                                                     <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider">Ready</span>
                                                 </div>
                                             </div>
@@ -319,7 +319,7 @@ const ApplicationPage = () => {
 
                 {step === 4 && (
                     <div className="space-y-5">
-                        <h3 className="text-sm font-bold text-[#002b45]">Review & Confirm</h3>
+                        <h3 className="text-sm font-bold text-white">Review & Confirm</h3>
                         <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                             <div className="bg-gray-50 px-5 py-3 border-b border-gray-100">
                                 <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Order Summary</p>
@@ -344,9 +344,9 @@ const ApplicationPage = () => {
                                     </div>
                                 )}
                                 <div className="border-t border-gray-100 pt-3.5 flex justify-between items-end">
-                                    <span className="font-bold text-[#002b45] text-sm mb-1">Total Premium</span>
+                                    <span className="font-bold text-white text-sm mb-1">Total Premium</span>
                                     <div className="text-right">
-                                        <p className="text-xl font-black text-[#002b45]">₹{total.toLocaleString()}</p>
+                                        <p className="text-xl font-black text-white">₹{total.toLocaleString()}</p>
                                         <p className="text-[9px] text-gray-400 uppercase tracking-wider">*INCLUSIVE OF ALL TAXES</p>
                                     </div>
                                 </div>
@@ -365,7 +365,7 @@ const ApplicationPage = () => {
                             <ShieldCheck size={48} className="text-emerald-600" />
                         </div>
                         <div>
-                            <h3 className="text-2xl font-black text-[#002b45] mb-2">Application Submitted!</h3>
+                            <h3 className="text-2xl font-black text-white mb-2">Application Submitted!</h3>
                             <p className="text-gray-500 text-sm max-w-sm">Your application for <strong>{policy.policyName}</strong> has been successfully submitted and is under review.</p>
                         </div>
                         <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl text-blue-700 text-sm font-medium">
@@ -383,7 +383,7 @@ const ApplicationPage = () => {
             <div className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
                 <div className="max-w-5xl mx-auto px-4 md:px-6 py-2.5">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-[#002b45]">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-white">
                             STEP {step} OF 5: {STEPS[step-1]?.label.toUpperCase()}
                         </span>
                         <span className="text-[10px] font-bold text-gray-500">{step * 20}% Complete</span>
@@ -399,7 +399,7 @@ const ApplicationPage = () => {
                         {STEPS.map((s, i) => (
                             <React.Fragment key={s.id}>
                                 {i > 0 && <span className="text-gray-300">/</span>}
-                                <span className={`whitespace-nowrap font-semibold ${step === s.id ? 'text-[#002b45] underline' : step > s.id ? 'text-emerald-600' : ''}`}>
+                                <span className={`whitespace-nowrap font-semibold ${step === s.id ? 'text-white underline' : step > s.id ? 'text-emerald-600' : ''}`}>
                                     {s.label}
                                 </span>
                             </React.Fragment>
@@ -450,7 +450,7 @@ const ApplicationPage = () => {
                     {/* Payment Breakdown */}
                     <div className="space-y-4">
                         <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm sticky top-28">
-                            <h3 className="font-bold text-[#002b45] text-[15px] mb-4">Payment Breakdown</h3>
+                            <h3 className="font-bold text-white text-[15px] mb-4">Payment Breakdown</h3>
                             <div className="space-y-2.5 text-[13px] mb-4">
                                 <div className="flex justify-between">
                                     <span className="text-gray-500">Base Premium ({selectedDuration})</span>
@@ -471,24 +471,24 @@ const ApplicationPage = () => {
                                     </div>
                                 )}
                                 <div className="border-t border-gray-100 pt-2.5 flex justify-between items-center">
-                                    <span className="font-bold text-[#002b45]">Total Premium</span>
-                                    <span className="font-black text-lg text-[#002b45]">₹{total.toLocaleString()}.00</span>
+                                    <span className="font-bold text-white">Total Premium</span>
+                                    <span className="font-black text-lg text-white">₹{total.toLocaleString()}.00</span>
                                 </div>
                                 <p className="text-[9px] text-gray-400 text-right uppercase tracking-wider">*INCLUSIVE OF ALL TAXES</p>
                             </div>
 
                             <div className="bg-gray-50 rounded-xl p-3.5 border border-gray-100 mb-4">
                                 <div className="flex items-start gap-2.5">
-                                    <Shield size={16} className="text-[#002b45] shrink-0 mt-0.5" />
+                                    <Shield size={16} className="text-white shrink-0 mt-0.5" />
                                     <div>
-                                        <p className="text-[10px] font-black text-[#002b45] uppercase tracking-wider mb-1">TRUST GUARANTEE</p>
+                                        <p className="text-[10px] font-black text-white uppercase tracking-wider mb-1">TRUST GUARANTEE</p>
                                         <p className="text-[11px] text-gray-400 leading-relaxed">Your purchase is secure. Secure Shield is IRDAI certified and provides 24/7 support.</p>
                                     </div>
                                 </div>
                             </div>
 
                             <p className="text-center text-[11px] text-gray-400">
-                                Need help? <span className="font-bold text-[#002b45]">Call 1800-SECURE</span>
+                                Need help? <span className="font-bold text-white">Call 1800-SECURE</span>
                             </p>
                         </div>
                     </div>

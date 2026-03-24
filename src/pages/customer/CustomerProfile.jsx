@@ -51,14 +51,50 @@ const CustomerProfile = () => {
         setForm(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleImageUpload = (e) => {
+    const compressImage = (file, maxWidth = 500, quality = 0.7) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height *= maxWidth / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxWidth) {
+                            width *= maxWidth / height;
+                            height = maxWidth;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+            };
+        });
+    };
+
+    const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setForm(prev => ({ ...prev, profilePic: reader.result }));
-            };
-            reader.readAsDataURL(file);
+            try {
+                // Compression to keep payload small and avoid 413 error
+                const compressedBase64 = await compressImage(file);
+                setForm(prev => ({ ...prev, profilePic: compressedBase64 }));
+            } catch (err) {
+                toast({ title: "Upload failed", description: "Failed to process image", variant: "destructive" });
+            }
         }
     };
 
@@ -209,7 +245,7 @@ const CustomerProfile = () => {
                             </label>
                         </div>
                         <div className="text-center md:text-left">
-                            <h1 className="text-xl font-bold text-[#002b45] mb-0.5">{form.name || 'User'}</h1>
+                            <h1 className="text-xl font-bold text-white mb-0.5">{form.name || 'User'}</h1>
                             <p className="text-xs text-gray-500">{user.email} • Member since {profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : 'Jan 2022'}</p>
                         </div>
                     </div>
@@ -230,7 +266,7 @@ const CustomerProfile = () => {
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={`pb-3 text-[13px] font-semibold flex items-center gap-2 whitespace-nowrap transition-colors relative ${
-                                    activeTab === tab ? "text-[#002b45]" : "text-gray-500 hover:text-gray-800"
+                                    activeTab === tab ? "text-white" : "text-gray-500 hover:text-gray-800"
                                 }`}
                             >
                                 <Icon size={14} /> {tab}
@@ -256,7 +292,7 @@ const CustomerProfile = () => {
                     <div className="lg:col-span-2 space-y-6">
                         <div className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm">
                             <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-lg font-bold text-[#002b45]">Personal Information</h2>
+                                <h2 className="text-lg font-bold text-white">Personal Information</h2>
                                 <span className="bg-emerald-50 text-emerald-600 font-bold px-2.5 py-1 rounded-full text-[9px] uppercase tracking-wider">
                                     Verified
                                 </span>
@@ -369,21 +405,21 @@ const CustomerProfile = () => {
                     <div className="space-y-6">
                         {/* Security Settings Widget */}
                         <div className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-[#002b45] mb-5">Security Settings</h2>
+                            <h2 className="text-lg font-bold text-white mb-5">Security Settings</h2>
                             
                             <div className="flex items-center justify-between py-3 border-b border-gray-100">
                                 <div>
-                                    <p className="font-bold text-[#002b45] text-[13px] mb-0.5">Two-Factor Auth</p>
+                                    <p className="font-bold text-white text-[13px] mb-0.5">Two-Factor Auth</p>
                                     <p className="text-[11px] text-gray-500">Secure your account</p>
                                 </div>
-                                <ToggleRight size={28} className="text-[#002b45] cursor-pointer" />
+                                <ToggleRight size={28} className="text-white cursor-pointer" />
                             </div>
 
                             <div className="pt-5">
                                 <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-3">Login History</p>
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">
-                                        <div className="w-1/2"><p className="text-[12px] font-semibold text-[#002b45]">Chrome / Win</p></div>
+                                        <div className="w-1/2"><p className="text-[12px] font-semibold text-white">Chrome / Win</p></div>
                                         <div className="w-1/2 text-right">
                                             <p className="text-[9px] text-gray-400 mb-0.5">2 mins ago</p>
                                             <span className="text-[11px] font-bold text-emerald-600">Active</span>
@@ -426,7 +462,7 @@ const CustomerProfile = () => {
                                 </div>
                             </div>
 
-                            <button className="w-full bg-white text-[#002b45] font-bold py-2.5 rounded-xl hover:bg-gray-100 transition-colors shadow-sm text-sm">
+                            <button className="w-full bg-white text-white font-bold py-2.5 rounded-xl hover:bg-gray-100 transition-colors shadow-sm text-sm">
                                 Security Audit
                             </button>
                         </div>
@@ -436,8 +472,8 @@ const CustomerProfile = () => {
                 {/* Uploaded Documents */}
                 <div className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-bold text-[#002b45]">Uploaded Documents</h2>
-                        <button className="text-[12px] font-bold text-[#002b45] hover:text-[#003b5c] flex items-center gap-1 transition-colors">
+                        <h2 className="text-lg font-bold text-white">Uploaded Documents</h2>
+                        <button className="text-[12px] font-bold text-white hover:text-[#003b5c] flex items-center gap-1 transition-colors">
                             <Plus size={14} /> Upload New
                         </button>
                     </div>
@@ -450,15 +486,15 @@ const CustomerProfile = () => {
                                         {doc.name?.split('.').pop()?.toUpperCase() || 'FILE'}
                                     </div>
                                     <div>
-                                        <p className="font-bold text-xs text-[#002b45] mb-0.5 truncate max-w-[120px]">{doc.name}</p>
+                                        <p className="font-bold text-xs text-white mb-0.5 truncate max-w-[120px]">{doc.name}</p>
                                         <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">
                                             {doc.type} • {new Date(doc.uploadedAt).toLocaleDateString()}
                                         </p>
                                     </div>
                                 </div>
                                 <div className="flex gap-2.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#002b45]"><Eye size={14} /></a>
-                                    <a href={doc.url} download className="text-gray-400 hover:text-[#002b45]"><Download size={14} /></a>
+                                    <a href={doc.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white"><Eye size={14} /></a>
+                                    <a href={doc.url} download className="text-gray-400 hover:text-white"><Download size={14} /></a>
                                 </div>
                             </div>
                         )) : (

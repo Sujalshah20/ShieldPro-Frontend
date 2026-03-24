@@ -72,14 +72,14 @@ const PolicyDetail = () => {
             {/* Simple top nav */}
             <header className="bg-white border-b border-gray-100 px-6 py-2.5 flex items-center gap-6 sticky top-0 z-40 shadow-sm">
                 <div className="flex items-center gap-2">
-                    <Shield size={20} className="text-[#002b45]" />
-                    <span className="font-bold text-[#002b45] text-base">Secure Shield</span>
+                    <Shield size={20} className="text-white" />
+                    <span className="font-bold text-white text-base">Secure Shield</span>
                 </div>
                 <nav className="hidden md:flex items-center gap-6 ml-8 text-[13px] font-medium text-gray-600">
-                    <button onClick={() => navigate('/customer')} className="hover:text-[#002b45] transition-colors">Dashboard</button>
-                    <button onClick={() => navigate('/customer/policies')} className="hover:text-[#002b45] transition-colors border-b-2 border-[#002b45] text-[#002b45]">Policies</button>
-                    <button onClick={() => navigate('/customer/claims')} className="hover:text-[#002b45] transition-colors">Claims</button>
-                    <button className="hover:text-[#002b45] transition-colors">Support</button>
+                    <button onClick={() => navigate('/customer')} className="hover:text-white transition-colors">Dashboard</button>
+                    <button onClick={() => navigate('/customer/policies')} className="hover:text-white transition-colors border-b-2 border-[#002b45] text-white">Policies</button>
+                    <button onClick={() => navigate('/customer/claims')} className="hover:text-white transition-colors">Claims</button>
+                    <button className="hover:text-white transition-colors">Support</button>
                 </nav>
             </header>
 
@@ -102,7 +102,7 @@ const PolicyDetail = () => {
                             <div className="flex items-start justify-between gap-4 mb-3">
                                 <div>
                                     <div className="flex items-center gap-3 mb-1">
-                                        <h1 className="text-xl font-bold text-[#002b45]">{display.policyName}</h1>
+                                        <h1 className="text-xl font-bold text-white">{display.policyName}</h1>
                                         <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest">ACTIVE</span>
                                     </div>
                                     <p className="text-[13px] font-semibold text-gray-500">{display.provider}</p>
@@ -116,17 +116,17 @@ const PolicyDetail = () => {
 
                         {/* Key Benefits */}
                         <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-                            <h2 className="text-base font-bold text-[#002b45] flex items-center gap-2 mb-4">
-                                <Shield size={18} className="text-[#002b45]" /> Key Benefits
+                            <h2 className="text-base font-bold text-white flex items-center gap-2 mb-4">
+                                <Shield size={18} className="text-white" /> Key Benefits
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {keyBenefits.map((b, i) => (
                                     <div key={i} className="border border-gray-100 rounded-xl p-3 flex items-start gap-4 hover:shadow-sm transition-shadow">
-                                        <div className="w-8 h-8 rounded-lg bg-[#002b45]/5 text-[#002b45] flex items-center justify-center shrink-0">
+                                        <div className="w-8 h-8 rounded-lg bg-[#002b45]/5 text-white flex items-center justify-center shrink-0">
                                             {React.cloneElement(b.icon, { size: 18 })}
                                         </div>
                                         <div>
-                                            <p className="font-bold text-[#002b45] text-[13px] mb-0.5">{b.title}</p>
+                                            <p className="font-bold text-white text-[13px] mb-0.5">{b.title}</p>
                                             <p className="text-[11px] text-gray-500 leading-relaxed">{b.sub}</p>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@ const PolicyDetail = () => {
 
                         {/* Coverage Details */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-[#002b45] flex items-center gap-2 mb-5">
+                            <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-5">
                                 <CheckCircle2 size={20} /> Coverage Details
                             </h2>
                             <table className="w-full text-sm">
@@ -150,7 +150,7 @@ const PolicyDetail = () => {
                                     {coverageDetails.map((row, i) => (
                                         <tr key={i} className="hover:bg-gray-50/50 transition-colors">
                                             <td className="py-3.5 text-gray-700">{row.feature}</td>
-                                            <td className="py-3.5 text-right font-semibold text-[#002b45]">{row.amount}</td>
+                                            <td className="py-3.5 text-right font-semibold text-white">{row.amount}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -159,12 +159,12 @@ const PolicyDetail = () => {
 
                         {/* Terms & Conditions (Accordion) */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-[#002b45] mb-5">Terms & Conditions</h2>
+                            <h2 className="text-lg font-bold text-white mb-5">Terms & Conditions</h2>
                             <div className="space-y-3">
                                 {faqData.map((item, i) => (
                                     <div key={i} className="border border-gray-100 rounded-xl overflow-hidden">
                                         <button
-                                            className="w-full flex items-center justify-between text-left px-5 py-4 text-sm font-semibold text-[#002b45] hover:bg-gray-50 transition-colors"
+                                            className="w-full flex items-center justify-between text-left px-5 py-4 text-sm font-semibold text-white hover:bg-gray-50 transition-colors"
                                             onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
                                         >
                                             {item.q}
@@ -189,11 +189,11 @@ const PolicyDetail = () => {
 
                         {/* Documents Required */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-[#002b45] mb-5">Documents Required</h2>
+                            <h2 className="text-lg font-bold text-white mb-5">Documents Required</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 {documentsRequired.map((doc, i) => (
                                     <div key={i} className="flex items-center gap-3 border border-gray-100 rounded-xl p-4">
-                                        <div className="text-[#002b45]">{doc.icon}</div>
+                                        <div className="text-white">{doc.icon}</div>
                                         <span className="text-sm font-medium text-gray-700">{doc.label}</span>
                                     </div>
                                 ))}
@@ -206,14 +206,14 @@ const PolicyDetail = () => {
                         <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-md sticky top-24">
                             <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400 mb-1">STARTING PREMIUM</p>
                             <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-3xl font-black text-[#002b45]">₹{display.premiumAmount?.toLocaleString()}</span>
+                                <span className="text-3xl font-black text-white">₹{display.premiumAmount?.toLocaleString()}</span>
                                 <span className="text-xs text-gray-400 font-medium">/month</span>
                             </div>
                             <p className="text-[11px] text-gray-400 mb-4">or ₹{(display.premiumAmount * 12)?.toLocaleString()} billed annually</p>
 
                             <div className="flex items-center justify-between mb-4 py-3 border-t border-b border-gray-100">
                                 <span className="text-[13px] font-medium text-gray-500">Coverage Amount</span>
-                                <span className="font-bold text-[#002b45]">₹{display.coverageAmount?.toLocaleString()}</span>
+                                <span className="font-bold text-white">₹{display.coverageAmount?.toLocaleString()}</span>
                             </div>
 
                             <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Select Duration</p>
@@ -282,7 +282,7 @@ const PolicyDetail = () => {
 
             {/* Footer */}
             <div className="border-t border-gray-200 mt-10 py-6 text-center">
-                <div className="flex items-center justify-center gap-2 text-[#002b45] mb-1">
+                <div className="flex items-center justify-center gap-2 text-white mb-1">
                     <Shield size={18} />
                     <span className="font-bold text-sm">Secure Shield</span>
                 </div>

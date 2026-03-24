@@ -62,9 +62,9 @@ const ForgotPassword = () => {
                         <div className="w-12 h-12 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg">
                             <Shield size={24} strokeWidth={2.5} />
                         </div>
-                        <span className="text-2xl font-extrabold text-[#002b45] tracking-tight">Secure Shield</span>
+                        <span className="text-2xl font-extrabold text-white tracking-tight">Secure Shield</span>
                     </Link>
-                    <h2 className="text-4xl font-extrabold text-[#002b45] tracking-tight mb-3">Forgot Password?</h2>
+                    <h2 className="text-4xl font-extrabold text-white tracking-tight mb-3">Forgot Password?</h2>
                     <p className="text-slate-500 font-medium">No worries, we'll send a 6-digit secure OTP to your email.</p>
                 </div>
 
@@ -83,7 +83,7 @@ const ForgotPassword = () => {
                                     setErrors("");
                                 }}
                                 onKeyDown={handleKeyDown}
-                                className={`w-full h-16 bg-slate-50 border-2 rounded-2xl pl-16 pr-6 text-[#002b45] font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${errors ? 'border-red-400 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
+                                className={`w-full h-16 bg-slate-50 border-2 rounded-2xl pl-16 pr-6 text-white font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${errors ? 'border-red-400 focus:border-red-500' : 'border-slate-50 focus:border-[#134e8d]/20'}`}
                                 placeholder="yourname@example.com"
                                 autoFocus
                             />

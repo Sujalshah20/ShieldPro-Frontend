@@ -35,7 +35,7 @@ const CheckoutPage = () => {
                 <div className="w-20 h-20 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 mb-6 border border-rose-100 shadow-xl shadow-rose-500/10">
                     <Shield size={40} />
                 </div>
-                <h3 className="text-3xl font-bold text-[#002b45] mb-4 tracking-tight">Access Denied</h3>
+                <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">Access Denied</h3>
                 <p className="text-slate-500 max-w-md font-medium mb-12">No valid policy selection found. Please navigate back to choose a policy and start the checkout process.</p>
                 <button 
                     onClick={() => navigate("/customer")} 
@@ -99,12 +99,12 @@ const CheckoutPage = () => {
                         <div className="w-10 h-10 bg-[#002b45] rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
                             <Shield size={22} strokeWidth={2.5} />
                         </div>
-                        <span className="text-xl font-bold text-[#002b45] tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
+                        <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
                     </Link>
                     <div className="h-8 w-px bg-slate-100 hidden md:block" />
                     <button 
                         onClick={() => navigate(-1)}
-                        className="hidden md:flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-[#002b45] transition-colors"
+                        className="hidden md:flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-colors"
                     >
                         <ChevronLeft size={18} />
                         Cancel Transaction
@@ -133,7 +133,7 @@ const CheckoutPage = () => {
                             
                             <div className="space-y-6">
                                 <div>
-                                    <h3 className="text-3xl font-extrabold text-[#002b45] leading-none mb-2">{policy.policyName}</h3>
+                                    <h3 className="text-3xl font-extrabold text-white leading-none mb-2">{policy.policyName}</h3>
                                     <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest bg-slate-50 w-fit px-3 py-1 rounded-lg border border-slate-100">
                                         {policy.policyType} INSURANCE
                                     </p>
@@ -142,14 +142,14 @@ const CheckoutPage = () => {
                                 <div className="space-y-4 pt-4 border-t border-slate-50">
                                     <div className="flex justify-between items-center group">
                                         <p className="text-slate-400 font-bold text-[13px]">Coverage Capacity</p>
-                                        <p className="text-[#002b45] font-extrabold tracking-tight">₹{(policy.coverageAmount/100000).toFixed(1)}L</p>
+                                        <p className="text-white font-extrabold tracking-tight">₹{(policy.coverageAmount/100000).toFixed(1)}L</p>
                                     </div>
                                     <div className="flex justify-between items-center group">
                                         <p className="text-slate-400 font-bold text-[13px]">Policy Duration</p>
-                                        <p className="text-[#002b45] font-extrabold tracking-tight">{policy.durationYears} Year</p>
+                                        <p className="text-white font-extrabold tracking-tight">{policy.durationYears} Year</p>
                                     </div>
                                     <div className="flex justify-between items-center pt-6 border-t border-slate-50">
-                                        <p className="text-[#002b45] font-black text-lg">Total Payable</p>
+                                        <p className="text-white font-black text-lg">Total Payable</p>
                                         <p className="text-3xl font-black text-[#134e8d] tracking-tighter">₹{policy.premiumAmount.toLocaleString()}</p>
                                     </div>
                                 </div>
@@ -178,11 +178,11 @@ const CheckoutPage = () => {
                         <div className="bg-white p-10 md:p-12 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
                             <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12 border-b border-slate-100 pb-8">
                                 <div className="flex items-center gap-5">
-                                    <div className="w-14 h-14 bg-[#f1f5f9] rounded-2xl flex items-center justify-center text-[#002b45]">
+                                    <div className="w-14 h-14 bg-[#f1f5f9] rounded-2xl flex items-center justify-center text-white">
                                         <CreditCard size={28} />
                                     </div>
                                     <div>
-                                        <h2 className="text-2xl font-black text-[#002b45] tracking-tight">Payment Details</h2>
+                                        <h2 className="text-2xl font-black text-white tracking-tight">Payment Details</h2>
                                         <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest mt-1">Authorized transaction node</p>
                                     </div>
                                 </div>
@@ -272,7 +272,7 @@ const CheckoutPage = () => {
 
                                 <div className="flex items-center justify-center gap-3 opacity-40 pt-6">
                                     <Lock size={14} />
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-[#002b45]">Bank-grade 256-bit SSL encryption</span>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white">Bank-grade 256-bit SSL encryption</span>
                                 </div>
                             </form>
                         </div>

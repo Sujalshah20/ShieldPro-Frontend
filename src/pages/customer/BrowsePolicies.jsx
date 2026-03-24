@@ -55,7 +55,7 @@ const BrowsePolicies = () => {
         return matchesTab && matchesSearch && matchesType && matchesPrice;
     });
 
-    if (loading) return <div className="p-20 text-center font-bold text-[#002b45]">Loading policies...</div>;
+    if (loading) return <div className="p-20 text-center font-bold text-white">Loading policies...</div>;
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-12">
@@ -132,7 +132,7 @@ const BrowsePolicies = () => {
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             className={`pb-3 text-[13px] font-medium whitespace-nowrap transition-colors relative ${
-                                activeTab === tab ? "text-[#002b45]" : "text-gray-500 hover:text-gray-800"
+                                activeTab === tab ? "text-white" : "text-gray-500 hover:text-gray-800"
                             }`}
                         >
                             {tab}
@@ -165,7 +165,7 @@ const BrowsePolicies = () => {
                                  <Activity size={22} className="text-gray-500" />}
                             </div>
 
-                            <h3 className="text-lg font-bold text-[#002b45] mb-0.5">{policy.policyName}</h3>
+                            <h3 className="text-lg font-bold text-white mb-0.5">{policy.policyName}</h3>
                             <p className="text-[12px] text-gray-500 mb-4">Underwritten by ShieldPro Insurance</p>
 
                             <div className="space-y-2.5 mb-6 flex-1 text-xs">
@@ -186,7 +186,7 @@ const BrowsePolicies = () => {
                             <div className="flex items-center gap-2">
                                 <button 
                                     onClick={() => navigate(`/customer/policies/${policy._id}`, { state: { policy } })}
-                                    className="flex-1 py-2 px-3 text-[12px] font-semibold text-[#002b45] bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="flex-1 py-2 px-3 text-[12px] font-semibold text-white bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                                 >
                                     Details
                                 </button>

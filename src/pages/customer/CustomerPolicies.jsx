@@ -79,7 +79,7 @@ const CustomerPolicies = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#002b45] mb-1">My Policies</h1>
+                    <h1 className="text-2xl font-bold text-white mb-1">My Policies</h1>
                     <p className="text-gray-500 text-xs">Manage and track your active insurance coverage</p>
                 </div>
                 <button 
@@ -97,7 +97,7 @@ const CustomerPolicies = () => {
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`pb-3 text-[13px] font-semibold whitespace-nowrap transition-colors relative ${
-                            activeTab === tab ? "text-[#002b45]" : "text-gray-500 hover:text-gray-800"
+                            activeTab === tab ? "text-white" : "text-gray-500 hover:text-gray-800"
                         }`}
                     >
                         {tab}
@@ -115,7 +115,7 @@ const CustomerPolicies = () => {
             {filteredPolicies.length === 0 ? (
                 <div className="text-center py-24 bg-white rounded-2xl border border-gray-100 shadow-sm">
                     <Shield size={64} className="mx-auto text-gray-200 mb-6" />
-                    <h3 className="text-xl font-bold text-[#002b45] mb-2">No policies found</h3>
+                    <h3 className="text-xl font-bold text-white mb-2">No policies found</h3>
                     <p className="text-gray-500 mb-8">You don't have any {activeTab.toLowerCase()} right now.</p>
                     <button 
                         onClick={() => navigate('/customer/browse')}
@@ -158,7 +158,7 @@ const CustomerPolicies = () => {
                                         {React.cloneElement(getPolicyIcon(p.policy?.policyType), { size: 24 })}
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-bold text-[#002b45] mb-0.5">{p.policy?.policyName}</h3>
+                                        <h3 className="text-lg font-bold text-white mb-0.5">{p.policy?.policyName}</h3>
                                         <p className="text-[12px] text-gray-500 flex items-center gap-2">
                                             <span>No: {p.policyNumber.toUpperCase()}</span> 
                                             <span className="hidden sm:inline">•</span> 
@@ -170,7 +170,7 @@ const CustomerPolicies = () => {
                                 <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-6 border-t border-gray-100 xl:border-t-0 xl:pt-0">
                                     <div>
                                         <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Premium</p>
-                                        <p className="text-base font-bold text-[#002b45]">
+                                        <p className="text-base font-bold text-white">
                                             ₹{p.policy?.premiumAmount?.toLocaleString() || '1,200'} <span className="text-[12px] text-gray-400 font-medium">/mo</span>
                                         </p>
                                     </div>
@@ -178,7 +178,7 @@ const CustomerPolicies = () => {
                                     <div className="w-full xl:max-w-xs">
                                         <div className="flex justify-between items-end mb-1.5">
                                             <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Time Remaining</p>
-                                            <p className={`text-[11px] font-bold ${timeStatus.isUrgent ? 'text-amber-600' : 'text-[#002b45]'}`}>{timeStatus.text}</p>
+                                            <p className={`text-[11px] font-bold ${timeStatus.isUrgent ? 'text-amber-600' : 'text-white'}`}>{timeStatus.text}</p>
                                         </div>
                                         <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                                             <div 
@@ -190,7 +190,7 @@ const CustomerPolicies = () => {
                                 </div>
 
                                 <div className="flex flex-wrap items-center gap-2.5 pt-5 border-t border-gray-100 xl:border-t-0 xl:pt-0 xl:justify-end xl:w-auto">
-                                    <button className="w-9 h-9 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 hover:text-[#002b45] hover:bg-gray-50 transition-colors">
+                                    <button className="w-9 h-9 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-50 transition-colors">
                                         <Download size={16} />
                                     </button>
                                     <button className="flex-1 xl:flex-none border border-gray-300 text-gray-700 font-semibold text-[13px] px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors min-w-[110px] text-center">
@@ -226,15 +226,15 @@ const CustomerPolicies = () => {
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 md:gap-12">
                         <div>
                             <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Total Active Policies</p>
-                            <p className="text-2xl font-black text-[#002b45]">{myPolicies.length < 10 ? `0${myPolicies.length}` : myPolicies.length}</p>
+                            <p className="text-2xl font-black text-white">{myPolicies.length < 10 ? `0${myPolicies.length}` : myPolicies.length}</p>
                         </div>
                         <div>
                             <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Monthly Premium</p>
-                            <p className="text-2xl font-black text-[#002b45]">₹{totalPremium.toLocaleString()}</p>
+                            <p className="text-2xl font-black text-white">₹{totalPremium.toLocaleString()}</p>
                         </div>
                         <div>
                             <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest mb-1">Total Coverage</p>
-                            <p className="text-2xl font-black text-[#002b45]">₹{displayCoverage}</p>
+                            <p className="text-2xl font-black text-white">₹{displayCoverage}</p>
                         </div>
                     </div>
 
@@ -244,9 +244,9 @@ const CustomerPolicies = () => {
                     >
                         <div className="flex flex-col items-end">
                             <span className="text-sm font-medium text-gray-500">Need a custom plan?</span>
-                            <span className="text-[#002b45] font-bold group-hover:text-amber-500 transition-colors">Talk to our experts</span>
+                            <span className="text-white font-bold group-hover:text-amber-500 transition-colors">Talk to our experts</span>
                         </div>
-                        <ArrowRight size={24} className="text-[#002b45] group-hover:text-amber-500 transition-colors group-hover:translate-x-1" />
+                        <ArrowRight size={24} className="text-white group-hover:text-amber-500 transition-colors group-hover:translate-x-1" />
                     </button>
                 </motion.div>
             )}

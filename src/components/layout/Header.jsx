@@ -102,7 +102,7 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                         {/* User Profile */}
                         <div className="flex items-center gap-3 pl-4 border-l border-gray-100">
                             <div className="text-right hidden sm:block">
-                                <p className="text-[13px] font-bold text-[#002b45] leading-none">{user?.name || 'User'}</p>
+                                <p className="text-[13px] font-bold text-white leading-none">{user?.name || 'User'}</p>
                                 <p className="text-[10px] text-gray-400 font-medium mt-1 uppercase tracking-wider">{user?.role || 'Guest'}</p>
                             </div>
                             <div className="w-10 h-10 rounded-xl bg-[#002b45] overflow-hidden border-2 border-white shadow-sm flex items-center justify-center text-white font-bold">

@@ -65,7 +65,7 @@ const PaymentHistory = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-[#002b45] mb-1">Payment History</h1>
+                    <h1 className="text-2xl font-bold text-white mb-1">Payment History</h1>
                     <p className="text-gray-500 text-xs">Manage and track all your policy payments and renewals.</p>
                 </div>
                 <button className="flex items-center justify-center gap-2 border border-gray-200 bg-white text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-50 transition-colors shadow-sm text-xs">
@@ -139,7 +139,7 @@ const PaymentHistory = () => {
                                 key={txn._id}
                                 className="hover:bg-gray-50/50 transition-colors"
                             >
-                                <td className="px-6 py-4 font-bold text-[#002b45] text-xs">{txn.transactionId || `#TXN-${txn._id?.slice(-6).toUpperCase()}`}</td>
+                                <td className="px-6 py-4 font-bold text-white text-xs">{txn.transactionId || `#TXN-${txn._id?.slice(-6).toUpperCase()}`}</td>
                                 <td className="px-6 py-4">
                                     <p className="font-bold text-gray-900 text-[13px]">{txn.policy?.policyName || 'Policy'}</p>
                                     <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{txn.policy?.policyType || '—'}</p>
@@ -161,7 +161,7 @@ const PaymentHistory = () => {
                                     </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                    <button className={`text-gray-400 hover:text-[#002b45] transition-colors ${txn.status !== 'Success' ? 'opacity-30 cursor-not-allowed' : ''}`} disabled={txn.status !== 'Success'}>
+                                    <button className={`text-gray-400 hover:text-white transition-colors ${txn.status !== 'Success' ? 'opacity-30 cursor-not-allowed' : ''}`} disabled={txn.status !== 'Success'}>
                                         <Download size={16} />
                                     </button>
                                 </td>
@@ -203,13 +203,13 @@ const PaymentHistory = () => {
 
             {/* Bottom Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div className="bg-[#002b45] rounded-xl p-5 text-white">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-white/50 mb-2.5">TOTAL PAID</p>
-                    <p className="text-2xl font-black">₹ {totalPaid.toLocaleString()}</p>
+                <div className="bg-[#002b45] rounded-xl p-5 shadow-sm">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-blue-100/70 mb-2.5">TOTAL PAID</p>
+                    <p className="text-2xl font-black !text-white">₹ {totalPaid.toLocaleString()}</p>
                 </div>
                 <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
                     <p className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-2.5">TOTAL TRANSACTIONS</p>
-                    <p className="text-xl font-black text-[#002b45] mb-0.5">{transactions.length}</p>
+                    <p className="text-xl font-black text-white mb-0.5">{transactions.length}</p>
                     <div className="flex items-center gap-1.5 text-emerald-600 text-[11px] font-bold">
                         <Calendar size={12} /> All time
                     </div>
@@ -217,7 +217,7 @@ const PaymentHistory = () => {
                 <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
                     <p className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-2.5">PENDING INVOICES</p>
                     <div>
-                        <p className="text-xl font-black text-[#002b45] mb-0.5">{pendingCount} Transaction{pendingCount !== 1 ? 's' : ''}</p>
+                        <p className="text-xl font-black text-white mb-0.5">{pendingCount} Transaction{pendingCount !== 1 ? 's' : ''}</p>
                         {pendingCount > 0 ? (
                             <div className="flex items-center gap-1.5 text-amber-600 text-[11px] font-bold">
                                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> Awaiting Verification

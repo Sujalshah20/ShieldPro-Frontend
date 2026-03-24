@@ -19,7 +19,7 @@ const CustomGoogleLoginButton = ({ onSuccess, onError }) => {
         <button 
             type="button" 
             onClick={() => login()}
-            className="flex-1 h-14 bg-white border-2 border-slate-50 rounded-2xl flex items-center justify-center gap-4 text-[#002b45] font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+            className="flex-1 h-14 bg-white border-2 border-slate-50 rounded-2xl flex items-center justify-center gap-4 text-white font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
         >
             <Chrome size={20} className="text-slate-400 group-hover:text-[#134e8d] transition-colors" />
             Google
@@ -334,10 +334,10 @@ const Register = () => {
                                     <div className="w-8 h-8 bg-[#134e8d] rounded-lg flex items-center justify-center text-white">
                                         <Shield size={20} strokeWidth={2.5} />
                                     </div>
-                                    <span className="text-xl font-bold text-[#002b45]">Secure Shield</span>
+                                    <span className="text-xl font-bold text-white">Secure Shield</span>
                                 </Link>
                              </div>
-                            <h1 className="text-4xl font-extrabold text-[#002b45] tracking-tight">Create Account</h1>
+                            <h1 className="text-4xl font-extrabold text-white tracking-tight">Create Account</h1>
                             <p className="text-slate-500 font-medium text-sm">Please fill in your details to get started.</p>
                         </div>
 
@@ -351,7 +351,7 @@ const Register = () => {
                                     onKeyDown={(e) => handleKeyDown(e, 'name')}
                                     onPaste={(e) => handlePaste(e, 'name')}
                                     autoFocus
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('name')}`}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('name')}`}
                                     placeholder="Enter your full name" 
                                 />
                                 {errors.name && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.name}</p>}
@@ -366,7 +366,7 @@ const Register = () => {
                                     onChange={handleInputChange}
                                     onKeyDown={(e) => handleKeyDown(e, 'email')}
                                     onPaste={(e) => handlePaste(e, 'email')}
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('email')}`}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('email')}`}
                                     placeholder="yourname@example.com" 
                                 />
                                 {errors.email && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.email}</p>}
@@ -380,7 +380,7 @@ const Register = () => {
                                     onChange={handleInputChange}
                                     onKeyDown={(e) => handleKeyDown(e, 'phone')}
                                     onPaste={(e) => handlePaste(e, 'phone')}
-                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('phone')}`}
+                                    className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('phone')}`}
                                     placeholder="10-digit number" 
                                 />
                                 {errors.phone && <p className="text-red-500 text-xs mt-1 pl-2 font-medium">{errors.phone}</p>}
@@ -395,7 +395,7 @@ const Register = () => {
                                         value={formData.password} 
                                         onChange={handleInputChange}
                                         onKeyDown={(e) => handleKeyDown(e, 'password')}
-                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('password')}`}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('password')}`}
                                         placeholder="••••••••" 
                                     />
                                     <button 
@@ -427,7 +427,7 @@ const Register = () => {
                                         name="confirmPassword" 
                                         value={formData.confirmPassword} 
                                         onChange={handleInputChange}
-                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-[#002b45] font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('confirmPassword')}`}
+                                        className={`w-full h-14 bg-slate-50 border-2 rounded-2xl px-6 pr-16 text-white font-bold text-sm bg-transparent transition-all outline-none ${getOuterClass('confirmPassword')}`}
                                         placeholder="••••••••" 
                                     />
                                     <button 
@@ -496,7 +496,7 @@ const Register = () => {
                                                     <button 
                                                         onClick={renderProps.onClick}
                                                         disabled={renderProps.isDisabled}
-                                                        className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-[#002b45] font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+                                                        className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-white font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
                                                     >
                                                         <Facebook size={20} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
                                                         Facebook

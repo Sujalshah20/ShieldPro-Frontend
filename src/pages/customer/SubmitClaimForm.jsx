@@ -35,7 +35,7 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
         >
             <header className="flex justify-between items-center mb-10">
                 <div>
-                    <h2 className="text-3xl font-black text-[#002b45] tracking-tight">Submit Insurance Claim</h2>
+                    <h2 className="text-3xl font-black text-white tracking-tight">Submit Insurance Claim</h2>
                     <p className="text-gray-500 mt-1">Provide details and documentation to process your request.</p>
                 </div>
                 <button 
@@ -50,7 +50,7 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
                 {/* Claim Details Section */}
                 <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                     <div className="flex items-center gap-2 mb-6 border-b border-gray-100 pb-4">
-                        <Info className="text-[#002b45]" size={20} />
+                        <Info className="text-white" size={20} />
                         <h3 className="text-lg font-bold text-gray-800">Claim Details</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -112,7 +112,7 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
                 {/* Documents Upload Section */}
                 <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                     <div className="flex items-center gap-2 mb-6 border-b border-gray-100 pb-4">
-                        <UploadCloud className="text-[#002b45]" size={20} />
+                        <UploadCloud className="text-white" size={20} />
                         <h3 className="text-lg font-bold text-gray-800">Upload Supporting Documents</h3>
                     </div>
                     <div className="border-2 border-dashed border-gray-200 rounded-2xl p-10 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group">
@@ -153,7 +153,7 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
                 {/* Bank Details Section */}
                 <section className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                     <div className="flex items-center gap-2 mb-6 border-b border-gray-100 pb-4">
-                        <Landmark className="text-[#002b45] w-5 h-5" />
+                        <Landmark className="text-white w-5 h-5" />
                         <h3 className="text-lg font-bold text-gray-800">Bank Account Details</h3>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -190,7 +190,7 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
                         <input 
                             type="checkbox" 
                             checked={declarationAccepted} onChange={(e) => setDeclarationAccepted(e.target.checked)}
-                            className="mt-1 rounded border-gray-300 text-[#002b45] focus:ring-[#002b45] w-5 h-5" 
+                            className="mt-1 rounded border-gray-300 text-white focus:ring-[#002b45] w-5 h-5" 
                         />
                         <span className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors">
                             I hereby declare that the information provided above is true and accurate to the best of my knowledge. I understand that any false declaration may lead to claim rejection and legal consequences.

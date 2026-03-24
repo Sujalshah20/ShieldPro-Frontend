@@ -66,9 +66,9 @@ const ResetPassword = () => {
                         <div className="w-12 h-12 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg">
                             <Shield size={24} strokeWidth={2.5} />
                         </div>
-                        <span className="text-2xl font-extrabold text-[#002b45] tracking-tight">Secure Shield</span>
+                        <span className="text-2xl font-extrabold text-white tracking-tight">Secure Shield</span>
                     </Link>
-                    <h2 className="text-3xl font-extrabold text-[#002b45] mb-3">Set New Password</h2>
+                    <h2 className="text-3xl font-extrabold text-white mb-3">Set New Password</h2>
                     <p className="text-slate-500 font-medium leading-relaxed">
                         Secure your account with a strong password. <br />
                         Resetting for <span className="font-bold text-[#134e8d]">{email}</span>
@@ -101,7 +101,7 @@ const ResetPassword = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         onKeyDown={handleKeyDown}
-                                        className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl pl-16 pr-16 text-[#002b45] font-bold text-base outline-none focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
+                                        className="w-full h-14 bg-white border-2 border-slate-200 rounded-2xl pl-16 pr-16 text-white font-bold text-base outline-none focus:border-[#134e8d]/20 transition-all placeholder:text-slate-300"
                                         placeholder="8-20 characters"
                                         autoFocus
                                     />
@@ -125,7 +125,7 @@ const ResetPassword = () => {
                                         type="password" 
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
-                                        className={`w-full h-14 bg-white border-2 rounded-2xl pl-16 pr-6 text-[#002b45] font-bold text-base outline-none transition-all placeholder:text-slate-300 ${isMatch ? 'border-emerald-500' : confirmPassword.length > 0 ? 'border-red-400' : 'border-slate-200 focus:border-[#134e8d]/20'}`}
+                                        className={`w-full h-14 bg-white border-2 rounded-2xl pl-16 pr-6 text-white font-bold text-base outline-none transition-all placeholder:text-slate-300 ${isMatch ? 'border-emerald-500' : confirmPassword.length > 0 ? 'border-red-400' : 'border-slate-200 focus:border-[#134e8d]/20'}`}
                                         placeholder="Repeat your password"
                                     />
                                 </div>

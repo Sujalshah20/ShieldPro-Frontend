@@ -96,7 +96,7 @@ const VerifyEmail = () => {
                 <div className="w-12 h-12 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg">
                     <Shield size={28} strokeWidth={2.5} />
                 </div>
-                <span className="text-3xl font-extrabold text-[#002b45] tracking-tight">Secure Shield</span>
+                <span className="text-3xl font-extrabold text-white tracking-tight">Secure Shield</span>
             </Link>
 
             <div className="bg-white p-10 md:p-14 rounded-[2.5rem] shadow-2xl w-full max-w-lg">
@@ -104,7 +104,7 @@ const VerifyEmail = () => {
                     <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <Mail size={32} className="text-amber-600" />
                     </div>
-                    <h2 className="text-3xl font-extrabold text-[#002b45] mb-3">Check Your Email</h2>
+                    <h2 className="text-3xl font-extrabold text-white mb-3">Check Your Email</h2>
                     <p className="text-slate-500 font-medium">
                         We've sent a 6-digit verification code to <br />
                         <strong className="text-[#134e8d]">{email || "your email"}</strong>
@@ -122,7 +122,7 @@ const VerifyEmail = () => {
                                 value={digit}
                                 onChange={(e) => handleChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
-                                className="w-full h-14 md:h-16 text-center text-2xl font-bold bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:border-[#134e8d]/20 outline-none transition-all text-[#002b45]"
+                                className="w-full h-14 md:h-16 text-center text-2xl font-bold bg-slate-50 border-2 border-slate-100 rounded-xl focus:bg-white focus:border-[#134e8d]/20 outline-none transition-all text-white"
                                 maxLength={1}
                                 autoFocus={index === 0}
                             />
@@ -157,7 +157,7 @@ const VerifyEmail = () => {
                             </button>
                         )}
                     </p>
-                    <Link to="/login" className="inline-flex items-center gap-2 text-slate-400 font-bold hover:text-[#002b45] transition-colors text-sm uppercase tracking-widest mt-4">
+                    <Link to="/login" className="inline-flex items-center gap-2 text-slate-400 font-bold hover:text-white transition-colors text-sm uppercase tracking-widest mt-4">
                         <ArrowLeft size={16} /> Back to Login
                     </Link>
                 </div>

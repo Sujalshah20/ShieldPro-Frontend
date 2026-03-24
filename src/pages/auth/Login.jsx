@@ -21,7 +21,7 @@ const CustomGoogleLoginButton = ({ onSuccess, onError }) => {
         <button 
             type="button" 
             onClick={() => login()}
-            className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-[#002b45] font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+            className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-white font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
         >
             <Chrome size={20} className="text-slate-400 group-hover:text-[#134e8d] transition-colors" />
             Google
@@ -252,10 +252,10 @@ const Login = () => {
                                         <div className="w-10 h-10 bg-[#134e8d] rounded-lg flex items-center justify-center text-white">
                                             <Shield size={24} strokeWidth={2.5} />
                                         </div>
-                                        <span className="text-2xl font-bold text-[#002b45]">Secure Shield</span>
+                                        <span className="text-2xl font-bold text-white">Secure Shield</span>
                                     </Link>
                                  </div>
-                                <h2 className="text-4xl md:text-5xl font-extrabold text-[#002b45] tracking-tight">Login</h2>
+                                <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">Login</h2>
                                 <p className="text-slate-500 text-lg font-medium">Please enter your credentials to access your account.</p>
                             </div>
 
@@ -272,7 +272,7 @@ const Login = () => {
                                             value={formData.email}
                                             onChange={handleInputChange}
                                             onKeyDown={(e) => handleKeyDown(e, 'email')}
-                                            className={`w-full h-14 bg-slate-50 border-2 rounded-2xl pl-16 pr-6 text-[#002b45] font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${getOuterClass('email')}`}
+                                            className={`w-full h-14 bg-slate-50 border-2 rounded-2xl pl-16 pr-6 text-white font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${getOuterClass('email')}`}
                                             placeholder="yourname@example.com"
                                             autoFocus
                                         />
@@ -295,7 +295,7 @@ const Login = () => {
                                             value={formData.password}
                                             onChange={handleInputChange}
                                             onKeyDown={(e) => handleKeyDown(e, 'password')}
-                                            className={`w-full h-14 bg-slate-50 border-2 rounded-2xl pl-16 pr-16 text-[#002b45] font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${getOuterClass('password')}`}
+                                            className={`w-full h-14 bg-slate-50 border-2 rounded-2xl pl-16 pr-16 text-white font-bold text-base outline-none focus:bg-white transition-all placeholder:text-slate-300 ${getOuterClass('password')}`}
                                             placeholder="Min 8 characters"
                                         />
                                         <button 
@@ -330,7 +330,7 @@ const Login = () => {
                                                 onChange={(e) => setCaptchaVerified(e.target.checked)}
                                                 className="w-5 h-5 rounded-sm border-2 border-slate-300 text-[#134e8d] focus:ring-0 cursor-pointer" 
                                             />
-                                            <label htmlFor="captcha" className="text-sm font-bold text-[#002b45] cursor-pointer">I am not a robot</label>
+                                            <label htmlFor="captcha" className="text-sm font-bold text-white cursor-pointer">I am not a robot</label>
                                         </div>
                                         <div className="flex flex-col items-center">
                                             <ShieldCheck size={24} className={captchaVerified ? "text-emerald-500 mb-1" : "text-slate-400 mb-1"} />
@@ -386,7 +386,7 @@ const Login = () => {
                                             <button 
                                                 onClick={renderProps.onClick}
                                                 disabled={renderProps.isDisabled}
-                                                className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-[#002b45] font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+                                                className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-white font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
                                             >
                                                 <Facebook size={20} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
                                                 Facebook

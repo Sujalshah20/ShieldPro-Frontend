@@ -178,7 +178,7 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                             )}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-[13px] font-black text-white leading-none mb-1 shadow-sm truncate">
+                            <p className="text-[13px] font-black !text-white leading-none mb-1 shadow-sm truncate">
                                 {user?.name || 'User'}
                             </p>
                             <p className="text-[9px] text-emerald-400 font-bold uppercase tracking-[2px] opacity-80 italic">

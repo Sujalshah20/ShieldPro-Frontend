@@ -42,7 +42,7 @@ const CheckoutSuccessPage = () => {
                     <div className="w-10 h-10 bg-[#002b45] rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
                         <Shield size={22} strokeWidth={2.5} />
                     </div>
-                    <span className="text-xl font-bold text-[#002b45] tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
+                    <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
                 </Link>
                 <div className="flex items-center gap-6">
                     <button className="p-2 text-slate-400 hover:text-[#134e8d] hover:bg-slate-50 rounded-full transition-all relative">
@@ -50,7 +50,7 @@ const CheckoutSuccessPage = () => {
                         <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
                     </button>
                     <button className="flex items-center gap-3 p-1 pl-3 bg-slate-50 border border-slate-100 rounded-full hover:shadow-md transition-all group">
-                        <span className="text-sm font-bold text-slate-600 group-hover:text-[#002b45]">Account</span>
+                        <span className="text-sm font-bold text-slate-600 group-hover:text-white">Account</span>
                         <div className="w-10 h-10 bg-[#134e8d] rounded-full flex items-center justify-center text-white shadow-inner">
                             <User size={20} />
                         </div>
@@ -77,7 +77,7 @@ const CheckoutSuccessPage = () => {
 
                     {/* Congratulation text */}
                     <motion.div variants={itemVariants} className="text-center space-y-4 mb-12">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-[#002b45] tracking-tight">
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
                             Congratulations! Your Policy is Active.
                         </h1>
                         <p className="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
@@ -91,10 +91,10 @@ const CheckoutSuccessPage = () => {
                         <motion.div variants={itemVariants} className="lg:col-span-7 bg-white p-10 rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden h-full">
                             <div className="flex items-center justify-between mb-10">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-[#002b45]">
+                                    <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-white">
                                         <FileText size={24} />
                                     </div>
-                                    <h2 className="text-2xl font-bold text-[#002b45]">Purchase Summary</h2>
+                                    <h2 className="text-2xl font-bold text-white">Purchase Summary</h2>
                                 </div>
                                 <div className="px-4 py-1.5 bg-emerald-50 text-emerald-600 text-[11px] font-black uppercase tracking-widest rounded-full border border-emerald-100 animate-pulse">
                                     ACTIVE
@@ -105,7 +105,7 @@ const CheckoutSuccessPage = () => {
                                 <div className="flex justify-between items-end border-b border-slate-50 pb-8">
                                     <div>
                                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">POLICY NAME</p>
-                                        <h3 className="text-2xl font-extrabold text-[#002b45]">{policy.policyName}</h3>
+                                        <h3 className="text-2xl font-extrabold text-white">{policy.policyName}</h3>
                                     </div>
                                     <div className="text-right">
                                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">POLICY NUMBER</p>
@@ -116,11 +116,11 @@ const CheckoutSuccessPage = () => {
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div>
                                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">COVERAGE AMOUNT</p>
-                                        <p className="text-3xl font-extrabold text-[#002b45]">₹{policy.coverageAmount?.toLocaleString()}</p>
+                                        <p className="text-3xl font-extrabold text-white">₹{policy.coverageAmount?.toLocaleString()}</p>
                                     </div>
                                     <div>
                                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">PREMIUM PAID</p>
-                                        <p className="text-3xl font-extrabold text-[#002b45]">₹{policy.premiumAmount?.toLocaleString()} <span className="text-sm font-bold text-slate-400 tracking-normal">/ month</span></p>
+                                        <p className="text-3xl font-extrabold text-white">₹{policy.premiumAmount?.toLocaleString()} <span className="text-sm font-bold text-slate-400 tracking-normal">/ month</span></p>
                                     </div>
                                 </div>
 
@@ -131,13 +131,13 @@ const CheckoutSuccessPage = () => {
                                         </div>
                                         <div>
                                             <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">START DATE</p>
-                                            <p className="font-bold text-[#002b45]">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                                            <p className="font-bold text-white">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4 text-right">
                                         <div>
                                             <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">PAYMENT MODE</p>
-                                            <p className="font-bold text-[#002b45]">{policy.paymentMode || 'Auto-pay Enabled'}</p>
+                                            <p className="font-bold text-white">{policy.paymentMode || 'Auto-pay Enabled'}</p>
                                         </div>
                                         <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-500 shadow-sm">
                                             <CreditCard size={20} />
@@ -164,7 +164,7 @@ const CheckoutSuccessPage = () => {
                                                 {i + 1}
                                             </div>
                                             <div className="space-y-1">
-                                                <h5 className="font-bold text-[#002b45] leading-none mb-1">{step.title}</h5>
+                                                <h5 className="font-bold text-white leading-none mb-1">{step.title}</h5>
                                                 <p className="text-slate-500 text-[12px] font-medium leading-relaxed">{step.desc}</p>
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@ const CheckoutSuccessPage = () => {
                         </button>
                         <button 
                             onClick={() => navigate("/customer")}
-                            className="h-16 flex-1 bg-white text-[#002b45] border-2 border-slate-100 rounded-2xl flex items-center justify-center font-bold hover:bg-slate-50 hover:border-slate-200 hover:translate-y-[-2px] transition-all shadow-lg"
+                            className="h-16 flex-1 bg-white text-white border-2 border-slate-100 rounded-2xl flex items-center justify-center font-bold hover:bg-slate-50 hover:border-slate-200 hover:translate-y-[-2px] transition-all shadow-lg"
                         >
                             Go to My Dashboard
                         </button>
