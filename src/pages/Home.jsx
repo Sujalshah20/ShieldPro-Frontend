@@ -31,18 +31,25 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto h-full flex justify-between items-center px-6 lg:px-8">
                 {/* Brand */}
                 <Link to="/" className="flex items-center gap-3 group">
-                    <div className="w-10 h-10 bg-black rounded-2xl flex items-center justify-center text-white shadow-3xl group-hover:rotate-6 transition-all border border-white/10">
-                        <Shield size={22} strokeWidth={3} />
+                    <div className="w-10 h-10 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-all border border-white/10">
+                        <Shield size={22} strokeWidth={2.5} />
                     </div>
-                    <span className="text-xl font-black text-black tracking-tight uppercase italic">Secure <span className="opacity-20 italic">Shield_</span></span>
+                    <span className="text-xl font-bold text-[#134e8d] tracking-tight">Secure <span className="text-[#002b45]">Shield</span></span>
                 </Link>
  
+                {/* Nav Links */}
+                <div className="hidden md:flex items-center gap-10">
+                    {["HOME", "ABOUT US", "POLICIES", "CONTACT US"].map(link => (
+                        <a key={link} href="#" className="text-[11px] font-bold text-[#002b45] hover:text-[#134e8d] transition-colors tracking-widest uppercase">{link}</a>
+                    ))}
+                </div>
+
                 {/* Auth Buttons */}
-                <div className="flex items-center gap-6">
-                    <Link to="/login" className="text-[11px] font-black text-black uppercase tracking-[3px] hover:opacity-50 transition-all italic">
+                <div className="flex items-center gap-4">
+                    <Link to="/login" className="h-10 px-6 border border-slate-200 text-[#002b45] rounded-lg text-[11px] font-bold flex items-center justify-center hover:bg-slate-50 transition-all uppercase tracking-wider">
                         Login
                     </Link>
-                    <Link to="/register" className="h-12 px-8 bg-black text-white rounded-xl text-[11px] font-black flex items-center justify-center hover:bg-black/90 transition-all shadow-3xl active:scale-95 italic tracking-[3px] border-b-4 border-white/10 uppercase">
+                    <Link to="/register" className="h-10 px-6 bg-[#002b45] text-white rounded-lg text-[11px] font-bold flex items-center justify-center hover:bg-[#003b5c] transition-all shadow-md active:scale-95 uppercase tracking-wider">
                         Register
                     </Link>
                 </div>
@@ -52,36 +59,35 @@ const Navbar = () => {
 };
 
 const HeroSection = () => (
-    <section className="relative min-h-[90vh] flex items-center bg-white overflow-hidden pt-20">
-        {/* Background Decorative Elements */}
-        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, black 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="absolute top-1/4 right-0 w-[600px] h-[600px] bg-black/[0.02] blur-[120px] rounded-full pointer-events-none" />
+    <section className="relative min-h-[85vh] flex items-center bg-[#134e8d] overflow-hidden pt-20">
+        {/* Background Gradient & Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#134e8d] via-[#134e8d] to-[#002b45] opacity-95" />
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+        <div className="absolute top-1/4 right-0 w-[800px] h-[800px] bg-blue-400/20 blur-[150px] rounded-full pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-12 lg:gap-24 items-center relative z-10 py-16 md:py-24">
             <Reveal direction="left">
-                <div className="space-y-8 md:space-y-12">
-                    <div className="inline-flex items-center px-5 py-2.5 bg-slate-50 backdrop-blur-xl rounded-full border border-slate-100 shadow-inner">
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse mr-3" />
-                        <span className="text-[11px] md:text-[12px] font-black text-black opacity-30 tracking-[4px] uppercase italic">India's Trusted Insurance Platform // 01</span>
+                <div className="space-y-8">
+                    <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg border border-white/20">
+                        <span className="text-[11px] font-bold text-white tracking-[2px] uppercase">India's Trusted Insurance Platform</span>
                     </div>
  
                     <div className="space-y-6">
-                        <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-black leading-[1] tracking-tighter uppercase italic">
-                            Protect <br />
-                            <span className="opacity-20">Your_</span> <br />
-                            Legacy.
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight">
+                            Protect What <br />
+                            Matters Most
                         </h1>
-                        <p className="max-w-lg text-black text-base md:text-lg font-black uppercase tracking-[2px] opacity-40 leading-relaxed italic">
-                            Comprehensive, simplified, and reliable insurance solutions designed for the modern Indian family.
+                        <p className="max-w-lg text-white/80 text-base md:text-lg font-medium leading-relaxed">
+                            Comprehensive insurance solutions tailored for your lifestyle. Join over 10,000+ families securing their future with us today.
                         </p>
                     </div>
  
-                    <div className="flex flex-col sm:flex-row gap-6 pt-4">
-                        <Link to="/register" className="h-16 px-12 bg-black text-white font-black rounded-2xl flex items-center justify-center gap-4 hover:bg-black/90 hover:translate-y-[-2px] transition-all shadow-3xl group italic uppercase tracking-widest border-b-4 border-white/10">
-                            DEPLOY_SECURITY <ArrowRight size={20} strokeWidth={3} className="group-hover:translate-x-1 transition-transform" />
+                    <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                        <Link to="/register" className="h-14 px-8 bg-[#10b981] text-white font-bold rounded-lg flex items-center justify-center gap-3 hover:bg-[#0da371] hover:translate-y-[-2px] transition-all shadow-lg group uppercase tracking-wider text-sm">
+                            Explore Policies <ArrowRight size={18} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <button className="h-16 px-10 border border-slate-100 text-black font-black rounded-2xl hover:bg-slate-50 transition-all flex items-center justify-center italic uppercase tracking-widest shadow-inner">
-                            VIEW_ARCHITECT
+                        <button className="h-14 px-8 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all flex items-center justify-center uppercase tracking-wider text-sm">
+                            Get a Quote
                         </button>
                     </div>
                 </div>
@@ -89,29 +95,11 @@ const HeroSection = () => (
  
             <Reveal direction="right">
                 <div className="relative group mt-8 lg:mt-0">
-                    {/* Outer ambient glow */}
-                    <div className="absolute -inset-6 sm:-inset-8 bg-black/[0.05] blur-[80px] rounded-full opacity-60 transition-all duration-700 group-hover:opacity-90" />
- 
-                    {/* Premium border ring */}
-                    <div className="relative z-10 p-[2px] rounded-3xl bg-slate-100 shadow-3xl group-hover:scale-[1.02] transition-all duration-700">
-                        {/* Inner card */}
-                        <div className="relative bg-white rounded-[calc(1.5rem-2px)] p-3 sm:p-4 overflow-hidden aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] flex items-center justify-center border border-slate-50 shadow-inner">
-                            <img
-                                src={heroIllustration}
-                                alt="Family Protection"
-                                className="w-full h-full object-cover rounded-2xl sm:rounded-3xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000"
-                            />
-                        </div>
-                    </div>
- 
-                    {/* Floating badge */}
-                    <div className="absolute -bottom-5 -left-4 sm:-bottom-8 sm:-left-8 bg-black px-6 py-4 sm:p-6 rounded-[2rem] shadow-3xl border border-white/10 flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white shrink-0 shadow-inner">
-                            <Shield size={24} strokeWidth={3} />
-                        </div>
-                        <div>
-                            <p className="text-[10px] text-white/30 font-black uppercase tracking-[4px] italic">Protocol</p>
-                            <p className="text-sm font-black text-white uppercase italic tracking-widest">Enforced_</p>
+                    <div className="relative z-10 p-4 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-2xl">
+                        <div className="relative bg-white/20 rounded-2xl overflow-hidden aspect-[16/10] flex items-center justify-center border border-white/10">
+                           <Shield size={120} className="text-white/20" strokeWidth={1} />
+                           {/* Placeholder for the illustration which is traditionally a clean UI/Family image in blue tones */}
+                           <div className="absolute inset-0 bg-gradient-to-t from-[#134e8d]/50 to-transparent" />
                         </div>
                     </div>
                 </div>
@@ -128,27 +116,27 @@ const StatsSection = () => {
     });
 
     const stats = [
-        { val: publicStats?.policies || "0+", label: "POLICIES", icon: Shield, color: "text-black" },
-        { val: publicStats?.customers || "0+", label: "CUSTOMERS", icon: UserPlus, color: "text-black" },
-        { val: publicStats?.settlementRate || "99%", label: "CLAIM SETTLEMENT", icon: FileCheck, color: "text-black" },
-        { val: publicStats?.partners || "100+", label: "PARTNER COMPANIES", icon: Globe, color: "text-black" }
+        { val: publicStats?.policies || "50+", label: "POLICIES", icon: Shield },
+        { val: publicStats?.customers || "10,000+", label: "CUSTOMERS", icon: UserPlus },
+        { val: publicStats?.settlementRate || "99%", label: "CLAIM SETTLEMENT", icon: FileCheck },
+        { val: publicStats?.partners || "100+", label: "PARTNER COMPANIES", icon: Globe }
     ];
  
     return (
-        <section className="py-32 relative bg-white border-b border-slate-50">
+        <section className="py-20 relative bg-white border-b border-slate-100">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
                     {stats.map((s, i) => (
                         <Reveal key={i} direction="up" delay={i * 0.1}>
-                            <div className="space-y-6 group">
-                                <div className={`mx-auto w-16 h-16 flex items-center justify-center rounded-[2rem] bg-slate-50 text-black border border-slate-100 group-hover:scale-110 group-hover:bg-black group-hover:text-white transition-all shadow-inner`}>
-                                    <s.icon size={28} strokeWidth={3} />
+                            <div className="space-y-4">
+                                <div className="mx-auto w-12 h-12 flex items-center justify-center text-[#134e8d]">
+                                    <s.icon size={32} strokeWidth={2} />
                                 </div>
-                                <div className="space-y-2">
-                                    <h3 className="text-5xl font-black text-black tracking-tighter italic">
+                                <div className="space-y-1">
+                                    <h3 className="text-3xl font-bold text-[#1e293b] tracking-tight">
                                         {isLoading ? "..." : s.val}
                                     </h3>
-                                    <p className="text-black text-[10px] font-black uppercase tracking-[4px] opacity-20 italic">{s.label}</p>
+                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">{s.label}</p>
                                 </div>
                             </div>
                         </Reveal>
@@ -160,38 +148,37 @@ const StatsSection = () => {
 };
 
 const PolicySection = () => (
-    <section className="py-32 bg-slate-50/50 relative overflow-hidden">
+    <section className="py-24 bg-slate-50/50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-24 space-y-6">
+            <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-5xl md:text-6xl font-black text-black tracking-tighter uppercase italic">Architecture_</h2>
-                    <p className="text-black text-[11px] font-black uppercase tracking-[4px] opacity-30 italic">
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#1e293b] tracking-tight uppercase">Our Policies</h2>
+                    <p className="text-slate-500 text-sm font-medium">
                         Choose from a wide range of insurance products designed to provide you with maximum coverage and peace of mind.
                     </p>
                 </Reveal>
             </div>
  
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
-                    { title: "Health Insurance", icon: Activity, color: "text-black bg-white", desc: "Comprehensive health coverage for you and your family, including pre and post-hospitalization." },
-                    { title: "Life Insurance", icon: Heart, color: "text-black bg-white", desc: "Secure your family's financial future and ensure their dreams are fulfilled even in your absence." },
-                    { title: "Vehicle Insurance", icon: Car, color: "text-black bg-white", desc: "Protection for your cars and bikes against accidents, theft, and natural calamities." },
-                    { title: "Home Insurance", icon: HomeIcon, color: "text-black bg-white", desc: "Shield your home and its valuable contents from fire, theft, and other unforeseen risks." },
-                    { title: "Travel Insurance", icon: Plane, color: "text-black bg-white", desc: "Travel the world with complete peace of mind with coverage for medical and travel delays." },
-                    { title: "Business Insurance", icon: Briefcase, color: "text-black bg-white", desc: "Customized insurance solutions for your enterprise to mitigate operational and liability risks." }
+                    { title: "Health Insurance", icon: Activity, color: "text-blue-600 bg-blue-50", desc: "Comprehensive health coverage for you and your family, including pre and post-hospitalization." },
+                    { title: "Life Insurance", icon: Heart, color: "text-red-600 bg-red-50", desc: "Secure your family's financial future and ensure their dreams are fulfilled even in your absence." },
+                    { title: "Vehicle Insurance", icon: Car, color: "text-orange-600 bg-orange-50", desc: "Protection for your cars and bikes against accidents, theft, and natural calamities." },
+                    { title: "Home Insurance", icon: HomeIcon, color: "text-indigo-600 bg-indigo-50", desc: "Shield your home and its valuable contents from fire, theft, and other unforeseen risks." },
+                    { title: "Travel Insurance", icon: Plane, color: "text-teal-600 bg-teal-50", desc: "Travel the world with complete peace of mind with coverage for medical and travel delays." },
+                    { title: "Business Insurance", icon: Briefcase, color: "text-[#134e8d] bg-blue-50", desc: "Customized insurance solutions for your enterprise to mitigate operational and liability risks." }
                 ].map((p, i) => (
                     <Reveal key={i} direction="up" delay={i * 0.1}>
-                        <div className="bg-white p-12 rounded-[2.5rem] border border-white shadow-xl hover:shadow-3xl transition-all duration-700 h-full flex flex-col group relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] -mr-10 -mt-10 transition-all group-hover:scale-150 group-hover:bg-black group-hover:opacity-5" />
-                            <div className={`w-16 h-16 ${p.color} rounded-2xl flex items-center justify-center mb-10 group-hover:rotate-6 transition-all shadow-inner border border-slate-50`}>
-                                <p.icon size={28} strokeWidth={3} />
+                        <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col group">
+                            <div className={`w-12 h-12 ${p.color} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                                <p.icon size={24} strokeWidth={2} />
                             </div>
-                            <h3 className="text-2xl font-black text-black mb-4 uppercase italic tracking-tight">{p.title}</h3>
-                            <p className="text-black text-[13px] font-black opacity-30 uppercase tracking-widest leading-relaxed mb-10 flex-1 italic">
+                            <h3 className="text-xl font-bold text-[#1e293b] mb-4">{p.title}</h3>
+                            <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-1">
                                 {p.desc}
                             </p>
-                            <button className="flex items-center gap-3 text-black font-black text-[10px] uppercase tracking-[4px] hover:gap-5 transition-all italic">
-                                DEPLOY_CORE <ArrowRight size={16} strokeWidth={3} />
+                            <button className="flex items-center gap-2 text-[#134e8d] font-bold text-xs uppercase tracking-wider hover:gap-3 transition-all">
+                                Learn More <ArrowRight size={14} strokeWidth={2.5} />
                             </button>
                         </div>
                     </Reveal>
@@ -202,18 +189,18 @@ const PolicySection = () => (
 );
 
 const HowItWorks = () => (
-    <section className="py-32 bg-white relative overflow-hidden">
+    <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-24 space-y-6">
+            <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-5xl md:text-6xl font-black text-black tracking-tighter uppercase italic">The Protocol_</h2>
-                    <p className="text-black text-[11px] font-black uppercase tracking-[4px] opacity-30 italic">Get started in just 4 simple steps.</p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#1e293b] tracking-tight uppercase">How It Works</h2>
+                    <p className="text-slate-500 text-sm font-medium">Get started in just 4 simple steps.</p>
                 </Reveal>
             </div>
  
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 text-center relative">
                 {/* Connection Line */}
-                <div className="hidden lg:block absolute top-[60px] left-[15%] right-[15%] h-[4px] bg-slate-50 -z-0 rounded-full" />
+                <div className="hidden lg:block absolute top-[48px] left-[15%] right-[15%] h-[2px] bg-slate-100 -z-0" />
                 
                 {[
                     { icon: UserPlus, title: "Register", desc: "Create your account with basic details." },
@@ -222,13 +209,13 @@ const HowItWorks = () => (
                     { icon: Shield, title: "Claim", desc: "Hassle-free 24/7 assistance for claims." }
                 ].map((s, i) => (
                     <Reveal key={i} direction="up" delay={i * 0.1}>
-                        <div className="relative z-10 space-y-10 group">
-                            <div className="mx-auto w-32 h-32 bg-black rounded-[2.5rem] flex items-center justify-center text-white shadow-3xl group-hover:scale-110 transition-all duration-700 border-4 border-white">
-                                <s.icon size={40} strokeWidth={3} />
+                        <div className="relative z-10 space-y-6 group">
+                            <div className="mx-auto w-24 h-24 bg-[#002b45] rounded-full flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-all duration-300 border-4 border-white">
+                                <s.icon size={32} strokeWidth={2} />
                             </div>
-                            <div className="space-y-4">
-                                <h4 className="text-xl font-black text-black uppercase italic tracking-tight">{s.title}</h4>
-                                <p className="text-black text-[11px] font-black opacity-30 uppercase tracking-[2px] leading-relaxed max-w-[200px] mx-auto italic">{s.desc}</p>
+                            <div className="space-y-2">
+                                <h4 className="text-lg font-bold text-[#1e293b]">{s.title}</h4>
+                                <p className="text-slate-400 text-xs leading-relaxed max-w-[180px] mx-auto">{s.desc}</p>
                             </div>
                         </div>
                     </Reveal>
@@ -239,16 +226,16 @@ const HowItWorks = () => (
 );
 
 const WhyChooseUs = () => (
-    <section className="py-32 bg-white relative overflow-hidden">
+    <section className="py-24 bg-slate-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-24 space-y-6">
+            <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-5xl md:text-6xl font-black text-black tracking-tighter uppercase italic">Advantages_</h2>
-                    <p className="text-black text-[11px] font-black uppercase tracking-[4px] opacity-30 italic">The most reliable choice for insurance in India.</p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#1e293b] tracking-tight uppercase">Why Choose Us</h2>
+                    <p className="text-slate-500 text-sm font-medium">The most reliable choice for insurance in India.</p>
                 </Reveal>
             </div>
  
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
                     { icon: Lock, title: "100% Secure", desc: "Your data and payments are encrypted with military-grade security." },
                     { icon: Zap, title: "Instant Insurance", desc: "Get your policy documents instantly in your inbox after purchase." },
@@ -258,13 +245,13 @@ const WhyChooseUs = () => (
                     { icon: ShieldCheck, title: "Fast Claim", desc: "Digital-first claim processing for lightning-fast settlements." }
                 ].map((f, i) => (
                     <Reveal key={i} direction="up" delay={i * 0.1}>
-                        <div className="bg-white p-10 rounded-3xl border border-slate-50 flex items-start gap-8 hover:shadow-3xl transition-all duration-700 h-full group shadow-xl">
-                            <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-all shadow-3xl border border-white/10">
-                                <f.icon size={28} strokeWidth={3} />
+                        <div className="bg-white p-8 rounded-2xl border border-slate-100 flex items-start gap-6 hover:shadow-lg transition-all duration-300 h-full group shadow-sm">
+                            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-[#134e8d] shrink-0 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                                <f.icon size={24} strokeWidth={2} />
                             </div>
-                            <div className="space-y-4">
-                                <h4 className="text-xl font-black text-black uppercase italic tracking-tight">{f.title}</h4>
-                                <p className="text-black text-[11px] font-black opacity-30 uppercase tracking-[2px] leading-relaxed italic">{f.desc}</p>
+                            <div className="space-y-2">
+                                <h4 className="text-lg font-bold text-[#1e293b]">{f.title}</h4>
+                                <p className="text-slate-500 text-xs leading-relaxed">{f.desc}</p>
                             </div>
                         </div>
                     </Reveal>
@@ -275,40 +262,40 @@ const WhyChooseUs = () => (
 );
 
 const Testimonials = () => (
-    <section className="py-32 bg-white relative overflow-hidden">
+    <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-24 space-y-6">
+            <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
                 <Reveal direction="up">
-                    <h2 className="text-5xl md:text-6xl font-black text-black tracking-tighter uppercase italic">Registry_</h2>
-                    <p className="text-black text-[11px] font-black uppercase tracking-[4px] opacity-30 italic">Validated feedback from the network.</p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#1e293b] tracking-tight uppercase">What Our Customers Say</h2>
+                    <p className="text-slate-500 text-sm font-medium">Trusted service with excellent customer support.</p>
                 </Reveal>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
                     { name: "Sahat Sharma", role: "Business Owner", text: "Secure Shield made finding health insurance so easy. The claim process when my son was hospitalized was completely cashless and smooth." },
                     { name: "Priya Patel", role: "Software Engineer", text: "The vehicle insurance premiums here are the most competitive I've found. Instant policy delivery to my email was the best part." },
                     { name: "Anil Mehta", role: "Retired Teacher", text: "Trusted service and excellent customer support. They guided me through every step of choosing the right life insurance for my family." }
                 ].map((t, i) => (
                     <Reveal key={i} direction="up" delay={i * 0.1}>
-                        <div className="bg-white p-12 rounded-[2.5rem] border border-slate-50 shadow-xl hover:shadow-3xl transition-all duration-700 h-full flex flex-col relative group">
-                            <Quote className="absolute top-10 right-10 text-slate-100 group-hover:text-black transition-all group-hover:opacity-5 group-hover:scale-150" size={60} strokeWidth={3} />
+                        <div className="bg-slate-50 p-10 rounded-2xl border border-slate-100 shadow-sm flex flex-col h-full group relative">
+                            <Quote className="absolute top-8 right-8 text-slate-200" size={40} />
                             
-                            <div className="flex text-black gap-2 mb-8">
+                            <div className="flex text-yellow-500 gap-1 mb-6">
                                 {[1,2,3,4,5].map(s => <Star key={s} size={14} fill="currentColor" strokeWidth={0} />)}
                             </div>
                             
-                            <p className="text-black text-[14px] font-black uppercase tracking-widest leading-relaxed italic mb-10 flex-1 opacity-40">
+                            <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-1 italic">
                                 "{t.text}"
                             </p>
                             
-                            <div className="flex items-center gap-5 pt-10 border-t border-slate-50">
-                                <div className="w-14 h-14 bg-black rounded-2xl flex items-center justify-center text-white font-black overflow-hidden shadow-3xl text-sm italic uppercase">
+                            <div className="flex items-center gap-4 pt-6 border-t border-slate-200">
+                                <div className="w-12 h-12 bg-[#134e8d] rounded-full flex items-center justify-center text-white font-bold text-sm">
                                      {t.name.split(' ')[0].charAt(0)}{t.name.split(' ')[1].charAt(0)}
                                 </div>
                                 <div>
-                                    <h4 className="font-black text-black leading-none mb-1 uppercase italic tracking-tight">{t.name}</h4>
-                                    <p className="text-[10px] text-black font-black uppercase tracking-[3px] opacity-20 italic">{t.role}</p>
+                                    <h4 className="font-bold text-[#1e293b] text-sm">{t.name}</h4>
+                                    <p className="text-xs text-slate-400 font-medium">{t.role}</p>
                                 </div>
                             </div>
                         </div>
@@ -320,22 +307,22 @@ const Testimonials = () => (
 );
 
 const CTABanner = () => (
-    <section className="py-32 bg-white relative">
+    <section className="py-20 bg-white relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="bg-black rounded-[4rem] p-20 md:p-32 text-center space-y-12 relative overflow-hidden shadow-3xl border border-white/10">
+            <div className="bg-[#3b82f6] rounded-3xl p-12 md:p-20 text-center space-y-8 relative overflow-hidden shadow-2xl">
                 {/* Background Decorations */}
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/[0.03] blur-[120px] rounded-full -mr-40 -mt-40" />
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/[0.03] blur-[100px] rounded-full -ml-20 -mb-20" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-3xl rounded-full -mr-20 -mt-20" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 blur-3xl rounded-full -ml-10 -mb-10" />
                 
-                <h2 className="text-5xl md:text-8xl font-black text-white leading-tight tracking-tighter relative z-10 uppercase italic">
-                    Secure_Your <br /> <span className="opacity-20">Dynasty.</span>
+                <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight relative z-10">
+                    Ready to Protect Your Future?
                 </h2>
-                <p className="text-white/30 text-lg md:text-xl font-black max-w-2xl mx-auto relative z-10 uppercase tracking-[4px] italic">
+                <p className="text-blue-100 text-base md:text-lg font-medium max-w-2xl mx-auto relative z-10">
                     Join thousands of Indians who have already secured their family's health and assets with Secure Shield.
                 </p>
-                <div className="relative z-10 pt-10">
-                    <Link to="/register" className="inline-flex h-20 px-16 bg-white text-black font-black rounded-2xl items-center hover:bg-slate-50 hover:scale-105 transition-all shadow-3xl uppercase tracking-widest italic border-b-4 border-black/10">
-                        INITIALIZE_REGISTRY
+                <div className="relative z-10 pt-6">
+                    <Link to="/register" className="inline-flex h-14 px-10 bg-white text-[#3b82f6] font-bold rounded-lg items-center hover:bg-blue-50 hover:scale-105 transition-all shadow-lg uppercase tracking-wider text-sm">
+                        Register Now
                     </Link>
                 </div>
             </div>
@@ -344,80 +331,82 @@ const CTABanner = () => (
 );
 
 const Footer = () => (
-    <footer className="pt-32 pb-16 bg-black text-white overflow-hidden border-t border-white/5">
+    <footer className="pt-20 pb-10 bg-[#002b45] text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid lg:grid-cols-4 gap-20 mb-20">
-                <div className="space-y-10">
-                    <Link to="/" className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-black shadow-3xl group-hover:rotate-6 transition-all">
-                            <Shield size={24} strokeWidth={3} />
+            <div className="grid lg:grid-cols-4 gap-12 mb-16">
+                <div className="space-y-6">
+                    <Link to="/" className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#002b45] shadow-lg">
+                            <Shield size={22} strokeWidth={2.5} />
                         </div>
-                        <span className="text-xl font-black text-white tracking-tighter uppercase italic">Secure <span className="opacity-20">Shield_</span></span>
+                        <span className="text-xl font-bold text-white tracking-tight uppercase tracking-widest">Secure Shield</span>
                     </Link>
-                    <p className="text-white/30 text-[11px] font-black uppercase tracking-[3px] leading-[2] italic">
+                    <p className="text-slate-400 text-sm leading-relaxed">
                         Leading insurance platform in India providing innovative and customer-centric insurance solutions. Protecting your legacy with trust and transparency.
                     </p>
-                    <div className="flex gap-4">
+                    <div className="flex gap-3">
                         {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                            <a key={i} href="#" className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center hover:bg-white hover:text-black transition-all border border-white/5 hover:scale-110 shadow-inner">
-                                <Icon size={20} strokeWidth={2.5} />
+                            <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-white hover:text-[#002b45] transition-all border border-white/5">
+                                <Icon size={18} />
                             </a>
                         ))}
                     </div>
                 </div>
  
                 <div>
-                    <h4 className="text-[10px] font-black text-white uppercase tracking-[5px] mb-12 opacity-20 italic">Navigation</h4>
-                    <ul className="space-y-6">
+                    <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Quick Links</h4>
+                    <ul className="space-y-4">
                         {["Home", "About Us", "Our Policies", "Careers", "Contact Support"].map(l => (
-                            <li key={l}><a href="#" className="text-white hover:opacity-30 text-[11px] font-black uppercase tracking-[3px] transition-all italic">{l}</a></li>
+                            <li key={l}><a href="#" className="text-slate-400 hover:text-white text-sm transition-colors">{l}</a></li>
                         ))}
                     </ul>
                 </div>
  
                 <div>
-                    <h4 className="text-[10px] font-black text-white uppercase tracking-[5px] mb-12 opacity-20 italic">Protocols</h4>
-                    <ul className="space-y-6">
-                        {["Health", "Life", "Vehicle", "Home", "Travel"].map(l => (
-                            <li key={l}><a href="#" className="text-white hover:opacity-30 text-[11px] font-black uppercase tracking-[3px] transition-all italic">{l}</a></li>
+                    <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Policies</h4>
+                    <ul className="space-y-4">
+                        {["Health Insurance", "Life Insurance", "Vehicle Insurance", "Home Insurance", "Travel Insurance"].map(l => (
+                            <li key={l}><a href="#" className="text-slate-400 hover:text-white text-sm transition-colors">{l}</a></li>
                         ))}
                     </ul>
                 </div>
  
                 <div>
-                    <h4 className="text-[10px] font-black text-white uppercase tracking-[5px] mb-12 opacity-20 italic">Node_Identity</h4>
-                    <ul className="space-y-8">
-                        <li className="flex gap-5">
-                            <MapPin size={22} strokeWidth={3} className="text-white/20 shrink-0" />
-                            <span className="text-[11px] font-black text-white uppercase tracking-[3px] italic leading-relaxed">BKC Tower, Mumbai // MH-400051</span>
+                    <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Contact</h4>
+                    <ul className="space-y-4">
+                        <li className="flex gap-3">
+                            <MapPin size={20} className="text-blue-400 shrink-0" />
+                            <span className="text-slate-400 text-sm">BKC Tower, Mumbai, MH-400051</span>
                         </li>
-                        <li className="flex gap-5">
-                            <Phone size={22} strokeWidth={3} className="text-white/20 shrink-0" />
-                            <span className="text-[11px] font-black text-white uppercase tracking-[3px] italic leading-relaxed">1800-SECURE-SHIELD</span>
+                        <li className="flex gap-3">
+                            <Phone size={20} className="text-blue-400 shrink-0" />
+                            <span className="text-slate-400 text-sm">1800-SECURE-SHIELD</span>
                         </li>
-                        <li className="flex gap-5">
-                            <Mail size={22} strokeWidth={3} className="text-white/20 shrink-0" />
-                            <span className="text-[11px] font-black text-white uppercase tracking-[3px] italic leading-relaxed">support@secureshield.in</span>
+                        <li className="flex gap-3">
+                            <Mail size={20} className="text-blue-400 shrink-0" />
+                            <span className="text-slate-400 text-sm">support@secureshield.in</span>
                         </li>
                     </ul>
                 </div>
             </div>
  
-            <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-10">
-                <div className="text-white/20 text-[10px] font-black uppercase tracking-[4px] italic">© 2024 Secure Shield Core // System_v3.0</div>
-                <div className="flex gap-10 text-white/20 text-[10px] font-black uppercase tracking-[4px] italic">
-                    <a href="#" className="hover:text-white transition-colors">Privacy</a>
-                    <a href="#" className="hover:text-white transition-colors">Terms</a>
-                    <a href="#" className="hover:text-white transition-colors">Help</a>
+            <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="text-slate-500 text-xs text-center md:text-left">
+                    © 2024 Secure Shield Insurance Brokers // All Rights Reserved
+                </div>
+                <div className="flex gap-8 text-slate-500 text-xs">
+                    <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" className="hover:text-white transition-colors">Refund Policy</a>
                 </div>
             </div>
         </div>
     </footer>
-);;
+);
 
 const Home = () => {
     return (
-        <div className="relative min-h-screen bg-white font-sans overflow-x-hidden selection:bg-[#10b981] selection:text-white">
+        <div className="relative min-h-screen bg-white font-sans selection:bg-[#10b981] selection:text-white">
             <Navbar />
             <HeroSection />
             <StatsSection />
@@ -430,5 +419,6 @@ const Home = () => {
         </div>
     );
 };
+;
 
 export default Home;

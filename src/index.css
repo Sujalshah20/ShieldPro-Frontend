@@ -5,27 +5,32 @@
 @plugin 'lightswind/plugin';
 
 :root {
-  /* ShieldPro Monolithic Black Palette */
-  --shield-primary: #000000;    /* Monolithic Black */
-  --shield-secondary: #000000;  /* Monolithic Black */
-  --shield-accent: #000000;     /* Monolithic Black (High Contrast) */
-  --shield-text-main: #000000;  /* True Black */
-  --shield-text-muted: rgba(0, 0, 0, 0.4); 
-  --shield-bg-light: #ffffff;   /* Pure White */
+  /* ShieldPro Tactical Premium Palette */
+  --shield-primary: #134e8d;    /* Deep Royal Blue */
+  --shield-secondary: #002b45;  /* Navy Blue */
+  --shield-accent: #10b981;     /* Emerald Green */
+  --shield-text-main: #1e293b;  /* Slate 800 */
+  --shield-text-muted: #64748b; /* Slate 500 */
+  --shield-bg-light: #f8fafc;   /* Light Gray/Blue Bg */
   --shield-white: #ffffff;
   
-  /* Standard SaaS Tokens (Strict Black Mapping) */
-  --primary: 0 0% 0%; 
+  /* SaaS Design System Palette Mapping */
+  --brand-primary: var(--shield-primary);
+  --brand-dark: var(--shield-secondary);
+  --brand-success: var(--shield-accent);
+  
+  /* Standard SaaS Tokens */
+  --primary: 215 76% 31%; /* #134e8d */
   --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 10%; 
+  --secondary: 200 100% 14%; /* #002b45 */
   --secondary-foreground: 0 0% 100%;
-  --background: 0 0% 100%; 
-  --foreground: 0 0% 0%;
+  --background: 210 40% 98%; /* f8fafc */
+  --foreground: 222 47% 11%;
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 0%;
-  --border: 0 0% 95%;
-  --input: 0 0% 95%;
-  --ring: 0 0% 0%;
+  --card-foreground: 222 47% 11%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 215 76% 31%;
   --radius: 1rem;
 
   /* Typography Scale */
@@ -108,7 +113,7 @@ p {
 /* Components: Standardized SaaS Cards */
 .saas-card {
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 50, 73, 0.05);
   border-radius: 1.5rem;
   padding: 1.5rem;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -119,8 +124,8 @@ p {
 
 .saas-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 30px 60px -12px rgba(0, 50, 73, 0.1);
+  border-color: rgba(0, 126, 167, 0.2);
 }
 
 /* Images: Aspect Ratio & Object Fit */
@@ -157,35 +162,33 @@ p {
 }
 
 .btn-primary {
-  background-color: #000000;
+  background-color: var(--brand-primary);
   color: white;
-  border-bottom: 3px solid rgba(255, 255, 255, 0.1);
 }
 
 .btn-primary:hover {
-  background-color: #1a1a1a;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  background-color: #006a8d;
+  box-shadow: 0 4px 12px rgba(0, 126, 167, 0.3);
 }
 
 .btn-secondary {
-  background-color: #f8fafc;
-  color: #000000;
-  border: 1px solid #e2e8f0;
+  background-color: var(--brand-dark);
+  color: white;
 }
 
 .btn-secondary:hover {
-  background-color: #f1f5f9;
+  background-color: #002536;
 }
 
 .btn-ghost {
   background-color: transparent;
-  color: #000000;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--brand-primary);
+  border: 1px solid rgba(0, 126, 167, 0.2);
 }
 
 .btn-ghost:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  border-color: #000000;
+  background-color: rgba(0, 126, 167, 0.05);
+  border-color: var(--brand-primary);
 }
 
 /* Grid System for Dashboard */
@@ -231,11 +234,11 @@ p {
 
 /* Custom Shadows */
 .shadow-3xl {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 50, 73, 0.15);
 }
 
 .shadow-4xl {
-  box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 35px 70px -15px rgba(0, 50, 73, 0.25);
 }
 
 /* Utilities */
@@ -250,9 +253,9 @@ p {
 .bg-mesh-gradient {
   background-color: #ffffff;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(0, 0, 0, 0.02) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, rgba(0, 0, 0, 0.01) 0, transparent 50%), 
-    radial-gradient(at 100% 0%, rgba(0, 0, 0, 0.02) 0, transparent 50%);
+    radial-gradient(at 0% 0%, hsla(195, 100%, 33%, 0.05) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(198, 100%, 14%, 0.03) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(195, 100%, 33%, 0.05) 0, transparent 50%);
 }
 
 /* Scrollbar Styling */

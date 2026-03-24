@@ -74,37 +74,37 @@ const CustomerPolicies = () => {
     );
 
     return (
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 font-sans pb-20">
             
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                 <div>
-                    <h1 className="text-2xl font-black text-black mb-1 italic">My Policies</h1>
-                    <p className="text-black font-black uppercase tracking-widest text-[10px] opacity-60 italic">Manage and track your active insurance coverage</p>
+                    <h1 className="text-2xl font-bold text-slate-800 mb-1">My Policies</h1>
+                    <p className="text-slate-500 text-sm font-medium">Manage and track your active insurance coverage and renewals.</p>
                 </div>
                 <button 
                     onClick={() => navigate('/customer/browse')}
-                    className="flex items-center justify-center gap-2 bg-[#002b45] text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[#003b5c] transition-colors shadow-sm"
+                    className="flex items-center justify-center gap-2 bg-[#134e8d] text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-[#002b45] transition-all shadow-lg shadow-blue-100"
                 >
                     <Plus size={18} /> Get New Policy
                 </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex items-center gap-6 border-b border-gray-200 mb-6 overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-8 border-b border-slate-100 mb-10 overflow-x-auto no-scrollbar">
                 {tabs.map(tab => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`pb-3 text-[13px] font-black uppercase tracking-widest whitespace-nowrap transition-all relative ${
-                            activeTab === tab ? "text-black" : "text-black opacity-40 hover:opacity-100"
+                        className={`pb-4 text-[11px] font-bold uppercase tracking-[2px] whitespace-nowrap transition-all relative ${
+                            activeTab === tab ? "text-[#134e8d]" : "text-slate-400 hover:text-slate-600"
                         }`}
                     >
                         {tab}
                         {activeTab === tab && (
                             <motion.div 
                                 layoutId="policyTab"
-                                className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-[#002b45]"
+                                className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-[#134e8d] rounded-full"
                             />
                         )}
                     </button>
@@ -113,19 +113,21 @@ const CustomerPolicies = () => {
 
             {/* Policy List */}
             {filteredPolicies.length === 0 ? (
-                <div className="text-center py-24 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                    <Shield size={64} className="mx-auto text-gray-200 mb-6" />
-                    <h3 className="text-xl font-black text-black mb-2 uppercase tracking-tighter italic">No policies found</h3>
-                    <p className="text-black font-black uppercase tracking-[4px] text-[10px] opacity-40 mb-10 italic">Sector_Manifest: NODE_POLICIES_EMPTY // {activeTab.toUpperCase()}</p>
+                <div className="text-center py-24 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Shield size={40} className="text-slate-200" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-800 mb-2">No policies found</h3>
+                    <p className="text-slate-400 text-sm font-medium mb-10 max-w-sm mx-auto">You Don't have any {activeTab.toLowerCase()} at the moment. Explore our coverage options to secure your future.</p>
                     <button 
                         onClick={() => navigate('/customer/browse')}
-                        className="bg-[#10b981] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#0ea5e9] transition-colors"
+                        className="bg-emerald-500 text-white px-10 py-3.5 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-100"
                     >
-                        Browse Policies
+                        Browse All Policies
                     </button>
                 </div>
             ) : (
-                <div className="space-y-4 mb-8">
+                <div className="space-y-6 mb-12">
                     {filteredPolicies.map((p, idx) => {
                         const timeStatus = calculateTimeRemaining(p.endDate);
                         
@@ -135,77 +137,83 @@ const CustomerPolicies = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1 }}
                                 key={p._id} 
-                                className="bg-white rounded-2xl p-5 md:p-6 border border-gray-100 shadow-sm flex flex-col xl:flex-row xl:items-center gap-6 relative hover:shadow-md transition-shadow"
+                                className="bg-white rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm flex flex-col xl:flex-row xl:items-center gap-8 relative hover:shadow-xl hover:shadow-blue-50/50 transition-all group"
                             >
                                 {/* Active Badge */}
-                                <div className="absolute top-5 right-5 flex items-center gap-3">
+                                <div className="absolute top-6 right-6 flex items-center gap-4">
                                     {timeStatus.isUrgent ? (
-                                        <span className="bg-amber-100 text-amber-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 uppercase tracking-wide">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> RENEW SOON
+                                        <span className="bg-amber-50 text-amber-600 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-2 border border-amber-100 uppercase tracking-widest">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> Renewal Due
                                         </span>
                                     ) : (
-                                        <span className="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1.5 uppercase tracking-wide">
-                                            ACTIVE
+                                        <span className="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-2 border border-emerald-100 uppercase tracking-widest">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Active
                                         </span>
                                     )}
-                                    <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                                        <MoreVertical size={18} />
+                                    <button className="text-slate-300 hover:text-[#134e8d] transition-colors">
+                                        <MoreVertical size={20} />
                                     </button>
                                 </div>
 
-                                <div className="flex items-center gap-5 xl:w-1/3">
-                                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 ${getIconBg(p.policy?.policyType)}`}>
-                                        {React.cloneElement(getPolicyIcon(p.policy?.policyType), { size: 24 })}
+                                <div className="flex items-center gap-6 xl:w-1/3">
+                                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${getIconBg(p.policy?.policyType)}`}>
+                                        {React.cloneElement(getPolicyIcon(p.policy?.policyType), { size: 28 })}
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-black text-black mb-0.5 uppercase tracking-tighter italic">{p.policy?.policyName}</h3>
-                                        <p className="text-[10px] text-black font-black uppercase tracking-widest opacity-40 flex items-center gap-2 italic">
-                                            <span>No: {p.policyNumber.toUpperCase()}</span> 
-                                            <span className="hidden sm:inline">•</span> 
-                                            <span className="hidden sm:inline">Secure_Sync_Stable</span>
+                                        <h3 className="text-lg font-bold text-slate-800 mb-1">{p.policy?.policyName}</h3>
+                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-2">
+                                            <span>#{p.policyNumber.toUpperCase()}</span> 
+                                            <span className="w-1 h-1 rounded-full bg-slate-200" /> 
+                                            <span>Verified Enrollment</span>
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-6 border-t border-gray-100 xl:border-t-0 xl:pt-0">
+                                <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-8 border-t border-slate-50 xl:border-t-0 xl:pt-0">
                                     <div>
-                                        <p className="text-[9px] font-black text-black uppercase tracking-[3px] opacity-40 mb-1">Monthly_Premium</p>
-                                        <p className="text-base font-black text-black">
-                                            ₹{p.policy?.premiumAmount?.toLocaleString() || '1,200'} <span className="text-[12px] text-black font-black opacity-30">/mo</span>
-                                        </p>
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Monthly Premium</p>
+                                        <div className="flex items-baseline gap-1.5">
+                                            <span className="text-xl font-bold text-slate-800">₹{(p.policy?.premiumAmount || 0).toLocaleString()}</span>
+                                            <span className="text-[12px] text-slate-400 font-bold">/month</span>
+                                        </div>
                                     </div>
                                     
                                     <div className="w-full xl:max-w-xs">
-                                        <div className="flex justify-between items-end mb-1.5">
-                                            <p className="text-[9px] font-black text-black uppercase tracking-[3px] opacity-40">Uplink_Lifespan</p>
-                                            <p className={`text-[11px] font-black uppercase italic tracking-widest ${timeStatus.isUrgent ? 'text-amber-600' : 'text-black'}`}>{timeStatus.text}</p>
+                                        <div className="flex justify-between items-end mb-2">
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Policy Lifespan</p>
+                                            <p className={`text-[11px] font-bold uppercase tracking-widest ${timeStatus.isUrgent ? 'text-amber-600' : 'text-slate-600'}`}>{timeStatus.text}</p>
                                         </div>
-                                        <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
-                                            <div 
-                                                className={`h-full rounded-full transition-all duration-1000 ${timeStatus.isUrgent ? 'bg-amber-500' : 'bg-[#002b45]'}`}
-                                                style={{ width: `${timeStatus.progress}%` }}
+                                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                                            <motion.div 
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${timeStatus.progress}%` }}
+                                                transition={{ duration: 1.5, ease: "easeOut" }}
+                                                className={`h-full rounded-full ${timeStatus.isUrgent ? 'bg-amber-500' : 'bg-[#134e8d]'}`}
                                             />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="flex flex-wrap items-center gap-2.5 pt-5 border-t border-gray-100 xl:border-t-0 xl:pt-0 xl:justify-end xl:w-auto">
-                                    <button className="w-9 h-9 border border-gray-200 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-50 transition-colors">
-                                        <Download size={16} />
+                                <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-slate-50 xl:border-t-0 xl:pt-0 xl:justify-end xl:w-auto">
+                                    <button className="w-11 h-11 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 hover:text-[#134e8d] hover:border-[#134e8d] hover:bg-blue-50 transition-all group/btn">
+                                        <Download size={18} className="group-hover/btn:transform group-hover/btn:-translate-y-0.5 transition-transform" />
                                     </button>
-                                    <button className="flex-1 xl:flex-none border border-gray-300 text-gray-700 font-semibold text-[13px] px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors min-w-[110px] text-center">
-                                        Details
+                                    <button 
+                                        onClick={() => navigate(`/customer/policy/${p._id}`)}
+                                        className="flex-1 xl:flex-none border border-slate-200 text-slate-600 font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-slate-50 transition-all min-w-[120px] text-center uppercase tracking-widest"
+                                    >
+                                        Full Details
                                     </button>
                                     {timeStatus.isUrgent ? (
-                                        <button className="flex-1 xl:flex-none bg-amber-500 text-white font-semibold text-[13px] px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors min-w-[110px] text-center">
-                                            Renew
+                                        <button className="flex-1 xl:flex-none bg-amber-500 text-white font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-amber-600 transition-all min-w-[120px] text-center shadow-lg shadow-amber-100 uppercase tracking-widest">
+                                            Renew Now
                                         </button>
                                     ) : (
                                         <button 
                                             onClick={() => navigate('/customer/claims', { state: { policyId: p._id } })}
-                                            className="flex-1 xl:flex-none bg-[#002b45] text-white font-semibold text-[13px] px-4 py-2 rounded-lg hover:bg-[#003b5c] transition-colors min-w-[110px] text-center"
+                                            className="flex-1 xl:flex-none bg-[#134e8d] text-white font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-[#002b45] transition-all min-w-[120px] text-center shadow-lg shadow-blue-100 uppercase tracking-widest"
                                         >
-                                            Claim
+                                            Submit Claim
                                         </button>
                                     )}
                                 </div>
@@ -218,35 +226,40 @@ const CustomerPolicies = () => {
             {/* Bottom Stats Row */}
             {filteredPolicies.length > 0 && (
                 <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="bg-gray-50 rounded-2xl p-6 flex flex-col lg:flex-row items-center justify-between gap-8 border border-gray-200"
+                    className="bg-[#134e8d] rounded-3xl p-8 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-xl shadow-blue-100"
                 >
-                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 md:gap-12">
-                        <div>
-                            <p className="text-[9px] font-black text-black uppercase tracking-widest mb-1 opacity-40">Active_Nodes</p>
-                            <p className="text-2xl font-black text-black uppercase tracking-tighter">{myPolicies.length < 10 ? `0${myPolicies.length}` : myPolicies.length} SYNCED</p>
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-8 md:gap-16">
+                        <div className="text-center md:text-left">
+                            <p className="text-[10px] font-bold text-blue-100/60 uppercase tracking-widest mb-2">Active Enrollments</p>
+                            <div className="flex items-baseline gap-2">
+                                <p className="text-2xl font-bold text-white">{myPolicies.length}</p>
+                                <span className="text-[10px] font-bold text-blue-100/40 uppercase">Policies</span>
+                            </div>
                         </div>
-                        <div>
-                            <p className="text-[9px] font-black text-black uppercase tracking-widest mb-1 opacity-40">Monthly_Vector</p>
-                            <p className="text-2xl font-black text-black uppercase tracking-tighter">₹{totalPremium.toLocaleString()}</p>
+                        <div className="text-center md:text-left border-slate-100/10 md:border-l md:pl-16">
+                            <p className="text-[10px] font-bold text-blue-100/60 uppercase tracking-widest mb-2">Monthly Commitment</p>
+                            <p className="text-2xl font-bold text-white">₹{totalPremium.toLocaleString()}</p>
                         </div>
-                        <div>
-                            <p className="text-[9px] font-black text-black uppercase tracking-widest mb-1 opacity-40">Aggregate_Shield</p>
-                            <p className="text-2xl font-black text-black uppercase tracking-tighter">₹{displayCoverage}</p>
+                        <div className="text-center md:text-left border-slate-100/10 md:border-l md:pl-16">
+                            <p className="text-[10px] font-bold text-blue-100/60 uppercase tracking-widest mb-2">Total Life Coverage</p>
+                            <p className="text-2xl font-bold text-white">₹{displayCoverage}</p>
                         </div>
                     </div>
 
                     <button 
                         onClick={() => navigate('/customer/browse')}
-                        className="text-right flex items-center gap-4 group"
+                        className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-2xl transition-all border border-white/10 flex items-center gap-4 group"
                     >
                         <div className="flex flex-col items-end">
-                            <span className="text-sm font-medium text-gray-500">Need a custom plan?</span>
-                            <span className="text-black font-bold group-hover:text-amber-500 transition-colors">Talk to our experts</span>
+                            <span className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Need more cover?</span>
+                            <span className="text-sm font-bold">Explore Premium Plans</span>
                         </div>
-                        <ArrowRight size={24} className="text-black group-hover:text-amber-500 transition-colors group-hover:translate-x-1" />
+                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all">
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
                     </button>
                 </motion.div>
             )}

@@ -75,18 +75,18 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
 
             {/* Global Search */}
             <div className={`flex-1 max-w-md relative mx-8 hidden ${location.pathname === '/customer/browse' ? 'sm:hidden' : 'sm:block'}`}>
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={18} strokeWidth={3} />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} strokeWidth={2.5} />
                 <input
                     type="text"
-                    placeholder="IDENTIFY_PROTOCOL_LOG..."
-                    className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-[12px] font-black uppercase tracking-[3px] text-black focus:ring-8 focus:ring-black/5 focus:bg-white focus:border-black/10 transition-all outline-none italic placeholder:text-black/5"
+                    placeholder="Search database records..."
+                    className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-slate-700 focus:ring-4 focus:ring-blue-100 focus:bg-white focus:border-[#134e8d]/30 transition-all outline-none"
                 />
             </div>
 
             {/* Right Controls */}
             <div className="flex items-center gap-6">
                 {/* Notifications */}
-                <button className="relative w-11 h-11 flex items-center justify-center text-black bg-slate-50 hover:bg-slate-100 rounded-xl transition-all group font-black shadow-sm">
+                <button className="relative w-11 h-11 flex items-center justify-center text-slate-500 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all group font-bold shadow-sm border border-slate-100">
                     <Bell size={20} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
                     <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white" />
                 </button>
@@ -100,12 +100,12 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                         className="flex items-center gap-3 p-1 rounded-xl transition-all group"
                     >
                         {/* User Profile */}
-                        <div className="flex items-center gap-3 pl-4 border-l border-gray-100">
+                        <div className="flex items-center gap-3 pl-4 border-l border-slate-100">
                             <div className="text-right hidden sm:block">
-                                <p className="text-[13px] font-bold text-black leading-none">{user?.name || 'User'}</p>
-                                <p className="text-[10px] text-black font-bold mt-1 uppercase tracking-wider">{user?.role || 'Guest'}</p>
+                                <p className="text-[13px] font-bold text-slate-800 leading-none">{user?.name || 'User'}</p>
+                                <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-wider">{user?.role || 'Guest'}</p>
                             </div>
-                            <div className="w-10 h-10 rounded-xl bg-black overflow-hidden border-2 border-white shadow-sm flex items-center justify-center text-white font-bold">
+                            <div className="w-10 h-10 rounded-xl bg-[#134e8d] overflow-hidden border-2 border-white shadow-md flex items-center justify-center text-white font-bold">
                                 {user?.profilePic ? (
                                     <img src={user.profilePic} alt="Profile" className="w-full h-full object-cover" />
                                 ) : (
@@ -113,7 +113,7 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                                 )}
                             </div>
                         </div>
-                        <ChevronDown size={16} className={`text-black opacity-30 transition-transform duration-300 hidden sm:block ${isProfileOpen ? 'rotate-180' : ''}`} strokeWidth={3} />
+                        <ChevronDown size={16} className={`text-slate-400 transition-transform duration-300 hidden sm:block ${isProfileOpen ? 'rotate-180' : ''}`} strokeWidth={2.5} />
                     </button>
 
                     <AnimatePresence>
@@ -133,17 +133,17 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                                     className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-slate-100 p-2 z-20"
                                 >
                                     <div className="px-4 py-3 border-b border-slate-50 mb-1">
-                                        <p className="text-sm font-bold text-slate-800 uppercase tracking-tight">Account System</p>
+                                        <p className="text-sm font-bold text-slate-800">Account Control</p>
                                     </div>
                                      <Link
                                         to={`/${user?.role || 'customer'}/profile`}
-                                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-black text-black hover:bg-slate-50 hover:text-black transition-all uppercase tracking-tighter italic"
+                                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[#134e8d] transition-all"
                                         onClick={() => setIsProfileOpen(false)}
                                     >
                                         <User size={18} /> My Profile
                                     </Link>
                                     <div className="h-px bg-slate-100 my-2" />
-                                    <p className="px-4 py-1 text-[9px] text-black opacity-30 font-black uppercase tracking-[2px]">Actions in Sidebar</p>
+                                    <p className="px-4 py-1 text-[9px] text-slate-400 font-bold uppercase tracking-wider">Session Actions</p>
                                 </motion.div>
                             </>
                         )}

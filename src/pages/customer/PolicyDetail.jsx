@@ -70,64 +70,64 @@ const PolicyDetail = () => {
     return (
         <div className="min-h-screen bg-[#f8fafc] font-sans pb-16">
             {/* Simple top nav */}
-            <header className="bg-white border-b border-gray-100 px-6 py-2.5 flex items-center gap-6 sticky top-0 z-40 shadow-sm">
-                <div className="flex items-center gap-2">
-                    <Shield size={20} className="text-black" />
-                    <span className="font-bold text-black text-base">Secure Shield</span>
+            <header className="bg-white border-b border-slate-100 px-6 py-3 flex items-center gap-6 sticky top-0 z-40 shadow-sm">
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/customer')}>
+                    <Shield size={20} className="text-[#134e8d]" />
+                    <span className="font-bold text-[#134e8d] text-base tracking-tight">ShieldPro</span>
                 </div>
-                <nav className="hidden md:flex items-center gap-6 ml-8 text-[13px] font-black text-black uppercase tracking-wider">
-                    <button onClick={() => navigate('/customer')} className="hover:text-black transition-colors">Dashboard</button>
-                    <button onClick={() => navigate('/customer/policies')} className="hover:text-black transition-colors border-b-2 border-[#002b45] text-black">Policies</button>
-                    <button onClick={() => navigate('/customer/claims')} className="hover:text-black transition-colors">Claims</button>
-                    <button className="hover:text-black transition-colors">Support</button>
+                <nav className="hidden md:flex items-center gap-8 ml-8 text-[13px] font-bold text-slate-400 uppercase tracking-wider">
+                    <button onClick={() => navigate('/customer')} className="hover:text-[#134e8d] transition-colors">Dashboard</button>
+                    <button onClick={() => navigate('/customer/policies')} className="text-[#134e8d] border-b-2 border-[#134e8d] pb-0.5">Policies</button>
+                    <button onClick={() => navigate('/customer/claims')} className="hover:text-[#134e8d] transition-colors">Claims</button>
+                    <button className="hover:text-[#134e8d] transition-colors">Support</button>
                 </nav>
             </header>
 
-            <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
+            <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
                 {/* Breadcrumb */}
-                <div className="flex items-center gap-2 text-[10px] font-black text-black opacity-30 mb-4 uppercase tracking-[4px] italic">
+                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-300 mb-6 uppercase tracking-wider">
                     {BREADCRUMBS.map((crumb, i) => (
                         <React.Fragment key={crumb}>
-                            {i > 0 && <ChevronRight size={12} />}
-                            <span className={i === BREADCRUMBS.length - 1 ? 'text-black font-black uppercase tracking-widest' : 'hover:text-[#124C89] cursor-pointer'}>{crumb}</span>
+                            {i > 0 && <ChevronRight size={12} className="opacity-50" />}
+                            <span className={i === BREADCRUMBS.length - 1 ? 'text-[#134e8d] font-bold' : 'hover:text-[#134e8d] cursor-pointer transition-colors'}>{crumb}</span>
                         </React.Fragment>
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* LEFT: Main Content */}
-                    <div className="lg:col-span-2 space-y-4">
+                    <div className="lg:col-span-2 space-y-6">
                         {/* Policy Header Card */}
-                        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-                            <div className="flex items-start justify-between gap-4 mb-3">
+                        <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm">
+                            <div className="flex items-start justify-between gap-4 mb-6">
                                 <div>
-                                    <div className="flex items-center gap-3 mb-1">
-                                        <h1 className="text-xl font-bold text-black">{display.policyName}</h1>
-                                        <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest">ACTIVE</span>
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <h1 className="text-2xl font-bold text-slate-800">{display.policyName}</h1>
+                                        <span className="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Active Policy</span>
                                     </div>
-                                    <p className="text-[13px] font-bold text-black uppercase tracking-widest">{display.provider}</p>
+                                    <p className="text-sm font-bold text-[#134e8d]/60 uppercase tracking-widest">{display.provider}</p>
                                 </div>
-                                <button className="flex items-center gap-2 text-[13px] font-bold text-black border-2 border-slate-100 rounded-xl px-3 py-1.5 hover:bg-slate-50 transition-all shrink-0">
+                                <button className="flex items-center gap-2 text-xs font-bold text-slate-500 border border-slate-200 rounded-xl px-4 py-2 hover:bg-slate-50 transition-all shrink-0">
                                     <Share2 size={14} /> Share
                                 </button>
                             </div>
-                            <p className="text-[14px] text-black font-medium leading-relaxed italic">{display.description}</p>
+                            <p className="text-[15px] text-slate-500 font-medium leading-relaxed">{display.description}</p>
                         </div>
 
                         {/* Key Benefits */}
-                        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
-                            <h2 className="text-base font-bold text-black flex items-center gap-2 mb-4">
-                                <Shield size={18} className="text-black" /> Key Benefits
+                        <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm">
+                            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-3 mb-6">
+                                <Shield size={20} className="text-[#134e8d]" /> Key Benefits
                             </h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {keyBenefits.map((b, i) => (
-                                    <div key={i} className="border border-gray-100 rounded-xl p-3 flex items-start gap-4 hover:shadow-sm transition-shadow">
-                                        <div className="w-8 h-8 rounded-lg bg-[#002b45]/5 text-white flex items-center justify-center shrink-0">
-                                            {React.cloneElement(b.icon, { size: 18 })}
+                                    <div key={i} className="border border-slate-50 rounded-2xl p-4 flex items-start gap-5 hover:border-blue-100 hover:bg-blue-50/30 transition-all group">
+                                        <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#134e8d] flex items-center justify-center shrink-0 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                                            {React.cloneElement(b.icon, { size: 20 })}
                                         </div>
                                         <div>
-                                            <p className="font-bold text-black text-[13px] mb-0.5">{b.title}</p>
-                                            <p className="text-[11px] text-black font-bold leading-relaxed">{b.sub}</p>
+                                            <p className="font-bold text-slate-800 text-sm mb-1">{b.title}</p>
+                                            <p className="text-xs text-slate-500 font-medium leading-relaxed">{b.sub}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -135,40 +135,42 @@ const PolicyDetail = () => {
                         </div>
 
                         {/* Coverage Details */}
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-black text-black flex items-center gap-2 mb-5">
-                                <CheckCircle2 size={20} className="text-emerald-500" /> Coverage Details
+                        <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm">
+                            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-3 mb-6">
+                                <CheckCircle2 size={24} className="text-[#10b981]" /> Coverage Details
                             </h2>
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="border-b border-gray-100">
-                                        <th className="text-left text-[10px] font-black text-black uppercase tracking-[2px] pb-4">Feature</th>
-                                        <th className="text-right text-[10px] font-black text-black uppercase tracking-[2px] pb-4">Coverage Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-50">
-                                    {coverageDetails.map((row, i) => (
-                                        <tr key={i} className="hover:bg-gray-50/50 transition-colors">
-                                            <td className="py-3.5 text-black font-medium">{row.feature}</td>
-                                            <td className="py-3.5 text-right font-semibold text-black">{row.amount}</td>
+                            <div className="overflow-hidden rounded-xl border border-slate-50">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="bg-slate-50/50">
+                                            <th className="text-left text-[11px] font-bold text-slate-400 uppercase tracking-wider px-6 py-4">Feature</th>
+                                            <th className="text-right text-[11px] font-bold text-slate-400 uppercase tracking-wider px-6 py-4">Coverage Amount</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-50">
+                                        {coverageDetails.map((row, i) => (
+                                            <tr key={i} className="hover:bg-slate-50/30 transition-colors">
+                                                <td className="px-6 py-4 text-slate-700 font-medium">{row.feature}</td>
+                                                <td className="px-6 py-4 text-right font-bold text-slate-900">{row.amount}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         {/* Terms & Conditions (Accordion) */}
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-black mb-5">Terms & Conditions</h2>
-                            <div className="space-y-3">
+                        <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm">
+                            <h2 className="text-lg font-bold text-slate-800 mb-6">Terms & Conditions</h2>
+                            <div className="space-y-4">
                                 {faqData.map((item, i) => (
-                                    <div key={i} className="border border-gray-100 rounded-xl overflow-hidden">
+                                    <div key={i} className="border border-slate-100 rounded-2xl overflow-hidden transition-all hover:border-slate-200">
                                         <button
-                                            className="w-full flex items-center justify-between text-left px-5 py-4 text-sm font-semibold text-black hover:bg-gray-50 transition-colors"
+                                            className="w-full flex items-center justify-between text-left px-6 py-5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                                             onClick={() => setOpenFaq(openFaq === i ? -1 : i)}
                                         >
                                             {item.q}
-                                            <ChevronDown size={18} className={`shrink-0 transition-transform text-black ${openFaq === i ? 'rotate-180' : ''}`} />
+                                            <ChevronDown size={18} className={`shrink-0 transition-transform text-[#134e8d] ${openFaq === i ? 'rotate-180' : ''}`} />
                                         </button>
                                         <AnimatePresence>
                                             {openFaq === i && (
@@ -178,7 +180,9 @@ const PolicyDetail = () => {
                                                     exit={{ height: 0, opacity: 0 }}
                                                     transition={{ duration: 0.2 }}
                                                 >
-                                                    <p className="px-5 pb-4 text-sm text-black font-medium leading-relaxed italic">{item.a}</p>
+                                                    <p className="px-6 pb-5 text-sm text-slate-500 font-medium leading-relaxed">
+                                                        {item.a}
+                                                    </p>
                                                 </motion.div>
                                             )}
                                         </AnimatePresence>
@@ -188,13 +192,13 @@ const PolicyDetail = () => {
                         </div>
 
                         {/* Documents Required */}
-                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                            <h2 className="text-lg font-bold text-black mb-5">Documents Required</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm">
+                            <h2 className="text-lg font-bold text-slate-800 mb-6">Documents Required</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {documentsRequired.map((doc, i) => (
-                                    <div key={i} className="flex items-center gap-3 border border-gray-100 rounded-xl p-4">
-                                        <div className="text-black">{doc.icon}</div>
-                                        <span className="text-sm font-bold text-black">{doc.label}</span>
+                                    <div key={i} className="flex items-center gap-4 border border-slate-100 rounded-2xl p-5 hover:bg-slate-50 transition-all group">
+                                        <div className="text-[#134e8d] group-hover:scale-110 transition-transform">{doc.icon}</div>
+                                        <span className="text-sm font-bold text-slate-700">{doc.label}</span>
                                     </div>
                                 ))}
                             </div>
@@ -202,30 +206,36 @@ const PolicyDetail = () => {
                     </div>
 
                     {/* RIGHT: Purchase Sidebar */}
-                    <div className="space-y-4">
-                        <div className="bg-white rounded-xl p-5 border border-gray-100 shadow-md sticky top-24">
-                            <p className="text-[9px] font-black uppercase tracking-[2px] text-black mb-1">STARTING PREMIUM</p>
-                            <div className="flex items-baseline gap-1 mb-1">
-                                <span className="text-3xl font-black text-black">₹{display.premiumAmount?.toLocaleString()}</span>
-                                <span className="text-xs text-black font-bold uppercase tracking-widest">/month</span>
+                    <div className="space-y-6">
+                        <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-lg shadow-slate-100/50 sticky top-24">
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Starting Premium</p>
+                            <div className="flex items-baseline gap-1 mb-2">
+                                <span className="text-3xl font-bold text-slate-900">₹{display.premiumAmount?.toLocaleString()}</span>
+                                <span className="text-xs text-slate-400 font-bold uppercase">/ month</span>
                             </div>
-                            <p className="text-[10px] text-black font-bold mt-1 uppercase tracking-wider">or ₹{(display.premiumAmount * 12)?.toLocaleString()} billed annually</p>
+                            <p className="text-[11px] text-slate-400 font-medium mb-6">Annual billed amount: ₹{(display.premiumAmount * 12)?.toLocaleString()}</p>
 
-                            <div className="flex items-center justify-between mb-4 py-3 border-t border-b border-gray-100">
-                                <span className="text-[13px] font-black text-black uppercase tracking-wider">Coverage Amount</span>
-                                <span className="font-bold text-black">₹{display.coverageAmount?.toLocaleString()}</span>
+                            <div className="space-y-4 mb-8 py-6 border-t border-b border-slate-50">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Coverage</span>
+                                    <span className="text-sm font-bold text-slate-800">₹{display.coverageAmount?.toLocaleString()}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">ID Number</span>
+                                    <span className="text-xs font-mono font-medium text-slate-500">#SP-{display._id.slice(-6).toUpperCase()}</span>
+                                </div>
                             </div>
 
-                            <p className="text-[10px] font-black text-black uppercase tracking-[2px] mb-4">Select Duration</p>
-                            <div className="grid grid-cols-3 gap-2 mb-6">
+                            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Select Tenure</p>
+                            <div className="grid grid-cols-3 gap-2 mb-8">
                                 {durations.map(d => (
                                     <button
                                         key={d}
                                         onClick={() => setDuration(d)}
-                                        className={`py-2 rounded-xl text-sm font-semibold border transition-all ${
+                                        className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
                                             duration === d
-                                                ? 'bg-[#002b45] text-white border-[#002b45]'
-                                                : 'bg-white text-black border-2 border-slate-100 hover:bg-slate-50 font-bold'
+                                                ? 'bg-[#134e8d] text-white border-[#134e8d] shadow-md shadow-blue-100'
+                                                : 'bg-white text-slate-500 border-slate-100 hover:bg-slate-50'
                                         }`}
                                     >
                                         {d}
@@ -235,44 +245,53 @@ const PolicyDetail = () => {
 
                             <button
                                 onClick={() => navigate('/customer/apply', { state: { policy: display } })}
-                                className="w-full bg-[#10b981] text-white py-3 rounded-lg font-bold text-[13px] hover:bg-[#059669] transition-colors shadow-sm mb-3"
+                                className="w-full bg-[#10b981] text-white py-4 rounded-xl font-bold text-sm hover:bg-[#059669] transition-all shadow-lg shadow-emerald-100 mb-4 transform hover:-translate-y-0.5"
                             >
-                                Buy This Policy
+                                Buy Policy Now
                             </button>
-                            <button className="w-full flex items-center justify-center gap-2 border-2 border-slate-100 py-3 rounded-xl text-[12px] font-black text-black uppercase tracking-widest hover:bg-slate-50 transition-all mb-3 shadow-sm italic">
-                                <Download size={15} /> Download Brochure
-                            </button>
-                            <button className="w-full flex items-center justify-center gap-2 border-2 border-slate-100 py-3 rounded-xl text-[12px] font-black text-black uppercase tracking-widest hover:bg-slate-50 transition-all italic">
-                                <Phone size={15} /> Talk to Agent
-                            </button>
+                            
+                            <div className="grid grid-cols-1 gap-2">
+                                <button className="w-full flex items-center justify-center gap-2 border border-slate-200 py-3 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">
+                                    <Download size={14} /> Brochure
+                                </button>
+                                <button className="w-full flex items-center justify-center gap-2 border border-slate-200 py-3 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">
+                                    <Phone size={14} /> Consultation
+                                </button>
+                            </div>
 
-                            <div className="flex items-center justify-around mt-6 pt-5 border-t border-gray-100 text-center">
-                                <div className="flex flex-col items-center gap-1 text-black font-bold uppercase tracking-tighter">
-                                    <Lock size={18} />
-                                    <span className="text-[10px] font-bold uppercase tracking-wider">SECURE PAYMENT</span>
+                            <div className="grid grid-cols-3 gap-2 mt-8 pt-6 border-t border-slate-50">
+                                <div className="flex flex-col items-center gap-2 text-center">
+                                    <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                        <Lock size={14} />
+                                    </div>
+                                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tight">Secure</span>
                                 </div>
-                                <div className="flex flex-col items-center gap-1 text-black font-bold uppercase tracking-tighter">
-                                    <Zap size={18} />
-                                    <span className="text-[10px] font-bold uppercase tracking-wider">INSTANT POLICY</span>
+                                <div className="flex flex-col items-center gap-2 text-center">
+                                    <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                        <Zap size={14} />
+                                    </div>
+                                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tight">Instant</span>
                                 </div>
-                                <div className="flex flex-col items-center gap-1 text-black font-bold uppercase tracking-tighter">
-                                    <Headphones size={18} />
-                                    <span className="text-[10px] font-bold uppercase tracking-wider">24/7 SUPPORT</span>
+                                <div className="flex flex-col items-center gap-2 text-center">
+                                    <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                        <Headphones size={14} />
+                                    </div>
+                                    <span className="text-[8px] font-bold text-slate-400 uppercase tracking-tight">24/7 Support</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Need Help Card */}
-                        <div className="bg-[#002b45] rounded-2xl p-5 text-white">
-                            <p className="font-bold mb-1">Need Help?</p>
-                            <p className="text-xs text-white/60 leading-relaxed mb-4">Our health experts are available to guide you through the best choices.</p>
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
-                                    <Phone size={16} />
+                        <div className="bg-[#134e8d] rounded-2xl p-6 text-white shadow-lg shadow-blue-100/50">
+                            <p className="font-bold text-base mb-2">Need Expert Help?</p>
+                            <p className="text-xs text-blue-100/70 leading-relaxed mb-6">Our health specialists are available to guide you through the selection process.</p>
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center shrink-0 border border-white/10">
+                                    <Phone size={18} />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] text-white/50 uppercase tracking-wider font-bold">CALL US AT</p>
-                                    <p className="font-bold">1800-456-7890</p>
+                                    <p className="text-[10px] text-blue-100/40 uppercase tracking-wider font-bold">Priority Support</p>
+                                    <p className="font-bold text-blue-50">1800-456-7890</p>
                                 </div>
                             </div>
                         </div>
@@ -281,12 +300,12 @@ const PolicyDetail = () => {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-slate-100 mt-10 py-10 text-center">
-                <div className="flex items-center justify-center gap-3 text-black mb-2 opacity-60">
-                    <Shield size={20} strokeWidth={3} />
-                    <span className="font-black text-[12px] uppercase tracking-[4px] italic">Secure Shield</span>
+            <div className="border-t border-slate-100 mt-20 py-12 text-center">
+                <div className="flex items-center justify-center gap-3 text-slate-400 mb-3">
+                    <Shield size={20} className="text-[#134e8d]" />
+                    <span className="font-bold text-xs uppercase tracking-[3px]">ShieldPro Insurance</span>
                 </div>
-                <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[5px] italic">© 2024 Secure Shield Insurance Brokers // IRDAI_REG_12345_ACTIVE</p>
+                <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">© 2024 ShieldPro Brokers • IRDAI_REG_12345_ACTIVE</p>
             </div>
         </div>
     );

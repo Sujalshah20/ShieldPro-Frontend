@@ -66,7 +66,7 @@ const CustomerClaims = () => {
     );
 
     return (
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-20">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 font-sans pb-20">
             <AnimatePresence mode="wait">
                 {isCreatingClaim ? (
                     <SubmitClaimForm 
@@ -89,67 +89,83 @@ const CustomerClaims = () => {
                         exit={{ opacity: 0, y: -10 }}
                     >
                         {/* Header */}
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
                             <div>
-                                <h1 className="text-2xl font-black text-black mb-1 italic">My Claims</h1>
-                                <p className="text-[10px] font-black text-black opacity-40 uppercase tracking-widest italic leading-relaxed">Track and manage your insurance claim requests with secure uplink oversight.</p>
+                                <h1 className="text-2xl font-bold text-slate-800 mb-1">My Claims</h1>
+                                <p className="text-slate-500 text-sm font-medium">Track and manage your insurance claim requests with end-to-end transparency.</p>
                             </div>
                             <button 
                                 onClick={() => setIsCreatingClaim(true)}
-                                className="flex items-center justify-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-sm font-black uppercase tracking-[3px] shadow-3xl hover:bg-black/90 transition-all transform active:scale-95 italic border-b-4 border-white/10"
+                                className="flex items-center justify-center gap-2 bg-[#134e8d] text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-[#002b45] transition-all shadow-lg shadow-blue-100"
                             >
-                                <Plus size={18} /> NEW_CLAIM_MANIFEST
+                                <Plus size={18} /> File New Claim
                             </button>
                         </div>
 
                         {/* Claims Table */}
-                        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-8 overflow-x-auto">
+                        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden mb-12 overflow-x-auto">
                             <table className="w-full min-w-[800px] text-left">
-                                <thead className="bg-gray-50/50 border-b border-gray-100">
+                                <thead className="bg-slate-50/50 border-b border-slate-100">
                                     <tr>
-                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Claim_ID</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Policy_Node</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Module_Type</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Credit_Value</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Timestamp</th>
-                                        <th className="px-6 py-4 text-[10px] font-black text-black uppercase tracking-[3px] opacity-40">Status_Vector</th>
-                                        <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider text-right">Action</th>
+                                        <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Claim Reference</th>
+                                        <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Policy Name</th>
+                                        <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Type</th>
+                                        <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Claim Amount</th>
+                                        <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Submission Date</th>
+                                        <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Current Status</th>
+                                        <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Activity</th>
                                     </tr>
-                               </thead>
-                                <tbody className="divide-y divide-gray-50">
+                                </thead>
+                                <tbody className="divide-y divide-slate-50">
                                     {myClaims.length === 0 ? (
                                         <tr>
-                                            <td colSpan="7" className="px-6 py-12 text-center text-gray-500 font-medium">
-                                                No claims found. Start by filing a new claim.
+                                            <td colSpan="7" className="px-8 py-20 text-center">
+                                                <div className="flex flex-col items-center justify-center space-y-4">
+                                                    <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center">
+                                                        <FileText size={32} className="text-slate-200" />
+                                                    </div>
+                                                    <p className="text-slate-500 font-medium">No claims recorded yet. Need to report an incident?</p>
+                                                    <button 
+                                                        onClick={() => setIsCreatingClaim(true)}
+                                                        className="text-[#134e8d] font-bold text-sm hover:underline"
+                                                    >
+                                                        Start filing a claim now
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ) : myClaims.map(claim => (
                                         <tr 
                                             key={claim._id} 
-                                            className={`hover:bg-gray-50/50 transition-colors cursor-pointer ${selectedClaim?._id === claim._id ? 'bg-black/5' : ''}`}
+                                            className={`hover:bg-blue-50/30 transition-colors cursor-pointer group ${selectedClaim?._id === claim._id ? 'bg-blue-50/50' : ''}`}
                                             onClick={() => setSelectedClaim(claim)}
                                         >
-                                            <td className="px-6 py-4 font-bold text-black text-[13px]">
-                                                CLM-{claim._id.slice(-4).toUpperCase()}
+                                            <td className="px-8 py-5 font-bold text-slate-700 text-[13px]">
+                                                #CLM-{claim._id.slice(-6).toUpperCase()}
                                             </td>
-                                            <td className="px-6 py-4 text-black font-black text-[13px] opacity-60 uppercase italic tracking-tighter">
-                                                {claim.userPolicy?.policy?.policyName || "Unknown Policy"}
+                                            <td className="px-8 py-5">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#134e8d]">
+                                                        <Shield size={16} />
+                                                    </div>
+                                                    <span className="text-slate-700 font-bold text-[13px]">{claim.userPolicy?.policy?.policyName || "General Policy"}</span>
+                                                </div>
                                             </td>
-                                            <td className="px-6 py-4 text-black font-black text-[13px] opacity-60 uppercase italic tracking-tighter">
+                                            <td className="px-8 py-5 text-slate-500 font-bold text-[11px] uppercase tracking-widest">
                                                 {claim.userPolicy?.policy?.policyType || "General"}
                                             </td>
-                                            <td className="px-6 py-4 font-bold text-gray-900 text-[13px]">
+                                            <td className="px-8 py-5 font-bold text-slate-800 text-[13px]">
                                                 ₹{claim.amount.toLocaleString()}
                                             </td>
-                                            <td className="px-6 py-4 text-black font-black text-[11px] opacity-40 uppercase tracking-widest italic">
-                                                {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric'})}
+                                            <td className="px-8 py-5 text-slate-400 font-bold text-[11px] uppercase tracking-widest">
+                                                {new Date(claim.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric'})}
                                             </td>
-                                            <td className="px-6 py-4">
+                                            <td className="px-8 py-5">
                                                 <span className={getStatusStyle(claim.status)}>{claim.status}</span>
                                             </td>
-                                            <td className="px-6 py-4 text-right">
-                                                <button className="text-black font-bold text-[12px] hover:underline">
-                                                    View Details
+                                            <td className="px-8 py-5 text-right">
+                                                <button className="text-[#134e8d] font-bold text-[12px] opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest">
+                                                    Manage Details
                                                 </button>
                                             </td>
                                         </tr>
@@ -164,51 +180,53 @@ const CustomerClaims = () => {
                                 <motion.div 
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+                                    className="grid grid-cols-1 lg:grid-cols-3 gap-10"
                                 >
                                     {/* Left Column: Details & Documents */}
-                                    <div className="lg:col-span-2 space-y-6">
+                                    <div className="lg:col-span-2 space-y-8">
                                         {/* Summary Widget */}
-                                        <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm relative overflow-hidden">
-                                            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-12">
+                                        <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-slate-100 shadow-sm relative overflow-hidden">
+                                            <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 mb-16">
                                                 <div>
-                                                    <h2 className="text-xl font-black text-black mb-2 uppercase tracking-tighter italic">Claim Lifecycle Tracking</h2>
-                                                    <p className="text-[10px] text-black font-black uppercase tracking-[4px] opacity-30 italic">
-                                                        Case_ID: CLM-{(selectedClaim || myClaims[0])._id.slice(-8).toUpperCase()} // SECTOR_ACTIVE
+                                                    <h2 className="text-xl font-bold text-slate-800 mb-2">Claim Progress</h2>
+                                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                                                        Reference: #CLM-{(selectedClaim || myClaims[0])._id.slice(-8).toUpperCase()} <span className="mx-2">•</span> Verified Application
                                                     </p>
                                                 </div>
-                                                <div className="flex gap-3">
-                                                    <button className="w-12 h-12 rounded-xl border border-gray-100 flex items-center justify-center text-gray-400 hover:text-black hover:bg-slate-50 transition-all shadow-sm">
+                                                <div className="flex gap-4">
+                                                    <button className="w-12 h-12 rounded-2xl border border-slate-100 flex items-center justify-center text-slate-400 hover:text-[#134e8d] hover:bg-blue-50 transition-all shadow-sm">
                                                         <Printer size={18} />
                                                     </button>
-                                                    <button className="bg-black text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black/90 transition-all shadow-3xl flex items-center gap-3 italic border-b-4 border-white/10">
-                                                        <Download size={14} /> EXPORT_SIGNAL_REPORT
+                                                    <button className="bg-[#134e8d] text-white px-8 py-4 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#002b45] transition-all shadow-lg shadow-blue-100 flex items-center gap-3">
+                                                        <Download size={14} /> Export Summary
                                                     </button>
                                                 </div>
                                             </div>
 
                                             {/* Stepper */}
-                                            <div className="relative pt-6 pb-2">
-                                                <div className="absolute top-10 left-8 right-8 h-1.5 bg-gray-50 -z-10 rounded-full"></div>
-                                                <div 
-                                                    className="absolute top-10 left-8 h-1.5 bg-black -z-10 rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(0,0,0,0.1)]"
-                                                    style={{ width: `${(getActiveStep((selectedClaim || myClaims[0]).status) - 1) * 20}%` }}
-                                                ></div>
-                                                <div className="flex justify-between">
+                                            <div className="relative pt-8 pb-4">
+                                                <div className="absolute top-12 left-8 right-8 h-2 bg-slate-50 rounded-full"></div>
+                                                <motion.div 
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${(getActiveStep((selectedClaim || myClaims[0]).status) - 1) * 20}%` }}
+                                                    transition={{ duration: 1.5, ease: "easeOut" }}
+                                                    className="absolute top-12 left-8 h-2 bg-[#134e8d] rounded-full shadow-[0_4px_12px_rgba(19,78,141,0.2)]"
+                                                ></motion.div>
+                                                <div className="flex justify-between relative z-10 px-0">
                                                     {steps.map((step) => {
                                                         const isActive = step.id <= getActiveStep((selectedClaim || myClaims[0]).status);
                                                         const Icon = step.icon;
                                                         return (
-                                                            <div key={step.id} className="flex flex-col items-center gap-4 group">
-                                                                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ${
+                                                            <div key={step.id} className="flex flex-col items-center gap-6 group">
+                                                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-500 border-4 border-white ${
                                                                     isActive 
-                                                                    ? 'bg-black text-white shadow-3xl scale-110' 
-                                                                    : 'bg-white text-black/10 border-2 border-slate-50'
+                                                                    ? 'bg-[#134e8d] text-white shadow-xl scale-110' 
+                                                                    : 'bg-white text-slate-200 border-slate-50'
                                                                 }`}>
-                                                                    <Icon size={18} strokeWidth={3} />
+                                                                    <Icon size={20} strokeWidth={isActive ? 3 : 2} />
                                                                 </div>
-                                                                <span className={`text-[9px] font-black uppercase tracking-[3px] text-center italic ${
-                                                                    isActive ? 'text-black' : 'text-black/20'
+                                                                <span className={`text-[9px] font-bold uppercase tracking-widest text-center max-w-[80px] leading-tight ${
+                                                                    isActive ? 'text-slate-800' : 'text-slate-300'
                                                                 }`}>
                                                                     {step.label}
                                                                 </span>
@@ -220,37 +238,39 @@ const CustomerClaims = () => {
                                         </div>
 
                                         {/* Documents Section */}
-                                        <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
-                                            <div className="flex items-center justify-between mb-8">
-                                                <h3 className="text-lg font-black text-black uppercase tracking-tighter italic">Evidence Manifest</h3>
-                                                <span className="text-[10px] font-black text-black/30 uppercase tracking-[4px] italic">
-                                                    SYNC_COUNT: {(selectedClaim || myClaims[0]).documents?.length || 0} FILES_DETACHED
+                                        <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-slate-100 shadow-sm">
+                                            <div className="flex items-center justify-between mb-10">
+                                                <h3 className="text-lg font-bold text-slate-800">Supportive Evidence</h3>
+                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                    {(selectedClaim || myClaims[0]).documents?.length || 0} Attachments
                                                 </span>
                                             </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 {(selectedClaim || myClaims[0]).documents?.length > 0 ? (selectedClaim || myClaims[0]).documents.map((doc, i) => (
                                                     <a 
                                                         key={i}
                                                         href={doc.url}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="flex items-center justify-between p-5 bg-slate-50/50 rounded-2xl border border-slate-50 group hover:border-black/10 hover:bg-white transition-all shadow-sm"
+                                                        className="flex items-center justify-between p-6 bg-slate-50/50 rounded-2xl border border-transparent group hover:border-[#134e8d]/20 hover:bg-white transition-all shadow-sm"
                                                     >
-                                                        <div className="flex items-center gap-5">
-                                                            <div className="p-3 bg-white rounded-xl text-black/40 shadow-sm group-hover:scale-110 transition-transform">
-                                                                <FileText size={20} strokeWidth={2.5} />
+                                                        <div className="flex items-center gap-6">
+                                                            <div className="p-4 bg-white rounded-xl text-[#134e8d] shadow-sm group-hover:scale-110 transition-transform">
+                                                                <FileText size={24} />
                                                             </div>
                                                             <div className="min-w-0">
-                                                                <p className="font-black text-[11px] text-black truncate max-w-[140px] uppercase tracking-wider italic">{doc.name || `ATTACHMENT_${i+1}`}</p>
-                                                                <p className="text-[9px] text-slate-400 font-bold mt-1">SECURE_SYNC_VERIFIED</p>
+                                                                <p className="font-bold text-[13px] text-slate-700 truncate max-w-[150px]">{doc.name || `Document_${i+1}`}</p>
+                                                                <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-widest">Verified Upload</p>
                                                             </div>
                                                         </div>
-                                                        <ArrowRight size={16} className="text-slate-300 group-hover:text-black group-hover:translate-x-1 transition-all" strokeWidth={3} />
+                                                        <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                                                            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                                        </div>
                                                     </a>
                                                 )) : (
-                                                    <div className="col-span-2 py-12 text-center border-2 border-dashed border-slate-100 rounded-3xl">
-                                                        <UploadCloud className="mx-auto text-slate-200 mb-4" size={40} />
-                                                        <p className="text-[10px] font-black text-slate-300 uppercase tracking-[4px] italic">No active evidence detected</p>
+                                                    <div className="col-span-2 py-16 text-center border-2 border-dashed border-slate-100 rounded-[2rem]">
+                                                        <UploadCloud className="mx-auto text-slate-200 mb-6" size={48} />
+                                                        <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No documentation provided</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -258,52 +278,55 @@ const CustomerClaims = () => {
                                     </div>
 
                                     {/* Right Column: Agent & Logs */}
-                                    <div className="space-y-6">
+                                    <div className="space-y-8">
                                         {/* Adjuster Card */}
-                                        <div className="bg-black rounded-[2.5rem] p-8 text-white relative overflow-hidden group/ad">
-                                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover/ad:rotate-12 transition-transform duration-1000">
-                                                <Shield size={120} />
+                                        <div className="bg-[#134e8d] rounded-[2.5rem] p-10 text-white relative overflow-hidden group/ad shadow-xl shadow-blue-100">
+                                            <div className="absolute top-0 right-0 p-10 opacity-10 group-hover/ad:rotate-12 transition-transform duration-1000">
+                                                <Shield size={140} />
                                             </div>
-                                            <div className="relative z-10 flex flex-col gap-6">
-                                                <div className="flex items-center gap-5">
-                                                    <div className="w-16 h-16 rounded-[1.5rem] bg-white flex items-center justify-center text-black shadow-2xl font-black text-xl italic">
+                                            <div className="relative z-10 flex flex-col gap-8">
+                                                <div className="flex items-center gap-6">
+                                                    <div className="w-20 h-20 rounded-3xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-2xl font-bold text-2xl border border-white/20">
                                                         {(selectedClaim || myClaims[0]).userPolicy?.agent?.name?.charAt(0) || "A"}
                                                     </div>
                                                     <div>
-                                                        <p className="text-[9px] font-black text-white/40 uppercase tracking-[4px] mb-1 italic">Case_Adjuster</p>
-                                                        <h4 className="text-xl font-black italic tracking-tighter uppercase">{(selectedClaim || myClaims[0]).userPolicy?.agent?.name || "Assigning..."}</h4>
+                                                        <p className="text-[10px] font-bold text-blue-100/60 uppercase tracking-widest mb-2">Assigned Agent</p>
+                                                        <h4 className="text-xl font-bold">{(selectedClaim || myClaims[0]).userPolicy?.agent?.name || "Pending Assignment"}</h4>
                                                     </div>
                                                 </div>
-                                                <div className="flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full w-fit">
-                                                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_#34d399]" />
-                                                    <span className="text-[9px] font-black uppercase tracking-[3px] opacity-60">Status: ACTIVE_REVIEW</span>
+                                                <div className="flex items-center gap-3 px-5 py-2.5 bg-white/10 rounded-2xl w-fit border border-white/10">
+                                                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_12px_#34d399]" />
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest">Secure Review Active</span>
                                                 </div>
+                                                <button className="w-full py-4 bg-white text-[#134e8d] rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-blue-50 transition-all shadow-lg active:scale-95">
+                                                    Message Agent
+                                                </button>
                                             </div>
                                         </div>
 
                                         {/* Review Logs */}
-                                        <div className="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm flex-1">
-                                            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[5px] mb-8 italic">Review_Session_Logs</h3>
-                                            <div className="space-y-6">
+                                        <div className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-sm flex-1">
+                                            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-10">Application Audit Log</h3>
+                                            <div className="space-y-10">
                                                 {(selectedClaim || myClaims[0]).comments?.length > 0 ? (selectedClaim || myClaims[0]).comments.map((comment, i) => (
-                                                    <div key={i} className="relative pl-8 border-l-2 border-slate-50 group/log">
-                                                        <div className="absolute -left-[5px] top-0 w-2 h-2 rounded-full bg-slate-200 group-hover/log:bg-black transition-colors" />
-                                                        <div className="space-y-3">
+                                                    <div key={i} className="relative pl-10 border-l-2 border-slate-50 group/log">
+                                                        <div className="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-slate-200 group-hover/log:bg-[#134e8d] group-hover/log:scale-125 transition-all" />
+                                                        <div className="space-y-4">
                                                             <div className="flex items-center justify-between">
-                                                                <p className="text-[9px] font-black text-black uppercase tracking-[4px] italic">{comment.user?.name || "System_Node"}</p>
-                                                                <p className="text-[8px] font-black text-black/30 uppercase tracking-[3px] italic">{new Date(comment.createdAt).toLocaleDateString()}</p>
+                                                                <p className="text-[10px] font-bold text-slate-800 uppercase tracking-widest">{comment.user?.name || "System Automated"}</p>
+                                                                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{new Date(comment.createdAt).toLocaleDateString()}</p>
                                                             </div>
-                                                            <p className="text-[13px] font-black text-black opacity-60 leading-relaxed italic tracking-tight">
+                                                            <p className="text-[14px] font-medium text-slate-600 leading-relaxed italic border-l-4 border-slate-50 pl-4 py-1">
                                                                 "{comment.text}"
                                                             </p>
                                                         </div>
                                                     </div>
                                                 )) : (
-                                                    <div className="py-20 text-center space-y-4">
-                                                        <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-200 mx-auto">
-                                                            <MessageSquare size={24} />
+                                                    <div className="py-24 text-center space-y-6">
+                                                        <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-200 mx-auto">
+                                                            <MessageSquare size={32} />
                                                         </div>
-                                                        <p className="text-[9px] font-black text-slate-300 uppercase tracking-[4px] italic">No logs initialized</p>
+                                                        <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No activity reported yet</p>
                                                     </div>
                                                 )}
                                             </div>
