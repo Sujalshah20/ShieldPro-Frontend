@@ -141,8 +141,8 @@ const Login = () => {
             const msg = error.response?.data?.message || error.message || "Invalid email or password. Please try again.";
             let description = msg;
 
-            if (msg === "Failed to fetch" || msg.includes("NetworkError")) {
-                description = "Cannot connect to server. Please check your internet or wait a moment.";
+            if (msg.toLowerCase().includes("failed to fetch") || msg.toLowerCase().includes("networkerror")) {
+                description = "Cannot connect to server. Please check your internet or the server status.";
             } else if (msg.toLowerCase().includes('not found')) {
                 description = "No account found with this email. Please register first.";
             } else if (msg.toLowerCase().includes('lock')) {
