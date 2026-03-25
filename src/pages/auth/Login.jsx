@@ -7,7 +7,6 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
-import loginIllustration from "../../assets/login_security_illustration_v2.jpg";
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { api } from "../../utils/api";
@@ -46,7 +45,7 @@ const Login = () => {
     const validateField = (name, value) => {
         let error = "";
         switch (name) {
-            case "email":
+            case "email": {
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(value)) {
                     error = "Please enter a valid email address.";
@@ -56,6 +55,7 @@ const Login = () => {
                     error = "No spaces allowed in email.";
                 }
                 break;
+            }
             case "password":
                 if (value.length < 8) {
                     error = "Password must be at least 8 characters.";
@@ -211,13 +211,33 @@ const Login = () => {
                             
                             <div className="space-y-12">
                                 <Reveal direction="down">
-                                    <div className="relative group perspective-1000">
-                                        <div className="absolute -inset-8 bg-white/5 blur-[60px] rounded-full opacity-50 group-hover:opacity-80 transition-all" />
-                                        <img 
-                                            src={loginIllustration} 
-                                            alt="Security Visualization" 
-                                            className="relative z-10 w-full rounded-3xl shadow-3xl hover:translate-y-[-10px] transition-transform duration-700 pointer-events-none"
-                                        />
+                                    <div className="relative group p-8 bg-white/5 backdrop-blur-3xl rounded-[2.5rem] border border-white/10 shadow-4xl overflow-hidden">
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 blur-3xl rounded-full" />
+                                        <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-400/10 blur-3xl rounded-full" />
+                                        
+                                        <div className="relative z-10 space-y-8 text-center lg:text-left">
+                                            <div className="inline-flex items-center px-3 py-1 bg-emerald-400/10 border border-emerald-400/20 rounded-full text-emerald-400 text-[10px] font-bold uppercase tracking-widest">
+                                                Why Choose ShieldPro?
+                                            </div>
+                                            <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+                                                Your Safety, <br />
+                                                <span className="text-emerald-400">Our Priority.</span>
+                                            </h2>
+                                            <p className="text-white/70 text-base font-medium leading-relaxed">
+                                                Secure your family's future with India's most trusted digital insurance partner. From health to assets, we've got you covered with 24/7 expert support and lightning-fast claim settlements.
+                                            </p>
+                                            
+                                            <div className="pt-4 grid grid-cols-2 gap-4">
+                                                <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                                    <p className="text-white font-bold text-lg">99.9%</p>
+                                                    <p className="text-white/40 text-[9px] font-bold uppercase tracking-wider mt-1">Settlement Rate</p>
+                                                </div>
+                                                <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                                    <p className="text-white font-bold text-lg">10k+</p>
+                                                    <p className="text-white/40 text-[9px] font-bold uppercase tracking-wider mt-1">Secure Families</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </Reveal>
                                 
@@ -241,7 +261,7 @@ const Login = () => {
                         </div>
 
                         <div className="relative z-10 pt-8 border-t border-white/10 text-white/30 text-[12px] font-bold uppercase tracking-widest">
-                             © 2024 Secure Shield
+                             © 2026 Secure Shield
                         </div>
                     </div>
 
