@@ -58,6 +58,139 @@ const Navbar = () => {
     );
 };
 
+const PremiumHeroIllustration = () => (
+    <div className="relative w-full aspect-[16/10] flex items-center justify-center">
+        {/* Decorative Background Elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-400/20 blur-3xl rounded-full animate-pulse-slow" />
+        <div className="absolute bottom-[-10%] left-[-5%] w-48 h-48 bg-emerald-400/10 blur-2xl rounded-full animate-pulse-slow" style={{ animationDelay: '2s' }} />
+
+        {/* Floating Data Nodes */}
+        {[
+            { top: '15%', left: '10%' }, { top: '25%', right: '15%' },
+            { bottom: '20%', left: '20%' }, { bottom: '30%', right: '25%' }
+        ].map((pos, i) => (
+            <motion.div
+                key={i}
+                className="absolute w-2 h-2 bg-white/30 rounded-full"
+                animate={{ 
+                    y: [0, -15, 0],
+                    opacity: [0.3, 0.7, 0.3]
+                }}
+                transition={{
+                    duration: 3 + i,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                style={pos}
+            />
+        ))}
+
+        {/* Connection Lines (Represented by subtle gradients) */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none overflow-hidden">
+            <svg width="100%" height="100%" viewBox="0 0 400 250">
+                <motion.path
+                    d="M 50 50 Q 150 20 250 80 T 350 50"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="0.5"
+                    strokeDasharray="4 4"
+                    animate={{ strokeDashoffset: [0, 100] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.path
+                    d="M 20 200 Q 120 180 220 220 T 380 200"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="0.5"
+                    strokeDasharray="4 4"
+                    animate={{ strokeDashoffset: [100, 0] }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                />
+            </svg>
+        </div>
+
+        {/* Main Glass Dashboard Card */}
+        <motion.div 
+            className="relative z-10 w-[85%] h-[85%] bg-white/10 backdrop-blur-xl rounded-[2.5rem] border border-white/20 shadow-4xl overflow-hidden group"
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+            
+            {/* Dashboard Header UI */}
+            <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
+                <div className="flex gap-2">
+                    <div className="w-2 h-2 rounded-full bg-red-400/50" />
+                    <div className="w-2 h-2 rounded-full bg-yellow-400/50" />
+                    <div className="w-2 h-2 rounded-full bg-emerald-400/50" />
+                </div>
+                <div className="px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-widest">Network Secure</span>
+                </div>
+            </div>
+
+            {/* Central Content */}
+            <div className="p-8 flex flex-col items-center justify-center h-full -mt-4 gap-6">
+                <div className="relative">
+                    <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full animate-pulse" />
+                    <div className="relative w-32 h-32 bg-gradient-to-br from-[#134e8d] to-[#10b981] rounded-3xl flex items-center justify-center shadow-2xl rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                        <ShieldCheck size={64} className="text-white drop-shadow-lg" strokeWidth={1.5} />
+                    </div>
+                </div>
+                
+                <div className="text-center space-y-2">
+                    <h3 className="text-white text-xl font-bold tracking-tight">Active Protection</h3>
+                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-[3px]">ShieldPro Core v4.2</p>
+                </div>
+
+                {/* Mini Stats Bar */}
+                <div className="w-full grid grid-cols-3 gap-4 mt-4">
+                    {[
+                        { label: 'Uptime', val: '99.9%' },
+                        { label: 'Latency', val: '12ms' },
+                        { label: 'Threats', val: '0' }
+                    ].map((m, i) => (
+                        <div key={i} className="bg-white/5 p-3 rounded-2xl border border-white/5 text-center">
+                            <p className="text-white font-bold text-xs">{m.val}</p>
+                            <p className="text-white/30 text-[8px] font-bold uppercase tracking-wider mt-1">{m.label}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </motion.div>
+
+        {/* Floating Mini Cards */}
+        <motion.div 
+            className="absolute top-[10%] -right-8 z-20 p-4 bg-white/20 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-2xl flex items-center gap-4"
+            animate={{ y: [0, 15, 0], x: [0, 5, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        >
+            <div className="w-10 h-10 bg-emerald-400 rounded-xl flex items-center justify-center text-white shadow-lg">
+                <Zap size={20} strokeWidth={2.5} />
+            </div>
+            <div>
+                <p className="text-white font-bold text-xs">Insta-Claim</p>
+                <p className="text-white/60 text-[10px] font-medium">Verified Active</p>
+            </div>
+        </motion.div>
+
+        <motion.div 
+            className="absolute bottom-[20%] -left-12 z-20 p-4 bg-white/20 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-2xl flex items-center gap-4"
+            animate={{ y: [0, -12, 0], x: [0, -5, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        >
+            <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white shadow-lg">
+                <Lock size={20} strokeWidth={2.5} />
+            </div>
+            <div>
+                <p className="text-white font-bold text-xs">Secure Vault</p>
+                <p className="text-white/60 text-[10px] font-medium">Military Grade</p>
+            </div>
+        </motion.div>
+    </div>
+);
+
 const HeroSection = () => (
     <section className="relative min-h-[85vh] flex items-center bg-[#134e8d] overflow-hidden pt-20">
         {/* Background Gradient & Pattern */}
@@ -93,15 +226,9 @@ const HeroSection = () => (
                 </div>
             </Reveal>
  
-            <Reveal direction="right">
-                <div className="relative group mt-8 lg:mt-0">
-                    <div className="relative z-10 p-4 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20 shadow-2xl">
-                        <div className="relative bg-white/20 rounded-2xl overflow-hidden aspect-[16/10] flex items-center justify-center border border-white/10">
-                           <Shield size={120} className="text-white/20" strokeWidth={1} />
-                           {/* Placeholder for the illustration which is traditionally a clean UI/Family image in blue tones */}
-                           <div className="absolute inset-0 bg-gradient-to-t from-[#134e8d]/50 to-transparent" />
-                        </div>
-                    </div>
+            <Reveal direction="right" overflow="visible">
+                <div className="relative group mt-8 lg:mt-0 px-8">
+                    <PremiumHeroIllustration />
                 </div>
             </Reveal>
         </div>
