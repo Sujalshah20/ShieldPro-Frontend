@@ -37,12 +37,7 @@ const Navbar = () => {
                     <span className="text-xl font-bold text-[#134e8d] tracking-tight">Secure <span className="text-[#002b45]">Shield</span></span>
                 </Link>
  
-                {/* Nav Links */}
-                <div className="hidden md:flex items-center gap-10">
-                    {["HOME", "ABOUT US", "POLICIES", "CONTACT US"].map(link => (
-                        <a key={link} href="#" className="text-[11px] font-bold text-[#002b45] hover:text-[#134e8d] transition-colors tracking-widest uppercase">{link}</a>
-                    ))}
-                </div>
+                {/* Nav Links Removed as per request */}
 
                 {/* Auth Buttons */}
                 <div className="flex items-center gap-4">
@@ -219,9 +214,6 @@ const HeroSection = () => (
                         <Link to="/register" className="h-14 px-8 bg-[#10b981] text-white font-bold rounded-lg flex items-center justify-center gap-3 hover:bg-[#0da371] hover:translate-y-[-2px] transition-all shadow-lg group uppercase tracking-wider text-sm">
                             Explore Policies <ArrowRight size={18} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
-                        <button className="h-14 px-8 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition-all flex items-center justify-center uppercase tracking-wider text-sm">
-                            Get a Quote
-                        </button>
                     </div>
                 </div>
             </Reveal>
@@ -472,11 +464,7 @@ const Footer = () => (
                         Leading insurance platform in India providing innovative and customer-centric insurance solutions. Protecting your legacy with trust and transparency.
                     </p>
                     <div className="flex gap-3">
-                        {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                            <a key={i} href="#" className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-white hover:text-[#002b45] transition-all border border-white/5">
-                                <Icon size={18} />
-                            </a>
-                        ))}
+                        {/* Social Media Icons Removed as per request */}
                     </div>
                 </div>
  
@@ -519,7 +507,7 @@ const Footer = () => (
  
             <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
                 <div className="text-slate-500 text-xs text-center md:text-left">
-                    © 2024 Secure Shield Insurance Brokers // All Rights Reserved
+                    © 2026 Secure Shield Insurance Brokers // All Rights Reserved
                 </div>
                 <div className="flex gap-8 text-slate-500 text-xs">
                     <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
