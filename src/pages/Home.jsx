@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../utils/api";
-import { 
-    Shield, Check, Menu, X, ArrowRight, Activity, 
-    Heart, Car, Home as HomeIcon, Plane, Briefcase, 
-    Lock, Zap, Clock, Star, MapPin, Phone, Mail, 
-    Facebook, Twitter, Instagram, Linkedin, 
+import {
+    Shield, Check, Menu, X, ArrowRight, Activity,
+    Heart, Car, Home as HomeIcon, Plane, Briefcase,
+    Lock, Zap, Clock, Star, MapPin, Phone, Mail,
+    Facebook, Twitter, Instagram, Linkedin,
     Search, UserPlus, MousePointer2, FileCheck, HelpCircle, ChevronRight, Globe, TrendingUp,
     Fingerprint, Cpu, Satellite, Target, Database, Layers, Radio, Workflow, Quote, ShieldCheck
 } from "lucide-react";
@@ -25,9 +25,8 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-300 ${
-            scrolled ? 'h-20 bg-white shadow-xl' : 'h-24 bg-white/80 backdrop-blur-xl'
-        }`}>
+        <nav className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-300 ${scrolled ? 'h-20 bg-white shadow-xl' : 'h-24 bg-white/80 backdrop-blur-xl'
+            }`}>
             <div className="max-w-7xl mx-auto h-full flex justify-between items-center px-6 lg:px-8">
                 {/* Brand */}
                 <Link to="/" className="flex items-center gap-3 group">
@@ -36,7 +35,7 @@ const Navbar = () => {
                     </div>
                     <span className="text-xl font-bold text-[#134e8d] tracking-tight">Secure <span className="text-[#002b45]">Shield</span></span>
                 </Link>
- 
+
                 {/* Nav Links Removed as per request */}
 
                 {/* Auth Buttons */}
@@ -67,7 +66,7 @@ const PremiumHeroIllustration = () => (
             <motion.div
                 key={i}
                 className="absolute w-2 h-2 bg-white/30 rounded-full"
-                animate={{ 
+                animate={{
                     y: [0, -15, 0],
                     opacity: [0.3, 0.7, 0.3]
                 }}
@@ -105,13 +104,13 @@ const PremiumHeroIllustration = () => (
         </div>
 
         {/* Main Glass Dashboard Card */}
-        <motion.div 
+        <motion.div
             className="relative z-10 w-[85%] h-[85%] bg-white/10 backdrop-blur-xl rounded-[2.5rem] border border-white/20 shadow-4xl overflow-hidden group"
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
-            
+
             {/* Dashboard Header UI */}
             <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
                 <div className="flex gap-2">
@@ -133,7 +132,7 @@ const PremiumHeroIllustration = () => (
                         <ShieldCheck size={64} className="text-white drop-shadow-lg" strokeWidth={1.5} />
                     </div>
                 </div>
-                
+
                 <div className="text-center space-y-2">
                     <h3 className="text-white text-xl font-bold tracking-tight">Active Protection</h3>
                     <p className="text-white/40 text-[10px] font-bold uppercase tracking-[3px]">ShieldPro Core v4.2</p>
@@ -156,7 +155,7 @@ const PremiumHeroIllustration = () => (
         </motion.div>
 
         {/* Floating Mini Cards */}
-        <motion.div 
+        <motion.div
             className="absolute top-[10%] -right-8 z-20 p-4 bg-white/20 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-2xl flex items-center gap-4"
             animate={{ y: [0, 15, 0], x: [0, 5, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -170,7 +169,7 @@ const PremiumHeroIllustration = () => (
             </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
             className="absolute bottom-[20%] -left-12 z-20 p-4 bg-white/20 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-2xl flex items-center gap-4"
             animate={{ y: [0, -12, 0], x: [0, -5, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
@@ -192,14 +191,14 @@ const HeroSection = () => (
         <div className="absolute inset-0 bg-gradient-to-br from-[#134e8d] via-[#134e8d] to-[#002b45] opacity-95" />
         <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
         <div className="absolute top-1/4 right-0 w-[800px] h-[800px] bg-blue-400/20 blur-[150px] rounded-full pointer-events-none" />
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-12 lg:gap-24 items-center relative z-10 py-16 md:py-24">
             <Reveal direction="left">
                 <div className="space-y-8">
                     <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg border border-white/20">
                         <span className="text-[11px] font-bold text-white tracking-[2px] uppercase">India's Trusted Insurance Platform</span>
                     </div>
- 
+
                     <div className="space-y-6">
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.1] tracking-tight">
                             Protect What <br />
@@ -209,7 +208,7 @@ const HeroSection = () => (
                             Comprehensive insurance solutions tailored for your lifestyle. Join over 10,000+ families securing their future with us today.
                         </p>
                     </div>
- 
+
                     <div className="flex flex-col sm:flex-row gap-4 pt-4">
                         <Link to="/register" className="h-14 px-8 bg-[#10b981] text-white font-bold rounded-lg flex items-center justify-center gap-3 hover:bg-[#0da371] hover:translate-y-[-2px] transition-all shadow-lg group uppercase tracking-wider text-sm">
                             Explore Policies <ArrowRight size={18} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
@@ -217,7 +216,7 @@ const HeroSection = () => (
                     </div>
                 </div>
             </Reveal>
- 
+
             <Reveal direction="right" overflow="visible">
                 <div className="relative group mt-8 lg:mt-0 px-8">
                     <PremiumHeroIllustration />
@@ -240,7 +239,7 @@ const StatsSection = () => {
         { val: publicStats?.settlementRate || "99%", label: "CLAIM SETTLEMENT", icon: FileCheck },
         { val: publicStats?.partners || "100+", label: "PARTNER COMPANIES", icon: Globe }
     ];
- 
+
     return (
         <section className="py-20 relative bg-white border-b border-slate-100">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -277,7 +276,7 @@ const PolicySection = () => (
                     </p>
                 </Reveal>
             </div>
- 
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
                     { title: "Health Insurance", icon: Activity, color: "text-blue-600 bg-blue-50", desc: "Comprehensive health coverage for you and your family, including pre and post-hospitalization." },
@@ -316,11 +315,11 @@ const HowItWorks = () => (
                     <p className="text-slate-500 text-sm font-medium">Get started in just 4 simple steps.</p>
                 </Reveal>
             </div>
- 
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 text-center relative">
                 {/* Connection Line */}
                 <div className="hidden lg:block absolute top-[48px] left-[15%] right-[15%] h-[2px] bg-slate-100 -z-0" />
-                
+
                 {[
                     { icon: UserPlus, title: "Register", desc: "Create your account with basic details." },
                     { icon: Search, title: "Browse", desc: "Compare plans from top providers." },
@@ -353,7 +352,7 @@ const WhyChooseUs = () => (
                     <p className="text-slate-500 text-sm font-medium">The most reliable choice for insurance in India.</p>
                 </Reveal>
             </div>
- 
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[
                     { icon: Lock, title: "100% Secure", desc: "Your data and payments are encrypted with military-grade security." },
@@ -389,7 +388,7 @@ const Testimonials = () => (
                     <p className="text-slate-500 text-sm font-medium">Trusted service with excellent customer support.</p>
                 </Reveal>
             </div>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
                     { name: "Sahat Sharma", role: "Business Owner", text: "Secure Shield made finding health insurance so easy. The claim process when my son was hospitalized was completely cashless and smooth." },
@@ -399,18 +398,18 @@ const Testimonials = () => (
                     <Reveal key={i} direction="up" delay={i * 0.1}>
                         <div className="bg-slate-50 p-10 rounded-2xl border border-slate-100 shadow-sm flex flex-col h-full group relative">
                             <Quote className="absolute top-8 right-8 text-slate-200" size={40} />
-                            
+
                             <div className="flex text-yellow-500 gap-1 mb-6">
-                                {[1,2,3,4,5].map(s => <Star key={s} size={14} fill="currentColor" strokeWidth={0} />)}
+                                {[1, 2, 3, 4, 5].map(s => <Star key={s} size={14} fill="currentColor" strokeWidth={0} />)}
                             </div>
-                            
+
                             <p className="text-slate-600 text-sm leading-relaxed mb-8 flex-1 italic">
                                 "{t.text}"
                             </p>
-                            
+
                             <div className="flex items-center gap-4 pt-6 border-t border-slate-200">
                                 <div className="w-12 h-12 bg-[#134e8d] rounded-full flex items-center justify-center text-white font-bold text-sm">
-                                     {t.name.split(' ')[0].charAt(0)}{t.name.split(' ')[1].charAt(0)}
+                                    {t.name.split(' ')[0].charAt(0)}{t.name.split(' ')[1].charAt(0)}
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-[#1e293b] text-sm">{t.name}</h4>
@@ -432,7 +431,7 @@ const CTABanner = () => (
                 {/* Background Decorations */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-3xl rounded-full -mr-20 -mt-20" />
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 blur-3xl rounded-full -ml-10 -mb-10" />
-                
+
                 <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight relative z-10">
                     Ready to Protect Your Future?
                 </h2>
@@ -467,7 +466,7 @@ const Footer = () => (
                         {/* Social Media Icons Removed as per request */}
                     </div>
                 </div>
- 
+
                 <div>
                     <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Quick Links</h4>
                     <ul className="space-y-4">
@@ -476,7 +475,7 @@ const Footer = () => (
                         ))}
                     </ul>
                 </div>
- 
+
                 <div>
                     <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Policies</h4>
                     <ul className="space-y-4">
@@ -485,13 +484,13 @@ const Footer = () => (
                         ))}
                     </ul>
                 </div>
- 
+
                 <div>
                     <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Contact</h4>
                     <ul className="space-y-4">
                         <li className="flex gap-3">
                             <MapPin size={20} className="text-blue-400 shrink-0" />
-                            <span className="text-slate-400 text-sm">BKC Tower, Mumbai, MH-400051</span>
+                            <span className="text-slate-400 text-sm">india</span>
                         </li>
                         <li className="flex gap-3">
                             <Phone size={20} className="text-blue-400 shrink-0" />
@@ -499,12 +498,12 @@ const Footer = () => (
                         </li>
                         <li className="flex gap-3">
                             <Mail size={20} className="text-blue-400 shrink-0" />
-                            <span className="text-slate-400 text-sm">support@secureshield.in</span>
+                            <span className="text-slate-400 text-sm">Shahsujal14@gmail.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
- 
+
             <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
                 <div className="text-slate-500 text-xs text-center md:text-left">
                     © 2026 Secure Shield Insurance Brokers // All Rights Reserved
