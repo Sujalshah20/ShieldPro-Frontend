@@ -80,11 +80,15 @@ const VerifyEmail = () => {
         if (countdown > 0) return;
         setResendLoading(true);
         try {
-            await api.post(type === "verification" ? "/auth/register" : "/auth/forgot-password", { email }); // This is a bit hacky for register resend, usually need a dedicated resend endpoint
+            await api.post("/auth/resend-otp", { email, type });
             setCountdown(60);
             toast({ title: "OTP Sent", description: "A new 6-digit code has been sent to your email." });
         } catch (error) {
-            toast({ title: "Resend Failed", description: "Could not send new OTP. Please try again later.", variant: "destructive" });
+            toast({ 
+                title: "Resend Failed", 
+                description: error.response?.data?.message || "Could not send new OTP. Please try again later.", 
+                variant: "destructive" 
+            });
         } finally {
             setResendLoading(false);
         }
