@@ -473,7 +473,7 @@ const Footer = () => (
                         </div>
                         <span className="text-2xl font-bold text-white tracking-tighter uppercase tracking-[3px]">Secure <span className="text-blue-400">Shield</span></span>
                     </Link>
-                    <p className="text-white/90 text-sm leading-relaxed font-medium">
+                    <p className="text-white text-sm leading-relaxed font-medium">
                         India's premier digital insurance ecosystem. We leverage state-of-the-art security and innovative technology to protect what matters most to you.
                     </p>
                     <div className="flex gap-4">
