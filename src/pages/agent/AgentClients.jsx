@@ -42,11 +42,7 @@ const AgentClients = () => {
                     </span>
                 </div>
                 <div className="flex items-center gap-6">
-                    <button className="relative p-2 text-slate-400 hover:text-[#134e8d] transition-colors">
-                        <Bell size={22} />
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 border-2 border-white rounded-full"></span>
-                    </button>
-                    <div className="flex items-center gap-4 pl-6 border-l border-slate-200">
+                    <div className="flex items-center gap-4">
                         <div className="text-right">
                             <p className="text-sm font-bold text-[#002b45]">Rajesh Kumar</p>
                             <p className="text-[11px] text-slate-400 font-medium">Senior Agent</p>
