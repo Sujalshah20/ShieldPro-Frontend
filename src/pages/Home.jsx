@@ -459,7 +459,7 @@ const Footer = () => (
                         </div>
                         <span className="text-xl font-bold text-white tracking-tight uppercase tracking-widest">Secure Shield</span>
                     </Link>
-                    <p className="text-slate-400 text-sm leading-relaxed">
+                    <p className="text-white/60 text-sm leading-relaxed">
                         Leading insurance platform in India providing innovative and customer-centric insurance solutions. Protecting your legacy with trust and transparency.
                     </p>
                     <div className="flex gap-3">
@@ -471,7 +471,7 @@ const Footer = () => (
                     <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Quick Links</h4>
                     <ul className="space-y-4">
                         {["Home", "About Us", "Our Policies", "Careers", "Contact Support"].map(l => (
-                            <li key={l}><a href="#" className="text-slate-400 hover:text-white text-sm transition-colors">{l}</a></li>
+                            <li key={l}><a href="#" className="text-white/50 hover:text-white text-sm transition-colors">{l}</a></li>
                         ))}
                     </ul>
                 </div>
@@ -480,7 +480,7 @@ const Footer = () => (
                     <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Policies</h4>
                     <ul className="space-y-4">
                         {["Health Insurance", "Life Insurance", "Vehicle Insurance", "Home Insurance", "Travel Insurance"].map(l => (
-                            <li key={l}><a href="#" className="text-slate-400 hover:text-white text-sm transition-colors">{l}</a></li>
+                            <li key={l}><a href="#" className="text-white/50 hover:text-white text-sm transition-colors">{l}</a></li>
                         ))}
                     </ul>
                 </div>
@@ -488,27 +488,27 @@ const Footer = () => (
                 <div>
                     <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Contact</h4>
                     <ul className="space-y-4">
-                        <li className="flex gap-3">
-                            <MapPin size={20} className="text-blue-400 shrink-0" />
-                            <span className="text-slate-400 text-sm">india</span>
+                        <li className="flex items-center gap-3">
+                            <MapPin size={18} className="text-blue-400 shrink-0" />
+                            <span className="text-white/50 text-sm">India</span>
                         </li>
-                        <li className="flex gap-3">
-                            <Phone size={20} className="text-blue-400 shrink-0" />
-                            <span className="text-slate-400 text-sm">1800-SECURE-SHIELD</span>
+                        <li className="flex items-center gap-3">
+                            <Phone size={18} className="text-blue-400 shrink-0" />
+                            <span className="text-white/50 text-sm">1800-SECURE-SHIELD</span>
                         </li>
-                        <li className="flex gap-3">
-                            <Mail size={20} className="text-blue-400 shrink-0" />
-                            <span className="text-slate-400 text-sm">Shahsujal14@gmail.com</span>
+                        <li className="flex items-center gap-3">
+                            <Mail size={18} className="text-blue-400 shrink-0" />
+                            <span className="text-white/50 text-sm">Shahsujal14@gmail.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="text-slate-500 text-xs text-center md:text-left">
+                <div className="text-white/30 text-xs text-center md:text-left font-medium">
                     © 2026 Secure Shield Insurance Brokers // All Rights Reserved
                 </div>
-                <div className="flex gap-8 text-slate-500 text-xs">
+                <div className="flex gap-8 text-white/30 text-xs font-medium">
                     <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
                     <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
                     <a href="#" className="hover:text-white transition-colors">Refund Policy</a>
