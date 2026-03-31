@@ -425,93 +425,113 @@ const Testimonials = () => (
 );
 
 const CTABanner = () => (
-    <section className="py-20 bg-white relative">
+    <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="bg-[#3b82f6] rounded-3xl p-12 md:p-20 text-center space-y-8 relative overflow-hidden shadow-2xl">
+            <div className="bg-gradient-to-br from-[#002b45] via-[#134e8d] to-[#002b45] rounded-[3rem] p-12 md:p-24 text-center space-y-10 relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,43,69,0.3)] border border-white/10">
                 {/* Background Decorations */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-3xl rounded-full -mr-20 -mt-20" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 blur-3xl rounded-full -ml-10 -mb-10" />
+                <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-400/10 blur-[100px] rounded-full -mr-32 -mt-32 animate-pulse-slow" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 blur-[100px] rounded-full -ml-32 -mb-32 animate-pulse-slow" style={{ animationDelay: '2s' }} />
+                
+                <Reveal direction="up">
+                    <div className="space-y-6 relative z-10">
+                        <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight">
+                            Ready to Protect <br className="hidden md:block" /> Your Future?
+                        </h2>
+                        <p className="text-blue-100/70 text-base md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+                            Join over 10,000+ Indians who have already secured their family's health, life, and assets with Secure Shield's military-grade protection.
+                        </p>
+                    </div>
+                </Reveal>
 
-                <h2 className="text-3xl md:text-5xl font-bold text-white tracking-tight relative z-10">
-                    Ready to Protect Your Future?
-                </h2>
-                <p className="text-blue-100 text-base md:text-lg font-medium max-w-2xl mx-auto relative z-10">
-                    Join thousands of Indians who have already secured their family's health and assets with Secure Shield.
-                </p>
-                <div className="relative z-10 pt-6">
-                    <Link to="/register" className="inline-flex h-14 px-10 bg-white text-[#3b82f6] font-bold rounded-lg items-center hover:bg-blue-50 hover:scale-105 transition-all shadow-lg uppercase tracking-wider text-sm">
-                        Register Now
-                    </Link>
-                </div>
+                <Reveal direction="up" delay={0.2}>
+                    <div className="relative z-10 pt-8 flex flex-col sm:flex-row justify-center gap-4">
+                        <Link to="/register" className="h-16 px-12 bg-white text-[#002b45] font-bold rounded-2xl items-center flex justify-center hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-xl uppercase tracking-[2px] text-xs">
+                            Start Application Now
+                        </Link>
+                        <Link to="/policies" className="h-16 px-12 bg-white/10 backdrop-blur-md text-white font-bold rounded-2xl items-center flex justify-center hover:bg-white/20 transition-all border border-white/20 uppercase tracking-[2px] text-xs">
+                            Browse All Plans
+                        </Link>
+                    </div>
+                </Reveal>
             </div>
         </div>
     </section>
 );
 
 const Footer = () => (
-    <footer className="pt-20 pb-10 bg-[#002b45] text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid lg:grid-cols-4 gap-12 mb-16">
-                <div className="space-y-6">
-                    <Link to="/" className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-[#002b45] shadow-lg">
-                            <Shield size={22} strokeWidth={2.5} />
+    <footer className="pt-24 pb-12 bg-[#002b45] text-white relative overflow-hidden border-t border-white/5">
+        {/* Subtle Background Glows */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-emerald-500/5 blur-[150px] rounded-full pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div className="grid lg:grid-cols-4 gap-16 mb-20">
+                <div className="space-y-8">
+                    <Link to="/" className="flex items-center gap-3 group">
+                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[#002b45] shadow-xl group-hover:rotate-6 transition-transform">
+                            <Shield size={26} strokeWidth={2.5} />
                         </div>
-                        <span className="text-xl font-bold text-white tracking-tight uppercase tracking-widest">Secure Shield</span>
+                        <span className="text-2xl font-bold text-white tracking-tighter uppercase tracking-[3px]">Secure <span className="text-blue-400">Shield</span></span>
                     </Link>
-                    <p className="text-white/60 text-sm leading-relaxed">
-                        Leading insurance platform in India providing innovative and customer-centric insurance solutions. Protecting your legacy with trust and transparency.
+                    <p className="text-slate-300/80 text-sm leading-relaxed font-medium">
+                        India's premier digital insurance ecosystem. We leverage state-of-the-art security and innovative technology to protect what matters most to you.
                     </p>
-                    <div className="flex gap-3">
-                        {/* Social Media Icons Removed as per request */}
+                    <div className="flex gap-4">
+                        {/* Placeholder for social if needed in future */}
                     </div>
                 </div>
 
                 <div>
-                    <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Quick Links</h4>
-                    <ul className="space-y-4">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-50">Discovery</h4>
+                    <ul className="space-y-5">
                         {["Home", "About Us", "Our Policies", "Careers", "Contact Support"].map(l => (
-                            <li key={l}><a href="#" className="text-white/50 hover:text-white text-sm transition-colors">{l}</a></li>
+                            <li key={l}><a href="#" className="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all text-sm font-medium">{l}</a></li>
                         ))}
                     </ul>
                 </div>
 
                 <div>
-                    <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Policies</h4>
-                    <ul className="space-y-4">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-50">Solutions</h4>
+                    <ul className="space-y-5">
                         {["Health Insurance", "Life Insurance", "Vehicle Insurance", "Home Insurance", "Travel Insurance"].map(l => (
-                            <li key={l}><a href="#" className="text-white/50 hover:text-white text-sm transition-colors">{l}</a></li>
+                            <li key={l}><a href="#" className="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all text-sm font-medium">{l}</a></li>
                         ))}
                     </ul>
                 </div>
 
                 <div>
-                    <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-8">Contact</h4>
-                    <ul className="space-y-4">
-                        <li className="flex items-center gap-3">
-                            <MapPin size={18} className="text-blue-400 shrink-0" />
-                            <span className="text-white/50 text-sm">India</span>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-50">Connect</h4>
+                    <ul className="space-y-6">
+                        <li className="flex items-center gap-4 group">
+                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                                <MapPin size={18} strokeWidth={2} />
+                            </div>
+                            <span className="text-slate-300 text-sm font-semibold tracking-tight">India</span>
                         </li>
-                        <li className="flex items-center gap-3">
-                            <Phone size={18} className="text-blue-400 shrink-0" />
-                            <span className="text-white/50 text-sm">1800-SECURE-SHIELD</span>
+                        <li className="flex items-center gap-4 group">
+                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                                <Phone size={18} strokeWidth={2} />
+                            </div>
+                            <span className="text-slate-300 text-sm font-semibold tracking-tight uppercase">1800-SECURE-SHIELD</span>
                         </li>
-                        <li className="flex items-center gap-3">
-                            <Mail size={18} className="text-blue-400 shrink-0" />
-                            <span className="text-white/50 text-sm">Shahsujal14@gmail.com</span>
+                        <li className="flex items-center gap-4 group">
+                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                                <Mail size={18} strokeWidth={2} />
+                            </div>
+                            <span className="text-slate-300 text-sm font-semibold tracking-tight">Shahsujal14@gmail.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="text-white/30 text-xs text-center md:text-left font-medium">
-                    © 2026 Secure Shield Insurance Brokers // All Rights Reserved
+            <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
+                <div className="text-slate-500 text-[10px] font-bold uppercase tracking-[2px] text-center md:text-left">
+                    © 2026 Secure Shield Insurance Brokers // Excellence in Protection
                 </div>
-                <div className="flex gap-8 text-white/30 text-xs font-medium">
-                    <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-                    <a href="#" className="hover:text-white transition-colors">Refund Policy</a>
+                <div className="flex gap-10 text-slate-500 text-[10px] font-bold uppercase tracking-[2px]">
+                    <a href="#" className="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" className="hover:text-white transition-colors">Terms</a>
+                    <a href="#" className="hover:text-white transition-colors">Refunds</a>
                 </div>
             </div>
         </div>
