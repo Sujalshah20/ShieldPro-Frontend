@@ -25,7 +25,7 @@ const AdminPolicies = () => {
         description: "",
         premiumAmount: "",
         coverageAmount: "",
-        duration: "12 Months"
+        durationYears: 1
     });
 
     const { data: policies, isLoading } = useQuery({
@@ -40,7 +40,7 @@ const AdminPolicies = () => {
             queryClient.invalidateQueries(['adminPolicies']);
             toast({ title: "Policy created successfully" });
             setIsModalOpen(false);
-            setNewPolicy({ policyName: "", policyType: "Health", description: "", premiumAmount: "", coverageAmount: "", duration: "12 Months" });
+            setNewPolicy({ policyName: "", policyType: "Health", description: "", premiumAmount: "", coverageAmount: "", durationYears: 1 });
         },
         onError: () => toast({ title: "Failed to create policy", variant: "destructive" })
     });
@@ -326,7 +326,7 @@ const AdminPolicies = () => {
                                                 className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
                                                 placeholder="999"
                                                 value={newPolicy.premiumAmount}
-                                                onChange={e => setNewPolicy({...newPolicy, premiumAmount: e.target.value})}
+                                                onChange={e => setNewPolicy({...newPolicy, premiumAmount: Number(e.target.value)})}
                                             />
                                         </div>
                                         <div className="space-y-2.5">
@@ -336,9 +336,19 @@ const AdminPolicies = () => {
                                                 className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
                                                 placeholder="10,00,000"
                                                 value={newPolicy.coverageAmount}
-                                                onChange={e => setNewPolicy({...newPolicy, coverageAmount: e.target.value})}
+                                                onChange={e => setNewPolicy({...newPolicy, coverageAmount: Number(e.target.value)})}
                                             />
                                         </div>
+                                    </div>
+                                    <div className="space-y-2.5">
+                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Duration (Years)</label>
+                                        <input 
+                                            type="number"
+                                            className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
+                                            placeholder="1"
+                                            value={newPolicy.durationYears}
+                                            onChange={e => setNewPolicy({...newPolicy, durationYears: parseInt(e.target.value) || 1})}
+                                        />
                                     </div>
                                 </div>
                                 <div className="pt-6 flex gap-6">
