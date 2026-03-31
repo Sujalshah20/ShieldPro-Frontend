@@ -1,24 +1,16 @@
 import React, { useContext, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
-import { TableSkeleton } from "../../components/common/Skeleton";
 import { 
-    Users, Mail, Phone, ExternalLink, FileText, 
-    ShieldCheck, Search, Activity, Target, 
-    Fingerprint, Globe, Command, Briefcase,
-    ChevronRight, ArrowLeft, IndianRupee, Zap,
-    Shield, Lock, Award, Terminal, X, Layers,
-    Satellite, SearchCheck, RefreshCcw,
-    Bell, Filter, Download, Eye
+    Users, Mail, Phone, Search, Filter, 
+    Download, ChevronRight, Bell, CreditCard,
+    CheckCircle2, Clock, XCircle
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useToast } from "../../hooks/use-toast";
-import Reveal from "../../components/common/Reveal";
+import { motion } from "framer-motion";
 
 const AgentClients = () => {
     const { user } = useContext(AuthContext);
-    const { toast } = useToast();
     const [searchQuery, setSearchQuery] = useState("");
 
     const { data: clients, isLoading } = useQuery({
@@ -40,160 +32,166 @@ const AgentClients = () => {
     );
 
     return (
-        <div className="py-6 space-y-6">
-            {/* Header Section */}
-            <div className="flex items-center justify-between pb-2">
-                <div className="flex items-center gap-3">
-                    <h1 className="text-2xl font-black text-black uppercase tracking-tighter italic">Customer Database_</h1>
-                    <span className="px-3 py-1 bg-black text-white text-[9px] font-black rounded-lg uppercase tracking-[3px] italic shadow-3xl">
+        <div className="py-6 space-y-8 font-sans">
+            {/* Page Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div className="flex items-center gap-4">
+                    <h1 className="text-2xl font-bold text-[#002b45]">Customer Database</h1>
+                    <span className="px-3 py-1 bg-slate-100 text-[#134e8d] text-[11px] font-bold rounded-full uppercase tracking-widest">
                         {clients?.length || 1248} TOTAL
                     </span>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <Bell size={20} className="text-black/40 cursor-pointer hover:text-black transition-colors" />
-                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-rose-500 border-2 border-white rounded-full"></span>
-                    </div>
-                    <div className="flex items-center gap-3 pl-4 border-l border-slate-200">
-                        <div className="text-right hidden sm:block">
-                            <p className="text-[13px] font-black text-black uppercase tracking-tight italic">Rajesh Kumar</p>
-                            <p className="text-[9px] font-black text-black/40 uppercase tracking-[3px] text-right italic">Senior Agent</p>
+                <div className="flex items-center gap-6">
+                    <button className="relative p-2 text-slate-400 hover:text-[#134e8d] transition-colors">
+                        <Bell size={22} />
+                        <span className="absolute top-2 right-2 w-2 h-2 bg-rose-500 border-2 border-white rounded-full"></span>
+                    </button>
+                    <div className="flex items-center gap-4 pl-6 border-l border-slate-200">
+                        <div className="text-right">
+                            <p className="text-sm font-bold text-[#002b45]">Rajesh Kumar</p>
+                            <p className="text-[11px] text-slate-400 font-medium">Senior Agent</p>
                         </div>
-                        <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center text-white font-black text-sm shadow-3xl italic">
+                        <div className="w-10 h-10 rounded-full bg-[#002b45] flex items-center justify-center text-white font-bold text-sm shadow-lg">
                             RK
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Filters & Actions */}
-            <div className="flex flex-col lg:flex-row gap-4">
-                <div className="flex-1 relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30" size={18} />
+            {/* Filters Bar */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                <div className="lg:col-span-6 relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
                         type="text" 
                         placeholder="Search customers by name, email, phone or..." 
-                        className="w-full pl-12 pr-4 h-12 bg-white border border-slate-200 rounded-xl outline-none focus:ring-4 focus:ring-black/5 transition-all text-[14px] font-bold text-black shadow-sm"
+                        className="w-full pl-12 pr-4 h-12 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/5 focus:border-[#134e8d]/30 transition-all text-sm outline-none"
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                     />
                 </div>
-                <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-1 lg:pb-0">
-                    <div className="relative min-w-[180px]">
-                        <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-black/30" size={16} />
-                        <select className="w-full pl-10 pr-10 h-12 bg-white border border-slate-200 rounded-xl outline-none appearance-none text-[13px] font-bold text-black cursor-pointer hover:border-black/20 transition-all shadow-sm">
-                            <option>Policy Type: All</option>
-                            <option>Health Insurance</option>
-                            <option>Vehicle Insurance</option>
-                            <option>Life Insurance</option>
-                        </select>
-                        <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 rotate-90" />
-                    </div>
-                    <div className="relative min-w-[160px]">
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center">
-                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/10"></div>
-                        </div>
-                        <select className="w-full pl-10 pr-10 h-12 bg-white border border-slate-200 rounded-xl outline-none appearance-none text-[11px] font-black text-black cursor-pointer hover:border-black/20 transition-all shadow-sm italic uppercase tracking-widest">
-                            <option>Status: Active</option>
-                            <option>Inactive</option>
-                            <option>Pending</option>
-                        </select>
-                        <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-black/30 rotate-90" />
-                    </div>
-                    <button className="h-12 px-6 bg-black text-white rounded-xl font-black text-[11px] flex items-center justify-center gap-3 hover:bg-black/90 transition-all shadow-3xl uppercase tracking-widest italic border-b-4 border-white/10">
-                        <Download size={18} /> EXPORT_LIST
+                <div className="lg:col-span-2 relative">
+                    <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <select className="w-full pl-10 pr-10 h-12 bg-white border border-slate-200 rounded-xl appearance-none text-[13px] font-medium text-slate-600 outline-none cursor-pointer">
+                        <option>Policy Type: All</option>
+                    </select>
+                    <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 rotate-90" />
+                </div>
+                <div className="lg:col-span-2 relative">
+                    <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <select className="w-full pl-10 pr-10 h-12 bg-white border border-slate-200 rounded-xl appearance-none text-[13px] font-medium text-slate-600 outline-none cursor-pointer">
+                        <option>Status: Active</option>
+                    </select>
+                    <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 rotate-90" />
+                </div>
+                <div className="lg:col-span-2">
+                    <button className="w-full h-12 bg-white border border-slate-200 text-[#002b45] rounded-xl font-bold text-[13px] flex items-center justify-center gap-3 hover:bg-slate-50 transition-all">
+                        <Download size={18} /> Export
                     </button>
                 </div>
             </div>
 
-            {/* Customer Table */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[500px] flex flex-col">
+            {/* Main Table */}
+            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="border-b border-slate-100">
-                                <th className="pl-8 pr-4 py-5 text-[11px] font-black text-black/40 uppercase tracking-widest">Customer Name</th>
-                                <th className="px-4 py-5 text-[11px] font-black text-black/40 uppercase tracking-widest">Contact Information</th>
-                                <th className="px-4 py-5 text-[11px] font-black text-black/40 uppercase tracking-widest text-center">Policies</th>
-                                <th className="px-4 py-5 text-[11px] font-black text-black/40 uppercase tracking-widest text-left">Total Premium (₹)</th>
-                                <th className="px-4 py-5 text-[11px] font-black text-black/40 uppercase tracking-widest">Status</th>
-                                <th className="pl-4 pr-8 py-5 text-[11px] font-black text-black/40 uppercase tracking-widest text-right">Action</th>
+                            <tr className="bg-slate-50/50 border-b border-slate-100">
+                                <th className="pl-10 pr-4 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Customer Name</th>
+                                <th className="px-4 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Contact Information</th>
+                                <th className="px-4 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Policies</th>
+                                <th className="px-4 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Total Premium (₹)</th>
+                                <th className="px-4 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                                <th className="pl-4 pr-10 py-5 text-[11px] font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                            {filteredClients?.map((client, idx) => (
-                                <tr key={client._id} className="group hover:bg-slate-50/50 transition-colors cursor-pointer">
-                                    <td className="pl-8 pr-4 py-5">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-11 h-11 rounded-full overflow-hidden border border-slate-100">
-                                                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${client.name}`} alt="" className="w-full h-full object-cover" />
+                            {(filteredClients || Array(4).fill({})).map((client, idx) => {
+                                // Mock data for empty states if API returns less than 4
+                                const name = client.name || ['Arjun Mehta', 'Priya Sharma', 'Rohan Gupta', 'Ananya Iyer'][idx % 4];
+                                const email = client.email || ['arjun.m@example.com', 'priya.s@corp.com', 'rohan.g@web.in', 'ananya.i@email.co.in'][idx % 4];
+                                const phone = client.phone || ['+91 98765 43210', '+91 98234 56789', '+91 99887 76655', '+91 91234 87654'][idx % 4];
+                                const activeCount = client.activePolicyCount || [3, 1, 0, 4][idx % 4];
+                                const premium = client.totalPremium || [125000, 45000, 82500, 210000][idx % 4];
+                                const status = (client.isVerified || idx % 4 !== 2) ? 'ACTIVE' : 'INACTIVE';
+                                const paymentLabel = ['PAID ANNUALLY', 'MONTHLY INSTALLMENT', 'PREMIUM OVERDUE', 'PREMIUM PAID'][idx % 4];
+
+                                return (
+                                    <tr key={client._id || idx} className="hover:bg-slate-50/50 transition-colors group">
+                                        <td className="pl-10 pr-4 py-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-full overflow-hidden bg-slate-100 border border-white shadow-sm">
+                                                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`} alt="" className="w-full h-full object-cover" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="text-[15px] font-bold text-[#002b45]">{name}</span>
+                                                    <span className="text-[11px] text-slate-400 font-medium tracking-tight">ID: SS-{(client._id || '9842').slice(-4).toUpperCase()}</span>
+                                                </div>
                                             </div>
+                                        </td>
+                                        <td className="px-4 py-6">
+                                            <div className="space-y-1.5">
+                                                <div className="flex items-center gap-2.5 text-slate-500 text-[13px] font-medium">
+                                                    <Mail size={14} className="text-slate-300" /> {email}
+                                                </div>
+                                                <div className="flex items-center gap-2.5 text-slate-500 text-[13px] font-medium">
+                                                    <Phone size={14} className="text-slate-300" /> {phone}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-6">
+                                            <span className="px-4 py-1.5 bg-slate-100 text-[#134e8d] rounded-full text-[12px] font-bold">
+                                                {activeCount} active
+                                            </span>
+                                        </td>
+                                        <td className="px-4 py-6">
                                             <div className="flex flex-col">
-                                                <span className="text-[14px] font-black text-black leading-tight uppercase italic">{client.name}</span>
-                                                <span className="text-[10px] font-black text-black/30 uppercase tracking-[3px] mt-1.5 italic">ID: SS-{client._id.slice(-4).toUpperCase()}</span>
+                                                <span className="text-[16px] font-bold text-[#002b45]">₹{premium.toLocaleString()}</span>
+                                                <span className={`text-[10px] font-bold mt-1 ${
+                                                    paymentLabel === 'PREMIUM OVERDUE' ? 'text-rose-500' : 
+                                                    paymentLabel === 'MONTHLY INSTALLMENT' ? 'text-slate-400' : 'text-emerald-500'
+                                                }`}>
+                                                    {paymentLabel}
+                                                </span>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-5">
-                                        <div className="space-y-2">
-                                            <div className="flex items-center gap-3 text-black/60 font-black text-[10px] uppercase tracking-wider italic">
-                                                <Mail size={14} className="text-black/20" /> {client.email}
+                                        </td>
+                                        <td className="px-4 py-6">
+                                            <div className="flex items-center gap-2.5">
+                                                <div className={`w-2 h-2 rounded-full ${status === 'ACTIVE' ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                                                <span className={`text-[12px] font-bold ${status === 'ACTIVE' ? 'text-emerald-500' : 'text-slate-400'}`}>
+                                                    {status}
+                                                </span>
                                             </div>
-                                            <div className="flex items-center gap-3 text-black/60 font-black text-[10px] uppercase tracking-wider italic">
-                                                <Phone size={14} className="text-black/20" /> {client.phone || '+91 98765 43210'}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-5">
-                                        <div className="flex justify-center">
-                                            <span className="px-4 py-1.5 bg-black text-white rounded-lg text-[9px] font-black uppercase tracking-[3px] italic shadow-3xl">
-                                                {client.activePolicyCount || (idx % 4)} ACTIVE_PROTOCOL
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-5">
-                                        <div className="flex flex-col">
-                                            <span className="text-[14px] font-extrabold text-black">₹{((idx + 1) * 45000 + (idx * 500)).toLocaleString()}</span>
-                                            <span className={`text-[10px] font-bold uppercase tracking-tight mt-0.5 ${idx % 3 === 2 ? 'text-rose-500' : 'text-emerald-500'}`}>
-                                                {idx % 3 === 2 ? 'Premium Overdue' : idx % 3 === 1 ? 'Monthly Installment' : 'Paid Annually'}
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-5">
-                                        <div className="flex items-center gap-2">
-                                            <div className={`w-2 h-2 rounded-full ${client.isVerified || idx % 4 !== 2 ? 'bg-emerald-500' : 'bg-black/20'}`} />
-                                            <span className={`text-[12px] font-black uppercase tracking-wider ${client.isVerified || idx % 4 !== 2 ? 'text-emerald-500' : 'text-black/40'}`}>
-                                                {client.isVerified || idx % 4 !== 2 ? 'Active' : 'Inactive'}
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td className="pl-4 pr-8 py-5 text-right">
-                                        <button className="p-2 text-black/20 hover:text-black rounded-lg transition-colors">
-                                            <ChevronRight size={20} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td className="pl-4 pr-10 py-6 text-right">
+                                            <button className="p-2 text-slate-300 hover:text-[#134e8d] hover:bg-slate-100 rounded-lg transition-all">
+                                                <ChevronRight size={20} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
 
-                {/* Pagination */}
-                <div className="mt-auto px-8 py-6 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-[12px] font-bold text-black/40">
-                        Showing 1 to {filteredClients?.length || 10} of {clients?.length || 1248} customers
+                {/* Table Footer / Pagination */}
+                <div className="px-10 py-8 bg-slate-50/30 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <p className="text-[14px] text-slate-400 font-medium">
+                        Showing <span className="text-slate-600 font-bold">1 to 10</span> of <span className="text-slate-600 font-bold">{clients?.length || 1248}</span> customers
                     </p>
-                    <div className="flex items-center gap-1.5">
-                        <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-black/30 hover:text-black transition-colors">
-                            <ChevronRight className="rotate-180" size={16} />
+                    <div className="flex items-center gap-2">
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 text-slate-300 hover:text-slate-600 hover:border-slate-300 transition-all">
+                            <ChevronRight className="rotate-180" size={18} />
                         </button>
-                        <button className="w-8 h-8 flex items-center justify-center rounded-lg bg-black text-white font-bold text-[12px] shadow-md shadow-black/20">1</button>
-                        <button className="w-8 h-8 flex items-center justify-center rounded-lg text-black/40 font-bold text-[12px] hover:bg-black/5 transition-colors">2</button>
-                        <button className="w-8 h-8 flex items-center justify-center rounded-lg text-black/40 font-bold text-[12px] hover:bg-black/5 transition-colors">3</button>
-                        <span className="text-black/20 px-1 font-bold">...</span>
-                        <button className="w-8 h-8 flex items-center justify-center rounded-lg text-black/40 font-bold text-[12px] hover:bg-black/5 transition-colors">125</button>
-                        <button className="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-black/30 hover:text-black transition-colors">
-                            <ChevronRight size={16} />
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#002b45] text-white font-bold text-[14px] shadow-lg shadow-blue-900/20">1</button>
+                        {[2, 3].map(n => (
+                            <button key={n} className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 font-bold text-[14px] hover:bg-slate-100 transition-all">{n}</button>
+                        ))}
+                        <span className="text-slate-300 px-1 font-bold">...</span>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 font-bold text-[14px] hover:bg-slate-100 transition-all">125</button>
+                        <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-200 text-slate-300 hover:text-slate-600 hover:border-slate-300 transition-all">
+                            <ChevronRight size={18} />
                         </button>
                     </div>
                 </div>
