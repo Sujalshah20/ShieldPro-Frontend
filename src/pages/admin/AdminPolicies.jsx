@@ -19,7 +19,19 @@ const AdminPolicies = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [activeTab, setActiveTab] = useState("All Policies");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [selectedPolicy, setSelectedPolicy] = useState(null);
     const [newPolicy, setNewPolicy] = useState({
+        policyName: "",
+        policyType: "Health",
+        description: "",
+        premiumAmount: "",
+        coverageAmount: "",
+        durationYears: 1
+    });
+    const [editPolicy, setEditPolicy] = useState({
         policyName: "",
         policyType: "Health",
         description: "",
@@ -45,13 +57,56 @@ const AdminPolicies = () => {
         onError: () => toast({ title: "Failed to create policy", variant: "destructive" })
     });
 
+    const updateMutation = useMutation({
+        mutationFn: (data) => api.put(`/policies/${data._id}`, data, user.token),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['adminPolicies']);
+            toast({ title: "Policy updated successfully" });
+            setIsEditModalOpen(false);
+            setSelectedPolicy(null);
+        },
+        onError: (err) => toast({ 
+            title: "Update failed", 
+            description: err.message, 
+            variant: "destructive" 
+        })
+    });
+
     const deleteMutation = useMutation({
         mutationFn: (id) => api.delete(`/policies/${id}`, user.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminPolicies']);
             toast({ title: "Policy deleted successfully" });
-        }
+        },
+        onError: (err) => toast({ 
+            title: "Delete failed", 
+            description: err.message, 
+            variant: "destructive" 
+        })
     });
+
+    const handleEditClick = (p) => {
+        setSelectedPolicy(p);
+        setEditPolicy({ ...p });
+        setIsEditModalOpen(true);
+    };
+
+    const handleViewClick = (p) => {
+        setSelectedPolicy(p);
+        setIsViewModalOpen(true);
+    };
+
+    const handleDeleteClick = (p) => {
+        setSelectedPolicy(p);
+        setIsDeleteModalOpen(true);
+    };
+
+    const confirmDelete = () => {
+        if (selectedPolicy) {
+            deleteMutation.mutate(selectedPolicy._id);
+            setIsDeleteModalOpen(false);
+        }
+    };
 
     const mockStats = {
         Health: { range: "₹8,500 - ₹45,000", duration: "12 Months", customers: "1,248", status: "Active" },
@@ -210,14 +265,20 @@ const AdminPolicies = () => {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all">
-                                                <button className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black">
+                                                <button 
+                                                    onClick={() => handleEditClick(p)}
+                                                    className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black"
+                                                >
                                                     <Edit size={14} strokeWidth={3} />
                                                 </button>
-                                                <button className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black">
+                                                <button 
+                                                    onClick={() => handleViewClick(p)}
+                                                    className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-blue-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black"
+                                                >
                                                     <Eye size={14} strokeWidth={3} />
                                                 </button>
                                                 <button 
-                                                    onClick={() => deleteMutation.mutate(p._id)}
+                                                    onClick={() => handleDeleteClick(p)}
                                                     className="p-2 bg-white border border-slate-100 text-black opacity-30 hover:opacity-100 hover:text-rose-600 rounded-lg shadow-sm hover:scale-110 transition-all font-black"
                                                 >
                                                     <Trash2 size={14} strokeWidth={3} />
@@ -368,6 +429,221 @@ const AdminPolicies = () => {
                                     </button>
                                 </div>
                             </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Edit Modal */}
+            <AnimatePresence>
+                {isEditModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/30 backdrop-blur-lg">
+                        <motion.div 
+                            initial={{ scale: 0.9, opacity: 0, y: 30 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 30 }}
+                            className="bg-white rounded-[3.5rem] w-full max-w-2xl overflow-hidden shadow-2xl border border-slate-100"
+                        >
+                            <div className="pt-12 px-12 pb-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/20">
+                                <div className="space-y-1">
+                                    <h2 className="text-3xl font-black text-black tracking-tight italic leading-tight uppercase">Update Protocol</h2>
+                                    <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">Refining Policy Parameters // ID: {selectedPolicy?._id.slice(-8)}</p>
+                                </div>
+                                <button onClick={() => setIsEditModalOpen(false)} className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-black opacity-20 hover:opacity-100 hover:text-rose-500 hover:scale-110 transition-all shadow-sm">
+                                    <X size={24} strokeWidth={3} />
+                                </button>
+                            </div>
+                            <form 
+                                className="p-12 space-y-8"
+                                onSubmit={(e) => { e.preventDefault(); updateMutation.mutate(editPolicy); }}
+                            >
+                                <div className="space-y-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="space-y-2.5">
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Protocol Identifier</label>
+                                            <input 
+                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
+                                                value={editPolicy.policyName}
+                                                onChange={e => setEditPolicy({...editPolicy, policyName: e.target.value})}
+                                            />
+                                        </div>
+                                        <div className="space-y-2.5">
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Categorization Node</label>
+                                            <div className="relative">
+                                                <select 
+                                                    className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all appearance-none cursor-pointer shadow-inner tracking-tight"
+                                                    value={editPolicy.policyType}
+                                                    onChange={e => setEditPolicy({...editPolicy, policyType: e.target.value})}
+                                                >
+                                                    <option>Health</option>
+                                                    <option>Life</option>
+                                                    <option>Auto</option>
+                                                    <option>Home</option>
+                                                </select>
+                                                <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-black opacity-20 pointer-events-none" size={18} strokeWidth={3} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2.5">
+                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Coverage Scope Matrix</label>
+                                        <textarea 
+                                            className="w-full h-32 bg-slate-50 border border-slate-100 rounded-2xl px-6 py-5 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all resize-none shadow-inner tracking-tight"
+                                            value={editPolicy.description}
+                                            onChange={e => setEditPolicy({...editPolicy, description: e.target.value})}
+                                        />
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="space-y-2.5">
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Base Premium (₹)</label>
+                                            <input 
+                                                type="number"
+                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
+                                                value={editPolicy.premiumAmount}
+                                                onChange={e => setEditPolicy({...editPolicy, premiumAmount: Number(e.target.value)})}
+                                            />
+                                        </div>
+                                        <div className="space-y-2.5">
+                                            <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Coverage Ceiling (₹)</label>
+                                            <input 
+                                                type="number"
+                                                className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
+                                                value={editPolicy.coverageAmount}
+                                                onChange={e => setEditPolicy({...editPolicy, coverageAmount: Number(e.target.value)})}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2.5">
+                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[3px] pl-1 h-4 italic">Duration (Years)</label>
+                                        <input 
+                                            type="number"
+                                            className="w-full h-15 bg-slate-50 border border-slate-100 rounded-2xl px-6 text-[13px] font-black uppercase italic outline-none focus:bg-white focus:border-blue-500 transition-all shadow-inner tracking-tight"
+                                            value={editPolicy.durationYears}
+                                            onChange={e => setEditPolicy({...editPolicy, durationYears: parseInt(e.target.value) || 1})}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="pt-6 flex gap-6">
+                                    <button 
+                                        type="button"
+                                        onClick={() => setIsEditModalOpen(false)}
+                                        className="flex-1 h-16 bg-white border-2 border-slate-100 text-black opacity-30 hover:opacity-100 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-slate-50 transition-all italic active:scale-95"
+                                    >
+                                        Discard
+                                    </button>
+                                    <button 
+                                        type="submit"
+                                        disabled={updateMutation.isPending}
+                                        className="flex-[2] h-16 bg-[#1e293b] text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#0f172a] transition-all shadow-2xl shadow-slate-900/30 active:scale-95 disabled:opacity-50 italic border-b-4 border-black/20"
+                                    >
+                                        {updateMutation.isPending ? "Updating..." : "Deploy Updates"}
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* View Modal */}
+            <AnimatePresence>
+                {isViewModalOpen && selectedPolicy && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/30 backdrop-blur-lg">
+                        <motion.div 
+                            initial={{ scale: 0.9, opacity: 0, y: 30 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 30 }}
+                            className="bg-white rounded-[3.5rem] w-full max-w-2xl overflow-hidden shadow-2xl border border-slate-100"
+                        >
+                            <div className="pt-12 px-12 pb-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/20">
+                                <div className="space-y-1">
+                                    <h2 className="text-3xl font-black text-black tracking-tight italic leading-tight uppercase">Protocol Details</h2>
+                                    <p className="text-[10px] font-black text-black opacity-30 uppercase tracking-[4px] italic">Read-Only Asset Inspection // REF_{selectedPolicy._id.slice(-8)}</p>
+                                </div>
+                                <button onClick={() => setIsViewModalOpen(false)} className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-black opacity-20 hover:opacity-100 hover:text-rose-500 hover:scale-110 transition-all shadow-sm">
+                                    <X size={24} strokeWidth={3} />
+                                </button>
+                            </div>
+                            <div className="p-12 space-y-8">
+                                <div className="grid grid-cols-2 gap-12">
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block">Identity_Tag</span>
+                                        <span className="text-sm font-black text-black uppercase tracking-tighter italic">#POL-{selectedPolicy._id.slice(-5).toUpperCase()}</span>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block">Category_Node</span>
+                                        <span className="text-sm font-black text-black uppercase tracking-tighter italic">{selectedPolicy.policyType}</span>
+                                    </div>
+                                    <div className="col-span-2 space-y-1">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block">Manifest_Label</span>
+                                        <span className="text-xl font-black text-black uppercase tracking-tighter italic leading-none">{selectedPolicy.policyName}</span>
+                                    </div>
+                                    <div className="col-span-2 space-y-1 p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block mb-2">Scope_Parameters</span>
+                                        <p className="text-xs font-bold text-slate-600 uppercase italic leading-relaxed tracking-tight">{selectedPolicy.description}</p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block">Base_Premium</span>
+                                        <span className="text-lg font-black text-emerald-600 italic tracking-tighter">₹{selectedPolicy.premiumAmount.toLocaleString()}</span>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block">Coverage_Ceiling</span>
+                                        <span className="text-lg font-black text-blue-600 italic tracking-tighter">₹{selectedPolicy.coverageAmount.toLocaleString()}</span>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block">Lifecycle_Duration</span>
+                                        <span className="text-sm font-black text-slate-800 italic uppercase">{selectedPolicy.durationYears} Standard Year(s)</span>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] font-black text-black opacity-20 uppercase tracking-[3px] italic block">Created_By_Nexus</span>
+                                        <span className="text-[10px] font-black text-slate-400 italic uppercase">ID: {selectedPolicy.user?.substring(0, 8) || 'SYSTEM'}</span>
+                                    </div>
+                                </div>
+                                <button 
+                                    onClick={() => setIsViewModalOpen(false)}
+                                    className="w-full h-16 bg-black text-white rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-black/90 transition-all italic active:scale-95 mt-4"
+                                >
+                                    Dismiss Manifest
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+            {/* Delete Confirmation Modal */}
+            <AnimatePresence>
+                {isDeleteModalOpen && selectedPolicy && (
+                    <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-md">
+                        <motion.div 
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="bg-white rounded-[3rem] w-full max-w-md overflow-hidden shadow-2xl border border-slate-100"
+                        >
+                            <div className="p-10 space-y-6 text-center">
+                                <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-100">
+                                    <Trash2 size={32} className="text-rose-500" strokeWidth={3} />
+                                </div>
+                                <div className="space-y-2">
+                                    <h3 className="text-xl font-black text-black uppercase italic tracking-tighter">Confirm_Protocol_Purge</h3>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[4px] italic leading-relaxed px-4">
+                                        Are you certain you wish to terminate the <span className="text-black opacity-100">{selectedPolicy.policyName}</span> manifest? This action is irreversible.
+                                    </p>
+                                </div>
+                                <div className="flex gap-4 pt-4">
+                                    <button 
+                                        onClick={() => setIsDeleteModalOpen(false)}
+                                        className="flex-1 h-14 bg-white border border-slate-100 rounded-2xl font-black text-[10px] uppercase tracking-widest text-black/30 hover:text-black transition-all italic active:scale-95"
+                                    >
+                                        Abort
+                                    </button>
+                                    <button 
+                                        onClick={confirmDelete}
+                                        className="flex-1 h-14 bg-rose-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-rose-200 hover:bg-rose-700 transition-all italic active:scale-95"
+                                    >
+                                        Execute Purge
+                                    </button>
+                                </div>
+                            </div>
                         </motion.div>
                     </div>
                 )}
