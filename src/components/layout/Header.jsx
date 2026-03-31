@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
-    Shield, Search, Bell, Menu, X,
+    Shield, Search, Menu, X,
     LogOut, User, Settings, Plus,
     ChevronDown, Layout,
     Activity,
@@ -85,13 +85,7 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
 
             {/* Right Controls */}
             <div className="flex items-center gap-6">
-                {/* Notifications */}
-                <button className="relative w-11 h-11 flex items-center justify-center text-slate-500 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all group font-bold shadow-sm border border-slate-100">
-                    <Bell size={20} strokeWidth={2} className="group-hover:scale-110 transition-transform" />
-                    <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white" />
-                </button>
 
-                <div className="h-8 w-px bg-slate-200 mx-2" />
 
                 {/* Profile Section */}
                 <div className="relative">

@@ -12,7 +12,7 @@ import {
     Terminal, Zap, Compass, Briefcase,
     ShieldCheck, Globe, Lock, Award, X, Layers,
     Satellite, RefreshCcw, SearchCheck,
-    Eye, Bell
+    Eye
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";

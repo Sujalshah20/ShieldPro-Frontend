@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
     Shield, Mail, Lock, Eye, EyeOff, 
-    Chrome, Activity, Zap, ShieldCheck, Loader2, ArrowRight
+    Activity, Zap, ShieldCheck, Loader2, ArrowRight
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
@@ -148,31 +148,6 @@ const Login = () => {
         }
     };
 
-    const handleOAuthSuccess = async (provider, response) => {
-        try {
-            setIsLoading(true);
-            const { data } = await api.post(`/auth/oauth`, { provider, token: response.access_token || response.accessToken });
-            
-            // Need to update auth context directly since we bypassed login()
-            // We'll trust that navigating will trigger a session check or we set local user
-            if (setAuthData) setAuthData(data);
-            
-            toast({ title: "Login Successful", description: `Logged in via ${provider}` });
-            setTimeout(() => {
-                if (data.role === 'admin') navigate('/admin');
-                else if (data.role === 'agent') navigate('/agent');
-                else navigate('/customer');
-            }, 500);
-        } catch (error) {
-            toast({ 
-                title: `${provider} Login Failed`, 
-                description: error.response?.data?.message || `Failed to authenticate with ${provider}.`,
-                variant: "destructive" 
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
 
     return (
         <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#10b981] selection:text-white font-sans">

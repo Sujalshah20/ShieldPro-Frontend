@@ -1,7 +1,7 @@
 import React from "react";
 import { 
     Users, FileText, ShieldCheck, 
-    Bell, ChevronDown, MoreHorizontal,
+    ChevronDown, MoreHorizontal,
     ArrowUpRight, AlertCircle, PieChart as PieChartIcon,
     CreditCard
 } from "lucide-react";

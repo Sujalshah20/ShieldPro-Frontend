@@ -2,7 +2,7 @@ import React from "react";
 import { 
     Users, FileText, 
     TrendingUp, 
-    Search, Bell, 
+    Search, 
     Briefcase, AlertCircle,
     IndianRupee, ClipboardCheck,
     MoreHorizontal, Star, UserPlus,

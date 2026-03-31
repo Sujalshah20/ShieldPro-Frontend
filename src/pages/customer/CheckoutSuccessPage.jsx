@@ -7,9 +7,12 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 
+import { useAuth } from "../../context/AuthContext";
+
 const CheckoutSuccessPage = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const { user } = useAuth();
     
     // Mock data if state is missing (for testing)
     const policy = state?.policy || {
@@ -40,15 +43,11 @@ const CheckoutSuccessPage = () => {
             <header className="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-8 md:px-12 sticky top-0 z-50">
                 <Link to="/" className="flex items-center gap-3 group">
                     <div className="w-10 h-10 bg-[#002b45] rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
-                        <Shield size={22} strokeWidth={2.5} />
+                        <Shield size={22} strokeWidth={2.5} className="text-[#134e8d]" />
                     </div>
-                    <span className="text-xl font-bold text-white tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
+                    <span className="text-xl font-bold text-[#002b45] tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
                 </Link>
                 <div className="flex items-center gap-6">
-                    <button className="p-2 text-black opacity-30 hover:opacity-100 hover:bg-slate-50 rounded-full transition-all relative">
-                        <Bell size={22} strokeWidth={3} />
-                        <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
-                    </button>
                     <button className="flex items-center gap-4 p-1 pl-4 bg-slate-50 border border-slate-100 rounded-full hover:shadow-md transition-all group">
                         <span className="text-[11px] font-black text-black uppercase tracking-widest group-hover:text-[#134e8d] italic">IDENT_VERIFIED</span>
                         <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white shadow-inner font-black italic">
@@ -77,9 +76,9 @@ const CheckoutSuccessPage = () => {
 
                     {/* Congratulation text */}
                     <motion.div variants={itemVariants} className="text-center space-y-4 mb-12">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-                            Congratulations! Your Policy is Active.
-                        </h1>
+                <h1 className="text-4xl md:text-5xl font-extrabold text-[#002b45] tracking-tight">
+                    Congratulations! Your Policy is Active.
+                </h1>
                         <p className="text-black font-black uppercase tracking-[3px] text-[13px] opacity-40 max-w-2xl mx-auto leading-relaxed italic">
                             Your health coverage is now live. We've sent a detailed confirmation and the policy kit to your registered email address. NODE_STATUS: SYNC_STABLE.
                         </p>
@@ -91,10 +90,10 @@ const CheckoutSuccessPage = () => {
                         <motion.div variants={itemVariants} className="lg:col-span-7 bg-white p-10 rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50 relative overflow-hidden h-full">
                             <div className="flex items-center justify-between mb-10">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-white">
+                                    <div className="w-12 h-12 bg-[#134e8d]/10 rounded-xl flex items-center justify-center text-[#134e8d]">
                                         <FileText size={24} />
                                     </div>
-                                    <h2 className="text-2xl font-bold text-white">Purchase Summary</h2>
+                                    <h2 className="text-2xl font-bold text-[#002b45]">Purchase Summary</h2>
                                 </div>
                                 <div className="px-4 py-1.5 bg-emerald-50 text-emerald-600 text-[11px] font-black uppercase tracking-widest rounded-full border border-emerald-100 animate-pulse">
                                     ACTIVE
@@ -202,7 +201,7 @@ const CheckoutSuccessPage = () => {
                         </button>
                         <button 
                             onClick={() => navigate("/customer")}
-                            className="h-16 flex-1 bg-white text-white border-2 border-slate-100 rounded-2xl flex items-center justify-center font-bold hover:bg-slate-50 hover:border-slate-200 hover:translate-y-[-2px] transition-all shadow-lg"
+                            className="h-16 flex-1 bg-white text-[#002b45] border-2 border-[#002b45]/10 rounded-2xl flex items-center justify-center font-bold hover:bg-slate-50 hover:border-slate-200 hover:translate-y-[-2px] transition-all shadow-lg"
                         >
                             Go to My Dashboard
                         </button>

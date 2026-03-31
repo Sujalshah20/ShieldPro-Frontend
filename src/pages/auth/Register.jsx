@@ -1,31 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
-    Shield, CheckCircle2, ArrowRight, Loader2, Eye, EyeOff, Chrome, Facebook
+    Shield, CheckCircle2, ArrowRight, Loader2, Eye, EyeOff
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { api } from "../../utils/api";
 
-const CustomGoogleLoginButton = ({ onSuccess, onError }) => {
-    const login = useGoogleLogin({
-        onSuccess,
-        onError
-    });
-    return (
-        <button 
-            type="button" 
-            onClick={() => login()}
-            className="flex-1 h-14 bg-white border-2 border-slate-50 rounded-2xl flex items-center justify-center gap-4 text-black font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
-        >
-            <Chrome size={20} className="text-slate-400 group-hover:text-[#134e8d] transition-colors" />
-            Google
-        </button>
-    );
-};
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -41,32 +23,6 @@ const Register = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
 
-    const handleOAuthSuccess = async (provider, response) => {
-        try {
-            setIsLoading(true);
-            const { data } = await api.post(`/auth/oauth`, { provider, token: response.access_token || response.accessToken });
-            
-            if (setAuthData) setAuthData(data);
-            
-            toast({ title: "Login Successful", description: `Logged in via ${provider}` });
-            setTimeout(() => {
-                if (data.role === 'admin') navigate('/admin');
-                else if (data.role === 'agent') navigate('/agent');
-                else navigate('/customer');
-            }, 500);
-        } catch (error) {
-            toast({ 
-                title: `${provider} Login Failed`, 
-                description: error.response?.data?.message || `Failed to authenticate with ${provider}.`,
-                variant: "destructive" 
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "mock-client-id.apps.googleusercontent.com";
-    const FACEBOOK_APP_ID = import.meta.env.VITE_FACEBOOK_APP_ID || "mock-app-id";
 
     // Password Strength
     const passwordStrength = (password) => {
@@ -467,45 +423,7 @@ const Register = () => {
                                     )}
                                 </button>
                                 
-                                <div className="mt-10 space-y-6">
-                                    <div className="relative flex items-center gap-4">
-                                        <div className="h-[1px] flex-1 bg-slate-100" />
-                                        <div className="text-[11px] font-bold text-slate-300 uppercase tracking-[4px]">Or register with</div>
-                                        <div className="h-[1px] flex-1 bg-slate-100" />
-                                    </div>
-
-                                    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-                                        <div className="flex flex-col sm:flex-row gap-4">
-                                            <CustomGoogleLoginButton 
-                                                onSuccess={(res) => handleOAuthSuccess('Google', res)} 
-                                                onError={() => toast({ title: "Login Failed", description: "Google login failed. Please try again.", variant: "destructive" })}
-                                            />
-                                            
-                                            <FacebookLogin
-                                                appId={FACEBOOK_APP_ID}
-                                                autoLoad={false}
-                                                fields="name,email,picture"
-                                                callback={(res) => {
-                                                    if (res.error || !res.accessToken) {
-                                                        toast({ title: "Login Failed", description: "Facebook login failed. Please try again.", variant: "destructive" });
-                                                    } else {
-                                                        handleOAuthSuccess('Facebook', res);
-                                                    }
-                                                }}
-                                                render={renderProps => (
-                                                    <button 
-                                                        onClick={renderProps.onClick}
-                                                        disabled={renderProps.isDisabled}
-                                                        className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-black font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
-                                                    >
-                                                        <Facebook size={20} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
-                                                        Facebook
-                                                    </button>
-                                                )}
-                                            />
-                                        </div>
-                                    </GoogleOAuthProvider>
-
+                                <div className="mt-10">
                                     <p className="text-center text-black font-medium text-sm pt-4">
                                         Already have an account? <Link to="/login" className="text-[#134e8d] font-bold hover:underline">Log in</Link>
                                     </p>
