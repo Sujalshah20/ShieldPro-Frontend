@@ -16,16 +16,13 @@ const CustomGoogleLoginButton = ({ onSuccess, onError }) => {
         onSuccess,
         onError
     });
-    return (
         <button 
             type="button" 
             onClick={() => login()}
-            className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-black font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+            className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center text-black font-bold text-base hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
         >
-            <Chrome size={20} className="text-slate-400 group-hover:text-[#134e8d] transition-colors" />
             Google
         </button>
-    );
 };
 
 const Login = () => {
@@ -408,9 +405,8 @@ const Login = () => {
                                             <button 
                                                 onClick={renderProps.onClick}
                                                 disabled={renderProps.isDisabled}
-                                                className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center gap-4 text-black font-bold text-sm hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
+                                                className="flex-1 h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center text-black font-bold text-base hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
                                             >
-                                                <Facebook size={20} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
                                                 Facebook
                                             </button>
                                         )}
