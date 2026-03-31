@@ -7,24 +7,9 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../hooks/use-toast";
 import Reveal from "../../components/common/Reveal";
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import { api } from "../../utils/api";
 
-const CustomGoogleLoginButton = ({ onSuccess, onError }) => {
-    const login = useGoogleLogin({
-        onSuccess,
-        onError
-    });
-    return (
-        <button 
-            type="button" 
-            onClick={() => login()}
-            className="w-full h-14 bg-white border-2 border-slate-100 rounded-2xl flex items-center justify-center text-black font-bold text-base hover:bg-slate-50 hover:border-[#134e8d]/20 transition-all group"
-        >
-            Continue with Google
-        </button>
-    );
-};
+
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -189,11 +174,8 @@ const Login = () => {
         }
     };
 
-    const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "mock-client-id.apps.googleusercontent.com";
-
     return (
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-            <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#10b981] selection:text-white font-sans">
+        <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#10b981] selection:text-white font-sans">
                  <div className="w-full max-w-7xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3.5rem] overflow-hidden bg-white min-h-[90vh]">
                     
                     {/* Left Panel: Branding & Features */}
@@ -377,29 +359,13 @@ const Login = () => {
                                 </button>
                             </form>
 
-                                <div className="space-y-6">
-                                    <div className="relative flex items-center gap-4">
-                                        <div className="h-[1px] flex-1 bg-slate-100" />
-                                        <div className="text-[11px] font-bold text-slate-300 uppercase tracking-[4px]">Or login with</div>
-                                        <div className="h-[1px] flex-1 bg-slate-100" />
-                                    </div>
-
-                                    <div className="flex flex-col gap-4">
-                                        <CustomGoogleLoginButton 
-                                            onSuccess={(res) => handleOAuthSuccess('Google', res)} 
-                                            onError={() => toast({ title: "Login Failed", description: "Google login failed. Please try again.", variant: "destructive" })}
-                                        />
-                                    </div>
-
-                                    <p className="text-center text-black font-medium text-sm pt-4">
-                                        Don't have an account? <Link to="/register" className="text-[#134e8d] font-bold hover:underline">Register Now</Link>
-                                    </p>
-                                </div>
+                                <p className="text-center text-black font-medium text-sm pt-4">
+                                    Don't have an account? <Link to="/register" className="text-[#134e8d] font-bold hover:underline">Register Now</Link>
+                                </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </GoogleOAuthProvider>
     );
 };
 
