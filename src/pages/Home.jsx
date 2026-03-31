@@ -473,7 +473,7 @@ const Footer = () => (
                         </div>
                         <span className="text-2xl font-bold text-white tracking-tighter uppercase tracking-[3px]">Secure <span className="text-blue-400">Shield</span></span>
                     </Link>
-                    <p className="text-slate-300/80 text-sm leading-relaxed font-medium">
+                    <p className="text-white/90 text-sm leading-relaxed font-medium">
                         India's premier digital insurance ecosystem. We leverage state-of-the-art security and innovative technology to protect what matters most to you.
                     </p>
                     <div className="flex gap-4">
@@ -482,53 +482,53 @@ const Footer = () => (
                 </div>
 
                 <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-50">Discovery</h4>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-70">Discovery</h4>
                     <ul className="space-y-5">
                         {["Home", "About Us", "Our Policies", "Careers", "Contact Support"].map(l => (
-                            <li key={l}><a href="#" className="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all text-sm font-medium">{l}</a></li>
+                            <li key={l}><a href="#" className="text-white/60 hover:text-white hover:translate-x-1 inline-block transition-all text-sm font-medium">{l}</a></li>
                         ))}
                     </ul>
                 </div>
 
                 <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-50">Solutions</h4>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-70">Solutions</h4>
                     <ul className="space-y-5">
                         {["Health Insurance", "Life Insurance", "Vehicle Insurance", "Home Insurance", "Travel Insurance"].map(l => (
-                            <li key={l}><a href="#" className="text-slate-400 hover:text-white hover:translate-x-1 inline-block transition-all text-sm font-medium">{l}</a></li>
+                            <li key={l}><a href="#" className="text-white/60 hover:text-white hover:translate-x-1 inline-block transition-all text-sm font-medium">{l}</a></li>
                         ))}
                     </ul>
                 </div>
 
                 <div>
-                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-50">Connect</h4>
+                    <h4 className="text-xs font-bold text-white uppercase tracking-[4px] mb-10 opacity-70">Connect</h4>
                     <ul className="space-y-6">
                         <li className="flex items-center gap-4 group">
-                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
                                 <MapPin size={18} strokeWidth={2} />
                             </div>
-                            <span className="text-slate-300 text-sm font-semibold tracking-tight">India</span>
+                            <span className="text-white/90 text-sm font-semibold tracking-tight">India</span>
                         </li>
                         <li className="flex items-center gap-4 group">
-                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
                                 <Phone size={18} strokeWidth={2} />
                             </div>
-                            <span className="text-slate-300 text-sm font-semibold tracking-tight uppercase">1800-SECURE-SHIELD</span>
+                            <span className="text-white/90 text-sm font-semibold tracking-tight uppercase">1800-SECURE-SHIELD</span>
                         </li>
                         <li className="flex items-center gap-4 group">
-                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
+                            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
                                 <Mail size={18} strokeWidth={2} />
                             </div>
-                            <span className="text-slate-300 text-sm font-semibold tracking-tight">Shahsujal14@gmail.com</span>
+                            <span className="text-white/90 text-sm font-semibold tracking-tight">Shahsujal14@gmail.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
-                <div className="text-slate-500 text-[10px] font-bold uppercase tracking-[2px] text-center md:text-left">
+                <div className="text-white/40 text-[10px] font-bold uppercase tracking-[2px] text-center md:text-left">
                     © 2026 Secure Shield Insurance Brokers // Excellence in Protection
                 </div>
-                <div className="flex gap-10 text-slate-500 text-[10px] font-bold uppercase tracking-[2px]">
+                <div className="flex gap-10 text-white/40 text-[10px] font-bold uppercase tracking-[2px]">
                     <a href="#" className="hover:text-white transition-colors">Privacy</a>
                     <a href="#" className="hover:text-white transition-colors">Terms</a>
                     <a href="#" className="hover:text-white transition-colors">Refunds</a>
