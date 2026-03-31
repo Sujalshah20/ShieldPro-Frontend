@@ -427,28 +427,28 @@ const Testimonials = () => (
 const CTABanner = () => (
     <section className="py-24 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="bg-gradient-to-br from-[#002b45] via-[#134e8d] to-[#002b45] rounded-[3rem] p-12 md:p-24 text-center space-y-10 relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,43,69,0.3)] border border-white/10">
+            <div className="bg-gradient-to-br from-[#002b45] via-[#134e8d] to-[#002b45] rounded-[3rem] p-12 md:p-24 text-center space-y-10 relative overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,43,69,0.3)] border border-white/10 flex flex-col items-center">
                 {/* Background Decorations */}
                 <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-400/10 blur-[100px] rounded-full -mr-32 -mt-32 animate-pulse-slow" />
                 <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 blur-[100px] rounded-full -ml-32 -mb-32 animate-pulse-slow" style={{ animationDelay: '2s' }} />
                 
                 <Reveal direction="up">
-                    <div className="space-y-6 relative z-10">
-                        <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight">
+                    <div className="space-y-6 relative z-10 flex flex-col items-center">
+                        <h2 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-3xl">
                             Ready to Protect <br className="hidden md:block" /> Your Future?
                         </h2>
-                        <p className="text-blue-100/70 text-base md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-white/80 text-base md:text-xl font-medium max-w-2xl leading-relaxed">
                             Join over 10,000+ Indians who have already secured their family's health, life, and assets with Secure Shield's military-grade protection.
                         </p>
                     </div>
                 </Reveal>
 
                 <Reveal direction="up" delay={0.2}>
-                    <div className="relative z-10 pt-8 flex flex-col sm:flex-row justify-center gap-4">
-                        <Link to="/register" className="h-16 px-12 bg-white text-[#002b45] font-bold rounded-2xl items-center flex justify-center hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-xl uppercase tracking-[2px] text-xs">
+                    <div className="relative z-10 pt-8 w-full flex flex-col sm:flex-row justify-center items-center gap-6">
+                        <Link to="/register" className="h-16 px-12 bg-white text-[#002b45] font-bold rounded-2xl items-center flex justify-center hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all shadow-xl uppercase tracking-[2px] text-xs w-full sm:w-auto min-w-[240px]">
                             Start Application Now
                         </Link>
-                        <Link to="/policies" className="h-16 px-12 bg-white/10 backdrop-blur-md text-white font-bold rounded-2xl items-center flex justify-center hover:bg-white/20 transition-all border border-white/20 uppercase tracking-[2px] text-xs">
+                        <Link to="/policies" className="h-16 px-12 bg-white/10 backdrop-blur-md text-white font-bold rounded-2xl items-center flex justify-center hover:bg-white/20 transition-all border border-white/20 uppercase tracking-[2px] text-xs w-full sm:w-auto min-w-[240px]">
                             Browse All Plans
                         </Link>
                     </div>
