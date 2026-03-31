@@ -42,15 +42,6 @@ const AgentClients = () => {
                     </span>
                 </div>
                 <div className="flex items-center gap-6">
-                    <div className="flex items-center gap-4">
-                        <div className="text-right">
-                            <p className="text-sm font-bold text-[#002b45]">Rajesh Kumar</p>
-                            <p className="text-[11px] text-slate-400 font-medium">Senior Agent</p>
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-[#002b45] flex items-center justify-center text-white font-bold text-sm shadow-lg">
-                            RK
-                        </div>
-                    </div>
                 </div>
             </div>
 
