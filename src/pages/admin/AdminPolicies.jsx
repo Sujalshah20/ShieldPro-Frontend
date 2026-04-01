@@ -17,22 +17,20 @@ const AdminPolicies = () => {
     const { toast } = useToast();
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
     const [activeTab, setActiveTab] = useState("All Policies");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedType, setSelectedType] = useState("All");
+
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [selectedPolicy, setSelectedPolicy] = useState(null);
+
     const [newPolicy, setNewPolicy] = useState({
         policyName: "",
-        policyType: "Health",
-        description: "",
-        premiumAmount: "",
-        coverageAmount: "",
-        durationYears: 1
-    });
-    const [editPolicy, setEditPolicy] = useState({
-        policyName: "",
+        items: [{ title: "", description: "" }],
         policyType: "Health",
         description: "",
         premiumAmount: "",
@@ -40,11 +38,40 @@ const AdminPolicies = () => {
         durationYears: 1
     });
 
-    const { data: policies, isLoading } = useQuery({
-        queryKey: ['adminPolicies', user?.token],
-        queryFn: () => api.get('/policies', user.token),
+    const [editPolicy, setEditPolicy] = useState({
+        policyName: "",
+        items: [{ title: "", description: "" }],
+        policyType: "Health",
+        description: "",
+        premiumAmount: "",
+        coverageAmount: "",
+        durationYears: 1
+    });
+
+    // Debounce search term
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+            setCurrentPage(1); // Reset to page 1 on search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // Handle Tab Change
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+        setCurrentPage(1);
+    };
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['adminPolicies', user?.token, debouncedSearch, activeTab, selectedType, currentPage],
+        queryFn: () => api.get(`/policies?search=${debouncedSearch}&status=${activeTab}&type=${selectedType}&page=${currentPage}&limit=8`, user.token),
         enabled: !!user?.token
     });
+
+    const policies = data?.policies || [];
+    const totalPages = data?.pages || 1;
+    const totalCount = data?.total || 0;
 
     const createMutation = useMutation({
         mutationFn: (data) => api.post('/policies', data, user.token),
@@ -171,18 +198,20 @@ const AdminPolicies = () => {
                     />
                 </div>
                 <div className="flex gap-3">
-                    {[
-                        { label: "Category", icon: ChevronDown },
-                        { label: "State", icon: ChevronDown },
-                        { label: "Valuation", icon: ChevronDown }
-                    ].map((f, i) => (
-                        <button key={i} className="h-14 px-6 bg-white border border-slate-100 rounded-2xl text-[11px] font-black uppercase tracking-[3px] text-black hover:bg-slate-50 transition-all shadow-sm italic">
-                            <span className="opacity-40">{f.label}</span> <f.icon size={16} className="text-black opacity-20" strokeWidth={3} />
-                        </button>
-                    ))}
-                    <button className="h-14 w-14 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-100 text-black opacity-30 hover:opacity-100 rounded-2xl flex items-center justify-center transition-all shadow-sm active:scale-95">
-                        <Filter size={18} strokeWidth={3} />
-                    </button>
+                    <div className="relative">
+                        <select 
+                            className="h-14 px-6 bg-white border border-slate-100 rounded-2xl text-[11px] font-black uppercase tracking-[3px] text-black hover:bg-slate-50 transition-all shadow-sm italic appearance-none outline-none cursor-pointer"
+                            value={selectedType}
+                            onChange={(e) => { setSelectedType(e.target.value); setCurrentPage(1); }}
+                        >
+                            <option value="All">All Categories</option>
+                            <option value="Health">Health</option>
+                            <option value="Life">Life</option>
+                            <option value="Auto">Auto</option>
+                            <option value="Home">Home</option>
+                        </select>
+                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-black opacity-20 pointer-events-none" size={16} strokeWidth={3} />
+                    </div>
                 </div>
             </div>
 
@@ -193,7 +222,7 @@ const AdminPolicies = () => {
                     {["All Policies", "Active", "Inactive", "Draft"].map((tab) => (
                         <button 
                             key={tab}
-                            onClick={() => setActiveTab(tab)}
+                            onClick={() => handleTabChange(tab)}
                             className={`px-8 py-6 text-[10px] font-black uppercase tracking-[4px] transition-all relative italic ${
                                 activeTab === tab ? "text-black" : "text-black/20 hover:text-black"
                             }`}
@@ -230,7 +259,13 @@ const AdminPolicies = () => {
                                         </div>
                                     </td>
                                 </tr>
-                            ) : policies?.filter(p => activeTab === 'All Policies' || mockStats[p.policyType]?.status === activeTab).map((p, i) => {
+                            ) : policies.length === 0 ? (
+                                <tr>
+                                    <td colSpan="8" className="px-10 py-32 text-center text-slate-300 italic uppercase font-black tracking-widest">
+                                        No corresponding records found in manifest...
+                                    </td>
+                                </tr>
+                            ) : policies.map((p, i) => {
                                 const stats = mockStats[p.policyType] || mockStats.Health;
                                 return (
                                     <tr key={p._id} className="group hover:bg-slate-50/50 transition-colors">
@@ -294,17 +329,32 @@ const AdminPolicies = () => {
 
                 {/* Pagination */}
                 <div className="px-10 py-8 bg-slate-50/20 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
-                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[3px] italic">Displaying {policies?.length || 0} of 24 active protocols</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-[3px] italic">Displaying {policies.length} of {totalCount} active protocols</span>
                     <div className="flex items-center gap-3">
-                        <button className="h-11 px-5 border-2 border-slate-100 rounded-xl text-[11px] font-black text-black opacity-30 hover:opacity-100 hover:bg-white hover:text-blue-600 transition-all italic uppercase tracking-widest">Previous</button>
-                        {[1, 2, 3].map(page => (
-                            <button key={page} className={`w-11 h-11 flex items-center justify-center rounded-xl text-[11px] font-black transition-all italic ${
-                                page === 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "text-black opacity-20 hover:opacity-100 hover:bg-white"
+                        <button 
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                            className="h-11 px-5 border-2 border-slate-100 rounded-xl text-[11px] font-black text-black opacity-30 hover:opacity-100 disabled:opacity-10 hover:bg-white hover:text-blue-600 transition-all italic uppercase tracking-widest"
+                        >
+                            Previous
+                        </button>
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button 
+                                key={i} 
+                                onClick={() => setCurrentPage(i + 1)}
+                                className={`w-11 h-11 flex items-center justify-center rounded-xl text-[11px] font-black transition-all italic ${
+                                currentPage === i + 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "text-black opacity-20 hover:opacity-100 hover:bg-white"
                             }`}>
-                                {page}
+                                {i + 1}
                             </button>
                         ))}
-                        <button className="h-11 px-6 bg-[#1e293b] text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg hover:bg-black transition-all italic active:scale-95">Next Cluster</button>
+                        <button 
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                            className="h-11 px-6 bg-[#1e293b] text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg hover:bg-black disabled:opacity-10 transition-all italic active:scale-95"
+                        >
+                            Next Cluster
+                        </button>
                     </div>
                 </div>
             </div>

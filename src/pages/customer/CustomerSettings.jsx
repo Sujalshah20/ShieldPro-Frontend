@@ -5,7 +5,7 @@ import {
     Smartphone, Globe, ShieldCheck, 
     ChevronRight, CreditCard, Eye, 
     EyeOff, Save, RefreshCcw, Info,
-    CheckCircle2, AlertCircle
+    CheckCircle2, AlertCircle, Download
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";

@@ -17,13 +17,28 @@ import { TableSkeleton } from "../../components/common/Skeleton";
 const AdminAgents = () => {
     const { user } = useContext(AuthContext);
     const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
     const [activeTab, setActiveTab] = useState("All Agents");
 
-    const { data: agents, isLoading } = useQuery({
-        queryKey: ['adminAgents', user?.token],
-        queryFn: () => api.get('/admin/agents', user.token),
+    // Debounce search term
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+            setCurrentPage(1); // Reset to page 1 on search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['adminAgents', user?.token, debouncedSearch, currentPage],
+        queryFn: () => api.get(`/admin/agents?search=${debouncedSearch}&page=${currentPage}&limit=10`, user.token),
         enabled: !!user?.token
     });
+
+    const agents = data?.agents || [];
+    const totalPages = data?.pages || 1;
+    const totalCount = data?.total || 0;
 
     const tabs = ["All Agents", "Active", "Inactive", "Onboarding"];
 
@@ -144,7 +159,13 @@ const AdminAgents = () => {
                         <tbody className="divide-y divide-slate-50">
                             {isLoading ? (
                                 <tr><td colSpan="7" className="px-8 py-20"><TableSkeleton /></td></tr>
-                            ) : agents?.filter(a => a.name?.toLowerCase().includes(searchTerm.toLowerCase())).map((a, i) => (
+                            ) : agents.length === 0 ? (
+                                <tr>
+                                    <td colSpan="7" className="px-10 py-32 text-center text-slate-300 italic uppercase font-black tracking-widest">
+                                        No corresponding records found in manifest...
+                                    </td>
+                                </tr>
+                            ) : agents.map((a, i) => (
                                 <tr key={a._id} className="group hover:bg-slate-50/50 transition-colors">
                                     <td className="px-6 py-4 text-[10px] font-black text-black/20 italic tracking-widest">
                                         AGT - {a._id.slice(-4).toUpperCase()}
@@ -163,21 +184,21 @@ const AdminAgents = () => {
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3 text-black/60 font-black text-[10px] uppercase tracking-widest italic leading-none">
                                             <MapPin size={12} className="text-black/20" />
-                                            {["North Division", "South Hub", "Central Region", "West Coast"][i % 4]}
+                                            {a.region || "N/A"}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className="text-[12px] font-black text-black italic">{(1200 + i * 45).toLocaleString()}</span>
+                                        <span className="text-[12px] font-black text-black italic">{a.activeSchemes || 0}</span>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className="text-[14px] font-black text-black tracking-tighter uppercase italic">
-                                            ₹{(125000 + i * 25000).toLocaleString()}
+                                            ₹{a.cumulativeYield?.toLocaleString() || 0}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border ${getStatusStyle(i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding')}`}>
-                                            <span className={`w-1 h-1 rounded-full ${getStatusDot(i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding')}`} />
-                                            {i % 3 === 0 ? 'Active' : i % 3 === 1 ? 'Inactive' : 'Onboarding'}
+                                        <span className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-wider border ${getStatusStyle(a.status)}`}>
+                                            <span className={`w-1 h-1 rounded-full ${getStatusDot(a.status)}`} />
+                                            {a.status}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
@@ -202,27 +223,34 @@ const AdminAgents = () => {
                 {/* Pagination */}
                 <div className="px-8 py-8 bg-slate-50/30 border-t border-slate-50 flex flex-col md:flex-row items-center justify-between gap-6">
                     <span className="text-[10px] font-black text-black/20 uppercase tracking-[3px] italic">
-                        REGISTRY_STATUS: 4 OF 24 NODES_ACTIVE
+                        REGISTRY_STATUS: {agents.length} OF {totalCount} NODES_ACTIVE
                     </span>
                     <div className="flex items-center gap-4">
-                        <button className="w-12 h-12 rounded-2xl border-2 border-slate-100 flex items-center justify-center text-black/20 hover:text-black hover:border-black transition-all bg-white shadow-sm italic">
+                        <button 
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                            className="w-12 h-12 rounded-2xl border-2 border-slate-100 flex items-center justify-center text-black/20 hover:text-black hover:border-black disabled:opacity-10 transition-all bg-white shadow-sm italic"
+                        >
                             <ChevronLeft size={20} />
                         </button>
-                        {[1, 2, 3].map((num) => (
+                        {[...Array(totalPages)].map((_, i) => (
                             <button 
-                                key={num}
+                                key={i}
+                                onClick={() => setCurrentPage(i + 1)}
                                 className={`w-12 h-12 rounded-2xl text-[11px] font-black transition-all italic ${
-                                    num === 1 
+                                    currentPage === i + 1 
                                     ? "bg-black text-white shadow-3xl" 
                                     : "bg-white border-2 border-slate-50 text-black/30 hover:border-black/10 hover:text-black"
                                 }`}
                             >
-                                {num}
+                                {i + 1}
                             </button>
                         ))}
-                        <span className="px-2 text-black/10 font-black tracking-widest animate-pulse">...</span>
-                        <button className="w-12 h-12 rounded-2xl bg-white border-2 border-slate-50 text-black/30 hover:border-black/10 hover:text-black text-[11px] font-black transition-all italic">5</button>
-                        <button className="w-12 h-12 rounded-2xl border-2 border-slate-100 flex items-center justify-center text-black/20 hover:text-black hover:border-black transition-all bg-white shadow-sm italic">
+                        <button 
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                            className="w-12 h-12 rounded-2xl border-2 border-slate-100 flex items-center justify-center text-black/20 hover:text-black hover:border-black disabled:opacity-10 transition-all bg-white shadow-sm italic"
+                        >
                             <ChevronRight size={20} />
                         </button>
                     </div>

@@ -16,15 +16,29 @@ import Reveal from "../../components/common/Reveal";
 const AdminUsers = () => {
     const { user } = useContext(AuthContext);
     const { toast } = useToast();
-    const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { data: users, isLoading } = useQuery({
-        queryKey: ['adminUsers', user?.token],
-        queryFn: () => api.get('/admin/users', user.token),
+    // Debounce search term
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+            setCurrentPage(1); // Reset to page 1 on search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['adminCustomers', user?.token, debouncedSearch, currentPage],
+        queryFn: () => api.get(`/admin/customers?search=${debouncedSearch}&page=${currentPage}&limit=10`, user.token),
         enabled: !!user?.token
     });
+
+    const customers = data?.customers || [];
+    const totalPages = data?.pages || 1;
+    const totalCount = data?.total || 0;
 
     const getStatusStyle = (status) => {
         return status === 'Inactive' 
@@ -114,7 +128,13 @@ const AdminUsers = () => {
                                         </div>
                                     </td>
                                 </tr>
-                            ) : users?.filter(u => u.name?.toLowerCase().includes(searchTerm.toLowerCase())).map((u, i) => (
+                            ) : customers.length === 0 ? (
+                                <tr>
+                                    <td colSpan="8" className="px-10 py-32 text-center text-slate-300 italic uppercase font-black tracking-widest">
+                                        No corresponding records found in manifest...
+                                    </td>
+                                </tr>
+                            ) : customers.map((u, i) => (
                                 <tr key={u._id} className="group hover:bg-slate-50/50 transition-colors">
                                     <td className="px-6 py-4">
                                         <span className="text-[10px] font-black text-black opacity-30 bg-slate-50 px-2 py-1 rounded border border-slate-100 uppercase tracking-tighter italic">
@@ -140,7 +160,7 @@ const AdminUsers = () => {
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         <div className="inline-flex w-10 h-10 rounded-xl bg-slate-50 items-center justify-center border border-slate-100 text-[11px] font-black text-black italic shadow-inner">
-                                            {i % i + 1}
+                                            0
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-center">
@@ -152,8 +172,8 @@ const AdminUsers = () => {
                                         {new Date(u.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[2px] border italic ${getStatusStyle(i === 2 ? 'Inactive' : 'Active')}`}>
-                                            {i === 2 ? 'Inactive' : 'Active'}
+                                        <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[2px] border italic ${getStatusStyle(u.status === 'suspended' ? 'Inactive' : 'Active')}`}>
+                                            {u.status === 'suspended' ? 'Inactive' : 'Active'}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-right">
@@ -177,15 +197,32 @@ const AdminUsers = () => {
 
                 {/* Pagination */}
                 <div className="px-10 py-8 bg-slate-50/20 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
-                    <span className="text-[10px] font-black text-black uppercase tracking-[3px] italic">Displaying 1-{users?.length || 0} of 1,280 entries</span>
+                    <span className="text-[10px] font-black text-black uppercase tracking-[3px] italic">Displaying {customers.length} of {totalCount} entries</span>
                     <div className="flex items-center gap-3">
-                        <button className="h-11 px-5 border-2 border-slate-100 rounded-xl text-xs font-bold text-black hover:bg-white hover:border-blue-500/20 hover:text-blue-600 transition-all italic">Previous</button>
-                        {[1, 2, 3, "...", 12].map((p, i) => (
-                            <button key={i} className={`w-11 h-11 flex items-center justify-center rounded-xl text-xs font-bold transition-all ${p === 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "text-black hover:bg-white hover:text-blue-600"}`}>
-                                {p}
+                        <button 
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                            className="h-11 px-5 border-2 border-slate-100 rounded-xl text-[11px] font-black text-black opacity-30 hover:opacity-100 disabled:opacity-10 hover:bg-white hover:text-blue-600 transition-all italic uppercase tracking-widest"
+                        >
+                            Previous
+                        </button>
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button 
+                                key={i} 
+                                onClick={() => setCurrentPage(i + 1)}
+                                className={`w-11 h-11 flex items-center justify-center rounded-xl text-[11px] font-black transition-all italic ${
+                                currentPage === i + 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30" : "text-black opacity-20 hover:opacity-100 hover:bg-white"
+                            }`}>
+                                {i + 1}
                             </button>
                         ))}
-                        <button className="h-11 px-5 bg-[#1e293b] text-white rounded-xl text-xs font-bold shadow-lg shadow-slate-900/20 hover:bg-[#0f172a] transition-all italic">Next Cluster</button>
+                        <button 
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                            className="h-11 px-6 bg-[#1e293b] text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg hover:bg-black disabled:opacity-10 transition-all italic active:scale-95"
+                        >
+                            Next Cluster
+                        </button>
                     </div>
                 </div>
             </div>

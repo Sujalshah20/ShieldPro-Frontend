@@ -19,12 +19,28 @@ const AdminApplications = () => {
     const queryClient = useQueryClient();
     const [selectedApp, setSelectedApp] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [activeFilter, setActiveFilter] = useState("All");
 
-    const { data: applications, isLoading } = useQuery({
-        queryKey: ['adminApplications', user?.token],
-        queryFn: () => api.get('/applications', user.token),
+    // Debounce search term
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+            setCurrentPage(1); // Reset to page 1 on search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['adminApplications', user?.token, debouncedSearch, activeFilter, currentPage],
+        queryFn: () => api.get(`/applications?search=${debouncedSearch}&status=${activeFilter}&page=${currentPage}&limit=10`, user.token),
         enabled: !!user?.token
     });
+
+    const applications = data?.applications || [];
+    const totalPages = data?.pages || 1;
+    const totalCount = data?.total || 0;
 
     const statusMutation = useMutation({
         mutationFn: (data) => api.put(`/applications/${data.id}/status`, { status: data.status }, user.token),
@@ -35,11 +51,6 @@ const AdminApplications = () => {
         },
         onError: () => toast({ title: "Failed to update status", variant: "destructive" })
     });
-
-    const filteredApps = applications?.filter(app => 
-        app.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        app.policy?.policyName?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     const getStatusStyle = (status) => {
         switch(status) {
@@ -64,7 +75,7 @@ const AdminApplications = () => {
                 <div className="flex items-center gap-4">
                     <div className="text-right hidden md:block">
                         <p className="text-[10px] font-black text-black/20 uppercase tracking-widest leading-none italic">In Queue</p>
-                        <p className="text-2xl font-black text-black tracking-tighter italic">{filteredApps?.length || 0}</p>
+                        <p className="text-2xl font-black text-black tracking-tighter italic">{totalCount}</p>
                     </div>
                     <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center text-white shadow-3xl border border-white/5">
                         <ClipboardList size={24} strokeWidth={2.5} />
@@ -84,9 +95,21 @@ const AdminApplications = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-                <button className="h-12 px-6 bg-white border border-slate-100 text-black rounded-xl text-[10px] font-black uppercase tracking-[3px] flex items-center gap-2 hover:bg-black hover:text-white transition-all shadow-xl italic">
-                    <Filter size={18} strokeWidth={3} /> FILTER_STATUS
-                </button>
+                <div className="flex gap-2">
+                    {["All", "Pending", "Approved", "Rejected", "On Hold"].map((status) => (
+                        <button 
+                            key={status}
+                            onClick={() => { setActiveFilter(status); setCurrentPage(1); }}
+                            className={`h-12 px-5 rounded-xl text-[10px] font-black uppercase tracking-[2px] transition-all italic border ${
+                                activeFilter === status 
+                                ? "bg-black text-white border-black shadow-xl" 
+                                : "bg-white text-black border-slate-100 hover:bg-slate-50"
+                            }`}
+                        >
+                            {status}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {/* Table Module */}
@@ -106,7 +129,7 @@ const AdminApplications = () => {
                         <tbody className="divide-y divide-slate-50">
                             {isLoading ? (
                                 <tr><td colSpan="6" className="px-8 py-20 text-center"><TableSkeleton /></td></tr>
-                            ) : filteredApps?.length === 0 ? (
+                            ) : applications.length === 0 ? (
                                 <tr>
                                     <td colSpan="6" className="px-8 py-32 text-center">
                                         <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-200 mx-auto mb-4 border border-slate-100">
@@ -115,7 +138,7 @@ const AdminApplications = () => {
                                         <p className="text-sm font-bold text-slate-400">No applications found in the current queue</p>
                                     </td>
                                 </tr>
-                            ) : filteredApps.map((app) => (
+                            ) : applications.map((app) => (
                                 <tr key={app._id} className="group hover:bg-slate-50/50 transition-colors cursor-pointer" onClick={() => setSelectedApp(app)}>
                                     <td className="px-6 py-5 text-[10px] font-black text-black/20 uppercase tracking-widest italic">
                                         #{app._id.slice(-6).toUpperCase()}
@@ -139,7 +162,7 @@ const AdminApplications = () => {
                                     </td>
                                     <td className="px-6 py-5">
                                         <span className="text-[14px] font-black text-black tracking-tighter uppercase italic">
-                                            ₹{app.amount?.toLocaleString()}
+                                            ₹{app.policy?.premiumAmount?.toLocaleString() || 0}
                                         </span>
                                     </td>
                                     <td className="px-6 py-5 text-center">
@@ -157,6 +180,37 @@ const AdminApplications = () => {
                             ))}
                         </tbody>
                     </table>
+                </div>
+
+                {/* Pagination */}
+                <div className="px-10 py-8 bg-slate-50/20 border-t border-slate-50 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <span className="text-[10px] font-black text-black/30 uppercase tracking-[3px] italic">Displaying {applications.length} of {totalCount} entries</span>
+                    <div className="flex items-center gap-3">
+                        <button 
+                            disabled={currentPage === 1}
+                            onClick={(e) => { e.stopPropagation(); setCurrentPage(prev => Math.max(1, prev - 1)); }}
+                            className="h-11 px-5 border-2 border-slate-100 rounded-xl text-[11px] font-black text-black opacity-30 hover:opacity-100 disabled:opacity-10 hover:bg-white hover:text-blue-600 transition-all italic uppercase tracking-widest"
+                        >
+                            Previous
+                        </button>
+                        {[...Array(totalPages)].map((_, i) => (
+                            <button 
+                                key={i} 
+                                onClick={(e) => { e.stopPropagation(); setCurrentPage(i + 1); }}
+                                className={`w-11 h-11 flex items-center justify-center rounded-xl text-[11px] font-black transition-all italic ${
+                                currentPage === i + 1 ? "bg-black text-white shadow-lg" : "text-black opacity-20 hover:opacity-100 hover:bg-white"
+                            }`}>
+                                {i + 1}
+                            </button>
+                        ))}
+                        <button 
+                            disabled={currentPage === totalPages}
+                            onClick={(e) => { e.stopPropagation(); setCurrentPage(prev => Math.min(totalPages, prev + 1)); }}
+                            className="h-11 px-6 bg-black text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg hover:bg-slate-800 disabled:opacity-10 transition-all italic active:scale-95"
+                        >
+                            Next Cluster
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -223,7 +277,7 @@ const AdminApplications = () => {
                                     <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent pointer-events-none" />
                                     <div>
                                         <p className="text-[10px] font-black text-white/40 uppercase tracking-[4px] leading-none mb-3 italic">FISCAL_PREMIUM</p>
-                                        <h3 className="text-4xl font-black tracking-tighter">₹{selectedApp.amount?.toLocaleString()}</h3>
+                                        <h3 className="text-4xl font-black tracking-tighter">₹{selectedApp.policy?.premiumAmount?.toLocaleString() || 0}</h3>
                                     </div>
                                     <div className={`px-6 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[4px] border border-white/20 shadow-xl ${selectedApp.status === 'Approved' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/10 text-white/60'}`}>
                                         {selectedApp.status.toUpperCase()}
