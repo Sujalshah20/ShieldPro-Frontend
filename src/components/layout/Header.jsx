@@ -72,27 +72,8 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                     </div>
                 )}
             </div>
-
-            {/* Global Search */}
-            <div className={`flex-1 max-w-2xl relative mx-8 hidden sm:block`}>
-                <div className="relative group">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} strokeWidth={2.5} />
-                    <input
-                        type="text"
-                        placeholder="Search policies, claims, or documents..."
-                        className="w-full pl-12 pr-4 py-3 bg-slate-100/60 border-transparent rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:ring-4 focus:ring-blue-100/20 focus:border-blue-500/20 transition-all outline-none"
-                    />
-                </div>
-            </div>
-
             {/* Right Controls */}
             <div className="flex items-center gap-8">
-                {/* Notifications */}
-                <button className="relative p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all">
-                    <Activity size={22} strokeWidth={2} />
-                    <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-rose-500 border-2 border-white rounded-full shadow-sm" />
-                </button>
-
                 {/* Profile Section */}
                 <div className="relative border-l border-slate-100 pl-6">
                     <button
