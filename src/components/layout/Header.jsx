@@ -74,40 +74,38 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
             </div>
 
             {/* Global Search */}
-            <div className={`flex-1 max-w-md relative mx-8 hidden ${location.pathname === '/customer/browse' ? 'sm:hidden' : 'sm:block'}`}>
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} strokeWidth={2.5} />
-                <input
-                    type="text"
-                    placeholder="Search database records..."
-                    className="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-slate-700 focus:ring-4 focus:ring-blue-100 focus:bg-white focus:border-[#134e8d]/30 transition-all outline-none"
-                />
+            <div className={`flex-1 max-w-2xl relative mx-8 hidden sm:block`}>
+                <div className="relative group">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={18} strokeWidth={2.5} />
+                    <input
+                        type="text"
+                        placeholder="Search policies, claims, or documents..."
+                        className="w-full pl-12 pr-4 py-3 bg-slate-100/60 border-transparent rounded-xl text-sm font-medium text-slate-700 focus:bg-white focus:ring-4 focus:ring-blue-100/20 focus:border-blue-500/20 transition-all outline-none"
+                    />
+                </div>
             </div>
 
             {/* Right Controls */}
-            <div className="flex items-center gap-6">
-
+            <div className="flex items-center gap-8">
+                {/* Notifications */}
+                <button className="relative p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all">
+                    <Activity size={22} strokeWidth={2} />
+                    <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-rose-500 border-2 border-white rounded-full shadow-sm" />
+                </button>
 
                 {/* Profile Section */}
-                <div className="relative">
+                <div className="relative border-l border-slate-100 pl-6">
                     <button
                         onClick={() => setIsProfileOpen(!isProfileOpen)}
-                        className="flex items-center gap-3 p-1 rounded-xl transition-all group"
+                        className="flex items-center gap-3.5 p-1 rounded-xl transition-all group"
                     >
-                        {/* User Profile */}
-                        <div className="flex items-center gap-3 pl-4 border-l border-slate-100">
-                            <div className="text-right hidden sm:block">
-                                <p className="text-[13px] font-bold text-slate-800 leading-none">{user?.name || 'User'}</p>
-                                <p className="text-[10px] text-slate-400 font-bold mt-1 uppercase tracking-wider">{user?.role || 'Guest'}</p>
-                            </div>
-                            <div className="w-10 h-10 rounded-xl bg-[#134e8d] overflow-hidden border-2 border-white shadow-md flex items-center justify-center text-white font-bold">
-                                {user?.profilePic ? (
-                                    <img src={user.profilePic} alt="Profile" className="w-full h-full object-cover" />
-                                ) : (
-                                    user?.name?.charAt(0) || 'U'
-                                )}
-                            </div>
+                        <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200">
+                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Avatar" className="w-full h-full object-cover" />
                         </div>
-                        <ChevronDown size={16} className={`text-slate-400 transition-transform duration-300 hidden sm:block ${isProfileOpen ? 'rotate-180' : ''}`} strokeWidth={2.5} />
+                        <div className="flex items-center gap-1.5">
+                            <span className="text-[14px] font-bold text-slate-700 group-hover:text-blue-600 transition-colors">{user?.name || 'Rahul Sharma'}</span>
+                            <ChevronDown size={14} className={`text-slate-400 transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} strokeWidth={3} />
+                        </div>
                     </button>
 
                     <AnimatePresence>

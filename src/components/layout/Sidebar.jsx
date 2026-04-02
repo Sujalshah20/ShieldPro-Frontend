@@ -67,14 +67,30 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 className={`fixed top-0 left-0 z-[70] h-screen w-64 bg-[#1e293b] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 {/* Logo Section */}
-                <div className="p-8 pb-10">
+                <div className="p-8 pb-6">
                     <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-[#0ea5e9] rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
-                            <Shield className="w-6 h-6 text-white" strokeWidth={2.5} />
+                        <div className="w-10 h-10 bg-[#0ea5e9] rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 text-white">
+                            <Shield className="w-6 h-6" strokeWidth={2.5} />
                         </div>
-                        <div className="flex flex-col">
-                            <span className="text-lg font-bold tracking-tight text-white leading-none">Secure Shield</span>
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[2px] mt-1.5">Agent Portal</span>
+                        <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
+                    </div>
+                </div>
+
+                {/* User Profile Section (New) */}
+                <div className="px-8 pb-8 flex items-center gap-3.5 border-b border-white/5">
+                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/10 shadow-xl">
+                        {user?.profilePic ? (
+                            <img src={user.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                        ) : (
+                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Avatar" className="w-full h-full object-cover" />
+                        )}
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-[15px] font-bold text-white leading-tight">{user?.name || "Rahul Sharma"}</span>
+                        <div className="mt-1">
+                            <span className="px-2 py-0.5 rounded-md text-[9px] font-black bg-white/10 text-slate-300 uppercase tracking-widest border border-white/5">
+                                {role || "Customer"}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -107,19 +123,17 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 <Settings size={20} />
                                 <span className="text-[14px] font-semibold">Settings</span>
                             </Link>
-                            <Link to={`/${role}/help`} className="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
-                                <HelpCircle size={20} />
-                                <span className="text-[14px] font-semibold">Help Center</span>
-                            </Link>
                         </div>
                     </div>
                 </nav>
 
                 {/* Footer Actions */}
                 <div className="p-4 mt-auto space-y-3 bg-[#111827]/50">
-                    <button className="w-full h-11 bg-white/10 hover:bg-white/20 text-white rounded-xl flex items-center justify-center gap-3 transition-all font-bold text-[13px] border border-white/5">
-                        <PlusCircle size={18} /> New Customer
-                    </button>
+                    {role === 'agent' && (
+                        <button className="w-full h-11 bg-white/10 hover:bg-white/20 text-white rounded-xl flex items-center justify-center gap-3 transition-all font-bold text-[13px] border border-white/5">
+                            <PlusCircle size={18} /> New Customer
+                        </button>
+                    )}
                     
                     <button 
                         onClick={handleLogout}
