@@ -40,7 +40,7 @@ const ApplicationPage = () => {
 
     const validateStep = () => {
         if (step === 2) {
-            const requiredFields = ['name', 'dob', 'phone', 'email', 'aadhar', 'pan', 'address'];
+            const requiredFields = ['name', 'dob', 'phone', 'email', 'address'];
             for (const field of requiredFields) {
                 if (!formData[field]) {
                     toast({ title: "Validation Error", description: `${field.charAt(0).toUpperCase() + field.slice(1)} is required.`, variant: "destructive" });
@@ -54,14 +54,14 @@ const ApplicationPage = () => {
                 return false;
             }
             
-            // Aadhar validation (12 digits)
-            if (!/^\d{12}$/.test(formData.aadhar)) {
+            // Aadhar validation (12 digits) - optional
+            if (formData.aadhar && !/^\d{12}$/.test(formData.aadhar)) {
                 toast({ title: "Invalid Aadhaar", description: "Aadhaar number must be exactly 12 digits.", variant: "destructive" });
                 return false;
             }
             
-            // PAN validation
-            if (!/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
+            // PAN validation - optional
+            if (formData.pan && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(formData.pan)) {
                 toast({ title: "Invalid PAN", description: "PAN format must be ABCDE1234F.", variant: "destructive" });
                 return false;
             }
@@ -86,15 +86,6 @@ const ApplicationPage = () => {
     };
 
     const handleSubmit = async () => {
-        if (!profile?.nationalId) {
-            toast({ 
-                title: "Missing ID Proof", 
-                description: "Please update your Aadhar/PAN in your profile before applying.",
-                variant: "destructive"
-            });
-            navigate("/customer/profile");
-            return;
-        }
         setLoading(true);
         try {
             const mockDocuments = files.map(f => ({ name: f.name, url: `https://storage.shieldpro.com/${f.name}` }));
@@ -228,8 +219,8 @@ const ApplicationPage = () => {
                                 { label: "Date of Birth", name: "dob", type: "date", placeholder: "", required: true },
                                 { label: "Phone Number (10 Digits)", name: "phone", type: "tel", placeholder: "9876543210", pattern: "[0-9]*", maxLength: 10 },
                                 { label: "Email Address", name: "email", type: "email", placeholder: "you@example.com", required: true },
-                                { label: "Aadhaar Number (12 Digits)", name: "aadhar", type: "text", placeholder: "XXXX XXXX XXXX", maxLength: 12 },
-                                { label: "PAN Number", name: "pan", type: "text", placeholder: "ABCDE1234F", maxLength: 10 },
+                                { label: "Aadhaar Number (12 Digits - Optional)", name: "aadhar", type: "text", placeholder: "XXXX XXXX XXXX", maxLength: 12 },
+                                { label: "PAN Number (Optional)", name: "pan", type: "text", placeholder: "ABCDE1234F", maxLength: 10 },
                             ].map(field => (
                                 <div key={field.name} className="space-y-1.5">
                                     <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">{field.label}</label>

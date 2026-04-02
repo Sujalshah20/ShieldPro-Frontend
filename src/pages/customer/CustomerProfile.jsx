@@ -175,8 +175,8 @@ const CustomerProfile = () => {
         if (!validateName(form.name)) return toast({ title: "Invalid Name", description: "3-50 letters only", variant: "destructive" });
         if (!validateEmail(form.email)) return toast({ title: "Invalid Email", description: "Please enter a valid email", variant: "destructive" });
         if (!validateMobile(form.phone)) return toast({ title: "Invalid Mobile", description: "Must be 10 digits starting with 6-9", variant: "destructive" });
-        if (!validateAadhaar(form.nationalId)) return toast({ title: "Invalid Aadhaar", description: "Must be exactly 12 digits", variant: "destructive" });
-        if (!validatePAN(form.panNumber)) return toast({ title: "Invalid PAN", description: "Must be in format ABCDE1234F", variant: "destructive" });
+        if (form.nationalId && !validateAadhaar(form.nationalId)) return toast({ title: "Invalid Aadhaar", description: "Must be exactly 12 digits", variant: "destructive" });
+        if (form.panNumber && !validatePAN(form.panNumber)) return toast({ title: "Invalid PAN", description: "Must be in format ABCDE1234F", variant: "destructive" });
 
         try {
             const payload = {
