@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { jsPDF } from "jspdf";
 import { 
     Download, CreditCard, Landmark, Banknote,
     ChevronLeft, ChevronRight, Calendar
@@ -31,8 +32,6 @@ const PAGE_SIZE = 10;
 const PaymentHistory = () => {
     const { user } = useContext(AuthContext);
     const [currentPage, setCurrentPage] = useState(1);
-    const [filterStatus, setFilterStatus] = useState("All Status");
-    const [filterType, setFilterType] = useState("All Policies");
 
     const { data: transactions = [], isLoading } = useQuery({
         queryKey: ['myTransactions', user?.token],
@@ -40,14 +39,8 @@ const PaymentHistory = () => {
         enabled: !!user?.token,
     });
 
-    const filtered = transactions.filter(t => {
-        const statusMatch = filterStatus === "All Status" || t.status === filterStatus;
-        const typeMatch = filterType === "All Policies" || t.policy?.policyType === filterType;
-        return statusMatch && typeMatch;
-    });
-
-    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-    const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+    const totalPages = Math.max(1, Math.ceil(transactions.length / PAGE_SIZE));
+    const paginated = transactions.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
     const totalPaid = transactions.filter(t => t.status === 'Success' || t.status === 'Successful').reduce((s, t) => s + (t.amount || 0), 0);
     const pendingCount = transactions.filter(t => t.status === 'Pending').length;
@@ -60,53 +53,11 @@ const PaymentHistory = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 font-sans pb-20">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                <div>
-                    <h1 className="text-2xl font-bold text-slate-800 mb-1">Payment History</h1>
-                    <p className="text-slate-500 text-sm font-medium">Manage and track all your policy payments, renewals and downloadable receipts.</p>
-                </div>
-                <button className="flex items-center justify-center gap-2 border border-slate-200 bg-white text-slate-600 px-5 py-2.5 rounded-xl font-bold hover:bg-slate-50 transition-all shadow-sm text-xs uppercase tracking-wider">
-                    <Download size={16} /> Export Statement
-                </button>
+            <div className="mb-10">
+                <h1 className="text-2xl font-black text-slate-800 mb-1 tracking-tight">Payment History</h1>
+                <p className="text-slate-500 text-sm font-medium">Manage and track all your policy payments, renewals and downloadable receipts.</p>
             </div>
 
-            {/* Filters */}
-            <div className="bg-white border border-slate-100 rounded-2xl p-5 mb-6 flex flex-col md:flex-row items-end gap-4 shadow-sm">
-                <div className="flex-1 w-full">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Policy Category</p>
-                    <select
-                        value={filterType}
-                        onChange={e => { setFilterType(e.target.value); setCurrentPage(1); }}
-                        className="w-full text-xs font-bold text-slate-700 border border-slate-100 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-50/50 focus:border-[#134e8d] bg-slate-50/50 hover:bg-slate-50 transition-all cursor-pointer"
-                    >
-                        <option>All Policies</option>
-                        <option>Health</option>
-                        <option>Life</option>
-                        <option>Vehicle</option>
-                        <option>Property</option>
-                    </select>
-                </div>
-                <div className="flex-1 w-full">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 px-1">Transaction Status</p>
-                    <select
-                        value={filterStatus}
-                        onChange={e => { setFilterStatus(e.target.value); setCurrentPage(1); }}
-                        className="w-full text-xs font-bold text-slate-700 border border-slate-100 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-50/50 focus:border-[#134e8d] bg-slate-50/50 hover:bg-slate-50 transition-all cursor-pointer"
-                    >
-                        <option>All Status</option>
-                        <option>Success</option>
-                        <option>Pending</option>
-                        <option>Failed</option>
-                    </select>
-                </div>
-                <button
-                    onClick={() => { setFilterStatus("All Status"); setFilterType("All Policies"); setCurrentPage(1); }}
-                    className="bg-[#134e8d] text-white px-8 py-3 rounded-xl font-bold text-xs hover:bg-[#002b45] transition-all shadow-lg shadow-blue-100 shrink-0 uppercase tracking-wider"
-                >
-                    Reset Filters
-                </button>
-            </div>
 
             {/* Transactions Table */}
             <div className="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden mb-8">
@@ -168,6 +119,52 @@ const PaymentHistory = () => {
                                     </td>
                                     <td className="px-6 py-5 text-center">
                                         <button 
+                                            onClick={() => {
+                                                const doc = new jsPDF();
+                                                
+                                                // Receipt Header
+                                                doc.setFillColor(30, 58, 138); // Navy Blue
+                                                doc.rect(0, 0, 210, 40, 'F');
+                                                doc.setTextColor(255, 255, 255);
+                                                doc.setFontSize(22);
+                                                doc.text("SHIELDPRO INSURANCE", 20, 25);
+                                                doc.setFontSize(10);
+                                                doc.text("Official Payment Receipt", 20, 32);
+                                                
+                                                // Transaction Details Box
+                                                doc.setDrawColor(241, 245, 249);
+                                                doc.setFillColor(248, 250, 252);
+                                                doc.roundedRect(20, 50, 170, 80, 3, 3, 'FD');
+                                                
+                                                doc.setTextColor(100, 116, 139);
+                                                doc.setFontSize(9);
+                                                doc.text("TRANSACTION DETAILS", 25, 60);
+                                                
+                                                doc.setTextColor(30, 41, 59);
+                                                doc.setFontSize(11);
+                                                doc.setFont("helvetica", "bold");
+                                                doc.text(`Transaction ID: ${txn.transactionId || `#TXN-${txn._id?.slice(-8).toUpperCase()}`}`, 25, 75);
+                                                doc.text(`Policy Name: ${txn.policy?.policyName || 'N/A'}`, 25, 85);
+                                                doc.text(`Policy Type: ${txn.policy?.policyType || 'N/A'}`, 25, 95);
+                                                doc.text(`Payment Method: ${txn.paymentMethod || 'Online'}`, 25, 105);
+                                                doc.text(`Date & Time: ${new Date(txn.createdAt).toLocaleString('en-IN')}`, 25, 115);
+                                                
+                                                // Amount Section
+                                                doc.setFillColor(236, 253, 245);
+                                                doc.roundedRect(20, 140, 170, 30, 3, 3, 'F');
+                                                doc.setTextColor(5, 150, 105);
+                                                doc.setFontSize(14);
+                                                doc.text(`AMOUNT PAID: INR ${txn.amount.toLocaleString()}`, 30, 158);
+                                                
+                                                // Footer
+                                                doc.setTextColor(148, 163, 184);
+                                                doc.setFontSize(8);
+                                                doc.setFont("helvetica", "normal");
+                                                doc.text("This is a computer generated receipt and does not require a physical signature.", 105, 270, null, null, "center");
+                                                doc.text("© 2026 SHIELDPRO BROKERS • Licensed by IRDAI", 105, 275, null, null, "center");
+                                                
+                                                doc.save(`Receipt_${txn.transactionId || txn._id}.pdf`);
+                                            }}
                                             className={`p-2 rounded-lg transition-all ${txn.status === 'Success' || txn.status === 'Successful' ? 'text-[#134e8d] hover:bg-blue-50 border border-transparent hover:border-blue-100' : 'text-slate-200 cursor-not-allowed border border-transparent'}`} 
                                             disabled={!(txn.status === 'Success' || txn.status === 'Successful')}
                                         >
@@ -182,7 +179,7 @@ const PaymentHistory = () => {
 
                 {/* Pagination */}
                 <div className="flex items-center justify-between px-8 py-5 border-t border-slate-50 bg-slate-50/30">
-                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Displaying {paginated.length} of {filtered.length} records</p>
+                    <p className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Displaying {paginated.length} of {transactions.length} records</p>
                     <div className="flex items-center gap-2">
                         <button
                             className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 text-slate-400 hover:bg-white hover:text-[#134e8d] hover:border-[#134e8d] disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400 disabled:hover:border-slate-200 transition-all font-bold"
@@ -247,7 +244,7 @@ const PaymentHistory = () => {
             </div>
 
             <p className="text-center text-[10px] text-slate-300 font-bold uppercase tracking-[4px] mt-16">
-                © 2024 ShieldPro Insurance • All payments are secured with 256-bit AES encryption
+                © 2026 ShieldPro Insurance • All payments are secured with 256-bit AES encryption
             </p>
         </div>
     );

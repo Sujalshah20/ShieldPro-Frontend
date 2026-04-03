@@ -212,7 +212,7 @@ const CheckoutSuccessPage = () => {
             {/* Footer */}
             <footer className="py-10 border-t border-slate-100 bg-white/50 backdrop-blur-md mt-auto">
                 <div className="max-w-7xl mx-auto px-12 flex flex-col md:flex-row justify-between items-center gap-8 text-black opacity-30 text-[10px] font-black uppercase tracking-[5px] italic">
-                    <p>© 2024 Secure Shield Insurance. All rights reserved.</p>
+                    <p>© 2026 Secure Shield Insurance. All rights reserved.</p>
                     <div className="flex gap-12">
                         <Link to="#" className="hover:text-[#134e8d] transition-colors">Privacy_Protocol</Link>
                         <Link to="#" className="hover:text-[#134e8d] transition-colors">Term_Terms</Link>

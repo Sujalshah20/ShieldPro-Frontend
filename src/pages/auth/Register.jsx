@@ -277,7 +277,7 @@ const Register = () => {
                     </div>
 
                     <div className="relative z-10 pt-10">
-                         <p className="text-white/30 text-[12px] font-bold uppercase tracking-widest">© 2024 Secure Shield Insurance</p>
+                         <p className="text-white/30 text-[12px] font-bold uppercase tracking-widest">© 2026 Secure Shield Insurance</p>
                     </div>
                 </div>
 

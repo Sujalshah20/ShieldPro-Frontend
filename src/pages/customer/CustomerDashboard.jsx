@@ -103,14 +103,14 @@ const CustomerDashboard = () => {
                         </button>
                     </div>
                     <div className="overflow-x-auto px-6 pb-10">
-                        <table className="w-full">
+                        <table className="w-full table-fixed cursor-default">
                             <thead>
                                 <tr className="border-b border-slate-50">
-                                    <th className="px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Policy Detail</th>
-                                    <th className="px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Type</th>
-                                    <th className="px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
-                                    <th className="px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Premium</th>
-                                    <th className="px-8 py-5 text-center text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Action</th>
+                                    <th className="w-[35%] px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Policy Detail</th>
+                                    <th className="w-[15%] px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Type</th>
+                                    <th className="w-[15%] px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
+                                    <th className="w-[20%] px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Premium</th>
+                                    <th className="w-[15%] px-8 py-5 text-center text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">

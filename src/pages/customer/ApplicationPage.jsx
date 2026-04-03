@@ -489,7 +489,7 @@ const ApplicationPage = () => {
             </div>
 
             <footer className="border-t border-gray-100 py-4 text-center text-xs text-gray-400 mt-4">
-                © 2024 Secure Shield Insurance Co. Ltd.
+                © 2026 Secure Shield Insurance Co. Ltd.
             </footer>
         </div>
     );

@@ -7,7 +7,6 @@ import {
     Users,
     FileText,
     LogOut,
-    PlusCircle,
     Shield,
     ClipboardList,
     CreditCard,
@@ -33,7 +32,6 @@ const ROLE_LINKS = {
         { name: "Browse Policies", path: "/customer/browse", icon: Compass },
         { name: "My Policies", path: "/customer/policies", icon: ShieldCheck },
         { name: "My Claims", path: "/customer/claims", icon: ClipboardList },
-        { name: "Submit New Claim", path: "/customer/submit-claim", icon: PlusCircle },
         { name: "Payment History", path: "/customer/payments", icon: CreditCard },
     ]
 };
@@ -78,26 +76,6 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                     </div>
                 </div>
 
-                {/* Profile Section for Customer */}
-                {isCustomer && (
-                    <div className="px-6 mb-8 mt-2">
-                        <div className="flex items-center gap-4 bg-white/5 p-3 rounded-2xl border border-white/10">
-                            <img 
-                                src="https://i.pravatar.cc/150?u=rahul" 
-                                alt="Rahul Sharma" 
-                                className="w-10 h-10 rounded-full border-2 border-blue-500/50 object-cover shadow-sm"
-                            />
-                            <div className="flex flex-col">
-                                <span className="text-sm font-bold text-white tracking-tight">Rahul Sharma</span>
-                                <div className="flex items-center mt-0.5">
-                                    <span className="text-[10px] font-black bg-white/10 text-slate-300 px-2 py-0.5 rounded-md uppercase tracking-widest border border-white/5">
-                                        CUSTOMER
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 {/* Navigation Links */}
                 <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">

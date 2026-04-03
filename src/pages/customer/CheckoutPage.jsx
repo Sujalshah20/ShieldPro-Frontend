@@ -282,7 +282,7 @@ const CheckoutPage = () => {
 
             {/* Simple Footer */}
             <footer className="py-8 border-t border-slate-100 bg-white/50 text-center text-black opacity-30 text-[9px] font-black uppercase tracking-[5px] italic">
-                <p>© 2024 Secure Shield Insurance Services // ALL_SYSTEMS_OPERATIONAL</p>
+                <p>© 2026 Secure Shield Insurance Services // ALL_SYSTEMS_OPERATIONAL</p>
             </footer>
         </div>
     );
