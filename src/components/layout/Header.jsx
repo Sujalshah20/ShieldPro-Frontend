@@ -80,8 +80,16 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                         onClick={() => setIsProfileOpen(!isProfileOpen)}
                         className="flex items-center gap-3.5 p-1 rounded-xl transition-all group"
                     >
-                        <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200">
-                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Avatar" className="w-full h-full object-cover" />
+                        <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center">
+                            {user?.profilePic ? (
+                                <img src={user.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <img 
+                                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'User'}`} 
+                                    alt="Avatar" 
+                                    className="w-full h-full object-cover" 
+                                />
+                            )}
                         </div>
                         <div className="flex items-center gap-1.5">
                             <span className="text-[14px] font-bold text-slate-700 group-hover:text-blue-600 transition-colors">{user?.name || 'Rahul Sharma'}</span>

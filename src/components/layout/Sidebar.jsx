@@ -6,15 +6,12 @@ import {
     ShieldCheck,
     Users,
     FileText,
-    Settings,
-    HelpCircle,
     LogOut,
     PlusCircle,
-    User,
     Shield,
     ClipboardList,
-    ChevronRight,
-    HeadphonesIcon
+    CreditCard,
+    Compass
 } from "lucide-react";
 
 const ROLE_LINKS = {
@@ -33,8 +30,11 @@ const ROLE_LINKS = {
     ],
     customer: [
         { name: "Dashboard", path: "/customer", icon: LayoutDashboard },
+        { name: "Browse Policies", path: "/customer/browse", icon: Compass },
         { name: "My Policies", path: "/customer/policies", icon: ShieldCheck },
         { name: "My Claims", path: "/customer/claims", icon: ClipboardList },
+        { name: "Submit New Claim", path: "/customer/submit-claim", icon: PlusCircle },
+        { name: "Payment History", path: "/customer/payments", icon: CreditCard },
     ]
 };
 
@@ -48,6 +48,8 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
         await logout();
         navigate("/login");
     };
+
+    const isCustomer = role === 'customer';
 
     return (
         <>
@@ -64,20 +66,41 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
             </AnimatePresence>
 
             <aside
-                className={`fixed top-0 left-0 z-[70] h-screen w-64 bg-[#1e293b] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+                className={`fixed top-0 left-0 z-[70] h-screen w-64 bg-[#1a2744] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 {/* Logo Section */}
-                <div className="p-8 pb-4">
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-[#0ea5e9] rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 text-white">
-                            <Shield className="w-6 h-6" strokeWidth={2.5} />
+                <div className="p-8 pb-6">
+                    <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 text-white">
+                            <Shield className="w-5 h-5" strokeWidth={2.5} />
                         </div>
                         <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
                     </div>
                 </div>
 
+                {/* Profile Section for Customer */}
+                {isCustomer && (
+                    <div className="px-6 mb-8 mt-2">
+                        <div className="flex items-center gap-4 bg-white/5 p-3 rounded-2xl border border-white/10">
+                            <img 
+                                src="https://i.pravatar.cc/150?u=rahul" 
+                                alt="Rahul Sharma" 
+                                className="w-10 h-10 rounded-full border-2 border-blue-500/50 object-cover shadow-sm"
+                            />
+                            <div className="flex flex-col">
+                                <span className="text-sm font-bold text-white tracking-tight">Rahul Sharma</span>
+                                <div className="flex items-center mt-0.5">
+                                    <span className="text-[10px] font-black bg-white/10 text-slate-300 px-2 py-0.5 rounded-md uppercase tracking-widest border border-white/5">
+                                        CUSTOMER
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Navigation Links */}
-                <nav className="flex-1 px-4 space-y-1.5">
+                <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
                     {links.map((link) => {
                         const Icon = link.icon;
                         const isActive = location.pathname === link.path;
@@ -87,42 +110,29 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 to={link.path}
                                 className={`flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all group ${
                                     isActive 
-                                        ? "bg-[#14b8a6] text-white shadow-lg shadow-teal-500/20" 
+                                        ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 font-bold" 
                                         : "text-slate-400 hover:text-white hover:bg-white/5"
                                 }`}
                             >
-                                <Icon size={20} />
-                                <span className="text-[14px] font-semibold">{link.name}</span>
+                                <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+                                <span className={`text-[13px] ${isActive ? 'font-bold' : 'font-semibold'}`}>{link.name}</span>
                             </Link>
                         );
                     })}
 
                     <div className="pt-8 pb-4">
-                        <p className="px-4 text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">Support & Account</p>
-                        <div className="space-y-1.5">
-                            <Link to={`/${role}/settings`} className="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all">
-                                <Settings size={20} />
-                                <span className="text-[14px] font-semibold">Settings</span>
-                            </Link>
+                        <p className="px-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Account</p>
+                        <div className="space-y-1">
+                            <button 
+                                onClick={handleLogout}
+                                className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/5 transition-all group"
+                            >
+                                <LogOut size={18} className="group-hover:text-rose-400 transition-colors" />
+                                <span className="text-[13px] font-semibold">Logout</span>
+                            </button>
                         </div>
                     </div>
                 </nav>
-
-                {/* Footer Actions */}
-                <div className="p-4 mt-auto space-y-3 bg-[#111827]/50">
-                    {role === 'agent' && (
-                        <button className="w-full h-11 bg-white/10 hover:bg-white/20 text-white rounded-xl flex items-center justify-center gap-3 transition-all font-bold text-[13px] border border-white/5">
-                            <PlusCircle size={18} /> New Customer
-                        </button>
-                    )}
-                    
-                    <button 
-                        onClick={handleLogout}
-                        className="w-full h-11 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 rounded-xl flex items-center justify-center gap-3 transition-all font-bold text-[13px] border border-rose-500/10"
-                    >
-                        <LogOut size={18} /> Logout
-                    </button>
-                </div>
             </aside>
         </>
     );

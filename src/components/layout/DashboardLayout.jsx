@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const DashboardLayout = ({ role }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -15,11 +15,11 @@ const DashboardLayout = ({ role }) => {
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
             <div className="flex flex-col min-h-screen relative md:ml-60 transition-all duration-300">
-                {/* Global Header (Hidden for Admin as they have custom page-level headers) */}
-                {!isAdmin && <Header role={role} isSidebarOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
+                {/* Global Header (Hidden for Admin and Customer as they have custom page-level headers/layouts) */}
+                {!isAdmin && role !== 'customer' && <Header role={role} isSidebarOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />}
 
                 {/* Main Dashboard Region */}
-                <main className={`flex-1 ${isAdmin ? 'pt-8' : 'pt-20'} pb-0 relative z-10 w-full max-w-[1400px] mx-auto`}>
+                <main className={`flex-1 ${isAdmin || role === 'customer' ? 'pt-8' : 'pt-20'} pb-0 relative z-10 w-full max-w-[1400px] mx-auto`}>
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
