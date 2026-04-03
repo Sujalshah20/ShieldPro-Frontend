@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Info, UploadCloud, FileText, Image as ImageIcon, Receipt, Landmark, CheckCircle2, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const SubmitClaimForm = ({ onCancel, onSubmit }) => {
+const SubmitClaimForm = ({ onCancel, onSubmit, policies = [] }) => {
     const [policy, setPolicy] = useState('');
     const [claimType, setClaimType] = useState('');
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
+    const [files, setFiles] = useState([]);
 
     const [bankAccount, setBankAccount] = useState('');
     const [ifsc, setIfsc] = useState('');
@@ -15,15 +16,34 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
     
     const [declarationAccepted, setDeclarationAccepted] = useState(false);
 
+    const handleFileChange = (e) => {
+        if (e.target.files) {
+            setFiles(Array.from(e.target.files));
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!declarationAccepted) {
             alert("Please accept the declaration to proceed.");
             return;
         }
-        // Mock payload
-        const payload = { policy, claimType, amount, date, description, bankAccount, ifsc, bankName };
-        onSubmit(payload);
+        
+        const formData = new FormData();
+        formData.append('userPolicyId', policy);
+        formData.append('amount', amount);
+        formData.append('description', description);
+        formData.append('claimType', claimType);
+        formData.append('date', date);
+        formData.append('bankAccount', bankAccount);
+        formData.append('ifsc', ifsc);
+        formData.append('bankName', bankName);
+
+        files.forEach((file) => {
+            formData.append('documents', file);
+        });
+
+        onSubmit(formData);
     };
 
     return (
@@ -60,10 +80,12 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
                                 value={policy} onChange={(e) => setPolicy(e.target.value)} required
                                 className="rounded-xl border-slate-200 bg-slate-50 p-3 text-sm focus:ring-[#134e8d] focus:border-[#134e8d] font-medium text-slate-700"
                             >
-                                <option value="">-- Select a Policy --</option>
-                                <option value="pol-8829">Health Shield Plus - #POL-8829</option>
-                                <option value="pol-4412">Safe Drive Auto - #POL-4412</option>
-                                <option value="pol-0931">Home Secure - #POL-0931</option>
+                                <option value="">-- Select an Active Policy --</option>
+                                {policies.filter(p => p.status === 'Active').map(up => (
+                                    <option key={up._id} value={up._id}>
+                                        {up.policy?.policyName} - #{up.policyNumber}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                         <div className="flex flex-col gap-2">
@@ -121,10 +143,29 @@ const SubmitClaimForm = ({ onCancel, onSubmit }) => {
                         </div>
                         <p className="text-sm font-bold text-slate-700">Drag and drop files here</p>
                         <p className="text-xs text-slate-400 mt-2 font-medium">PDF, JPG, PNG (Max size 5MB per file)</p>
-                        <button className="mt-6 px-8 py-2.5 bg-[#134e8d] text-white text-xs font-bold rounded-xl shadow-md hover:bg-[#002b45] transition-all" type="button">
-                            Browse Files
-                        </button>
+                        <input 
+                            type="file" 
+                            multiple 
+                            onChange={handleFileChange}
+                            className="hidden" 
+                            id="file-upload"
+                        />
+                        <label 
+                            htmlFor="file-upload"
+                            className="mt-6 px-8 py-2.5 bg-[#134e8d] text-white text-xs font-bold rounded-xl shadow-md hover:bg-[#002b45] transition-all cursor-pointer"
+                        >
+                            {files.length > 0 ? `${files.length} Files Selected` : 'Browse Files'}
+                        </label>
                     </div>
+                    {files.length > 0 && (
+                        <div className="mt-4 flex flex-wrap gap-2">
+                            {files.map((file, idx) => (
+                                <span key={idx} className="bg-blue-50 text-[#134e8d] px-3 py-1 rounded-full text-[10px] font-bold">
+                                    {file.name}
+                                </span>
+                            ))}
+                        </div>
+                    )}
                     <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
                         <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                             <Receipt className="text-[#134e8d]" size={20} />

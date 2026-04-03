@@ -29,10 +29,38 @@ const CustomerClaims = () => {
         }
     }, [location.state]);
 
-    const { data: myClaims = [], isLoading } = useQuery({
+    // Fetch user claims
+    const { data: myClaims = [], isLoading, isError, error } = useQuery({
         queryKey: ['myClaims', user?.token],
         queryFn: () => api.get('/claims', user.token),
         enabled: !!user?.token
+    });
+
+    // Fetch user policies for the claim form
+    const { data: myPolicies = [] } = useQuery({
+        queryKey: ['myPolicies', user?.token],
+        queryFn: () => api.get('/user-policies', user.token),
+        enabled: !!user?.token && isCreatingClaim
+    });
+
+    // Mutation for filing a claim
+    const fileClaimMutation = useMutation({
+        mutationFn: (formData) => api.postForm('/claims', formData, user.token),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['myClaims']);
+            setIsCreatingClaim(false);
+            toast({
+                title: "Claim Submitted Successfully!",
+                description: "Your new claim has been forwarded for processing.",
+            });
+        },
+        onError: (err) => {
+            toast({
+                title: "Submission Failed",
+                description: err.message || "There was an error filing your claim.",
+                variant: "destructive"
+            });
+        }
     });
 
     const getStatusStyle = (status) => {
@@ -60,10 +88,30 @@ const CustomerClaims = () => {
     };
 
     if (isLoading) return (
-        <div className="flex items-center justify-center h-[60vh]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-black"></div>
+        <div className="flex flex-col items-center justify-center h-[70vh] space-y-6">
+            <div className="relative w-20 h-20">
+                <div className="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                <div className="absolute inset-0 border-4 border-t-[#134e8d] rounded-full animate-spin"></div>
+            </div>
+            <p className="text-slate-400 font-bold text-[10px] uppercase tracking-widest animate-pulse">Syncing Secure Data...</p>
         </div>
     );
+
+    if (isError) return (
+        <div className="flex flex-col items-center justify-center h-[60vh] space-y-4">
+            <div className="w-16 h-16 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center">
+                <Info size={32} />
+            </div>
+            <h3 className="text-xl font-bold text-slate-800">Connection Interrupted</h3>
+            <p className="text-slate-500 max-w-md text-center">{error.message || "Failed to retrieve claim history."}</p>
+            <button 
+                onClick={() => queryClient.invalidateQueries(['myClaims'])}
+                className="mt-4 px-6 py-2 bg-[#134e8d] text-white rounded-xl text-xs font-bold uppercase tracking-widest"
+            >
+                Retry Connection
+            </button>
+        </div>
+    )
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 font-sans pb-20">
@@ -71,15 +119,9 @@ const CustomerClaims = () => {
                 {isCreatingClaim ? (
                     <SubmitClaimForm 
                         key="submit-form"
+                        policies={myPolicies}
                         onCancel={() => setIsCreatingClaim(false)} 
-                        onSubmit={() => {
-                            queryClient.invalidateQueries(['myClaims']);
-                            setIsCreatingClaim(false);
-                            toast({
-                                title: "Claim Submitted Successfully!",
-                                description: "Your new claim has been forwarded for processing.",
-                            });
-                        }}
+                        onSubmit={(formData) => fileClaimMutation.mutate(formData)}
                     />
                 ) : (
                     <motion.div 

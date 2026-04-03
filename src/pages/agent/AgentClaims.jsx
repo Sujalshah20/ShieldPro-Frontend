@@ -163,7 +163,7 @@ const AgentClaims = () => {
                                         </td>
                                         <td className="px-4 py-5 text-center">
                                             <span className="text-[10px] font-black text-black opacity-40 uppercase tracking-widest italic">
-                                                {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: '2023' })}
+                                                {new Date(claim.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
                                             </span>
                                         </td>
                                         <td className="px-4 py-5 text-center">
