@@ -2,15 +2,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
 import {
-    LayoutDashboard,
-    ShieldCheck,
-    Users,
-    FileText,
-    LogOut,
-    Shield,
-    ClipboardList,
-    CreditCard,
-    Compass
+    LayoutDashboard, ShieldCheck, Users, FileText,
+    LogOut, Shield, ClipboardList, CreditCard,
+    Compass, User, ChevronDown
 } from "lucide-react";
 
 const ROLE_LINKS = {
@@ -25,7 +19,6 @@ const ROLE_LINKS = {
         { name: "My Customers", path: "/agent/clients", icon: Users },
         { name: "Policy Applications", path: "/agent/applications", icon: FileText },
         { name: "Claims to Process", path: "/agent/claims", icon: ClipboardList },
-        { name: "Commission", path: "/agent/commission", icon: Shield },
     ],
     customer: [
         { name: "Dashboard", path: "/customer", icon: LayoutDashboard },
@@ -47,8 +40,6 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
         navigate("/login");
     };
 
-    const isCustomer = role === 'customer';
-
     return (
         <>
             <AnimatePresence>
@@ -67,15 +58,17 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 className={`fixed top-0 left-0 z-[70] h-screen w-64 bg-[#1a2744] text-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
             >
                 {/* Logo Section */}
-                <div className="p-8 pb-6">
+                <div className="p-8 pb-10">
                     <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 text-white">
-                            <Shield className="w-5 h-5" strokeWidth={2.5} />
+                        <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 text-white">
+                            <Shield className="w-6 h-6" strokeWidth={2.5} />
                         </div>
-                        <span className="text-xl font-bold tracking-tight text-white leading-none">Secure Shield</span>
+                        <div className="flex flex-col">
+                            <span className="text-lg font-black tracking-tight text-white leading-none">Secure Shield</span>
+                            <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-[0.2em] opacity-60">Agent Portal</span>
+                        </div>
                     </div>
                 </div>
-
 
                 {/* Navigation Links */}
                 <nav className="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
@@ -88,29 +81,36 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                                 to={link.path}
                                 className={`flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all group ${
                                     isActive 
-                                        ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 font-bold" 
+                                        ? "bg-white/10 text-white border border-white/5" 
                                         : "text-slate-400 hover:text-white hover:bg-white/5"
                                 }`}
                             >
-                                <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
-                                <span className={`text-[13px] ${isActive ? 'font-bold' : 'font-semibold'}`}>{link.name}</span>
+                                <Icon size={20} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-white" : "text-slate-400 group-hover:text-white"} />
+                                <span className={`text-[13.5px] ${isActive ? 'font-bold' : 'font-semibold'}`}>{link.name}</span>
                             </Link>
                         );
                     })}
-
-                    <div className="pt-8 pb-4">
-                        <p className="px-4 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4">Account</p>
-                        <div className="space-y-1">
-                            <button 
-                                onClick={handleLogout}
-                                className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/5 transition-all group"
-                            >
-                                <LogOut size={18} className="group-hover:text-rose-400 transition-colors" />
-                                <span className="text-[13px] font-semibold">Logout</span>
-                            </button>
-                        </div>
-                    </div>
                 </nav>
+
+                {/* Footer Section */}
+                <div className="p-4 border-t border-white/5 space-y-1">
+                    {role !== 'agent' && (
+                        <Link
+                            to={`/${role}/profile`}
+                            className="flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all group"
+                        >
+                            <User size={20} />
+                            <span className="text-[13.5px] font-semibold">Profile</span>
+                        </Link>
+                    )}
+                    <button 
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-500/5 transition-all group"
+                    >
+                        <LogOut size={20} className="group-hover:text-rose-400 transition-colors" />
+                        <span className="text-[13.5px] font-semibold">Logout</span>
+                    </button>
+                </div>
             </aside>
         </>
     );

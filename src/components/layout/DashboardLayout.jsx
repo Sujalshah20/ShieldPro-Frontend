@@ -10,7 +10,7 @@ const DashboardLayout = ({ role }) => {
     const isAdmin = role === 'admin';
 
     return (
-        <div className="min-h-screen bg-white font-sans overflow-x-hidden">
+        <div className="min-h-screen bg-white font-sans">
             {/* Sidebar Component */}
             <Sidebar role={role} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 

@@ -1,15 +1,9 @@
-import React from "react";
 import { 
     Users, FileText, ShieldCheck, 
     ChevronDown, MoreHorizontal,
     ArrowUpRight, AlertCircle, PieChart as PieChartIcon,
-    CreditCard
+    CreditCard, Shield, Heart, Sparkles, Star, Target, Zap, CheckCircle2, Clock
 } from "lucide-react";
-import { 
-    BarChart, Bar, XAxis, YAxis, 
-    CartesianGrid, Tooltip, ResponsiveContainer,
-    PieChart, Pie, Cell, Legend
-} from 'recharts';
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../utils/api";
@@ -24,18 +18,6 @@ const AgentDashboard = () => {
     const { data: statsData, isLoading: statsLoading } = useQuery({
         queryKey: ['agentStats'],
         queryFn: () => api.get('/stats/agent')
-    });
-
-    // Fetch Recent Applications
-    const { data: applications = [], isLoading: appsLoading } = useQuery({
-        queryKey: ['recentApplications'],
-        queryFn: () => api.get('/applications')
-    });
-
-    // Fetch Recent Claims
-    const { data: claims = [], isLoading: claimsLoading } = useQuery({
-        queryKey: ['recentClaims'],
-        queryFn: () => api.get('/claims/all')
     });
 
     const stats = [
@@ -69,10 +51,7 @@ const AgentDashboard = () => {
         },
     ];
 
-    const salesData = statsData?.charts?.salesTrend || [];
-    const policyTypeData = statsData?.charts?.policyTypeDistribution || [];
-
-    if (statsLoading || appsLoading || claimsLoading) {
+    if (statsLoading) {
         return (
             <div className="p-8 space-y-8 animate-pulse">
                 <div className="h-10 w-64 bg-slate-200 rounded-lg" />
@@ -120,165 +99,108 @@ const AgentDashboard = () => {
                 ))}
             </div>
 
-            {/* Charts Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Sales Trend Bar Chart */}
-                <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                    <div className="flex justify-between items-center mb-6">
-                        <h3 className="text-lg font-bold text-[#134e8d]">Policy Sales Trend</h3>
+            {/* Premium Dashboard Replacement */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+                {/* 1. Main Hero / Welcome Section */}
+                <div className="xl:col-span-2 relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#0c2e59] via-[#134e8d] to-[#1e6cb8] p-8 sm:p-10 text-white shadow-xl flex flex-col justify-center">
+                    <div className="absolute top-0 right-0 p-8 opacity-10">
+                        <Shield className="w-64 h-64" />
                     </div>
-                    {salesData.length > 0 ? (
-                        <div className="h-[280px] w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={salesData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                    <XAxis 
-                                        dataKey="name" 
-                                        axisLine={false} 
-                                        tickLine={false} 
-                                        tick={{ fill: '#64748b', fontSize: 12, fontWeight: 600 }} 
-                                        dy={10}
-                                    />
-                                    <YAxis axisLine={false} tickLine={false} hide />
-                                    <Tooltip 
-                                        cursor={{ fill: '#f8fafc' }}
-                                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-                                    />
-                                    <Bar dataKey="value" fill="#134e8d" radius={[4, 4, 4, 4]} barSize={40} />
-                                </BarChart>
-                            </ResponsiveContainer>
+                    <div className="absolute -bottom-10 -right-10 opacity-20">
+                        <Heart className="w-48 h-48" />
+                    </div>
+                    <div className="absolute top-10 right-20 opacity-20 hidden sm:block">
+                        <Sparkles className="w-16 h-16" />
+                    </div>
+                    <div className="relative z-10 w-full md:w-5/6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/20 mb-6 w-max">
+                            <Star className="w-4 h-4 text-emerald-300" fill="currentColor" />
+                            <span className="text-xs font-bold uppercase tracking-wider text-emerald-50">Premium Agent Portal</span>
                         </div>
-                    ) : (
-                        <div className="h-[280px] flex items-center justify-center text-slate-400 font-medium text-[13px]">
-                            No sales records found for the last 6 months.
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
+                            Protect More Lives. <br className="hidden sm:block"/> Build More Trust.
+                        </h2>
+                        <p className="text-blue-100 text-sm sm:text-base font-medium mb-8 leading-relaxed max-w-lg">
+                            Manage customers, review applications, and support claims with confidence and clarity. Your guidance builds customer confidence.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <button onClick={() => navigate('/agent/applications')} className="bg-white text-[#134e8d] px-6 py-3.5 rounded-full font-bold text-sm sm:text-[13px] uppercase tracking-wider shadow-[0_8px_20px_-6px_rgba(255,255,255,0.4)] hover:shadow-none hover:bg-slate-50 transition-all text-center">
+                                Review Applications
+                            </button>
+                            <button onClick={() => navigate('/agent/claims')} className="bg-[#0c2e59]/40 text-white border border-white/30 px-6 py-3.5 rounded-full font-bold text-sm sm:text-[13px] uppercase tracking-wider hover:bg-[#0c2e59]/60 transition-all backdrop-blur-sm text-center">
+                                View Pending Claims
+                            </button>
                         </div>
-                    )}
+                    </div>
                 </div>
 
-                {/* Policies by Type Donut Chart */}
-                <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
-                    <h3 className="text-lg font-bold text-[#134e8d] mb-6">Policies by Type</h3>
-                    {policyTypeData.length > 0 ? (
-                        <div className="relative flex-1 flex flex-col justify-center items-center">
-                            <div className="h-[200px] w-full">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <PieChart>
-                                        <Pie
-                                            data={policyTypeData}
-                                            innerRadius={60}
-                                            outerRadius={80}
-                                            paddingAngle={5}
-                                            dataKey="value"
-                                        >
-                                            {policyTypeData.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={entry.color} />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip />
-                                    </PieChart>
-                                </ResponsiveContainer>
+                {/* 2. Useful Supporting Info Cards */}
+                <div className="flex flex-col gap-6">
+                    {/* Card A: Today's Focus */}
+                    <div className="bg-gradient-to-br from-blue-50 to-white p-7 rounded-[2rem] border border-blue-100 shadow-sm relative overflow-hidden flex-1 group">
+                        <div className="absolute -right-4 -top-4 w-24 h-24 bg-blue-100/50 rounded-full opacity-50 group-hover:scale-[2] transition-transform duration-700 ease-in-out" />
+                        <div className="relative z-10 h-full flex flex-col justify-center">
+                            <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-[#134e8d] mb-5 border border-slate-100">
+                                <Target size={24} strokeWidth={2.5} />
                             </div>
-                            {/* Custom Legend */}
-                            <div className="grid grid-cols-2 gap-3 mt-6 w-full px-2">
-                                {policyTypeData.map((item, idx) => (
-                                    <div key={idx} className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                                        <span className="text-[11px] font-bold text-slate-600 truncate">{item.name} ({item.value}%)</span>
-                                    </div>
-                                ))}
-                            </div>
+                            <h3 className="text-xl font-extrabold text-slate-800 mb-2">Today's Focus</h3>
+                            <p className="text-[13px] font-medium text-slate-600 leading-relaxed">
+                                Review pending applications quickly and guide customers toward the right coverage.
+                            </p>
                         </div>
-                    ) : (
-                        <div className="flex-1 flex items-center justify-center text-slate-400 font-medium text-center px-4 text-[12px]">
-                            Sell your first policy to see the distribution here!
+                    </div>
+
+                    {/* Card B: Insurance Value Message */}
+                    <div className="bg-gradient-to-br from-slate-800 to-[#134e8d] p-7 rounded-[2rem] shadow-lg relative overflow-hidden flex-1 group">
+                        <div className="absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4 group-hover:scale-110 transition-transform duration-700">
+                            <ShieldCheck size={140} />
                         </div>
-                    )}
+                        <div className="relative z-10 h-full flex flex-col justify-center">
+                            <h3 className="text-xl font-extrabold text-white mb-3">Insurance Value</h3>
+                            <p className="text-[13px] font-medium text-blue-100 leading-relaxed italic border-l-2 border-blue-400 pl-3">
+                                "Insurance is not just a policy — it is peace of mind, financial protection, and family security."
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {/* Tables Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Recent Applications */}
-                <div className="lg:col-span-12 xl:col-span-7 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
-                    <div className="flex justify-between items-center mb-6 px-1">
-                        <h3 className="text-lg font-bold text-[#134e8d]">Recent Applications</h3>
-                        <button onClick={() => navigate('/agent/applications')} className="text-xs font-bold text-[#134e8d] hover:underline">View All</button>
-                    </div>
-                    <div className="overflow-x-auto">
-                        {applications.length > 0 ? (
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="border-b border-slate-50">
-                                        <th className="pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400">Customer</th>
-                                        <th className="pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400">Policy</th>
-                                        <th className="pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400">Date</th>
-                                        <th className="pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400">Status</th>
-                                        <th className="pb-3 px-4 text-[10px] font-bold uppercase tracking-wider text-slate-400 text-right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-50">
-                                    {applications.slice(0, 5).map((row, i) => (
-                                        <tr key={i} className="group hover:bg-slate-50/50 transition-colors">
-                                            <td className="py-4 px-4 font-bold text-slate-800 text-[13px]">{row.user?.name}</td>
-                                            <td className="py-4 px-4 font-bold text-slate-600 text-[13px]">{row.policy?.policyName}</td>
-                                            <td className="py-4 px-4 font-bold text-slate-500 text-[13px]">{new Date(row.createdAt).toLocaleDateString()}</td>
-                                            <td className="py-4 px-4">
-                                                <span className={`text-[10px] font-bold px-2 py-1 rounded-md ${
-                                                    row.status === 'Approved' ? 'bg-emerald-50 text-emerald-600' : 
-                                                    row.status === 'Pending' ? 'bg-orange-50 text-orange-600' : 'bg-slate-100 text-slate-600'
-                                                }`}>
-                                                    {row.status.toUpperCase()}
-                                                </span>
-                                            </td>
-                                            <td className="py-4 px-4 text-right">
-                                                <button onClick={() => navigate('/agent/applications')} className="px-4 py-2 bg-blue-50 text-[#134e8d] border border-blue-100 rounded-xl font-bold text-[11px] uppercase tracking-wider hover:bg-[#134e8d] hover:text-white transition-all">Review</button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <div className="py-12 text-center text-slate-400 font-bold uppercase tracking-wider text-[11px] italic">
-                                No applications found.
-                            </div>
-                        )}
-                    </div>
-                </div>
+            {/* 3. Optional micro stats / highlight chips */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-2">
+                {[
+                    { label: "Trusted Service", icon: ShieldCheck, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
+                    { label: "Fast App Review", icon: Zap, color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100" },
+                    { label: "Customer-First Support", icon: Heart, color: "text-rose-600", bg: "bg-rose-50", border: "border-rose-100" },
+                    { label: "Secure Guidance", icon: CheckCircle2, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" }
+                ].map((chip, idx) => (
+                    <motion.div 
+                        key={idx}
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 + 0.3 }}
+                        className={`flex items-center gap-4 p-4 rounded-[1.5rem] ${chip.bg} border ${chip.border}`}
+                    >
+                        <div className={`w-10 h-10 flex shrink-0 items-center justify-center bg-white rounded-xl shadow-sm ${chip.color}`}>
+                            <chip.icon size={18} strokeWidth={3} />
+                        </div>
+                        <span className="text-[13px] font-bold text-slate-800 tracking-tight">{chip.label}</span>
+                    </motion.div>
+                ))}
+            </div>
 
-                {/* Pending Claims */}
-                <div className="lg:col-span-12 xl:col-span-5 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col">
-                    <div className="flex justify-between items-center mb-6 px-1">
-                        <h3 className="text-lg font-bold text-[#134e8d]">Pending Claims</h3>
-                        <button onClick={() => navigate('/agent/claims')} className="text-xs font-bold text-[#134e8d] hover:underline">View All</button>
+            {/* Agent Tip Row */}
+            <div className="bg-white border border-slate-200 rounded-[1.5rem] p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 shadow-sm mt-2 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-1.5 h-full bg-amber-400" />
+                <div className="w-12 h-12 shrink-0 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 ml-2">
+                    <Clock size={24} strokeWidth={2.5} />
+                </div>
+                <div>
+                    <div className="inline-flex items-center gap-1.5 mb-1">
+                        <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wider">Agent Tip</h4>
                     </div>
-                    <div className="space-y-4 flex-1">
-                        {claims.filter(c => c.status === 'Pending').length > 0 ? (
-                            claims.filter(c => c.status === 'Pending').slice(0, 4).map((claim, i) => (
-                                <div key={i} className="flex items-center justify-between p-3.5 rounded-xl border border-slate-50 hover:bg-slate-50 transition-all cursor-pointer group">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#134e8d]">
-                                            <ShieldCheck size={16} />
-                                        </div>
-                                        <div>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight leading-none mb-1">#{claim._id.slice(-6).toUpperCase()}</p>
-                                            <p className="font-bold text-slate-800 text-sm">{claim.user?.name}</p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="font-bold text-[#134e8d] text-sm">₹{claim.amount.toLocaleString()}</p>
-                                        <p className="text-[10px] font-bold text-slate-400 mt-0.5 uppercase tracking-wider">{new Date(claim.createdAt).toLocaleDateString()}</p>
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="py-12 text-center text-slate-400 font-bold uppercase tracking-wider text-[11px] italic">
-                                Great! All claims are processed.
-                            </div>
-                        )}
-                    </div>
-                    <button onClick={() => navigate('/agent/claims')} className="w-full mt-4 py-3 bg-slate-50 hover:bg-slate-100 rounded-xl text-slate-700 font-bold text-[12px] transition-all">
-                        Go to Claims Management
-                    </button>
+                    <p className="text-[13px] font-medium text-slate-600 leading-relaxed">
+                        Timely follow-up on applications and claims improves trust and conversion rates. Stay proactive!
+                    </p>
                 </div>
             </div>
         </div>
