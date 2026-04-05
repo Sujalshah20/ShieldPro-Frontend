@@ -39,13 +39,7 @@ const AdminUsers = () => {
     const totalPages = data?.pages || 1;
     const totalCount = data?.total || 0;
 
-    const mockData = [
-        { _id: "SH9012", name: "Eleanor Bennett", email: "eleanor.b@email.com", phone: "+1 (555) 012-3456", mockPolicies: ["Health", "Life"], claims: 0, createdAt: "2023-10-24", status: "Active" },
-        { _id: "SH8843", name: "Marcus Reed", email: "m.reed@provider.io", phone: "+1 (555) 765-4321", mockPolicies: ["Auto"], claims: 2, createdAt: "2024-01-12", status: "Pending KYC" },
-        { _id: "SH7290", name: "Lydia Walker", email: "lydia.walker@web.com", phone: "+1 (555) 234-8901", mockPolicies: [], claims: 0, createdAt: "2022-03-05", status: "Inactive" }
-    ];
-
-    const displayCustomers = customers.length > 0 ? customers : mockData;
+    const displayCustomers = customers;
 
     return (
         <div className="space-y-6 pb-10 max-w-[1400px] mx-auto font-sans">
@@ -151,7 +145,7 @@ const AdminUsers = () => {
                                         {u.phone || '+1 (555) 000-0000'}
                                     </td>
                                     <td className="px-6 py-5 text-center text-[14px] font-bold text-slate-800">
-                                        {u.claims !== undefined ? u.claims : (i % 2 === 0 ? 0 : 2)}
+                                        {u.claims || 0}
                                     </td>
                                     <td className="px-6 py-5 text-center text-[13px] text-slate-500 font-medium whitespace-nowrap">
                                         {u.createdAt.length < 15 ? u.createdAt : new Date(u.createdAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}

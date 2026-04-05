@@ -11,6 +11,11 @@ const getBaseUrl = () => {
         return 'https://shieldpro-backend.onrender.com';
     }
 
+    // Default to localhost if testing locally and no envUrl exists
+    if (isLocalhost && !envUrl) {
+        return 'http://localhost:5000';
+    }
+
     return envUrl?.replace('/api', '') || 'https://shieldpro-backend.onrender.com';
 };
 

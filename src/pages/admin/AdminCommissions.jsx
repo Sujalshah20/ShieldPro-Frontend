@@ -122,9 +122,9 @@ const AdminCommissions = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-5 text-center">
-                                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100">
-                                            <div className="w-1 h-1 bg-emerald-500 rounded-full" />
-                                            <span className="text-[9px] font-black text-emerald-600 uppercase">Authorized</span>
+                                        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${c.status === 'Paid' ? 'bg-emerald-50 border border-emerald-100' : 'bg-amber-50 border border-amber-100'}`}>
+                                            <div className={`w-1 h-1 rounded-full ${c.status === 'Paid' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+                                            <span className={`text-[9px] font-black uppercase ${c.status === 'Paid' ? 'text-emerald-600' : 'text-amber-600'}`}>{c.status || 'Paid'}</span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-5 text-right">

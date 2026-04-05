@@ -135,12 +135,18 @@ const AdminPolicies = () => {
         }
     };
 
-    const mockStats = {
-        Health: { range: "$120 - $450/mo", duration: "12 Months", customers: "1,248", status: "Active" },
-        Life: { range: "$200 - $1,200/mo", duration: "Term (20y)", customers: "854", status: "Active" },
-        Auto: { range: "$45 - $150/mo", duration: "6 Months", customers: "0", status: "Draft" },
-        Home: { range: "$80 - $220/mo", duration: "12 Months", customers: "321", status: "Inactive" }
-    };
+
+    const { data: adminStats } = useQuery({
+        queryKey: ['adminStats', user?.token],
+        queryFn: () => api.get('/stats/admin', user.token),
+        enabled: !!user?.token
+    });
+
+    const totalRevenue = adminStats?.stats?.totalRevenue || 0;
+    const activePoliciesCount = adminStats?.stats?.activePolicies || 0;
+    const avgPremium = activePoliciesCount > 0 ? totalRevenue / activePoliciesCount : 0;
+    const totalCustomers = adminStats?.stats?.totalCustomers || 0;
+    const totalAgents = adminStats?.stats?.totalAgents || 0;
 
     return (
         <div className="space-y-6 pb-10 max-w-7xl mx-auto font-sans">
@@ -250,7 +256,8 @@ const AdminPolicies = () => {
                                     <td colSpan="8" className="px-6 py-16 text-center text-slate-400 font-medium">No policies found.</td>
                                 </tr>
                             ) : policies.map((p, i) => {
-                                const stats = mockStats[p.policyType] || mockStats.Health;
+                                const status = p.status ? p.status.toLowerCase() : 'active';
+                                const displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
                                 return (
                                     <tr key={p._id} className="hover:bg-slate-50/50 transition-colors">
                                         <td className="px-6 py-6 text-[13px] text-slate-500 font-medium uppercase tracking-wider">
@@ -270,23 +277,23 @@ const AdminPolicies = () => {
                                             </span>
                                         </td>
                                         <td className="px-6 py-6 text-[14px] font-bold text-slate-600">
-                                            {stats.range.split(' - ')[0]} -<br/>{stats.range.split(' - ')[1]}
+                                            ₹{p.premiumAmount?.toLocaleString()}
                                         </td>
                                         <td className="px-6 py-6 text-[14px] text-slate-500 font-medium">
-                                            {stats.duration.includes('Term') ? <>Term<br/>(20y)</> : <>{(stats.duration.split(' ')[0])}<br/>{stats.duration.split(' ')[1]}</>}
+                                            {p.durationYears} Year(s)
                                         </td>
                                         <td className="px-6 py-6 text-center text-[14px] font-bold text-slate-800">
-                                            {stats.customers}
+                                            {p.stats?.customers || 0}
                                         </td>
                                         <td className="px-6 py-6">
                                             <div className="flex justify-center">
                                                 <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold ${
-                                                    stats.status === 'Active' ? 'bg-[#E3F6EC] text-[#28A960]' : 
-                                                    stats.status === 'Inactive' ? 'bg-[#FBE9E9] text-[#E03A3E]' : 
+                                                    status === 'active' ? 'bg-[#E3F6EC] text-[#28A960]' : 
+                                                    status === 'inactive' ? 'bg-[#FBE9E9] text-[#E03A3E]' : 
                                                     'bg-slate-100 text-slate-500'
                                                 }`}>
-                                                    <div className={`w-[5px] h-[5px] rounded-full ${stats.status === 'Active' ? 'bg-[#28A960]' : stats.status === 'Inactive' ? 'bg-[#E03A3E]' : 'bg-slate-400'}`} />
-                                                    {stats.status}
+                                                    <div className={`w-[5px] h-[5px] rounded-full ${status === 'active' ? 'bg-[#28A960]' : status === 'inactive' ? 'bg-[#E03A3E]' : 'bg-slate-400'}`} />
+                                                    {displayStatus}
                                                 </div>
                                             </div>
                                         </td>
@@ -294,7 +301,7 @@ const AdminPolicies = () => {
                                             <div className="flex justify-end gap-3 text-slate-400">
                                                 <button onClick={() => handleEditClick(p)} className="hover:text-blue-600 transition-colors"><Edit size={16} strokeWidth={2.5} /></button>
                                                 <button onClick={() => handleViewClick(p)} className="hover:text-slate-600 transition-colors">
-                                                    {stats.status === 'Draft' ? <CheckCircle2 size={16} strokeWidth={2.5} /> : stats.status === 'Inactive' ? <Play size={16} strokeWidth={2.5} className="fill-current" /> : <Eye size={16} strokeWidth={2.5} />}
+                                                    {status === 'draft' ? <CheckCircle2 size={16} strokeWidth={2.5} /> : status === 'inactive' ? <Play size={16} strokeWidth={2.5} className="fill-current" /> : <Eye size={16} strokeWidth={2.5} />}
                                                 </button>
                                                 <button onClick={() => handleDeleteClick(p)} className="hover:text-rose-600 transition-colors"><Trash2 size={16} strokeWidth={2.5} /></button>
                                             </div>

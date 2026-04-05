@@ -184,15 +184,15 @@ const AdminAgents = () => {
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3 text-black/60 font-black text-[10px] uppercase tracking-widest italic leading-none">
                                             <MapPin size={12} className="text-black/20" />
-                                            {a.region || "N/A"}
+                                            {a.address || "N/A"}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className="text-[12px] font-black text-black italic">{a.activeSchemes || 0}</span>
+                                        <span className="text-[12px] font-black text-black italic">{a.stats?.sales || 0}</span>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className="text-[14px] font-black text-black tracking-tighter uppercase italic">
-                                            ₹{a.cumulativeYield?.toLocaleString() || 0}
+                                            ₹{a.stats?.earnings?.toLocaleString() || 0}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
