@@ -16,7 +16,6 @@ const CustomerProfile = () => {
 
     const [form, setForm] = useState({
         name: '', email: '', phone: '', address: '', dob: '', gender: 'Male',
-        nationalId: '', panNumber: '',
         occupation: '', annualIncome: '', profilePic: ''
     });
 
@@ -30,13 +29,11 @@ const CustomerProfile = () => {
         if (profileData) {
             setForm({
                 name: profileData.name || '',
-                email: user.email || '',
+                email: profileData.email || user.email || '',
                 phone: profileData.phone || '',
                 address: profileData.address || '',
                 dob: profileData.dob || '',
                 gender: profileData.gender || 'Male',
-                nationalId: profileData.nationalId || '',
-                panNumber: profileData.panNumber || '',
                 occupation: profileData.employment?.occupation || '',
                 annualIncome: profileData.employment?.annualIncome || '',
                 profilePic: profileData.profilePic || ''
@@ -104,8 +101,6 @@ const CustomerProfile = () => {
     };
 
     const validateName = (name) => /^[A-Za-z\s]{3,50}$/.test(name);
-    const validateAadhaar = (val) => /^\d{12}$/.test(val.replace(/\s/g, ''));
-    const validatePAN = (val) => /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(val.toUpperCase());
     const validateMobile = (val) => /^[6-9]\d{9}$/.test(val);
 
     const getFieldStatus = (name, value) => {
@@ -114,8 +109,6 @@ const CustomerProfile = () => {
             case 'name': return validateName(value) ? 'valid' : 'invalid';
             case 'email': return validateEmail(value) ? 'valid' : 'invalid';
             case 'phone': return validateMobile(value) ? 'valid' : 'invalid';
-            case 'nationalId': return validateAadhaar(value) ? 'valid' : 'invalid';
-            case 'panNumber': return validatePAN(value) ? 'valid' : 'invalid';
             default: return 'none';
         }
     };
@@ -132,40 +125,19 @@ const CustomerProfile = () => {
                 e.preventDefault();
                 toast({ title: "Invalid Input", description: "Name can only contain letters and spaces", variant: "destructive" });
             }
-        } else if (name === 'phone' || name === 'nationalId') {
+        } else if (name === 'phone') {
             if (!/^\d$/.test(key)) {
                 e.preventDefault();
                 toast({ title: "Invalid Input", description: "Only numbers are allowed in this field", variant: "destructive" });
             }
             if (name === 'phone' && form.phone.length >= 10) e.preventDefault();
-            if (name === 'nationalId' && form.nationalId.replace(/\s/g, '').length >= 12) e.preventDefault();
-        } else if (name === 'panNumber') {
-            const raw = form.panNumber.toUpperCase();
-            const pos = raw.length;
-            if (pos >= 10) { e.preventDefault(); return; }
-            if (pos < 5 || pos === 9) { // Should be letter
-                if (!/^[A-Za-z]$/.test(key)) {
-                    e.preventDefault();
-                    toast({ title: "Format Error", description: "This position must be a letter (A-Z)", variant: "destructive" });
-                }
-            } else { // Should be number
-                if (!/^\d$/.test(key)) {
-                    e.preventDefault();
-                    toast({ title: "Format Error", description: "This position must be a number (0-9)", variant: "destructive" });
-                }
-            }
         }
     };
 
     const handlePaste = (e, name) => {
         const text = e.clipboardData.getData('text');
         if (name === 'name' && !/^[A-Za-z\s]*$/.test(text)) e.preventDefault();
-        if ((name === 'phone' || name === 'nationalId') && !/^\d*$/.test(text)) e.preventDefault();
-    };
-
-    const formatAadhaar = (val) => {
-        const cleaned = val.replace(/\s/g, '').slice(0, 12);
-        return cleaned.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+        if (name === 'phone' && !/^\d*$/.test(text)) e.preventDefault();
     };
 
     const handleSave = async () => {
@@ -173,8 +145,6 @@ const CustomerProfile = () => {
         if (!validateName(form.name)) return toast({ title: "Invalid Name", description: "3-50 letters only", variant: "destructive" });
         if (!validateEmail(form.email)) return toast({ title: "Invalid Email", description: "Please enter a valid email", variant: "destructive" });
         if (!validateMobile(form.phone)) return toast({ title: "Invalid Mobile", description: "Must be 10 digits starting with 6-9", variant: "destructive" });
-        if (form.nationalId && !validateAadhaar(form.nationalId)) return toast({ title: "Invalid Aadhaar", description: "Must be exactly 12 digits", variant: "destructive" });
-        if (form.panNumber && !validatePAN(form.panNumber)) return toast({ title: "Invalid PAN", description: "Must be in format ABCDE1234F", variant: "destructive" });
 
         try {
             const payload = {
@@ -184,8 +154,6 @@ const CustomerProfile = () => {
                 address: form.address,
                 dob: form.dob,
                 gender: form.gender,
-                nationalId: form.nationalId.replace(/\s/g, ''),
-                panNumber: form.panNumber.toUpperCase(),
                 employment: {
                     occupation: form.occupation,
                     annualIncome: Number(form.annualIncome)
@@ -243,13 +211,13 @@ const CustomerProfile = () => {
                         </div>
                         <div className="text-center md:text-left mb-2">
                             <div className="flex items-center gap-3 justify-center md:justify-start mb-1">
-                                <h1 className="text-2xl font-bold text-slate-800">{form.name || 'User Name'}</h1>
+                                <h1 className="text-2xl font-bold text-slate-800">{profileData?.name || user?.name || 'User Name'}</h1>
                                 <span className="bg-emerald-50 text-emerald-600 font-bold px-3 py-1 rounded-full text-[10px] uppercase tracking-widest border border-emerald-100 flex items-center gap-1.5">
                                     <CheckCircle2 size={12} /> Verified
                                 </span>
                             </div>
                             <p className="text-sm text-slate-500 font-medium flex items-center gap-2 justify-center md:justify-start">
-                                {user.email} <span className="w-1 h-1 rounded-full bg-slate-300" /> Member since {profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : 'Jan 2022'}
+                                {profileData?.email || user?.email} <span className="w-1 h-1 rounded-full bg-slate-300" /> Member since {profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) : 'Jan 2026'}
                             </p>
                         </div>
                     </div>
@@ -270,9 +238,8 @@ const CustomerProfile = () => {
                 {/* Information Layout */}
                 <div className="max-w-4xl mx-auto space-y-8">
                     <div className="bg-white rounded-[2rem] p-8 md:p-10 border border-slate-100 shadow-sm relative overflow-hidden">
-                        <div className="flex items-center justify-between mb-8">
+                        <div className="mb-8">
                             <h2 className="text-xl font-bold text-slate-800">Personal Information</h2>
-                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Core Profile Sync</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
@@ -292,8 +259,8 @@ const CustomerProfile = () => {
                                 <input 
                                     name="email" 
                                     value={form.email} 
-                                    readOnly 
-                                    className="w-full bg-slate-100/50 border border-slate-100 rounded-xl px-4 py-3 text-[13px] text-slate-400 font-medium outline-none cursor-not-allowed" 
+                                    onChange={handleChange}
+                                    className={`w-full bg-slate-50 border ${getFieldStatus('email', form.email) === 'valid' ? 'border-emerald-500' : getFieldStatus('email', form.email) === 'invalid' ? 'border-red-500' : 'border-slate-100'} rounded-xl px-4 py-3 text-[13px] font-medium text-slate-700 focus:outline-none focus:bg-white focus:border-[#134e8d] transition-all`} 
                                 />
                             </div>
                             <div className="space-y-2">
@@ -330,31 +297,6 @@ const CustomerProfile = () => {
                                 <input name="occupation" value={form.occupation} onChange={handleChange} className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-slate-700 focus:outline-none focus:bg-white focus:border-[#134e8d] transition-all" />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Aadhar Number</label>
-                                <input 
-                                    name="nationalId" 
-                                    value={formatAadhaar(form.nationalId)} 
-                                    onChange={(e) => setForm(prev => ({ ...prev, nationalId: e.target.value.replace(/\s/g, '') }))} 
-                                    onKeyDown={(e) => blockInvalidChar(e, 'nationalId')}
-                                    onPaste={(e) => handlePaste(e, 'nationalId')}
-                                    className={`w-full bg-slate-50 border ${getFieldStatus('nationalId', form.nationalId) === 'valid' ? 'border-emerald-500' : getFieldStatus('nationalId', form.nationalId) === 'invalid' ? 'border-red-500' : 'border-slate-100'} rounded-xl px-4 py-3 text-[13px] font-medium text-slate-700 focus:outline-none focus:bg-white focus:border-[#134e8d] transition-all tracking-wider font-mono`} 
-                                    placeholder="XXXX XXXX 1234" 
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">PAN Card Number</label>
-                                <input 
-                                    name="panNumber" 
-                                    value={form.panNumber.toUpperCase()} 
-                                    onChange={(e) => setForm(prev => ({ ...prev, panNumber: e.target.value.toUpperCase() }))} 
-                                    onKeyDown={(e) => blockInvalidChar(e, 'panNumber')}
-                                    onPaste={(e) => handlePaste(e, 'panNumber')}
-                                    className={`w-full bg-slate-50 border ${getFieldStatus('panNumber', form.panNumber) === 'valid' ? 'border-emerald-500' : getFieldStatus('panNumber', form.panNumber) === 'invalid' ? 'border-red-500' : 'border-slate-100'} rounded-xl px-4 py-3 text-[13px] font-medium text-slate-700 focus:outline-none focus:bg-white focus:border-[#134e8d] transition-all tracking-wider font-mono uppercase`} 
-                                    placeholder="ABCDE1234F" 
-                                />
-                            </div>
-                            
-                            <div className="md:col-span-2 space-y-2">
                                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Current Address</label>
                                 <textarea name="address" value={form.address} onChange={handleChange} rows="3" className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-[13px] font-medium text-slate-700 focus:outline-none focus:bg-white focus:border-[#134e8d] transition-all resize-none" />
                             </div>

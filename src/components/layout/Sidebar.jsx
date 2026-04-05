@@ -60,13 +60,10 @@ const Sidebar = ({ role, isOpen, setIsOpen }) => {
                 {/* Logo Section */}
                 <div className="p-8 pb-10">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 text-white">
+                        <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 text-white shrink-0">
                             <Shield className="w-6 h-6" strokeWidth={2.5} />
                         </div>
-                        <div className="flex flex-col">
-                            <span className="text-lg font-black tracking-tight text-white leading-none">Secure Shield</span>
-                            <span className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-[0.2em] opacity-60">Agent Portal</span>
-                        </div>
+                        <span className="text-xl font-black tracking-tight text-white leading-none">Secure Shield</span>
                     </div>
                 </div>
 

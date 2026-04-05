@@ -77,17 +77,9 @@ const CustomerPolicies = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 font-sans pb-20">
             
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
-                <div>
-                    <h1 className="text-2xl font-bold text-slate-800 mb-1">My Policies</h1>
-                    <p className="text-slate-500 text-sm font-medium">Manage and track your active insurance coverage and renewals.</p>
-                </div>
-                <button 
-                    onClick={() => navigate('/customer/browse')}
-                    className="flex items-center justify-center gap-2 bg-[#134e8d] text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-[#002b45] transition-all shadow-lg shadow-blue-100"
-                >
-                    <Plus size={18} /> Get New Policy
-                </button>
+            <div className="mb-10">
+                <h1 className="text-2xl font-bold text-slate-800 mb-1">My Policies</h1>
+                <p className="text-slate-500 text-sm font-medium">Manage and track your active insurance coverage and renewals.</p>
             </div>
 
             {/* Tabs */}

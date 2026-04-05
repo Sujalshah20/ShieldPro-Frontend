@@ -41,22 +41,15 @@ const AgentDashboard = () => {
             icon: AlertCircle, 
             color: "text-rose-600", 
             bg: "bg-rose-50"
-        },
-        { 
-            label: "Month Commission", 
-            value: `₹${(statsData?.stats?.totalCommission || 0).toLocaleString()}`, 
-            icon: CreditCard, 
-            color: "text-emerald-600", 
-            bg: "bg-emerald-50"
-        },
+        }
     ];
 
     if (statsLoading) {
         return (
             <div className="p-8 space-y-8 animate-pulse">
                 <div className="h-10 w-64 bg-slate-200 rounded-lg" />
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    {[1, 2, 3, 4].map(i => <div key={i} className="h-32 bg-white rounded-2xl border border-slate-100" />)}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {[1, 2, 3].map(i => <div key={i} className="h-32 bg-white rounded-2xl border border-slate-100" />)}
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div className="lg:col-span-2 h-80 bg-white rounded-2xl border border-slate-100" />
@@ -77,7 +70,7 @@ const AgentDashboard = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {stats.map((s, i) => (
                     <motion.div 
                         key={i}

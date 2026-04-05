@@ -71,7 +71,7 @@ const Header = ({ role, isSidebarOpen, setIsOpen }) => {
                         </div>
                         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-md">
                             <img 
-                                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'Vikas'}`} 
+                                src={user?.profilePic || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'Vikas'}`} 
                                 alt="Avatar" 
                                 className="w-full h-full object-cover" 
                             />
