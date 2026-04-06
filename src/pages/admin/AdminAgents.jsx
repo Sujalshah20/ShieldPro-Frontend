@@ -11,8 +11,9 @@ import {
     Edit2, Eye, Trash2, MapPin
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import Reveal from "../../components/common/Reveal";
+import { useToast } from "../../hooks/use-toast";
 import { TableSkeleton } from "../../components/common/Skeleton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AdminAgents = () => {
     const { user } = useContext(AuthContext);
@@ -39,6 +40,26 @@ const AdminAgents = () => {
     const agents = data?.agents || [];
     const totalPages = data?.pages || 1;
     const totalCount = data?.total || 0;
+    const { toast } = useToast();
+    const queryClient = useQueryClient();
+
+    const statusMutation = useMutation({
+        mutationFn: ({ id, status }) => api.patch(`/admin/agents/${id}/status`, { status }, user.token),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['adminAgents']);
+            toast({ title: "Agent status updated! ✨", description: "The agent's access has been modified.", variant: "success" });
+        },
+        onError: (err) => {
+            toast({ title: "Update failed", description: err.message || "Could not update agent status", variant: "destructive" });
+        }
+    });
+
+    const toggleStatus = (agent) => {
+        const newStatus = agent.status === 'Active' ? 'Inactive' : 'Active';
+        if (window.confirm(`Are you sure you want to set ${agent.name} to ${newStatus}?`)) {
+            statusMutation.mutate({ id: agent._id, status: newStatus });
+        }
+    };
 
     const tabs = ["All Agents", "Active", "Inactive", "Onboarding"];
 
@@ -203,10 +224,14 @@ const AdminAgents = () => {
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                                            <button 
+                                                onClick={() => toggleStatus(a)}
+                                                className={`p-1.5 rounded-lg transition-all ${a.status === 'Active' ? 'text-slate-400 hover:text-rose-600 hover:bg-rose-50' : 'text-slate-400 hover:text-emerald-600 hover:bg-emerald-50'}`}
+                                                title={a.status === 'Active' ? "Deactivate Agent" : "Activate Agent"}
+                                            >
                                                 <Edit2 size={14} />
                                             </button>
-                                            <button className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all">
+                                            <button className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
                                                 <Eye size={14} />
                                             </button>
                                             <button className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all">

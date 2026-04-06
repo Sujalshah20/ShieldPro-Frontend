@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { useToast } from "../../hooks/use-toast";
 import { 
-    Moon, Edit2, Mail, RotateCcw
+    Edit2, Mail, RotateCcw
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -17,7 +17,6 @@ const AdminProfile = () => {
     const adminData = {
         name: user?.name || "Alexander Pierce",
         role: "Super Admin",
-        team: "Risk Compliance Team",
         email: user?.email || "a.pierce@secureshield.cc",
         avatar: user?.profilePic || "https://api.dicebear.com/7.x/avataaars/svg?seed=Alexander"
     };
@@ -93,9 +92,6 @@ const AdminProfile = () => {
                 {/* Right Utilities */}
                 <div className="flex items-center gap-6">
                     <div className="flex items-center gap-4">
-                        <button className="text-slate-500 hover:text-slate-700 transition-colors">
-                            <Moon size={20} />
-                        </button>
                     </div>
 
                     <div className="h-8 w-px bg-slate-200"></div>
@@ -144,7 +140,7 @@ const AdminProfile = () => {
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                             <div>
                                 <h2 className="text-2xl font-bold text-slate-800 tracking-tight">{adminData.name}</h2>
-                                <p className="text-[13px] font-medium text-[#2563EB] mt-0.5">{adminData.role} • {adminData.team}</p>
+                                <p className="text-[13px] font-medium text-[#2563EB] mt-0.5">{adminData.role}</p>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="px-3 py-1 bg-slate-100 text-slate-700 text-[10px] font-bold uppercase tracking-wider rounded-full">ACTIVE</span>

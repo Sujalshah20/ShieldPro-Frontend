@@ -16,6 +16,7 @@ const AdminPolicies = () => {
     const { user } = useContext(AuthContext);
     const { toast } = useToast();
     const queryClient = useQueryClient();
+    const [renderError, setRenderError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
     const [activeTab, setActiveTab] = useState("All Policies");
@@ -65,16 +66,17 @@ const AdminPolicies = () => {
 
     const { data, isLoading } = useQuery({
         queryKey: ['adminPolicies', user?.token, debouncedSearch, activeTab, selectedType, currentPage],
-        queryFn: () => api.get(`/policies?search=${debouncedSearch}&status=${activeTab}&type=${selectedType}&page=${currentPage}&limit=8`, user.token),
+        queryFn: () => api.get(`/policies?search=${debouncedSearch}&status=${activeTab}&type=${selectedType}&page=${currentPage}&limit=8`, user?.token),
         enabled: !!user?.token
     });
 
     const policies = data?.policies || [];
     const totalPages = data?.pages || 1;
     const totalCount = data?.total || 0;
+    const limit = 8;
 
     const createMutation = useMutation({
-        mutationFn: (data) => api.post('/policies', data, user.token),
+        mutationFn: (data) => api.post('/policies', data, user?.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminPolicies']);
             toast({ title: "Policy created successfully" });
@@ -85,22 +87,25 @@ const AdminPolicies = () => {
     });
 
     const updateMutation = useMutation({
-        mutationFn: (data) => api.put(`/policies/${data._id}`, data, user.token),
+        mutationFn: (data) => api.patch(`/policies/${data._id}`, data, user?.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminPolicies']);
-            toast({ title: "Policy updated successfully" });
+            toast({ title: "Policy updated ✨", description: "Changes have been saved successfully.", variant: "success" });
             setIsEditModalOpen(false);
             setSelectedPolicy(null);
         },
-        onError: (err) => toast({ 
-            title: "Update failed", 
-            description: err.message, 
-            variant: "destructive" 
-        })
+        onError: (err) => {
+            console.error("Policy update error:", err);
+            toast({ 
+                title: "Update failed", 
+                description: err.message || "Could not update policy. Please try again.", 
+                variant: "destructive" 
+            });
+        }
     });
 
     const deleteMutation = useMutation({
-        mutationFn: (id) => api.delete(`/policies/${id}`, user.token),
+        mutationFn: (id) => api.delete(`/policies/${id}`, user?.token),
         onSuccess: () => {
             queryClient.invalidateQueries(['adminPolicies']);
             toast({ title: "Policy deleted successfully" });
@@ -138,7 +143,7 @@ const AdminPolicies = () => {
 
     const { data: adminStats } = useQuery({
         queryKey: ['adminStats', user?.token],
-        queryFn: () => api.get('/stats/admin', user.token),
+        queryFn: () => api.get('/stats/admin', user?.token),
         enabled: !!user?.token
     });
 
@@ -147,6 +152,16 @@ const AdminPolicies = () => {
     const avgPremium = activePoliciesCount > 0 ? totalRevenue / activePoliciesCount : 0;
     const totalCustomers = adminStats?.stats?.totalCustomers || 0;
     const totalAgents = adminStats?.stats?.totalAgents || 0;
+
+    if (renderError) {
+        return (
+            <div className="p-10 text-center">
+                <h2 className="text-2xl font-bold text-rose-600">Something went wrong</h2>
+                <p className="text-slate-500 mt-2">{renderError}</p>
+                <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-slate-800 text-white rounded-lg">Reload Page</button>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6 pb-10 max-w-7xl mx-auto font-sans">
@@ -196,7 +211,6 @@ const AdminPolicies = () => {
                             <option value="All">Status</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
-                            <option value="Draft">Draft</option>
                         </select>
                         <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} strokeWidth={2} />
                     </div>
@@ -216,7 +230,7 @@ const AdminPolicies = () => {
             <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                 {/* Tabs */}
                 <div className="flex px-4 pt-1 border-b border-slate-100">
-                    {["All Policies", "Active", "Inactive", "Draft"].map((tab) => (
+                    {["All Policies", "Active", "Inactive"].map((tab) => (
                         <button 
                             key={tab}
                             onClick={() => handleTabChange(tab)}
@@ -256,7 +270,8 @@ const AdminPolicies = () => {
                                     <td colSpan="8" className="px-6 py-16 text-center text-slate-400 font-medium">No policies found.</td>
                                 </tr>
                             ) : policies.map((p, i) => {
-                                const status = p.status ? p.status.toLowerCase() : 'active';
+                                if (!p || !p._id) return null;
+                                const status = (p.status || 'active').toLowerCase();
                                 const displayStatus = status.charAt(0).toUpperCase() + status.slice(1);
                                 return (
                                     <tr key={p._id} className="hover:bg-slate-50/50 transition-colors">
@@ -264,7 +279,7 @@ const AdminPolicies = () => {
                                             POL -<br/>{p._id.slice(-4)}
                                         </td>
                                         <td className="px-6 py-6">
-                                            <span className="text-[14px] font-bold text-slate-800 tracking-tight leading-snug block max-w-[150px]">{p.policyName}</span>
+                                            <span className="text-[14px] font-bold text-slate-800 tracking-tight leading-snug block max-w-[150px]">{p.policyName || 'Unnamed Policy'}</span>
                                         </td>
                                         <td className="px-6 py-6">
                                             <span className={`inline-flex px-3 py-1 rounded-md text-[12px] font-bold tracking-wide ${
@@ -273,14 +288,14 @@ const AdminPolicies = () => {
                                                 p.policyType === 'Auto' ? 'bg-orange-50 text-[#FF8A4C]' :
                                                 'bg-[#E0F7FA] text-[#00BCD4]'
                                             }`}>
-                                                {p.policyType}
+                                                {p.policyType || 'General'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-6 text-[14px] font-bold text-slate-600">
-                                            ₹{p.premiumAmount?.toLocaleString()}
+                                            ₹{p.premiumAmount?.toLocaleString() || '0'}
                                         </td>
                                         <td className="px-6 py-6 text-[14px] text-slate-500 font-medium">
-                                            {p.durationYears} Year(s)
+                                            {p.durationYears || 0} Year(s)
                                         </td>
                                         <td className="px-6 py-6 text-center text-[14px] font-bold text-slate-800">
                                             {p.stats?.customers || 0}
@@ -301,7 +316,7 @@ const AdminPolicies = () => {
                                             <div className="flex justify-end gap-3 text-slate-400">
                                                 <button onClick={() => handleEditClick(p)} className="hover:text-blue-600 transition-colors"><Edit size={16} strokeWidth={2.5} /></button>
                                                 <button onClick={() => handleViewClick(p)} className="hover:text-slate-600 transition-colors">
-                                                    {status === 'draft' ? <CheckCircle2 size={16} strokeWidth={2.5} /> : status === 'inactive' ? <Play size={16} strokeWidth={2.5} className="fill-current" /> : <Eye size={16} strokeWidth={2.5} />}
+                                                    {status === 'inactive' ? <Play size={16} strokeWidth={2.5} className="fill-current" /> : <Eye size={16} strokeWidth={2.5} />}
                                                 </button>
                                                 <button onClick={() => handleDeleteClick(p)} className="hover:text-rose-600 transition-colors"><Trash2 size={16} strokeWidth={2.5} /></button>
                                             </div>
@@ -315,7 +330,9 @@ const AdminPolicies = () => {
 
                 {/* Pagination */}
                 <div className="px-6 py-5 bg-white border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <span className="text-[13px] text-slate-500 font-medium">Showing {Math.min(policies.length, 4)} of 24 policies</span>
+                    <span className="text-[13px] text-slate-500 font-medium">
+                        Showing {Math.min(policies.length, limit)} of {totalCount} policies
+                    </span>
                     <div className="flex items-center gap-1">
                         <button 
                             disabled={currentPage === 1}
@@ -324,7 +341,7 @@ const AdminPolicies = () => {
                         >
                             <ChevronRight size={16} strokeWidth={3} className="rotate-180" />
                         </button>
-                        {[1, 2, 3].map((i) => (
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((i) => (
                             <button 
                                 key={i} 
                                 onClick={() => setCurrentPage(i)}
@@ -335,7 +352,7 @@ const AdminPolicies = () => {
                             </button>
                         ))}
                         <button 
-                            disabled={currentPage === 3}
+                            disabled={currentPage === totalPages}
                             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                             className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-800 disabled:opacity-30 transition-colors"
                         >
@@ -598,35 +615,43 @@ const AdminPolicies = () => {
                                     <div className="grid grid-cols-2 gap-x-6 gap-y-5">
                                         <div className="space-y-1">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Policy ID</span>
-                                            <span className="text-sm font-semibold text-slate-800">POL-{selectedPolicy._id.slice(-6).toUpperCase()}</span>
+                                            <span className="text-sm font-semibold text-slate-800">
+                                                POL-{selectedPolicy._id?.toString()?.slice(-6)?.toUpperCase() || 'N/A'}
+                                            </span>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Policy Type</span>
-                                            <span className="text-sm font-semibold text-slate-800">{selectedPolicy.policyType}</span>
+                                            <span className="text-sm font-semibold text-slate-800">{selectedPolicy.policyType || 'N/A'}</span>
                                         </div>
                                         <div className="col-span-2 space-y-1">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Policy Name</span>
-                                            <span className="text-base font-bold text-slate-800">{selectedPolicy.policyName}</span>
+                                            <span className="text-base font-bold text-slate-800">{selectedPolicy.policyName || 'Unnamed Policy'}</span>
                                         </div>
                                         <div className="col-span-2 space-y-1.5 p-4 bg-white rounded-lg border border-slate-200 shadow-sm">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Coverage Details</span>
-                                            <p className="text-sm text-slate-700 leading-relaxed">{selectedPolicy.description}</p>
+                                            <p className="text-sm text-slate-700 leading-relaxed">{selectedPolicy.description || 'No description provided.'}</p>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Base Premium</span>
-                                            <span className="text-base font-semibold text-emerald-600">₹{selectedPolicy.premiumAmount.toLocaleString()}</span>
+                                            <span className="text-base font-semibold text-emerald-600">
+                                                ₹{typeof selectedPolicy.premiumAmount === 'number' ? selectedPolicy.premiumAmount.toLocaleString() : selectedPolicy.premiumAmount || '0'}
+                                            </span>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Coverage Limit</span>
-                                            <span className="text-base font-semibold text-blue-600">₹{selectedPolicy.coverageAmount.toLocaleString()}</span>
+                                            <span className="text-base font-semibold text-blue-600">
+                                                ₹{typeof selectedPolicy.coverageAmount === 'number' ? selectedPolicy.coverageAmount.toLocaleString() : selectedPolicy.coverageAmount || '0'}
+                                            </span>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Duration</span>
-                                            <span className="text-sm font-semibold text-slate-800">{selectedPolicy.durationYears} Year(s)</span>
+                                            <span className="text-sm font-semibold text-slate-800">{selectedPolicy.durationYears || 0} Year(s)</span>
                                         </div>
                                         <div className="space-y-1">
                                             <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Created By</span>
-                                            <span className="text-sm font-semibold text-slate-800">{selectedPolicy.user?.substring(0, 8) || 'SYSTEM'}</span>
+                                            <span className="text-sm font-semibold text-slate-800">
+                                                {typeof selectedPolicy.user === 'string' ? selectedPolicy.user.substring(0, 8) : (selectedPolicy.user?.name || 'SYSTEM')}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

@@ -14,6 +14,9 @@ type ToasterToast = ToastProps & {
   title?: React.ReactNode
   description?: React.ReactNode
   action?: ToastActionElement
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  type?: string // For custom type mapping like success, error, etc.
 }
 
 const actionTypes = {
