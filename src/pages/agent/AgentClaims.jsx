@@ -56,8 +56,9 @@ const AgentClaims = () => {
     });
 
     const filteredClaims = claims?.filter(claim => {
-        const matchesSearch = claim.userId?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            claim._id.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = 
+            claim.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            claim._id?.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesSearch;
     });
 
@@ -118,7 +119,7 @@ const AgentClaims = () => {
                                                     <span className="text-[14px] font-medium text-slate-500">{claim.userPolicy?.policy?.policyName || 'Life Premium'}</span>
                                                 </td>
                                                 <td className="px-4 py-6">
-                                                    <span className="text-[14px] font-medium text-slate-400">{claim.status}</span>
+                                                    <span className="text-[14px] font-medium text-slate-400">{claim.userPolicy?.policy?.policyType || 'Auto'}</span>
                                                 </td>
                                                 <td className="px-8 py-6 text-right">
                                                     <span className="text-[14px] font-black text-[#1a2744]">₹{claim.amount?.toLocaleString() || '5,000'}</span>

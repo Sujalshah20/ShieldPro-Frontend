@@ -1,333 +1,264 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { 
-    User, Mail, Phone, MapPin, Edit3, 
-    Award, Shield, FileText, BarChart3, 
-    TrendingUp, Star, StarHalf, DollarSign,
-    Download, Briefcase, Calendar, CheckCircle2,
-    ChevronRight, ExternalLink
+    Mail, Edit, User, Shield, Camera, Save, X, Loader2, MapPin, Phone, Briefcase, Calendar, CheckCircle2
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { AuthContext } from "../../context/AuthContext";
 import Reveal from "../../components/common/Reveal";
+import { api } from "../../utils/api";
+import { useToast } from "../../hooks/use-toast";
 
 const AgentProfile = () => {
     const { user } = useContext(AuthContext);
+    const { toast } = useToast();
+    const fileInputRef = useRef(null);
 
-    // Mock data for demonstration (real data would come from context/api)
-    const agentData = {
-        name: user?.name || "Vikram Malhotra",
-        role: "Senior Agent",
-        id: "AG-7829",
-        email: user?.email || "v.malhotra@secureshield.com",
-        phone: "+1 (555) 902-3481",
-        location: "Chicago, IL",
-        specialization: "Health & Life Insurance",
-        experience: "8 Years",
-        joinDate: "March 12, 2016",
-        address: "4228 North Clark St, Chicago, IL 60613, United States",
-        commission: "$12,480.00",
-        stats: [
-            { label: "Total Customers", value: "124", change: "+8%", icon: Users },
-            { label: "Policies Sold", value: "312", change: "+12%", icon: Shield },
-            { label: "Settlement Rate", value: "98.5%", icon: CheckCircle2 },
-            { label: "Avg. Rating", value: "4.8 / 5.0", icon: Star }
-        ],
-        certificates: [
-            { title: "Life Underwriting Cert", date: "Jan 2023", icon: Award },
-            { title: "Advanced Health Advisor", date: "Nov 2022", icon: Shield },
-            { title: "State Compliance License", date: "May 2023", icon: FileText },
-            { title: "Ethical Sales Master", date: "Aug 2022", icon: Star }
-        ]
+    const [isEditing, setIsEditing] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    
+    // State for form data
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        specialization: "",
+        experience: "",
+        address: "",
+        profilePic: ""
+    });
+
+    // Populate form data when user context is available
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                name: user.name || "",
+                email: user.email || "",
+                phone: user.phone || "",
+                specialization: user.specialization || "Health & Life Insurance",
+                experience: user.experience || "8 Years",
+                address: user.address || "",
+                profilePic: user.profilePic || ""
+            });
+        }
+    }, [user]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleEditToggle = () => {
+        if (isEditing) {
+            setIsEditing(false);
+            setFormData({
+                name: user.name || "",
+                email: user.email || "",
+                phone: user.phone || "",
+                specialization: user.specialization || "Health & Life Insurance",
+                experience: user.experience || "8 Years",
+                address: user.address || "",
+                profilePic: user.profilePic || ""
+            });
+        } else {
+            setIsEditing(true);
+        }
+    };
+
+    const handleImageClick = () => {
+        if (isEditing) {
+            fileInputRef.current?.click();
+        }
+    };
+
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.size > 2 * 1024 * 1024) {
+            toast({ title: "File too large", description: "Image must be under 2MB", variant: "destructive" });
+            return;
+        }
+
+        setIsUploading(true);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setFormData(prev => ({ ...prev, profilePic: reader.result }));
+            setIsUploading(false);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        try {
+            await api.put("/users/profile", formData);
+            toast({ title: "Success", description: "Profile updated successfully." });
+            setIsEditing(false);
+            window.location.reload(); 
+        } catch (error) {
+            toast({ title: "Error", description: error.response?.data?.message || "Update failed", variant: "destructive" });
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const displayAvatar = formData.profilePic || user?.profilePic || "https://api.dicebear.com/7.x/avataaars/svg?seed=Vikram";
+
     return (
-        <div className="p-8 max-w-[1400px] mx-auto space-y-8 min-h-screen">
-            {/* Header Navigation/Title */}
-            <div className="flex items-center justify-between mb-4">
-                <Reveal>
-                    <h1 className="text-2xl font-bold text-black tracking-tight">Agent Profile Management</h1>
-                </Reveal>
-            </div>
-
-            {/* Profile Header Card */}
-            <Reveal delay={0.1}>
-                <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm overflow-hidden relative group">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-teal-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-50 transition-opacity group-hover:opacity-80" />
-                    
-                    <div className="relative flex flex-col md:flex-row items-center md:items-start gap-8">
-                        {/* Avatar */}
-                        <div className="relative">
-                            <div className="w-32 h-32 rounded-2xl bg-slate-100 flex items-center justify-center border-4 border-white shadow-xl overflow-hidden">
-                                <User size={64} className="text-slate-400" />
-                            </div>
-                            <button className="absolute -bottom-2 -right-2 p-2 bg-[#14b8a6] text-white rounded-xl shadow-lg border-2 border-white hover:scale-110 transition-transform">
-                                <Edit3 size={16} />
-                            </button>
-                        </div>
-
-                        {/* Basic Info */}
-                        <div className="flex-1 text-center md:text-left space-y-4">
-                            <div>
-                                  <div className="flex flex-col md:flex-row md:items-center gap-4 mb-2">
-                                    <h2 className="text-3xl font-black text-black tracking-tighter italic uppercase leading-none">{agentData.name}</h2>
-                                    <span className="inline-flex items-center px-4 py-1.5 rounded-lg text-[10px] font-black bg-black text-white uppercase tracking-[4px] italic shadow-3xl">
-                                        {agentData.role}
-                                    </span>
-                                </div>
-                                <p className="text-[10px] font-black text-black/40 uppercase tracking-[5px] mt-2 italic shadow-sm">OPERATOR_ID: {agentData.id}</p>
-                            </div>
-
-                            <div className="flex flex-wrap justify-center md:justify-start gap-6">
-                                <div className="flex items-center gap-2 text-black/80 font-bold">
-                                    <div className="w-8 h-8 rounded-lg bg-black/5 flex items-center justify-center text-black">
-                                        <Mail size={16} />
-                                    </div>
-                                    <span className="text-sm">{agentData.email}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-black/80 font-bold">
-                                    <div className="w-8 h-8 rounded-lg bg-black/5 flex items-center justify-center text-black">
-                                        <Phone size={16} />
-                                    </div>
-                                    <span className="text-sm">{agentData.phone}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-black/80 font-bold">
-                                    <div className="w-8 h-8 rounded-lg bg-black/5 flex items-center justify-center text-black">
-                                        <MapPin size={16} />
-                                    </div>
-                                    <span className="text-sm">{agentData.location}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Top Actions */}
-                        <div className="flex gap-4">
-                            <button className="flex items-center gap-4 px-10 py-5 bg-black text-white rounded-2xl font-black text-[11px] shadow-3xl hover:bg-black/90 transition-all whitespace-nowrap uppercase tracking-[4px] italic border-b-4 border-white/10">
-                                <Edit3 size={20} className="text-white/40" />
-                                UPDATE_PROFILE
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Tabs Placeholder */}
-                    <div className="mt-12 flex gap-12 border-b border-slate-100 relative">
-                        {["Personal Information", "Performance", "Commission", "Documents"].map((tab, i) => (
-                            <button 
-                                key={tab}
-                                className={`pb-5 text-[10px] font-black uppercase tracking-[3px] transition-all relative italic ${
-                                    i === 0 ? "text-black opacity-100" : "text-black/20 hover:text-black/60"
-                                }`}
-                            >
-                                {tab}
-                                {i === 0 && (
-                                    <motion.div 
-                                        layoutId="activeTab"
-                                        className="absolute bottom-0 left-0 right-0 h-1 bg-black rounded-full"
-                                    />
-                                )}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </Reveal>
-
-            {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="min-h-screen bg-[#F8FAFC] font-sans pb-16">
+            <div className="max-w-[1400px] mx-auto p-12 space-y-10">
                 
-                {/* Left Column: Details & Certificates */}
-                <div className="lg:col-span-8 space-y-8">
-                    {/* Personal Details Section */}
-                    <Reveal delay={0.2}>
-                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
-                                <h3 className="text-[12px] font-black text-black flex items-center gap-3 uppercase tracking-[3px] italic">
-                                    <User size={18} className="text-black/20" />
-                                    PERSONAL_DETAILS_ACCESS
-                                </h3>
-                                <button className="text-[9px] font-black text-black/40 hover:text-black uppercase tracking-widest transition-all italic underline decoration-2 underline-offset-4 decoration-black/10">EXPAND_FULL_LOG</button>
-                            </div>
-                            <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <DetailItem label="Full Name" value={agentData.name} />
-                                <DetailItem label="Email Address" value={agentData.email} />
-                                <DetailItem label="Phone Number" value={agentData.phone} />
-                                <DetailItem label="Specialization" value={agentData.specialization} />
-                                <DetailItem label="Experience" value={agentData.experience} />
-                                <DetailItem label="Join Date" value={agentData.joinDate} />
-                                <div className="md:col-span-2">
-                                    <DetailItem label="Registered Protocol Address" value={agentData.address} />
-                                </div>
-                            </div>
-                        </div>
-                    </Reveal>
-
-                    {/* Certificates Section */}
-                    <Reveal delay={0.3}>
-                        <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
-                                <h3 className="text-[12px] font-black text-black flex items-center gap-3 uppercase tracking-[3px] italic">
-                                    <Award size={18} className="text-black/20" />
-                                    CERTIFICATIONS_LIST_VTL
-                                </h3>
-                                <button className="text-[9px] font-black text-black/40 hover:text-black uppercase tracking-widest transition-all italic underline decoration-2 underline-offset-4 decoration-black/10">VERIFY_CHAIN</button>
-                            </div>
-                            <div className="p-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {agentData.certificates.map((cert, i) => {
-                                    const CertIcon = cert.icon;
-                                    return (
-                                         <div key={i} className="group flex items-center gap-4 p-4 rounded-2xl border border-slate-50 hover:border-black/10 hover:bg-slate-50 transition-all cursor-pointer">
-                                            <div className="w-12 h-12 rounded-xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-black/40 transition-colors group-hover:bg-black group-hover:text-white">
-                                                <CertIcon size={20} />
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <p className="text-sm font-black text-black uppercase tracking-tighter truncate">{cert.title}</p>
-                                                <p className="text-[10px] font-black text-black/30 uppercase tracking-widest">Issued: {cert.date}</p>
-                                            </div>
-                                            <div className="p-2 text-black/10 group-hover:text-black transition-colors">
-                                                <Download size={18} />
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </Reveal>
-                </div>
-
-                {/* Right Column: Stats & Commission */}
-                <div className="lg:col-span-4 space-y-8">
-                    {/* Performance Stats */}
-                    <Reveal delay={0.4}>
-                        <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm">
-                            <h3 className="text-[11px] font-black text-black uppercase tracking-[3px] italic font-black mb-8 flex items-center gap-3">
-                                <BarChart3 size={18} className="text-black/20" />
-                                PERFORMANCE_METRICS_V2
-                            </h3>
-                            <div className="space-y-6">
-                                <StatRow label="Total Customers" value="124" icon={Users} color="teal" change="+8.2%" />
-                                <StatRow label="Policies Sold" value="312" icon={Shield} color="blue" change="+12.5%" />
-                                <StatRow label="Settlement Rate" value="98.5%" icon={CheckCircle2} color="indigo" progress={98.5} />
-                                <StatRow label="Avg. Rating" value="4.8 / 5.0" icon={Star} color="amber" rating={4.8} />
-                            </div>
-                        </div>
-                    </Reveal>
-
-                    {/* Commission Card */}
-                    <Reveal delay={0.5}>
-                        <div className="bg-black rounded-2xl p-10 text-white relative overflow-hidden group shadow-3xl border-b-8 border-white/5">
-                            {/* Decorative blur */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full blur-[100px] -mr-16 -mt-16 opacity-10" />
-                            
-                            <div className="relative z-10 flex flex-col justify-between h-full space-y-10">
-                                <div>
-                                    <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-8 border border-white/5 shadow-inner">
-                                        <DollarSign size={28} className="text-white/40" />
-                                    </div>
-                                    <h3 className="text-white/40 font-black text-[10px] uppercase tracking-[4px] mb-3 italic">COMMISSION_POOL_TOTAL</h3>
-                                    <div className="flex flex-col">
-                                        <p className="text-5xl font-black tracking-tighter italic">{agentData.commission}</p>
-                                        <div className="flex items-center gap-2 mt-4 text-white/60">
-                                            <TrendingUp size={14} />
-                                            <span className="text-[9px] font-black uppercase tracking-widest italic">+15.4% VOL_INCR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="space-y-5 pt-8 border-t border-white/5">
-                                    <div className="flex items-center justify-between text-[9px] font-black text-white/30 uppercase tracking-[3px] italic">
-                                        <span>NEXT_PAYOUT_WINDOW</span>
-                                        <span className="text-white">OCT_05_2023</span>
-                                    </div>
-                                    <button className="w-full bg-white text-black py-4 rounded-2xl font-black text-[11px] shadow-3xl hover:bg-white/90 transition-all transform hover:-translate-y-1 uppercase tracking-[5px] italic">
-                                        ACCESS_LEDGER_MANIFEST
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </Reveal>
-                </div>
-
-            </div>
-        </div>
-    );
-};
-
-// Helper Components
-const DetailItem = ({ label, value }) => (
-    <div className="space-y-2 group">
-        <label className="text-[9px] font-black text-black/30 uppercase tracking-[4px] group-hover:text-black transition-colors italic">{label}</label>
-        <div className="p-5 bg-slate-50/50 rounded-2xl border-2 border-slate-50 text-black font-black text-[12px] group-hover:border-black/10 group-hover:bg-white transition-all italic uppercase tracking-tighter shadow-inner">
-            {value}
-        </div>
-    </div>
-);
-
-const StatRow = ({ label, value, icon: Icon, color, change, progress, rating }) => {
-    const colorClasses = {
-        teal: "text-[#14b8a6] bg-teal-50",
-        blue: "text-blue-500 bg-blue-50",
-        indigo: "text-indigo-500 bg-indigo-50",
-        amber: "text-amber-500 bg-amber-50"
-    };
-
-    return (
-        <div className="space-y-4">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center bg-black text-white shadow-3xl">
-                        <Icon size={18} />
+                {/* Header Section */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-200 pb-10">
+                    <div>
+                        <h1 className="text-4xl font-bold text-slate-800 tracking-tight">Agent Profile Management</h1>
+                        <p className="text-slate-500 mt-2 text-lg font-medium">Manage your personal information and professional settings.</p>
                     </div>
-                    <span className="text-[10px] font-black text-black/40 uppercase tracking-[3px] italic">{label}</span>
-                </div>
-                <div className="text-right">
-                    <span className="text-xl font-black text-black italic uppercase tracking-tighter">{value}</span>
-                    {change && (
-                        <div className="flex items-center gap-1.5 text-[9px] text-black font-black justify-end uppercase tracking-widest italic">
-                            <TrendingUp size={10} className="opacity-20" />
-                            {change}
+                    {isEditing && (
+                        <div className="flex items-center gap-4">
+                            <button onClick={handleEditToggle} className="flex items-center gap-2 px-6 py-3 text-slate-500 hover:text-slate-700 font-bold text-base transition-all">
+                                <X size={20} /> Cancel
+                            </button>
+                            <button onClick={handleSubmit} disabled={isSubmitting} className="flex items-center gap-2 px-8 py-3.5 bg-emerald-600 text-white rounded-xl font-bold text-base shadow-xl shadow-emerald-100 hover:bg-emerald-700 transition-all disabled:opacity-50 active:scale-95">
+                                {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} />}
+                                Save Changes
+                            </button>
                         </div>
                     )}
                 </div>
-            </div>
-            
-            {progress !== undefined && (
-                <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ duration: 1, ease: "easeOut" }}
-                        className="h-full bg-indigo-500 rounded-full"
-                    />
-                </div>
-            )}
 
-            {rating !== undefined && (
-                <div className="flex items-center gap-0.5 text-amber-500">
-                    {[1, 2, 3, 4].map(i => <Star key={i} size={14} fill="currentColor" />)}
-                    <StarHalf size={14} fill="currentColor" />
-                    <span className="ml-2 text-[11px] font-bold text-slate-400">Extremely Reliable</span>
+                {/* Main Balanced Layout */}
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-10">
+                    
+                    {/* Left Column: Summary Card (takes 4/12) */}
+                    <div className="xl:col-span-4 space-y-8">
+                        <Reveal>
+                            <div className="bg-white rounded-[24px] p-10 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col items-center text-center">
+                                {/* Profile Pic */}
+                                <div 
+                                    onClick={handleImageClick}
+                                    className={`group relative w-48 h-48 rounded-[32px] overflow-hidden border-4 transition-all mb-8 ${
+                                        isEditing ? "border-emerald-500 cursor-pointer scale-[1.03] shadow-2xl shadow-emerald-50" : "border-slate-50"
+                                    } bg-slate-50 shadow-lg`}
+                                >
+                                    <img src={displayAvatar} alt="Profile" className="w-full h-full object-cover" />
+                                    {isEditing && (
+                                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                            {isUploading ? <Loader2 size={32} className="text-white animate-spin" /> : <><Camera size={32} className="text-white mb-2" /><span className="text-xs text-white font-bold uppercase tracking-widest">Update Photo</span></>}
+                                        </div>
+                                    )}
+                                    <input type="file" ref={fileInputRef} onChange={handleImageChange} className="hidden" accept="image/*" />
+                                </div>
+
+                                <div className="space-y-3 w-full">
+                                    <h2 className="text-3xl font-bold text-slate-900 truncate px-2">{isEditing ? formData.name : user?.name}</h2>
+                                    <div className="flex items-center justify-center gap-2 pb-2">
+                                        <span className="inline-flex px-3 py-1 rounded-full bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider">
+                                            {user?.role === 'agent' ? 'Senior Agent' : user?.role || 'Agent'}
+                                        </span>
+                                        <span className="text-[11px] font-bold text-slate-400 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">AG-7829</span>
+                                    </div>
+                                    
+                                    <div className="pt-6 border-t border-slate-50 w-full flex flex-col items-center gap-4">
+                                        <div className="flex items-center gap-3 text-slate-500 font-medium">
+                                            <Mail size={18} className="text-slate-400" />
+                                            <span className="text-[15px]">{isEditing ? formData.email : user?.email}</span>
+                                        </div>
+                                    </div>
+
+                                    {!isEditing && (
+                                        <button onClick={handleEditToggle} className="w-full mt-8 flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold text-sm shadow-xl shadow-slate-200 hover:bg-slate-800 transition-all active:scale-[0.98]">
+                                            <Edit size={18} />
+                                            Edit Your Profile
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </Reveal>
+
+                        {/* Quick Stats Placeholder to fill vertical space if needed */}
+                        <Reveal delay={0.1}>
+                           <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[24px] p-8 text-white relative overflow-hidden group">
+                                <div className="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
+                                <h4 className="text-white/40 font-bold text-[11px] uppercase tracking-[3px] mb-6">Security & Account</h4>
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between text-sm py-2 border-b border-white/5">
+                                        <span className="text-white/60">Verification Status</span>
+                                        <span className="text-emerald-400 font-bold flex items-center gap-2"><CheckCircle2 size={14} /> Verified</span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm py-2">
+                                        <span className="text-white/60">Member Since</span>
+                                        <span className="text-white font-bold">{user?.createdAt ? new Date(user.createdAt).getFullYear() : '2016'}</span>
+                                    </div>
+                                </div>
+                           </div>
+                        </Reveal>
+                    </div>
+
+                    {/* Right Column: Detailed Info (takes 8/12) */}
+                    <div className="xl:col-span-8">
+                        <Reveal delay={0.2}>
+                            <form onSubmit={handleSubmit} className="bg-white rounded-[24px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 overflow-hidden h-full">
+                                <div className="px-10 py-8 border-b border-slate-50 bg-white flex items-center justify-between">
+                                    <div>
+                                        <h3 className="text-xl font-bold text-slate-800">Personal & Professional Details</h3>
+                                        <p className="text-sm text-slate-400 font-medium mt-1">Keep your information up to date to ensure seamless settlements.</p>
+                                    </div>
+                                    {isEditing && (
+                                        <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 rounded-full border border-emerald-100">
+                                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Live Editing</span>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-10">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+                                        <DetailBlock label="FULL NAME" name="name" icon={User} value={formData.name} onChange={handleInputChange} isEditing={isEditing} />
+                                        <DetailBlock label="EMAIL ADDRESS" name="email" icon={Mail} value={formData.email} onChange={handleInputChange} isEditing={isEditing} />
+                                        <DetailBlock label="PHONE NUMBER" name="phone" icon={Phone} value={formData.phone} onChange={handleInputChange} isEditing={isEditing} />
+                                        <DetailBlock label="SPECIALIZATION" name="specialization" icon={Shield} value={formData.specialization} onChange={handleInputChange} isEditing={isEditing} />
+                                        <DetailBlock label="EXPERIENCE" name="experience" icon={Briefcase} value={formData.experience} onChange={handleInputChange} isEditing={isEditing} />
+                                        <DetailBlock label="JOIN DATE" icon={Calendar} value={user?.createdAt ? new Date(user.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : "March 12, 2016"} isEditing={false} />
+                                    </div>
+                                    <div className="mt-10 pt-10 border-t border-slate-50">
+                                        <DetailBlock label="REGISTERED OFFICE ADDRESS" name="address" icon={MapPin} value={formData.address} onChange={handleInputChange} isEditing={isEditing} fullWidth />
+                                    </div>
+                                </div>
+                            </form>
+                        </Reveal>
+                    </div>
                 </div>
-            )}
+
+            </div>
         </div>
     );
 };
 
-const Users = (props) => (
-  <svg
-    {...props}
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
+// --- Helper Components ---
+
+const DetailBlock = ({ label, value, name, onChange, isEditing, icon: Icon, fullWidth = false }) => (
+    <div className={`space-y-3 ${fullWidth ? 'w-full' : ''}`}>
+        <div className="flex items-center gap-2 pl-1">
+            {Icon && <Icon size={12} className="text-slate-300" />}
+            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{label}</label>
+        </div>
+        {isEditing ? (
+            <input
+                type="text"
+                name={name}
+                value={value}
+                onChange={onChange}
+                className="w-full px-5 py-4 bg-white border-2 border-slate-100 rounded-[16px] font-bold text-base text-slate-700 focus:border-emerald-500 focus:outline-none transition-all shadow-sm hover:border-slate-300"
+                placeholder={`Enter your ${label.toLowerCase()}...`}
+            />
+        ) : (
+            <div className="w-full px-5 py-4 bg-slate-50/50 border border-slate-50 rounded-[16px] transition-all hover:bg-white hover:border-slate-200">
+                <span className="text-[15px] font-bold text-slate-700">{value}</span>
+            </div>
+        )}
+    </div>
 );
 
 export default AgentProfile;

@@ -54,6 +54,7 @@ const ApplicationPage = lazy(() => import("./pages/customer/ApplicationPage"));
 const PolicyDetail = lazy(() => import("./pages/customer/PolicyDetail"));
 const PaymentHistory = lazy(() => import("./pages/customer/PaymentHistory"));
 const MessagesPage = lazy(() => import("./pages/messages/MessagesPage"));
+const RazorpayDemo = lazy(() => import("./pages/customer/RazorpayDemo"));
 
 const PageWrapper = ({ children }) => (
   <motion.div
@@ -115,6 +116,7 @@ function App() {
                   <Route path="/verify-email" element={<PageWrapper><VerifyEmail /></PageWrapper>} />
                   <Route path="/forgot-password" element={<PageWrapper><ForgotPassword /></PageWrapper>} />
                   <Route path="/reset-password" element={<PageWrapper><ResetPassword /></PageWrapper>} />
+<Route path="/razorpay-test" element={<PageWrapper><RazorpayDemo /></PageWrapper>} />
 
                   {/* -------- ADMIN ROUTES -------- */}
                   <Route

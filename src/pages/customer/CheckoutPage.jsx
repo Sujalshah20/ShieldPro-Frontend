@@ -2,14 +2,13 @@ import React, { useState, useContext } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useQueryClient } from "@tanstack/react-query";
-import { api } from "../../utils/api";
 import { useToast } from "../../hooks/use-toast";
 import { 
-    CreditCard, Shield, Lock, ChevronLeft, 
-    ArrowRight, Bell, User, Calendar, 
+    Shield, Lock, ChevronLeft, 
     CheckCircle, ShieldCheck
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import RazorpayPayment from "../../components/payment/RazorpayPayment";
 
 const CheckoutPage = () => {
     const { user } = useContext(AuthContext);
@@ -17,15 +16,7 @@ const CheckoutPage = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
     const { toast } = useToast();
-    const [loading, setLoading] = useState(false);
-    const [cvvFocused, setCvvFocused] = useState(false);
-    const [cardData, setCardData] = useState({
-        name: '',
-        number: '',
-        expiry: '',
-        cvv: ''
-    });
-
+    
     const policy = state?.policy;
     const applicationId = state?.applicationId;
 
@@ -47,47 +38,28 @@ const CheckoutPage = () => {
         );
     }
 
-    const handlePayment = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+    const handleSuccess = (result) => {
+        queryClient.invalidateQueries(["myPolicies"]);
+        queryClient.invalidateQueries(["myApplications"]);
+        
+        // Pass policy details to success page
+        navigate("/customer/checkout-success", { 
+            state: { 
+                policy: {
+                    ...policy,
+                    policyNumber: result.policyNumber || 'SS-GEN-2024-X123',
+                    paymentMode: "Razorpay Secure"
+                } 
+            } 
+        });
+    };
 
-        try {
-            const result = await api.post("/transactions/process", {
-                policyId: policy._id,
-                applicationId: applicationId,
-                amount: policy.premiumAmount,
-                paymentMethod: "Credit Card",
-                cardDetails: {
-                    holderName: cardData.name,
-                    lastFour: cardData.number.slice(-4),
-                    expiry: cardData.expiry
-                }
-            }, user.token);
-
-            if (result.success) {
-                queryClient.invalidateQueries(["myPolicies"]);
-                queryClient.invalidateQueries(["myApplications"]);
-                
-                // Pass policy details to success page
-                navigate("/customer/checkout-success", { 
-                    state: { 
-                        policy: {
-                            ...policy,
-                            policyNumber: result.userPolicy?.policyNumber || 'SS-GEN-2024-X123',
-                            paymentMode: "One-time Payment"
-                        } 
-                    } 
-                });
-            }
-        } catch (error) {
-            toast({
-                title: "Payment Failed",
-                description: error?.errors?.[0]?.message || error?.message || "Something went wrong during the transaction.",
-                variant: "destructive"
-            });
-        } finally {
-            setLoading(false);
-        }
+    const handleFailure = (error) => {
+        toast({
+            title: "Payment Failed",
+            description: error?.description || error?.message || "Something went wrong during the transaction.",
+            variant: "destructive"
+        });
     };
 
     return (
@@ -168,113 +140,56 @@ const CheckoutPage = () => {
                         </div>
                     </motion.div>
 
-                    {/* Right: Payment Form */}
+                    {/* Right: Razorpay Integration */}
                     <motion.div 
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
                         className="lg:col-span-7"
                     >
-                        <div className="bg-white p-10 md:p-12 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
-                            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-12 border-b border-slate-100 pb-8">
-                                <div className="flex items-center gap-5">
-                                    <div className="w-14 h-14 bg-[#f1f5f9] rounded-2xl flex items-center justify-center text-white">
-                                        <CreditCard size={28} />
+                        <div className="bg-white p-10 md:p-12 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50 flex flex-col items-center text-center">
+                            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-[1.5rem] flex items-center justify-center mb-8 shadow-inner">
+                                <ShieldCheck size={40} />
+                            </div>
+                            
+                            <h2 className="text-3xl font-black text-black tracking-tight mb-2">Secure Checkout</h2>
+                            <p className="text-black opacity-40 text-[11px] font-black uppercase tracking-[4px] mb-12 italic leading-relaxed max-w-sm">
+                                Complete your premium payment securely using Razorpay gateway.
+                            </p>
+
+                            <div className="w-full max-w-sm space-y-8">
+                                <div className="p-8 bg-slate-50 rounded-3xl border border-dashed border-slate-200 space-y-4">
+                                    <div className="flex justify-between items-center text-sm font-bold text-slate-500">
+                                        <span>Premium Amount</span>
+                                        <span>₹{policy?.premiumAmount?.toLocaleString()}</span>
                                     </div>
-                                    <div>
-                                        <h2 className="text-2xl font-black text-black tracking-tight italic uppercase">Payment Details</h2>
-                                        <p className="text-black opacity-30 text-[10px] font-black uppercase tracking-[4px] mt-1 italic leading-relaxed">Authorized transaction node // SECURE_UPLINK</p>
+                                    <div className="flex justify-between items-center text-sm font-bold text-slate-500 pb-4 border-b border-slate-200">
+                                        <span>Platform Fee</span>
+                                        <span className="text-emerald-500">Free</span>
+                                    </div>
+                                    <div className="flex justify-between items-center text-xl font-black text-black pt-2">
+                                        <span>Total</span>
+                                        <span className="text-[#134e8d]">₹{policy?.premiumAmount?.toLocaleString()}</span>
                                     </div>
                                 </div>
-                                <div className="flex gap-4 opacity-30 hover:opacity-100 transition-opacity">
-                                    <div className="w-12 h-8 bg-slate-50 border border-slate-200 rounded-md flex items-center justify-center"><CreditCard size={18} /></div>
-                                    <div className="w-12 h-8 bg-slate-50 border border-slate-200 rounded-md flex items-center justify-center"><ShieldCheck size={18} /></div>
+
+                                <div className="space-y-4 pt-4">
+                                    <RazorpayPayment 
+                                        amount={policy?.premiumAmount} 
+                                        onSuccess={handleSuccess} 
+                                        onFailure={handleFailure} 
+                                    />
+                                    
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[3px] italic">
+                                        Supports Cards, UPI, Netbanking & Wallets
+                                    </p>
+                                </div>
+
+                                <div className="flex items-center justify-center gap-3 opacity-30 pt-12 border-t border-slate-50">
+                                    <Lock size={14} />
+                                    <span className="text-[9px] font-bold uppercase tracking-[4px] text-black">PCI DSS Compliant Infrastructure</span>
                                 </div>
                             </div>
-
-                            <form onSubmit={handlePayment} className="space-y-8">
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">Cardholder Name</label>
-                                    <input
-                                        type="text"
-                                        placeholder="AS IT APPEARS ON THE CARD"
-                                        required
-                                        value={cardData.name}
-                                        onChange={(e) => setCardData({ ...cardData, name: e.target.value.toUpperCase() })}
-                                        className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-black text-black placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg tracking-tight"
-                                    />
-                                </div>
-
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">Card Number</label>
-                                    <div className="relative group">
-                                        <input
-                                            type="text"
-                                            placeholder="0000 0000 0000 0000"
-                                            required
-                                            value={cardData.number}
-                                            maxLength={16}
-                                            onChange={(e) => {
-                                                const val = e.target.value.replace(/\D/g, '').slice(0, 16);
-                                                setCardData({ ...cardData, number: val });
-                                            }}
-                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 pl-14 font-black text-[#134e8d] placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-xl tracking-[4px]"
-                                        />
-                                        <CreditCard size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-black/20 group-focus-within:text-[#134e8d] transition-colors" />
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-6">
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">Expiry Date</label>
-                                        <input
-                                            type="text"
-                                            placeholder="MM / YY"
-                                            required
-                                            value={cardData.expiry}
-                                            maxLength={5}
-                                            onChange={(e) => {
-                                                let val = e.target.value.replace(/\D/g, '');
-                                                if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2, 4);
-                                                setCardData({ ...cardData, expiry: val });
-                                            }}
-                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-black text-black placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg text-center tracking-[4px]"
-                                        />
-                                    </div>
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-black opacity-40 uppercase tracking-[4px] ml-1">CVV / CVC</label>
-                                        <input
-                                            type="password"
-                                            placeholder="***"
-                                            required
-                                            value={cardData.cvv}
-                                            maxLength={3}
-                                            onChange={(e) => {
-                                                const val = e.target.value.replace(/\D/g, '').slice(0, 3);
-                                                setCardData({ ...cardData, cvv: val });
-                                            }}
-                                            className="w-full h-16 bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 font-black text-black placeholder:text-black placeholder:opacity-20 outline-none focus:border-[#134e8d] focus:bg-white transition-all text-lg text-center tracking-[10px]"
-                                        />
-                                    </div>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full h-18 bg-[#002b45] text-white rounded-2xl text-lg font-bold flex items-center justify-center gap-4 hover:bg-[#134e8d] hover:translate-y-[-2px] transition-all shadow-xl shadow-[#002b45]/10 group disabled:opacity-50 mt-12 p-8"
-                                >
-                                    {loading ? (
-                                        <div className="animate-spin rounded-full h-8 w-8 border-4 border-white border-t-transparent" />
-                                    ) : (
-                                        <>Complete Purchase <ArrowRight size={24} className="group-hover:translate-x-1.5 transition-transform" /></>
-                                    )}
-                                </button>
-
-                                <div className="flex items-center justify-center gap-3 opacity-40 pt-6">
-                                    <Lock size={14} />
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-black">Bank-grade 256-bit SSL encryption</span>
-                                </div>
-                            </form>
                         </div>
                     </motion.div>
                 </div>
