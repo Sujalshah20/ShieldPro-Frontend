@@ -14,6 +14,17 @@ const VerifyEmail = () => {
 
     const [email, setEmail] = useState(initialEmail);
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+
+    useEffect(() => {
+        if (!initialEmail) {
+            toast({
+                title: "Information Missing",
+                description: "No email was provided for verification. Please sign up or login again.",
+                variant: "destructive"
+            });
+            setTimeout(() => navigate('/login'), 3000);
+        }
+    }, [initialEmail, navigate, toast]);
     const [isLoading, setIsLoading] = useState(false);
     const [resendLoading, setResendLoading] = useState(false);
     const [countdown, setCountdown] = useState(60);
