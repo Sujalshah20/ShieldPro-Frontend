@@ -319,4 +319,3 @@ const AdminApplications = () => {
 };
 
 export default AdminApplications;
-ns;

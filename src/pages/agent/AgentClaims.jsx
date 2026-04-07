@@ -143,110 +143,112 @@ const AgentClaims = () => {
                             className="w-full lg:w-[420px] bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl overflow-hidden sticky top-28"
                         >
                             {/* Panel Header */}
-                            <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-white/50 backdrop-blur-sm">
+                            <div className="p-8 border-b border-slate-50 flex items-center justify-between bg-white/50 backdrop-blur-sm shrink-0">
                                 <div>
                                     <h3 className="text-xl font-bold text-[#1a2744]">Claim Review - #CL-{selectedClaim._id.slice(-4).toUpperCase()}</h3>
                                     <div className="flex items-center gap-2 mt-1.5">
                                         <span className="px-2 py-0.5 bg-[#1a2744]/5 text-[#1a2744] text-[10px] font-bold uppercase tracking-widest rounded-md border border-slate-100">Active Review</span>
                                     </div>
                                 </div>
-                                <button onClick={() => setSelectedClaim(null)} className="w-9 h-9 bg-slate-50 rounded-xl flex items-center justify-center hover:bg-slate-100 transition-all text-slate-400">
+                                <button onClick={() => { setSelectedClaim(null); setChecklist({ documentAuthenticity: false }); }} className="w-9 h-9 bg-slate-50 rounded-xl flex items-center justify-center hover:bg-slate-100 transition-all text-slate-400">
                                     <X size={20} />
                                 </button>
                             </div>
 
-                            <div className="p-8 space-y-10 overflow-y-auto max-h-[calc(100vh-280px)] no-scrollbar">
-                                {/* Customer Info Card */}
-                                <div className="bg-[#f8fafc] rounded-3xl p-6 border border-slate-100">
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <div className="w-14 h-14 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm overflow-hidden">
-                                             <img 
-                                                src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedClaim.user?.name || 'User'}`} 
-                                                alt="Avatar" 
-                                                className="w-full h-full object-cover" 
-                                            />
+                            <div className="flex flex-col h-[calc(100vh-240px)]">
+                                <div className="p-8 space-y-10 overflow-y-auto flex-1 custom-scrollbar">
+                                    {/* Customer Info Card */}
+                                    <div className="bg-[#f8fafc] rounded-3xl p-6 border border-slate-100">
+                                        <div className="flex items-center gap-4 mb-6">
+                                            <div className="w-14 h-14 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm overflow-hidden">
+                                                 <img 
+                                                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedClaim.user?.name || 'User'}`} 
+                                                    alt="Avatar" 
+                                                    className="w-full h-full object-cover" 
+                                                />
+                                            </div>
+                                            <div>
+                                                <p className="text-[16px] font-bold text-[#1a2744]">{selectedClaim.user?.name || 'John Doe'}</p>
+                                                <p className="text-[12px] text-slate-400 font-medium">Customer ID: SH-{selectedClaim.user?._id?.slice(-5).toUpperCase() || '10293'}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p className="text-[16px] font-bold text-[#1a2744]">{selectedClaim.user?.name || 'John Doe'}</p>
-                                            <p className="text-[12px] text-slate-400 font-medium">Customer ID: SH-{selectedClaim.user?._id?.slice(-5).toUpperCase() || '10293'}</p>
+                                        <div className="grid grid-cols-2 gap-4 border-t border-slate-200/50 pt-5">
+                                            <div>
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Policy Plan</p>
+                                                <p className="text-[13px] font-bold text-[#1a2744] leading-tight">{selectedClaim.userPolicy?.policy?.policyName || 'Life Premium Platinum'}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Claim Amount</p>
+                                                <p className="text-[15px] font-black text-emerald-600 leading-tight">₹{selectedClaim.amount?.toLocaleString() || '5,000.00'}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4 border-t border-slate-200/50 pt-5">
-                                        <div>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Policy Plan</p>
-                                            <p className="text-[13px] font-bold text-[#1a2744] leading-tight">{selectedClaim.userPolicy?.policy?.policyName || 'Life Premium Platinum'}</p>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Claim Amount</p>
-                                            <p className="text-[15px] font-black text-emerald-600 leading-tight">₹{selectedClaim.amount?.toLocaleString() || '5,000.00'}</p>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                {/* Claim Details */}
-                                <div className="space-y-4">
-                                    <h4 className="text-[12px] font-bold text-slate-400 uppercase tracking-[0.15em]">Claim Details</h4>
+                                    {/* Claim Details */}
                                     <div className="space-y-4">
-                                        <div className="flex justify-between items-center text-[14px]">
-                                            <span className="font-medium text-slate-400">Status</span>
-                                            <span className="font-bold text-[#1a2744]">{selectedClaim.status || 'Personal Accident'}</span>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <p className="text-[14px] font-medium text-slate-400">Description</p>
-                                            <div className="bg-slate-50/50 border border-slate-100 rounded-2xl p-4 italic text-[14px] text-slate-600 leading-relaxed">
-                                                "{selectedClaim.description || 'Fracture sustained in a road accident on 20th Oct. Requires reimbursement for emergency care and follow-up surgery.'}"
+                                        <h4 className="text-[12px] font-bold text-slate-400 uppercase tracking-[0.15em]">Claim Details</h4>
+                                        <div className="space-y-4">
+                                            <div className="flex justify-between items-center text-[14px]">
+                                                <span className="font-medium text-slate-400">Status</span>
+                                                <span className="font-bold text-[#1a2744]">{selectedClaim.status || 'Personal Accident'}</span>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Supporting Documents */}
-                                <div className="space-y-4">
-                                    <h4 className="text-[12px] font-bold text-slate-400 uppercase tracking-[0.15em]">Supporting Documents</h4>
-                                    <div className="grid grid-cols-3 gap-3">
-                                        {[
-                                            { name: 'Hospital_Bill.pdf', icon: FileText, color: 'bg-blue-50/50 text-blue-500' },
-                                            { name: 'FIR_Report.pdf', icon: FileCheck, color: 'bg-slate-50 text-slate-500' },
-                                            { name: 'X-Ray_Img.jpg', icon: Layout, color: 'bg-emerald-50/50 text-emerald-500' }
-                                        ].map((doc, idx) => (
-                                            <div key={idx} className="space-y-2 group cursor-pointer">
-                                                <div className={`aspect-square rounded-2xl ${doc.color} border border-slate-100 flex items-center justify-center transition-all group-hover:scale-95 shadow-sm overflow-hidden`}>
-                                                    {idx === 0 ? (
-                                                        <img src="https://images.unsplash.com/photo-1586772002130-b0f3daa6288b?auto=format&fit=crop&q=80&w=200" className="w-full h-full object-cover opacity-60" alt="doc" />
-                                                    ) : (
-                                                        <doc.icon size={28} />
-                                                    )}
+                                            <div className="space-y-2">
+                                                <p className="text-[14px] font-medium text-slate-400">Description</p>
+                                                <div className="bg-slate-50/50 border border-slate-100 rounded-2xl p-4 italic text-[14px] text-slate-600 leading-relaxed">
+                                                    "{selectedClaim.description || 'Fracture sustained in a road accident on 20th Oct. Requires reimbursement for emergency care and follow-up surgery.'}"
                                                 </div>
-                                                <p className="text-[10px] font-bold text-slate-400 text-center truncate px-1">{doc.name}</p>
                                             </div>
-                                        ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Supporting Documents */}
+                                    <div className="space-y-4">
+                                        <h4 className="text-[12px] font-bold text-slate-400 uppercase tracking-[0.15em]">Supporting Documents</h4>
+                                        <div className="grid grid-cols-3 gap-3">
+                                            {[
+                                                { name: 'Hospital_Bill.pdf', icon: FileText, color: 'bg-blue-50/50 text-blue-500' },
+                                                { name: 'FIR_Report.pdf', icon: FileCheck, color: 'bg-slate-50 text-slate-500' },
+                                                { name: 'X-Ray_Img.jpg', icon: Layout, color: 'bg-emerald-50/50 text-emerald-500' }
+                                            ].map((doc, idx) => (
+                                                <div key={idx} className="space-y-2 group cursor-pointer">
+                                                    <div className={`aspect-square rounded-2xl ${doc.color} border border-slate-100 flex items-center justify-center transition-all group-hover:scale-95 shadow-sm overflow-hidden`}>
+                                                        {idx === 0 ? (
+                                                            <img src="https://images.unsplash.com/photo-1586772002130-b0f3daa6288b?auto=format&fit=crop&q=80&w=200" className="w-full h-full object-cover opacity-60" alt="doc" />
+                                                        ) : (
+                                                            <doc.icon size={28} />
+                                                        )}
+                                                    </div>
+                                                    <p className="text-[10px] font-bold text-slate-400 text-center truncate px-1">{doc.name}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Verification */}
+                                    <div className="space-y-4 pt-2">
+                                        <h4 className="text-[12px] font-bold text-slate-400 uppercase tracking-[0.15em]">Verification Checklist</h4>
+                                        <label className="flex items-center gap-4 cursor-pointer group">
+                                            <div className={`w-6 h-6 rounded-lg border-2 transition-all flex items-center justify-center ${checklist.documentAuthenticity ? 'bg-[#1a2744] border-[#1a2744]' : 'border-slate-200 group-hover:border-slate-300 bg-white'}`}>
+                                                <input 
+                                                    type="checkbox" 
+                                                    className="hidden" 
+                                                    checked={checklist.documentAuthenticity}
+                                                    onChange={() => setChecklist(prev => ({ ...prev, documentAuthenticity: !prev.documentAuthenticity }))}
+                                                />
+                                                {checklist.documentAuthenticity && <Check size={14} strokeWidth={4} className="text-white" />}
+                                            </div>
+                                            <span className="text-[14px] font-bold text-[#1a2744]">Document Authenticity</span>
+                                        </label>
                                     </div>
                                 </div>
 
-                                {/* Verification */}
-                                <div className="space-y-4 pt-2">
-                                    <h4 className="text-[12px] font-bold text-slate-400 uppercase tracking-[0.15em]">Verification Checklist</h4>
-                                    <label className="flex items-center gap-4 cursor-pointer group">
-                                        <div className={`w-6 h-6 rounded-lg border-2 transition-all flex items-center justify-center ${checklist.documentAuthenticity ? 'bg-[#1a2744] border-[#1a2744]' : 'border-slate-200 group-hover:border-slate-300 bg-white'}`}>
-                                            <input 
-                                                type="checkbox" 
-                                                className="hidden" 
-                                                checked={checklist.documentAuthenticity}
-                                                onChange={() => setChecklist(prev => ({ ...prev, documentAuthenticity: !prev.documentAuthenticity }))}
-                                            />
-                                            {checklist.documentAuthenticity && <Check size={14} strokeWidth={4} className="text-white" />}
-                                        </div>
-                                        <span className="text-[14px] font-bold text-[#1a2744]">Document Authenticity</span>
-                                    </label>
-                                </div>
-
-                                {/* Action Buttons */}
-                                <div className="pt-6 flex flex-col gap-4 pb-4">
+                                {/* Action Buttons - Fixed at bottom */}
+                                <div className="p-8 bg-slate-50/50 border-t border-slate-100 space-y-4 shrink-0">
                                     <div className="grid grid-cols-2 gap-4">
                                         <button 
                                             onClick={() => handleStatusUpdate('Approved')}
-                                            disabled={updateClaimMutation.isPending}
-                                            className="h-14 bg-[#10b981] text-white rounded-2xl font-bold text-[15px] flex items-center justify-center gap-2 hover:bg-[#059669] transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98] disabled:opacity-50"
+                                            disabled={updateClaimMutation.isPending || !checklist.documentAuthenticity}
+                                            className="h-14 bg-[#10b981] text-white rounded-2xl font-bold text-[15px] flex items-center justify-center gap-2 hover:bg-[#059669] transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             <CheckCircle size={20} /> Approve
                                         </button>
