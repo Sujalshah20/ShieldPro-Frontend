@@ -16,6 +16,8 @@ const Register = lazy(() => import("./pages/auth/Register"));
 const VerifyEmail = lazy(() => import("./pages/auth/VerifyEmail"));
 const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
 const ResetPassword = lazy(() => import("./pages/auth/ResetPassword"));
+const AgentApply = lazy(() => import("./pages/auth/AgentApply"));
+const AdminRequestAccess = lazy(() => import("./pages/auth/AdminRequestAccess"));
 const Home = lazy(() => import("./pages/Home"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
@@ -116,7 +118,9 @@ function App() {
                   <Route path="/verify-email" element={<PageWrapper><VerifyEmail /></PageWrapper>} />
                   <Route path="/forgot-password" element={<PageWrapper><ForgotPassword /></PageWrapper>} />
                   <Route path="/reset-password" element={<PageWrapper><ResetPassword /></PageWrapper>} />
-<Route path="/razorpay-test" element={<PageWrapper><RazorpayDemo /></PageWrapper>} />
+                  <Route path="/razorpay-test" element={<PageWrapper><RazorpayDemo /></PageWrapper>} />
+                  <Route path="/agent/apply" element={<PageWrapper><AgentApply /></PageWrapper>} />
+                  <Route path="/admin/request-access" element={<PageWrapper><AdminRequestAccess /></PageWrapper>} />
 
                   {/* -------- ADMIN ROUTES -------- */}
                   <Route

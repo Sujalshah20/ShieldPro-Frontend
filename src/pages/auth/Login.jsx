@@ -466,9 +466,9 @@ const Login = () => {
                         {/* Footer link */}
                         <p className="text-center text-slate-500 font-medium text-[13px] pt-2">
                             {activeRole === "admin" ? (
-                                <>Need access? <a href="mailto:support@shieldpro.in" className="text-slate-800 font-bold hover:underline">Contact Support</a></>
+                                <>Need access? <Link to="/admin/request-access" className="text-slate-800 font-bold hover:underline">Request Access</Link></>
                             ) : activeRole === "agent" ? (
-                                <>Not an agent yet? <a href="mailto:hr@shieldpro.in" className="text-[#134e8d] font-bold hover:underline">Apply to join</a></>
+                                <>Not an agent yet? <Link to="/agent/apply" className="text-[#134e8d] font-bold hover:underline">Apply to join</Link></>
                             ) : (
                                 <>Don't have an account? <Link to="/register" className="text-emerald-600 font-bold hover:underline">Register Now</Link></>
                             )}
