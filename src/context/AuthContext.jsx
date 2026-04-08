@@ -100,13 +100,9 @@ export const AuthProvider = ({ children }) => {
     };
   }, [user, logout]);
 
-  const login = async (email, password, rememberMe) => {
+  const login = async (email, password, rememberMe, portalRole) => {
     try {
-      const data = await api.post('/auth/login', { email, password, rememberMe });
-      // The backend returns user info. We need to ensure token is handled if returned in JSON.
-      // Based on authController.js, it returns user info but token is in Cookie.
-      // If we want "Bearer token in headers", we might need the backend to return the token in JSON too.
-      // Let's assume the backend 'login' returns the token in JSON for compliance with this new rule.
+      const data = await api.post('/auth/login', { email, password, rememberMe, portalRole });
       if (data.token) {
           localStorage.setItem('token', data.token);
       }

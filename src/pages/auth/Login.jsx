@@ -153,7 +153,7 @@ const Login = () => {
         if (!isFormValid || isLoading) return;
         setIsLoading(true);
         try {
-            const user = await login(formData.email.trim(), formData.password, rememberMe);
+            const user = await login(formData.email.trim(), formData.password, rememberMe, activeRole);
             setFailedAttempts(0);
             toast({ title: "Login Successful", description: "Welcome back to ShieldPro.", variant: "default" });
             setTimeout(() => {
@@ -162,9 +162,22 @@ const Login = () => {
                 else navigate('/customer');
             }, 500);
         } catch (error) {
+            const status = error.status || error.response?.status;
+            const msg = error.response?.data?.message || error.message || "Invalid credentials.";
+
+            // ── Role mismatch (403) — specific portal error ──
+            if (status === 403 && !msg.toLowerCase().includes('locked')) {
+                toast({
+                    title: "Wrong Portal",
+                    description: msg,
+                    variant: "destructive"
+                });
+                setIsLoading(false);
+                return; // Don't increment failed attempts for role mismatch
+            }
+
             const newAttempts = failedAttempts + 1;
             setFailedAttempts(newAttempts);
-            const msg = error.response?.data?.message || error.message || "Invalid credentials.";
             let description = msg;
             if (msg.toLowerCase().includes("failed to fetch")) description = "Cannot connect to server.";
             else if (msg.toLowerCase().includes('not found')) description = "No account found with this email.";
