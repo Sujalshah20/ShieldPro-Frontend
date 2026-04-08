@@ -3,8 +3,7 @@ import {
     Shield, 
     Clock, 
     CheckCircle, 
-    Wallet, 
-    ExternalLink
+    Wallet
 } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import Reveal from "../../components/common/Reveal";
@@ -95,12 +94,7 @@ const CustomerDashboard = () => {
                 <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
                     <div className="p-10 pb-6 flex items-center justify-between">
                         <h2 className="text-xl font-black text-slate-800 tracking-tight">My Active Policies</h2>
-                        <button 
-                            onClick={() => navigate('/customer/policies')}
-                            className="text-[14px] font-black text-blue-600 hover:text-blue-700 transition-colors"
-                        >
-                            View All
-                        </button>
+                        {/* View All button removed */}
                     </div>
                     <div className="overflow-x-auto px-6 pb-10">
                         <table className="w-full table-fixed cursor-default">
@@ -110,7 +104,7 @@ const CustomerDashboard = () => {
                                     <th className="w-[15%] px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Type</th>
                                     <th className="w-[15%] px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
                                     <th className="w-[20%] px-8 py-5 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Premium</th>
-                                    <th className="w-[15%] px-8 py-5 text-center text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Action</th>
+                                    {/* Action header removed */}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -134,14 +128,7 @@ const CustomerDashboard = () => {
                                                 <span className="text-[11px] font-bold text-slate-400">Exp: {new Date(policy.endDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-8 text-center">
-                                            <button 
-                                                onClick={() => navigate(`/customer/policy-detail/${policy.policyNumber}`)}
-                                                className="w-12 h-12 inline-flex items-center justify-center bg-slate-50 text-slate-400 rounded-2xl hover:bg-blue-600 hover:text-white transition-all shadow-sm border border-slate-100 group-hover:border-blue-600 group-hover:text-blue-600 hover:group-hover:text-white"
-                                            >
-                                                <ExternalLink size={18} strokeWidth={2.5} />
-                                            </button>
-                                        </td>
+                                        {/* Action button cell removed */}
                                     </tr>
                                 ))}
                             </tbody>
