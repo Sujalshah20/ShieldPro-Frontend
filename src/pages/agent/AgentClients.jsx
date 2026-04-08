@@ -79,9 +79,11 @@ const AgentClients = () => {
                                     const email = client.email;
                                     const phone = client.phone || 'N/A';
                                     const activeCount = client.activePolicyCount || 0;
+                                    const totalPaid = client.totalPaid || 0;
                                     const premium = client.totalPremium || 0;
                                     const status = client.status?.toUpperCase() || 'INACTIVE';
-                                    const paymentLabel = client.paymentStatus || 'NO PAYMENTS';
+                                    // paymentStatus is derived server-side from real Transaction records
+                                    const paymentLabel = client.paymentStatus || (totalPaid > 0 ? 'PAID' : 'NO PAYMENTS');
 
                                     return (
                                         <tr key={client._id || idx} className="hover:bg-slate-50/50 transition-colors group">
@@ -113,10 +115,13 @@ const AgentClients = () => {
                                             </td>
                                             <td className="px-4 py-6">
                                                 <div className="flex flex-col">
-                                                    <span className="text-[16px] font-bold text-[#002b45]">₹{premium.toLocaleString()}</span>
+                                                    <span className="text-[16px] font-bold text-[#002b45]">
+                                                        ₹{totalPaid > 0 ? totalPaid.toLocaleString() : premium.toLocaleString()}
+                                                    </span>
                                                     <span className={`text-[10px] font-bold mt-1 ${
                                                         paymentLabel === 'OVERDUE' ? 'text-rose-500' : 
-                                                        paymentLabel === 'PENDING' ? 'text-slate-400' : 'text-emerald-500'
+                                                        paymentLabel === 'PENDING' ? 'text-amber-500' : 
+                                                        paymentLabel === 'PAID' ? 'text-emerald-500' : 'text-slate-400'
                                                     }`}>
                                                         {paymentLabel}
                                                     </span>
