@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { jsPDF } from "jspdf";
 import { 
     Download, CreditCard, Landmark, Banknote,
-    ChevronLeft, ChevronRight, Calendar
+    ChevronLeft, ChevronRight
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
@@ -208,44 +208,9 @@ const PaymentHistory = () => {
                 </div>
             </div>
 
-            {/* Bottom Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-[#134e8d] rounded-2xl p-6 shadow-lg shadow-blue-100">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-blue-100/60 mb-3">Net Premiums Paid</p>
-                    <div className="flex items-baseline gap-2">
-                        <p className="text-2xl font-bold text-white">₹ {totalPaid.toLocaleString()}</p>
-                        <span className="text-[10px] font-bold text-blue-100/40 uppercase tracking-tighter">INR</span>
-                    </div>
-                </div>
-                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">Total Transaction Count</p>
-                    <div className="flex items-center justify-between">
-                        <p className="text-2xl font-bold text-slate-800">{transactions.length}</p>
-                        <div className="flex items-center gap-1.5 text-slate-300 text-[10px] font-bold uppercase tracking-wider">
-                            <Calendar size={14} className="opacity-50" /> Lifecycle Total
-                        </div>
-                    </div>
-                </div>
-                <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm group">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">Verification Required</p>
-                    <div className="flex items-center justify-between">
-                        <p className="text-2xl font-bold text-slate-800">{pendingCount}</p>
-                        {pendingCount > 0 ? (
-                            <div className="flex items-center gap-2 text-amber-500 text-[10px] font-bold uppercase tracking-wider bg-amber-50 px-3 py-1.5 rounded-full border border-amber-100">
-                                <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" /> Pending
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-2 text-emerald-500 text-[10px] font-bold uppercase tracking-wider bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
-                                <span className="w-2 h-2 rounded-full bg-emerald-50" /> All verified
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+            {/* Bottom stats removed */}
 
-            <p className="text-center text-[10px] text-slate-300 font-bold uppercase tracking-[4px] mt-16">
-                © 2026 ShieldPro Insurance • All payments are secured with 256-bit AES encryption
-            </p>
+
         </div>
     );
 };

@@ -4,7 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { api } from "../../utils/api";
 import { 
     Activity, Car, Home, Shield, Globe, FileText, 
-    MoreVertical, Download, Plus, ArrowRight
+    ArrowRight
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 const CustomerPolicies = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("Active Policies");
+
 
     const { data: myPolicies = [], isLoading } = useQuery({
         queryKey: ['myPolicies', user?.token],
@@ -59,13 +59,7 @@ const CustomerPolicies = () => {
     const totalCoverage = myPolicies.reduce((acc, curr) => acc + (curr.policy?.coverageAmount || 0), 0);
     const displayCoverage = totalCoverage > 100000 ? `${(totalCoverage/100000).toFixed(1)}L` : totalCoverage.toLocaleString();
 
-    const filteredPolicies = activeTab === "Active Policies" 
-        ? myPolicies.filter(p => new Date(p.endDate) > new Date())
-        : activeTab === "Expired Policies" 
-        ? myPolicies.filter(p => new Date(p.endDate) <= new Date())
-        : myPolicies;
-
-    const tabs = ["Active Policies", "Expired Policies", "All Policies"];
+    const filteredPolicies = myPolicies;
 
     if (isLoading) return (
         <div className="flex items-center justify-center h-[60vh]">
@@ -79,29 +73,10 @@ const CustomerPolicies = () => {
             {/* Header */}
             <div className="mb-10">
                 <h1 className="text-2xl font-bold text-slate-800 mb-1">My Policies</h1>
-                <p className="text-slate-500 text-sm font-medium">Manage and track your active insurance coverage and renewals.</p>
+                <p className="text-slate-500 text-sm font-medium">Manage and track your insurance policies and renewals.</p>
             </div>
 
-            {/* Tabs */}
-            <div className="flex items-center gap-8 border-b border-slate-100 mb-10 overflow-x-auto no-scrollbar">
-                {tabs.map(tab => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`pb-4 text-[11px] font-bold uppercase tracking-[2px] whitespace-nowrap transition-all relative ${
-                            activeTab === tab ? "text-[#134e8d]" : "text-slate-400 hover:text-slate-600"
-                        }`}
-                    >
-                        {tab}
-                        {activeTab === tab && (
-                            <motion.div 
-                                layoutId="policyTab"
-                                className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-[#134e8d] rounded-full"
-                            />
-                        )}
-                    </button>
-                ))}
-            </div>
+            {/* Tabs section removed */}
 
             {/* Policy List */}
             {filteredPolicies.length === 0 ? (
@@ -110,7 +85,7 @@ const CustomerPolicies = () => {
                         <Shield size={40} className="text-slate-200" />
                     </div>
                     <h3 className="text-xl font-bold text-slate-800 mb-2">No policies found</h3>
-                    <p className="text-slate-400 text-sm font-medium mb-10 max-w-sm mx-auto">You Don't have any {activeTab.toLowerCase()} at the moment. Explore our coverage options to secure your future.</p>
+                    <p className="text-slate-400 text-sm font-medium mb-10 max-w-sm mx-auto">You don't have any policies at the moment. Explore our coverage options to secure your future.</p>
                     <button 
                         onClick={() => navigate('/customer/browse')}
                         className="bg-emerald-500 text-white px-10 py-3.5 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-100"
@@ -131,21 +106,7 @@ const CustomerPolicies = () => {
                                 key={p._id} 
                                 className="bg-white rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm flex flex-col xl:flex-row xl:items-center gap-8 relative hover:shadow-xl hover:shadow-blue-50/50 transition-all group"
                             >
-                                {/* Active Badge */}
-                                <div className="absolute top-6 right-6 flex items-center gap-4">
-                                    {timeStatus.isUrgent ? (
-                                        <span className="bg-amber-50 text-amber-600 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-2 border border-amber-100 uppercase tracking-widest">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> Renewal Due
-                                        </span>
-                                    ) : (
-                                        <span className="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-2 border border-emerald-100 uppercase tracking-widest">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Active
-                                        </span>
-                                    )}
-                                    <button className="text-slate-300 hover:text-[#134e8d] transition-colors">
-                                        <MoreVertical size={20} />
-                                    </button>
-                                </div>
+                                {/* Status badge and menu removed */}
 
                                 <div className="flex items-center gap-6 xl:w-1/3">
                                     <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-inner ${getIconBg(p.policy?.policyType)}`}>
@@ -186,29 +147,7 @@ const CustomerPolicies = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-wrap items-center gap-3 pt-6 border-t border-slate-50 xl:border-t-0 xl:pt-0 xl:justify-end xl:w-auto">
-                                    <button className="w-11 h-11 border border-slate-100 rounded-xl flex items-center justify-center text-slate-400 hover:text-[#134e8d] hover:border-[#134e8d] hover:bg-blue-50 transition-all group/btn">
-                                        <Download size={18} className="group-hover/btn:transform group-hover/btn:-translate-y-0.5 transition-transform" />
-                                    </button>
-                                    <button 
-                                        onClick={() => navigate(`/customer/policy/${p._id}`)}
-                                        className="flex-1 xl:flex-none border border-slate-200 text-slate-600 font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-slate-50 transition-all min-w-[120px] text-center uppercase tracking-widest"
-                                    >
-                                        Full Details
-                                    </button>
-                                    {timeStatus.isUrgent ? (
-                                        <button className="flex-1 xl:flex-none bg-amber-500 text-white font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-amber-600 transition-all min-w-[120px] text-center shadow-lg shadow-amber-100 uppercase tracking-widest">
-                                            Renew Now
-                                        </button>
-                                    ) : (
-                                        <button 
-                                            onClick={() => navigate('/customer/claims', { state: { policyId: p._id } })}
-                                            className="flex-1 xl:flex-none bg-[#134e8d] text-white font-bold text-[13px] px-6 py-3 rounded-xl hover:bg-[#002b45] transition-all min-w-[120px] text-center shadow-lg shadow-blue-100 uppercase tracking-widest"
-                                        >
-                                            Submit Claim
-                                        </button>
-                                    )}
-                                </div>
+                                {/* Action buttons row removed */}
                             </motion.div>
                         );
                     })}
