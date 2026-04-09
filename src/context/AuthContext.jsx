@@ -3,6 +3,8 @@ import { createContext, useContext, useState, useEffect, useRef, useCallback } f
 import { api } from "../utils/api";
 import { useToast } from "../hooks/use-toast";
 
+import { queryClient } from "../utils/QueryClient";
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -62,6 +64,10 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
         console.error("Logout failed", e);
     }
+    
+    // Clear React Query cache to prevent data leakage between sessions
+    queryClient.clear();
+    
     localStorage.removeItem('token');
     setUser(null);
     setProfile(null);

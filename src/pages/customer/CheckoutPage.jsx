@@ -22,17 +22,17 @@ const CheckoutPage = () => {
 
     if (!policy) {
         return (
-            <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center p-6 text-center">
-                <div className="w-20 h-20 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 mb-6 border border-rose-100 shadow-xl shadow-rose-500/10">
-                    <Shield size={40} />
+            <div className="min-h-screen bg-[#fcfdfe] flex flex-col items-center justify-center p-6 text-center">
+                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-300 mb-6 shadow-sm border border-slate-100">
+                    <Shield size={28} />
                 </div>
-                <h3 className="text-3xl font-bold text-black mb-4 tracking-tight">Access Denied</h3>
-                <p className="text-black font-black uppercase tracking-widest text-[11px] opacity-40 max-w-md mb-12 italic leading-relaxed">No valid policy selection found. Please navigate back to choose a policy and start the checkout process.</p>
+                <h3 className="text-xl font-bold text-slate-800 mb-2">Session Terminated</h3>
+                <p className="text-slate-500 text-xs max-w-xs mb-8">Your secure checkout session has expired. Please re-initiate from the dashboard.</p>
                 <button 
                     onClick={() => navigate("/customer")} 
-                    className="h-14 px-10 bg-[#002b45] text-white rounded-xl font-bold hover:bg-[#134e8d] hover:translate-y-[-2px] transition-all active:scale-95 shadow-lg shadow-blue-900/20"
+                    className="px-6 py-2.5 bg-[#0c2e59] text-white rounded-xl font-bold text-xs hover:bg-[#134e8d] transition-all shadow-md shadow-blue-900/10"
                 >
-                    Back to Dashboard
+                    Return to Dashboard
                 </button>
             </div>
         );
@@ -41,14 +41,14 @@ const CheckoutPage = () => {
     const handleSuccess = (result) => {
         queryClient.invalidateQueries(["myPolicies"]);
         queryClient.invalidateQueries(["myApplications"]);
+        queryClient.invalidateQueries(["myTransactions"]);
         
-        // Pass policy details to success page
         navigate("/customer/checkout-success", { 
             state: { 
                 policy: {
                     ...policy,
-                    policyNumber: result.policyNumber || 'SS-GEN-2024-X123',
-                    paymentMode: "Razorpay Secure"
+                    policyNumber: result.policyNumber || 'SP-' + Math.floor(100000 + Math.random() * 900000),
+                    paymentId: result.razorpay_payment_id
                 } 
             } 
         });
@@ -56,148 +56,173 @@ const CheckoutPage = () => {
 
     const handleFailure = (error) => {
         toast({
-            title: "Payment Failed",
-            description: error?.description || error?.message || "Something went wrong during the transaction.",
+            title: "Transaction Failed",
+            description: error?.message || "Secure gateway encountered an error.",
             variant: "destructive"
         });
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] flex flex-col font-sans">
-            {/* Minimalist Header */}
-            <header className="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-8 md:px-12 sticky top-0 z-50">
-                <div className="flex items-center gap-8">
-                    <Link to="/" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 bg-[#002b45] rounded-lg flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
-                            <Shield size={22} strokeWidth={2.5} />
+        <div className="min-h-screen bg-[#fcfdfe] flex flex-col font-sans text-slate-900">
+            {/* Sleek Header */}
+            <header className="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
+                <div className="max-w-5xl mx-auto h-16 px-6 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-[#0c2e59] rounded-xl flex items-center justify-center text-white shadow-sm">
+                            <Shield size={20} strokeWidth={2.5} />
                         </div>
-                        <span className="text-xl font-bold text-black tracking-tight">Secure <span className="text-[#134e8d]">Shield</span></span>
-                    </Link>
-                    <div className="h-8 w-px bg-slate-100 hidden md:block" />
-                    <button 
-                        onClick={() => navigate(-1)}
-                        className="hidden md:flex items-center gap-2 text-sm font-bold text-black hover:text-[#134e8d] transition-colors"
-                    >
-                        <ChevronLeft size={18} />
-                        Cancel Transaction
-                    </button>
-                </div>
-                <div className="flex items-center gap-6">
-                    <div className="hidden sm:flex items-center gap-2 text-emerald-500 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 text-[11px] font-black uppercase tracking-widest">
-                        <CheckCircle size={14} /> Secure Link
+                        <div className="flex flex-col">
+                            <span className="text-sm font-bold tracking-tight text-slate-900 leading-none mb-0.5">ShieldPro</span>
+                            <span className="text-[9px] font-bold text-blue-600 uppercase tracking-wider leading-none">Secure Terminal</span>
+                        </div>
                     </div>
+                    <Link 
+                        to="/customer" 
+                        className="text-[11px] font-bold text-slate-400 hover:text-slate-800 transition-colors flex items-center gap-1.5 px-3 py-1.5 hover:bg-slate-50 rounded-lg border border-transparent hover:border-slate-200"
+                    >
+                        <ChevronLeft size={14} />
+                        Abort Checkout
+                    </Link>
                 </div>
             </header>
 
-            <main className="flex-1 max-w-6xl mx-auto w-full px-6 py-12 md:py-16">
-                <div className="grid lg:grid-cols-12 gap-12 items-start">
-                    {/* Left: Summary */}
-                    <motion.div 
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="lg:col-span-5 space-y-8"
-                    >
-                        <div className="bg-white p-10 rounded-[2rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
-                            <h2 className="text-sm font-black text-black uppercase tracking-[3px] mb-8 border-b border-slate-50 pb-4">
-                                ORDER SUMMARY
+            <main className="flex-1 w-full max-w-5xl mx-auto px-6 py-12 md:py-16">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                    
+                    {/* Left Column: Details */}
+                    <div className="lg:col-span-12 xl:col-span-7 space-y-6">
+                        <section className="bg-white rounded-[2rem] p-8 md:p-10 border border-slate-200/60 shadow-sm relative overflow-hidden">
+                            <h2 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-8 border-b border-slate-50 pb-4">
+                                PROTECTION PLAN DETAILS
                             </h2>
                             
+                            <div className="flex items-start justify-between gap-6 mb-10">
+                                <div className="space-y-3">
+                                    <h3 className="text-2xl md:text-3xl font-black text-[#0c2e59] tracking-tight leading-tight">{policy.policyName}</h3>
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-2.5 py-1 bg-blue-50/50 text-[#134e8d] text-[9px] font-bold uppercase rounded-md border border-blue-100 italic">
+                                            {policy.policyType} Enrollment
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">Standard Premium</p>
+                                    <p className="text-3xl font-black text-slate-900 tracking-tight">₹{policy.premiumAmount?.toLocaleString()}</p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="p-5 bg-slate-50/50 rounded-2xl border border-slate-100">
+                                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Coverage Ceiling</p>
+                                    <p className="text-lg font-bold text-slate-800 tracking-tight">₹{(policy.coverageAmount/100000).toFixed(1)} Lakhs</p>
+                                </div>
+                                <div className="p-5 bg-slate-50/50 rounded-2xl border border-slate-100">
+                                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Protection Term</p>
+                                    <p className="text-lg font-bold text-slate-800 tracking-tight">{policy.durationYears || 1} Year Plan</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section className="bg-white rounded-[2rem] p-8 md:p-10 border border-slate-200/60 shadow-sm">
+                            <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-8 border-b border-slate-50 pb-4">
+                                VERIFIED POLICYHOLDER
+                            </h2>
                             <div className="space-y-6">
-                                <div>
-                                    <h3 className="text-3xl font-extrabold text-black leading-none mb-2">{policy.policyName}</h3>
-                                    <p className="text-black font-black uppercase text-[10px] tracking-[4px] bg-slate-50 w-fit px-3 py-1 rounded-lg border border-slate-100 italic opacity-60">
-                                        {policy.policyType} INSURANCE // NODE_LOCKED
-                                    </p>
+                                <div className="flex justify-between items-center text-sm border-b border-slate-50 pb-4">
+                                    <span className="text-slate-400 font-medium">Full Legal Name</span>
+                                    <span className="font-bold text-slate-800">{user?.name}</span>
                                 </div>
-
-                                <div className="space-y-4 pt-4 border-t border-slate-50">
-                                    <div className="flex justify-between items-center group">
-                                        <p className="text-black font-black uppercase tracking-widest text-[9px] opacity-30">Coverage Capacity</p>
-                                        <p className="text-black font-extrabold tracking-tight italic">₹{(policy.coverageAmount/100000).toFixed(1)}L</p>
-                                    </div>
-                                    <div className="flex justify-between items-center group">
-                                        <p className="text-black font-black uppercase tracking-widest text-[9px] opacity-30">Policy Duration</p>
-                                        <p className="text-black font-extrabold tracking-tight italic">{policy.durationYears} Year</p>
-                                    </div>
-                                    <div className="flex justify-between items-center pt-6 border-t border-slate-50">
-                                        <p className="text-black font-black text-lg">Total Payable</p>
-                                        <p className="text-3xl font-black text-[#134e8d] tracking-tighter">₹{policy.premiumAmount.toLocaleString()}</p>
+                                <div className="flex justify-between items-center text-sm border-b border-slate-50 pb-4">
+                                    <span className="text-slate-400 font-medium">Communication Channel</span>
+                                    <span className="font-bold text-slate-800">{user?.email}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-sm">
+                                    <span className="text-slate-400 font-medium">Authentication Status</span>
+                                    <div className="flex items-center gap-1.5 text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full text-xs uppercase border border-emerald-100">
+                                        <CheckCircle size={10} strokeWidth={3} /> Identity Confirmed
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </section>
+                    </div>
 
-                        {/* Security Badge */}
-                        <div className="bg-[#134e8d] p-8 rounded-[2rem] text-white flex items-center gap-6 shadow-2xl shadow-blue-900/10">
-                            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
-                                <Lock size={30} className="text-blue-200" />
-                            </div>
-                            <div className="space-y-1">
-                                <h4 className="font-bold text-lg leading-none">Safe & Secure</h4>
-                                <p className="text-white/60 text-[12px] font-medium leading-relaxed">Your payment information is encrypted and processed via secure financial gateways.</p>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Right: Razorpay Integration */}
-                    <motion.div 
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="lg:col-span-7"
-                    >
-                        <div className="bg-white p-10 md:p-12 rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50 flex flex-col items-center text-center">
-                            <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-[1.5rem] flex items-center justify-center mb-8 shadow-inner">
-                                <ShieldCheck size={40} />
-                            </div>
+                    {/* Right Column: Sidebar */}
+                    <aside className="lg:col-span-12 xl:col-span-5 space-y-6 lg:sticky lg:top-24">
+                        <section className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-slate-200/60 shadow-xl shadow-slate-200/30 flex flex-col">
+                            <h2 className="text-base font-black text-slate-900 mb-8 flex items-center gap-2">
+                                <Lock size={18} className="text-slate-300" />
+                                Payment Summary
+                            </h2>
                             
-                            <h2 className="text-3xl font-black text-black tracking-tight mb-2">Secure Checkout</h2>
-                            <p className="text-black opacity-40 text-[11px] font-black uppercase tracking-[4px] mb-12 italic leading-relaxed max-w-sm">
-                                Complete your premium payment securely using Razorpay gateway.
-                            </p>
-
-                            <div className="w-full max-w-sm space-y-8">
-                                <div className="p-8 bg-slate-50 rounded-3xl border border-dashed border-slate-200 space-y-4">
-                                    <div className="flex justify-between items-center text-sm font-bold text-slate-500">
-                                        <span>Premium Amount</span>
-                                        <span>₹{policy?.premiumAmount?.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-sm font-bold text-slate-500 pb-4 border-b border-slate-200">
-                                        <span>Platform Fee</span>
-                                        <span className="text-emerald-500">Free</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-xl font-black text-black pt-2">
-                                        <span>Total</span>
-                                        <span className="text-[#134e8d]">₹{policy?.premiumAmount?.toLocaleString()}</span>
-                                    </div>
+                            <div className="space-y-4 mb-10">
+                                <div className="flex justify-between text-[13px] text-slate-500 font-medium">
+                                    <span>Base Premium</span>
+                                    <span className="text-slate-800 font-bold">₹{policy?.premiumAmount?.toLocaleString()}</span>
                                 </div>
-
-                                <div className="space-y-4 pt-4">
-                                    <RazorpayPayment 
-                                        amount={policy?.premiumAmount} 
-                                        onSuccess={handleSuccess} 
-                                        onFailure={handleFailure} 
-                                    />
-                                    
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[3px] italic">
-                                        Supports Cards, UPI, Netbanking & Wallets
-                                    </p>
+                                <div className="flex justify-between text-[13px] text-slate-400 font-medium">
+                                    <span>Taxes & Levies</span>
+                                    <span className="italic">Inclusive</span>
                                 </div>
-
-                                <div className="flex items-center justify-center gap-3 opacity-30 pt-12 border-t border-slate-50">
-                                    <Lock size={14} />
-                                    <span className="text-[9px] font-bold uppercase tracking-[4px] text-black">PCI DSS Compliant Infrastructure</span>
+                                <div className="pt-6 mt-6 border-t border-slate-100 flex justify-between items-end">
+                                    <div className="space-y-0.5">
+                                        <p className="text-[10px] font-bold text-slate-400 uppercase leading-none">Total Payable</p>
+                                        <p className="text-xs font-bold text-slate-300 line-through leading-none decoration-slate-200 decoration-1">₹{((policy?.premiumAmount || 0) * 1.18).toFixed(0)}</p>
+                                    </div>
+                                    <span className="text-3xl font-black text-[#134e8d] tracking-tighter italic">₹{policy?.premiumAmount?.toLocaleString()}</span>
                                 </div>
                             </div>
+
+                            <div className="space-y-6">
+                                <RazorpayPayment 
+                                    amount={policy?.premiumAmount} 
+                                    onSuccess={handleSuccess} 
+                                    onFailure={handleFailure} 
+                                    user={user}
+                                    policyId={policy?._id}
+                                    applicationId={applicationId}
+                                />
+                                <div className="flex flex-col items-center gap-4 py-4 px-2 rounded-2xl bg-slate-50/50 border border-slate-100/50">
+                                    <div className="flex items-center gap-2 text-slate-400">
+                                        <ShieldCheck size={14} strokeWidth={2.5} className="text-emerald-500" />
+                                        <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">E2E ENCRYPTED CHECKOUT</span>
+                                    </div>
+                                    <p className="text-[9px] text-slate-400 font-medium text-center leading-relaxed">
+                                        Secure transaction protocol active. By proceeding, you verify authorized consent for this payment.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Order Help */}
+                        <div className="p-6 bg-[#0c2e59] rounded-3xl text-white flex items-center gap-5 shadow-lg shadow-blue-900/10">
+                            <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/5">
+                                <Shield size={18} className="text-blue-100" />
+                            </div>
+                            <div className="space-y-0.5">
+                                <h4 className="font-bold text-xs uppercase tracking-wider">Claims Guarantee</h4>
+                                <p className="text-white/50 text-[10px] leading-tight">Fast-track settlements for all active members.</p>
+                            </div>
                         </div>
-                    </motion.div>
+
+                        <div className="text-center px-4">
+                            <p className="text-[10px] font-bold text-slate-400 mb-1">Need assistance?</p>
+                            <Link to="/support" className="text-[10px] font-bold text-[#134e8d] hover:underline uppercase tracking-wider decoration-blue-100">Live Support Access</Link>
+                        </div>
+                    </aside>
                 </div>
             </main>
 
-            {/* Simple Footer */}
-            <footer className="py-8 border-t border-slate-100 bg-white/50 text-center text-black opacity-30 text-[9px] font-black uppercase tracking-[5px] italic">
-                <p>© 2026 Secure Shield Insurance Services // ALL_SYSTEMS_OPERATIONAL</p>
+            {/* Clean Footer */}
+            <footer className="py-12 border-t border-slate-100 bg-white/50">
+                <div className="max-w-5xl mx-auto px-6 flex flex-col items-center gap-4 text-center">
+                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">© 2026 ShieldPro Financial Services</p>
+                    <div className="flex items-center gap-6">
+                         <div className="flex items-center gap-1.5 grayscale opacity-50">
+                            <div className="size-1.5 rounded-full bg-emerald-500" />
+                            <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Gateway: Online</span>
+                         </div>
+                    </div>
+                </div>
             </footer>
         </div>
     );
