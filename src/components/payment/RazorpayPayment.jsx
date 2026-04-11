@@ -6,6 +6,12 @@ const RazorpayPayment = ({ amount = 500, onSuccess, onFailure, className = "", b
 
     const loadScript = (src) => {
         return new Promise((resolve) => {
+            // BUG FIX: Guard against injecting the same script on every click.
+            // Without this, each payment attempt appends another <script> tag — a memory leak.
+            if (document.querySelector(`script[src="${src}"]`)) {
+                resolve(true);
+                return;
+            }
             const script = document.createElement('script');
             script.src = src;
             script.onload = () => resolve(true);
@@ -13,6 +19,7 @@ const RazorpayPayment = ({ amount = 500, onSuccess, onFailure, className = "", b
             document.body.appendChild(script);
         });
     };
+
 
     const handlePayment = async () => {
         setLoading(true);

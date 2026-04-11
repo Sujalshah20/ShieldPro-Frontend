@@ -30,7 +30,9 @@ export const AuthProvider = ({ children }) => {
             const userData = await api.get('/auth/me', localToken);
             setUser({ ...userData, token: localToken });
         } catch (error) {
-            if (error.status === 401 && user) {
+            // BUG FIX: `user` is always null here (initial render), so we use
+            // the localToken as the signal that a session existed and has expired.
+            if (error.status === 401 && localToken) {
                 toast({
                     title: "Session Expired",
                     description: "Your session has expired. Please login again.",
@@ -70,7 +72,10 @@ export const AuthProvider = ({ children }) => {
     
     localStorage.removeItem('token');
     setUser(null);
-    setProfile(null);
+    // BUG FIX: Call setProfileState directly instead of setProfile().
+    // setProfile() tries to spread profileData into user state, which crashes
+    // when called with null. Also avoids a circular dep with setProfile's [user] dep.
+    setProfileState(null);
   }, []);
 
   // Set Auth Data Manually for specific cases (like OAuth in Login page returning data)

@@ -80,6 +80,7 @@ function App() {
 
   useEffect(() => {
     let lenis;
+    let rafId; // BUG FIX: store the RAF id so we can cancel it on cleanup
     try {
       lenis = new Lenis({
         duration: 1.2,
@@ -89,18 +90,20 @@ function App() {
 
       function raf(time) {
         lenis.raf(time);
-        requestAnimationFrame(raf);
+        rafId = requestAnimationFrame(raf);
       }
 
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     } catch (error) {
       console.error("Lenis initialization skipped:", error);
     }
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId); // cancel the loop first
       if (lenis) lenis.destroy();
     };
   }, []);
+
 
   return (
     <QueryClientProvider client={queryClient}>
