@@ -146,7 +146,7 @@ const AdminUsers = () => {
 
             {/* Filter Bar */}
             <div className="bg-white px-5 py-5 rounded-[12px] border border-slate-200 flex flex-wrap items-end gap-5 shadow-sm">
-                <div className="flex-1 min-w-[220px] space-y-1.5">
+                <div className="flex-1 min-w-[220px] space-y-1.5 search-container">
                     <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Search Customer</label>
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
@@ -156,40 +156,6 @@ const AdminUsers = () => {
                             className="w-full pl-9 pr-4 h-10 bg-white border border-slate-200 focus:border-slate-300 rounded-lg text-sm outline-none transition-all placeholder:text-slate-400 font-medium text-slate-700"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                </div>
-                <div className="w-full sm:w-[180px] space-y-1.5">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Policy Type</label>
-                    <div className="relative">
-                        <select className="w-full h-10 bg-white border border-slate-200 focus:border-slate-300 rounded-lg pl-3 pr-8 text-sm font-medium text-slate-700 outline-none transition-all appearance-none cursor-pointer">
-                            <option value="All Types">All Types</option>
-                            <option value="Health">Health</option>
-                            <option value="Life">Life</option>
-                            <option value="Auto">Auto</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
-                    </div>
-                </div>
-                <div className="w-full sm:w-[180px] space-y-1.5">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Status</label>
-                    <div className="relative">
-                        <select className="w-full h-10 bg-white border border-slate-200 focus:border-slate-300 rounded-lg pl-3 pr-8 text-sm font-medium text-slate-700 outline-none transition-all appearance-none cursor-pointer">
-                            <option value="All Statuses">All Statuses</option>
-                            <option value="Active">Active</option>
-                            <option value="Pending KYC">Pending KYC</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
-                    </div>
-                </div>
-                <div className="w-full sm:w-[180px] space-y-1.5">
-                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Join Date</label>
-                    <div className="relative">
-                        <input 
-                            type="date"
-                            placeholder="dd-mm-yyyy"
-                            className="w-full h-10 bg-white border border-slate-200 focus:border-slate-300 rounded-lg px-3 text-sm font-medium text-slate-700 outline-none transition-all"
                         />
                     </div>
                 </div>
