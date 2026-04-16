@@ -1,15 +1,18 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useRef } from "react";
-import { useToast } from "../../hooks/use-toast";
+import { useState, useEffect, useRef } from "react";
+import { useToast } from "../../hooks/use-toast.tsx";
 
 export default function ProtectedRoute({ children, role }) {
   const { user } = useAuth();
   const { toast } = useToast();
   const location = useLocation();
-  // BUG FIX: useEffect fires AFTER the redirect is rendered (wrong timing in React 18).
-  // Use a ref to show the toast exactly once, inline, before returning the redirect.
   const toastShown = useRef(false);
+
+  // Reset toastShown when user changes (e.g., after logout/login)
+  useEffect(() => {
+    toastShown.current = false;
+  }, [user]);
 
   if (!user) {
     if (!toastShown.current) {
@@ -38,6 +41,11 @@ export default function ProtectedRoute({ children, role }) {
       customer: "/customer",
     };
     return <Navigate to={dashboardRedirects[user.role] || "/login"} replace />;
+  }
+
+  // Redirect to verify-email if user is not verified
+  if (!user.isVerified) {
+    return <Navigate to={`/verify-email?email=${user.email}`} replace />;
   }
 
   return children;

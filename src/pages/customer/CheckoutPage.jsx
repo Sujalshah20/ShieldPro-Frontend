@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { api } from "../../utils/api";
 import { useToast } from "../../hooks/use-toast";
 import { 
     Shield, Lock, ChevronLeft, 
@@ -20,7 +21,32 @@ const CheckoutPage = () => {
     const policy = state?.policy;
     const applicationId = state?.applicationId;
 
-    if (!policy) {
+    const { data: myApplications } = useQuery({
+        queryKey: ['myApplications', user?.token],
+        queryFn: () => api.get('/applications/my', user.token),
+        enabled: !!user?.token
+    });
+
+    React.useEffect(() => {
+        if (!policy || !applicationId) {
+            navigate("/customer");
+            return;
+        }
+
+        if (myApplications) {
+            const currentApp = myApplications.find(a => a._id === applicationId);
+            if (!currentApp || currentApp.status !== 'Approved') {
+                toast({ 
+                    title: "Access Denied", 
+                    description: "Payment page is locked. Your application must be APPROVED first.", 
+                    variant: "destructive" 
+                });
+                navigate("/customer");
+            }
+        }
+    }, [myApplications, policy, applicationId, navigate, toast]);
+
+    if (!policy || (myApplications && !myApplications.find(a => a._id === applicationId && a.status === 'Approved'))) {
         return (
             <div className="min-h-screen bg-[#fcfdfe] flex flex-col items-center justify-center p-6 text-center">
                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-slate-300 mb-6 shadow-sm border border-slate-100">

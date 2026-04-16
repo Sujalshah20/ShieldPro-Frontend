@@ -43,8 +43,8 @@ const AgentApply = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#134e8d] selection:text-white font-sans">
-            <div className="w-full max-w-7xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3.5rem] overflow-hidden bg-white min-h-[90vh]">
+        <div className="min-h-screen w-full bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#134e8d] selection:text-white font-sans">
+            <div className="w-full max-w-7xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3.5rem] overflow-hidden bg-white my-auto">
                 
                 {/* ── LEFT PANEL (Branding) ── */}
                 <div className="hidden lg:flex lg:col-span-4 bg-[#124C89] p-12 flex-col justify-between text-white relative overflow-hidden">
@@ -102,8 +102,8 @@ const AgentApply = () => {
                 </div>
 
                 {/* ── RIGHT PANEL (Form) ── */}
-                <div className="flex-1 lg:col-span-8 flex flex-col justify-center items-center py-12 px-6 md:px-16 lg:px-24 relative bg-white overflow-y-auto">
-                    <div className="w-full max-w-[500px]">
+                <div className="flex-1 lg:col-span-8 flex flex-col items-center py-12 px-6 md:px-16 lg:px-24 relative bg-white min-h-full">
+                    <div className="w-full max-w-[500px] my-auto">
                         
                         <div className="lg:hidden mb-8 text-center">
                             <Link to="/" className="inline-flex items-center gap-3">

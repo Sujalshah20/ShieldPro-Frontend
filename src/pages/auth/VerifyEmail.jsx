@@ -106,7 +106,7 @@ const VerifyEmail = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f1f5f9] flex flex-col items-center justify-center p-4 font-sans">
+        <div className="min-h-screen w-full bg-[#f8fafc] flex flex-col items-center justify-center p-6 font-sans">
             <Link to="/" className="flex items-center gap-3 mb-10">
                 <div className="w-12 h-12 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg">
                     <Shield size={28} strokeWidth={2.5} />

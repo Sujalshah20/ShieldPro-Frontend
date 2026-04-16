@@ -133,6 +133,57 @@ const CustomerDashboard = () => {
                 </Reveal>
             )}
 
+            {/* Applications Tracking Section */}
+            {myApplications.length > 0 && (
+                <Reveal direction="up" delay={0.35}>
+                    <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col mb-8">
+                        <div className="p-8 pb-6 border-b border-slate-50 flex items-center justify-between">
+                            <h2 className="text-xl font-black text-slate-800 tracking-tight">Policy Applications</h2>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full table-fixed cursor-default">
+                                <thead>
+                                    <tr className="border-b border-slate-50 bg-slate-50/30">
+                                        <th className="w-[40%] px-8 py-4 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Application Detail</th>
+                                        <th className="w-[30%] px-8 py-4 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Applied Date</th>
+                                        <th className="w-[30%] px-8 py-4 text-left text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-50">
+                                    {myApplications.map((app, i) => (
+                                        <tr key={i} className="group hover:bg-slate-50/50 transition-all">
+                                            <td className="px-8 py-6">
+                                                <div className="flex flex-col">
+                                                    <span className="text-[14px] font-bold text-slate-800 mb-1">{app.policy?.policyName}</span>
+                                                    <span className="text-[11px] font-bold text-slate-400 tracking-wider">APP-{app._id.slice(-6).toUpperCase()}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6 text-[13px] font-medium text-slate-500">
+                                                {new Date(app.createdAt || app.appliedDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <div className="flex flex-col gap-1 items-start">
+                                                    <span className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border ${
+                                                        app.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                                                        app.status === 'Rejected' ? 'bg-rose-50 text-rose-600 border-rose-100' : 
+                                                        'bg-amber-50 text-amber-600 border-amber-100'
+                                                    }`}>
+                                                        {app.status === 'Pending' ? 'PENDING' : app.status.toUpperCase()}
+                                                    </span>
+                                                    {app.status === 'Rejected' && app.rejectionReason && (
+                                                        <span className="text-[10px] text-rose-500 font-semibold mt-1">Reason: {app.rejectionReason}</span>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </Reveal>
+            )}
+
             {/* Main Content: Full Width Table */}
             <Reveal direction="up" delay={0.4}>
                 <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">

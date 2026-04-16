@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import {
     LayoutDashboard, ShieldCheck, Users, FileText,
     LogOut, Shield, ClipboardList, CreditCard,
-    Compass, User, ChevronDown
+    Compass, User, ChevronDown, UserPlus
 } from "lucide-react";
 
 const ROLE_LINKS = {
@@ -12,6 +12,7 @@ const ROLE_LINKS = {
         { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
         { name: "Manage Policies", path: "/admin/policies", icon: ShieldCheck },
         { name: "Manage Customers", path: "/admin/users", icon: Users },
+        { name: "Agent Requests", path: "/admin/agent-requests", icon: UserPlus },
         { name: "All Claims", path: "/admin/claims", icon: FileText },
     ],
     agent: [
@@ -28,6 +29,10 @@ const ROLE_LINKS = {
         { name: "Payment History", path: "/customer/payments", icon: CreditCard },
     ]
 };
+
+// Aliases for admin variations
+ROLE_LINKS['super-admin'] = ROLE_LINKS.admin;
+ROLE_LINKS['sub-admin'] = ROLE_LINKS.admin;
 
 const Sidebar = ({ role, isOpen, setIsOpen }) => {
     const location = useLocation();

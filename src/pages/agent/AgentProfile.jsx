@@ -9,7 +9,7 @@ import { api } from "../../utils/api";
 import { useToast } from "../../hooks/use-toast";
 
 const AgentProfile = () => {
-    const { user } = useContext(AuthContext);
+    const { user, setProfile } = useContext(AuthContext);
     const { toast } = useToast();
     const fileInputRef = useRef(null);
 
@@ -35,8 +35,8 @@ const AgentProfile = () => {
                 name: user.name || "",
                 email: user.email || "",
                 phone: user.phone || "",
-                specialization: user.specialization || "Health & Life Insurance",
-                experience: user.experience || "8 Years",
+                specialization: user.specialization || "",
+                experience: user.experience || "",
                 address: user.address || "",
                 profilePic: user.profilePic || ""
             });
@@ -51,15 +51,18 @@ const AgentProfile = () => {
     const handleEditToggle = () => {
         if (isEditing) {
             setIsEditing(false);
-            setFormData({
-                name: user.name || "",
-                email: user.email || "",
-                phone: user.phone || "",
-                specialization: user.specialization || "Health & Life Insurance",
-                experience: user.experience || "8 Years",
-                address: user.address || "",
-                profilePic: user.profilePic || ""
-            });
+            // Reset to current user data
+            if (user) {
+                setFormData({
+                    name: user.name || "",
+                    email: user.email || "",
+                    phone: user.phone || "",
+                    specialization: user.specialization || "",
+                    experience: user.experience || "",
+                    address: user.address || "",
+                    profilePic: user.profilePic || ""
+                });
+            }
         } else {
             setIsEditing(true);
         }
@@ -89,16 +92,43 @@ const AgentProfile = () => {
         reader.readAsDataURL(file);
     };
 
+    const validateForm = () => {
+        if (!formData.name || formData.name.length < 3) {
+            toast({ title: "Validation Error", description: "Name must be at least 3 characters long", variant: "destructive" });
+            return false;
+        }
+        if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+            toast({ title: "Validation Error", description: "Please enter a valid 10-digit mobile number", variant: "destructive" });
+            return false;
+        }
+        if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+            toast({ title: "Validation Error", description: "Please enter a valid email address", variant: "destructive" });
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
+        
+        if (!validateForm()) return;
+
         setIsSubmitting(true);
         try {
-            await api.put("/users/profile", formData);
+            const updatedData = await api.put("/users/profile", formData);
+            
+            // Update AuthContext with new user data
+            setProfile(updatedData);
+            
             toast({ title: "Success", description: "Profile updated successfully." });
             setIsEditing(false);
-            window.location.reload(); 
         } catch (error) {
-            toast({ title: "Error", description: error.response?.data?.message || "Update failed", variant: "destructive" });
+            console.error("Update error:", error);
+            toast({ 
+                title: "Error", 
+                description: error.data?.message || error.message || "Update failed", 
+                variant: "destructive" 
+            });
         } finally {
             setIsSubmitting(false);
         }

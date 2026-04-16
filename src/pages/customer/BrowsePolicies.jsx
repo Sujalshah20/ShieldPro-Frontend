@@ -1,41 +1,145 @@
 import React, { useState } from "react";
 import { 
     Heart, Car, Home, 
-    Users, Plane, Activity, CheckCircle2
+    Users, Plane, Activity, CheckCircle2,
+    AlertCircle, RefreshCw, Shield
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
-import { api } from "../../utils/api";
+import { api, API_BASE_URL } from "../../utils/api";
 
-const tabs = ["All Policies", "Health", "Life", "Vehicle", "Home", "Travel"];
+// Include all policy types: Health, Life, Vehicle, Home, Travel, Auto, Property
+const tabs = ["All Policies", "Health", "Life", "Vehicle", "Auto", "Home", "Travel"];
+
+// Helper to get icon based on policy type
+const getPolicyIcon = (policyType) => {
+    switch (policyType) {
+        case 'Health': return <Heart size={22} className="text-rose-500" />;
+        case 'Vehicle': 
+        case 'Auto': return <Car size={22} className="text-blue-500" />;
+        case 'Home': return <Home size={22} className="text-orange-500" />;
+        case 'Life': return <Users size={22} className="text-purple-500" />;
+        case 'Travel': return <Plane size={22} className="text-emerald-500" />;
+        default: return <Activity size={22} className="text-gray-500" />;
+    }
+};
 
 const BrowsePolicies = () => {
     const navigate = useNavigate();
     const [policies, setPolicies] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState("All Policies");
 
-    React.useEffect(() => {
-        const fetchPolicies = async () => {
-            try {
-                const data = await api.get('/policies/available');
-                setPolicies(Array.isArray(data) ? data : []);
-            } catch (error) {
-                console.error("Error fetching policies:", error);
-                setPolicies([]);
-            } finally {
-                setLoading(false);
+    const fetchPolicies = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            console.log(`[BrowsePolicies] Fetching from ${API_BASE_URL}/api/policies/available`);
+            const data = await api.get('/policies/available');
+            console.log(`[BrowsePolicies] Received data:`, data);
+            
+            // Handle both array response and wrapped { data: [] } response
+            const policiesArray = Array.isArray(data) ? data : (data?.data || []);
+            setPolicies(policiesArray);
+            
+            if (policiesArray.length === 0) {
+                setError("No policies available. Please check if policies have been seeded in the database.");
             }
-        };
+        } catch (err) {
+            console.error("[BrowsePolicies] Fetch error:", err);
+            setError(err.message || "Failed to load policies. Please try again.");
+            setPolicies([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    React.useEffect(() => {
         fetchPolicies();
     }, []);
 
     const filteredPolicies = policies.filter(policy => {
-        return activeTab === "All Policies" || policy.policyType === activeTab;
+        // Normalize the comparison - handle case sensitivity
+        const policyType = policy.policyType || policy.policyType || '';
+        return activeTab === "All Policies" || policyType === activeTab;
     });
 
-    if (loading) return <div className="p-20 text-center font-bold text-black">Loading policies...</div>;
+    if (loading) return (
+        <div className="p-20 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#002b45] mx-auto mb-4"></div>
+            <p className="text-gray-500 font-medium">Loading policies...</p>
+        </div>
+    );
+
+    if (error) return (
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-12">
+            <div className="bg-red-50 border border-red-100 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <AlertCircle size={32} className="text-red-600" />
+                </div>
+                <h3 className="text-xl font-bold text-red-800 mb-2">Unable to Load Policies</h3>
+                <p className="text-red-600 mb-6 max-w-md">{error}</p>
+                <button 
+                    onClick={fetchPolicies}
+                    className="flex items-center gap-2 px-6 py-3 bg-[#002b45] text-white rounded-xl font-bold hover:bg-[#003b5c] transition-colors"
+                >
+                    <RefreshCw size={18} />
+                    Try Again
+                </button>
+            </div>
+        </div>
+    );
+
+    if (filteredPolicies.length === 0) return (
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-12">
+            {/* Categories / Tabs */}
+            <div className="flex items-center gap-6 border-b border-gray-200 mb-8 overflow-x-auto no-scrollbar">
+                {tabs.map(tab => (
+                    <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab)}
+                        className={`pb-4 text-[13px] font-black whitespace-nowrap transition-colors relative ${
+                            activeTab === tab ? "text-black" : "text-black/60 hover:text-black"
+                        }`}
+                    >
+                        {tab}
+                        {activeTab === tab && (
+                            <motion.div 
+                                layoutId="browsePolicyTab"
+                                className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-[#002b45]"
+                            />
+                        )}
+                    </button>
+                ))}
+            </div>
+
+            {/* Empty State */}
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-12 flex flex-col items-center justify-center text-center">
+                <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm">
+                    <Shield size={40} className="text-gray-300" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    {activeTab === "All Policies" ? "No Policies Available" : `No ${activeTab} Policies`}
+                </h3>
+                <p className="text-gray-500 mb-6 max-w-md">
+                    {activeTab === "All Policies" 
+                        ? "There are no policies available at the moment. Please check back later."
+                        : `No ${activeTab} policies are currently available. Try another category or check back later.`
+                    }
+                </p>
+                {activeTab !== "All Policies" && (
+                    <button 
+                        onClick={() => setActiveTab("All Policies")}
+                        className="text-[#002b45] font-bold hover:underline"
+                    >
+                        View All Policies →
+                    </button>
+                )}
+            </div>
+        </div>
+    );
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 font-sans pb-12">
@@ -71,12 +175,7 @@ const BrowsePolicies = () => {
                             className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm relative flex flex-col hover:shadow-md transition-shadow"
                         >
                             <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-50 flex items-center justify-center mb-4">
-                                {policy.policyType === 'Health' ? <Heart size={22} className="text-rose-500" /> :
-                                 policy.policyType === 'Vehicle' ? <Car size={22} className="text-blue-500" /> :
-                                 policy.policyType === 'Home' ? <Home size={22} className="text-orange-500" /> :
-                                 policy.policyType === 'Life' ? <Users size={22} className="text-purple-500" /> :
-                                 policy.policyType === 'Travel' ? <Plane size={22} className="text-emerald-500" /> :
-                                 <Activity size={22} className="text-gray-500" />}
+                                {getPolicyIcon(policy.policyType)}
                             </div>
 
                             <h3 className="text-lg font-black text-black mb-0.5">{policy.policyName}</h3>

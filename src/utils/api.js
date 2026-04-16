@@ -1,34 +1,31 @@
 const getBaseUrl = () => {
-    // If VITE_API_URL is set in environment, use it
+    // Priority 1: Environment variable
     const envUrl = import.meta.env.VITE_API_URL;
     
-    // Check if we are running on a local development environment
+    // Priority 2: Hardcoded Production URL for live environment
+    const PROD_API_URL = 'https://shieldpro-backend.onrender.com';
+
+    // Localhost detection
     const isLocalhost = window.location.hostname === 'localhost' || 
                         window.location.hostname === '127.0.0.1';
 
-    // If we're on localhost but the env variable points to production (Render), 
-    // it's likely a misconfigured .env for local testing. Use local backend.
     if (isLocalhost) {
+        // If we have an envUrl and it looks like a local one, use it
         if (envUrl && envUrl.includes('localhost')) {
             return envUrl.replace('/api', '');
         }
-        // Backend default PORT is 10000 based on backend/.env, fallback to 5000 if needed
+        // Fallback for local development
         return 'http://localhost:10000';
     }
 
-    // In production but envUrl is localhost? Use fallback
-    if (!isLocalhost && (envUrl?.includes('localhost') || !envUrl)) {
-        return 'https://shieldpro-backend.onrender.com';
-    }
-
-    return envUrl?.replace('/api', '') || 'https://shieldpro-backend.onrender.com';
+    // In production, prioritize the Render URL even if VITE_API_URL is missing
+    return (envUrl && !envUrl.includes('localhost')) ? envUrl.replace('/api', '') : PROD_API_URL;
 };
 
 export const API_BASE_URL = getBaseUrl();
 const API_URL = `${API_BASE_URL}/api`;
 
-console.log(`🛡️ ShieldPro API initialized at: ${API_URL}`);
-console.log(`📡 Current Host: ${window.location.host} (Mode: ${import.meta.env.MODE})`);
+// REMOVED: Debug log - console.log(`🛡️ ShieldPro API initialized at: ${API_URL}`);
 
 const handleResponse = async (response) => {
     let data;
@@ -39,30 +36,44 @@ const handleResponse = async (response) => {
     }
     
     if (!response.ok) {
+        // GLOBAL 401/403 HANDLER: Force logout on session expiration or invalidity
+        const isAuthError = response.status === 401 || (response.status === 403 && (
+            data.message?.toLowerCase().includes('token') || 
+            data.message?.toLowerCase().includes('suspended') ||
+            data.message?.toLowerCase().includes('verification required')
+        ));
+        
+        if (isAuthError && !window.location.pathname.includes('/login')) {
+            console.warn('🚨 Session invalid/expired. Forcing logout...');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            // Hard redirect to clear all memory state
+            window.location.href = '/login?expired=true';
+        }
+
         console.error(`❌ API Error [${response.status}]: ${response.url}`, data);
-        // Throw structured error object
-        const error = new Error(data.message || 'Something went wrong');
-        error.errors = data.errors;
+        
+        // Structured Error Object
+        const error = new Error(data.message || 'An unexpected error occurred');
         error.status = response.status;
-        error.response = { data };
+        error.data = data;
+        error.url = response.url;
         throw error;
     }
     return data;
 };
 
-// Helper for fetch config
 const getOptions = (method, headers = {}, body = null, isFormData = false) => {
     const options = {
         method,
         headers: { ...headers },
-        credentials: 'include' // This is essential for HttpOnly cookies
+        credentials: 'include' // Essential for cookie-based auth fallback
     };
 
     if (!isFormData) {
         options.headers['Content-Type'] = 'application/json';
     }
 
-    // Don't stringify FormData
     if (body) {
         options.body = isFormData ? body : JSON.stringify(body);
     }
@@ -78,81 +89,37 @@ const getHeaders = (token, isFormData = false) => {
         headers['Authorization'] = `Bearer ${authToken}`;
     }
     
-    if (!isFormData) {
-        headers['Content-Type'] = 'application/json';
-    }
-    
     return headers;
 };
 
 export const api = {
     get: async (endpoint, token) => {
-        try {
-            const response = await fetch(`${API_URL}${endpoint}`, getOptions('GET', getHeaders(token)));
-            return handleResponse(response);
-        } catch (error) {
-            console.error(`🚨 Fatal Network Error on GET ${endpoint}:`, error);
-            throw error;
-        }
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('GET', getHeaders(token)));
+        return handleResponse(response);
     },
 
     post: async (endpoint, body, token) => {
-        try {
-            const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', getHeaders(token), body));
-            return handleResponse(response);
-        } catch (error) {
-            console.error(`🚨 Fatal Network Error on POST ${endpoint}:`, error);
-            throw error;
-        }
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', getHeaders(token), body));
+        return handleResponse(response);
     },
 
     postForm: async (endpoint, formData, token) => {
-        try {
-            // Content-Type is set automatically by the browser for FormData, so we pass true
-            const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', getHeaders(token, true), formData, true));
-            return handleResponse(response);
-        } catch (error) {
-            console.error(`🚨 Fatal Network Error on POST Form ${endpoint}:`, error);
-            throw error;
-        }
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('POST', getHeaders(token, true), formData, true));
+        return handleResponse(response);
     },
 
     put: async (endpoint, body, token) => {
-        try {
-            const response = await fetch(`${API_URL}${endpoint}`, getOptions('PUT', getHeaders(token), body));
-            return handleResponse(response);
-        } catch (error) {
-            console.error(`🚨 Fatal Network Error on PUT ${endpoint}:`, error);
-            throw error;
-        }
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('PUT', getHeaders(token), body));
+        return handleResponse(response);
     },
 
     patch: async (endpoint, body, token) => {
-        const fullUrl = `${API_URL}${endpoint}`;
-        console.log(`📡 Sending PATCH request to: ${fullUrl}`, { body });
-        try {
-            const response = await fetch(fullUrl, getOptions('PATCH', getHeaders(token), body));
-            console.log(`✅ Response Status: ${response.status} for PATCH ${endpoint}`);
-            return handleResponse(response);
-        } catch (error) {
-            console.error(`🚨 Fatal Network Error on PATCH ${endpoint}:`, error);
-            if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
-                throw new Error('Network Error: Could not connect to the backend server. Please verify the backend is running at ' + API_BASE_URL);
-            }
-            throw error;
-        }
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('PATCH', getHeaders(token), body));
+        return handleResponse(response);
     },
 
     delete: async (endpoint, token) => {
-        try {
-            const response = await fetch(`${API_URL}${endpoint}`, getOptions('DELETE', getHeaders(token)));
-            return handleResponse(response);
-        } catch (error) {
-            console.error(`🚨 Fatal Network Error on DELETE ${endpoint}:`, error);
-            if (error.message === 'Failed to fetch') {
-                throw new Error('Network Error: Could not connect to the backend server.');
-            }
-            throw error;
-        }
+        const response = await fetch(`${API_URL}${endpoint}`, getOptions('DELETE', getHeaders(token)));
+        return handleResponse(response);
     }
 };

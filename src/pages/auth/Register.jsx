@@ -230,11 +230,11 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#10b981] selection:text-white">
-            <div className="w-full max-w-6xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3rem] overflow-hidden bg-white min-h-[85vh]">
+        <div className="min-h-screen w-full bg-white flex selection:bg-[#10b981] selection:text-white">
+            <div className="w-full flex flex-col lg:grid lg:grid-cols-12">
                 
-                {/* Left Panel: Aesthetic Section */}
-                <div className="hidden lg:flex lg:col-span-5 bg-gradient-to-br from-[#002b45] to-[#134e8d] p-16 flex-col justify-between relative overflow-hidden">
+                {/* Left Panel: Aesthetic Section ── */}
+                <div className="hidden lg:flex lg:col-span-5 bg-gradient-to-br from-[#002b45] to-[#134e8d] p-8 lg:p-16 flex-col justify-between relative overflow-hidden min-h-screen">
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 blur-[100px] rounded-full -mr-40 -mt-40" />
                     <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 blur-[80px] rounded-full -ml-20 -mb-20" />
                     
@@ -281,9 +281,9 @@ const Register = () => {
                     </div>
                 </div>
 
-                {/* Right Panel: Registration Form */}
-                <div className="flex-1 lg:col-span-7 p-8 md:p-16 bg-white overflow-y-auto no-scrollbar">
-                    <div className="max-w-xl mx-auto space-y-8">
+                {/* Right Panel: Registration Form ── */}
+                <div className="flex-1 lg:col-span-7 p-8 md:p-16 bg-white min-h-screen flex flex-col">
+                    <div className="max-w-xl mx-auto space-y-8 my-auto w-full">
                         <div className="space-y-2">
                              <div className="lg:hidden mb-10">
                                 <Link to="/" className="flex items-center gap-3">

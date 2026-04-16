@@ -55,8 +55,8 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 selection:bg-[#10b981] selection:text-white font-sans">
-            <div className="bg-white p-10 md:p-14 rounded-[2.5rem] shadow-2xl w-full max-w-xl">
+        <div className="min-h-screen w-full bg-[#f8fafc] flex items-center justify-center p-6 selection:bg-[#10b981] selection:text-white font-sans">
+            <div className="bg-white p-10 md:p-14 md:rounded-[2.5rem] shadow-2xl w-full max-w-xl my-auto">
                 <div className="text-center mb-10">
                     <Link to="/" className="inline-flex items-center gap-3 mb-8">
                         <div className="w-12 h-12 bg-[#134e8d] rounded-xl flex items-center justify-center text-white shadow-lg">

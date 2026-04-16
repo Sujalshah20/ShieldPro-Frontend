@@ -12,6 +12,8 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../utils/api";
 import Reveal from "../../components/common/Reveal";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 const StatCard = ({ title, value, icon: Icon, color, sparkline }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
@@ -192,9 +194,12 @@ const TopAgents = ({ agents = [] }) => (
 );
 
 const AdminDashboard = () => {
+    const { user } = useContext(AuthContext);
+
     const { data: adminStats, isLoading } = useQuery({
-        queryKey: ['adminStats'],
-        queryFn: () => api.get('/stats/admin')
+        queryKey: ['adminStats', user?.token],
+        queryFn: () => api.get('/stats/admin', user.token),
+        enabled: !!user?.token
     });
 
     if (isLoading) return (
@@ -231,7 +236,7 @@ const AdminDashboard = () => {
                 <StatCard title="Total Agents" value={stats.totalAgents || 0} icon={UserPlus} color="bg-emerald-500" />
                 <StatCard title="Active Policies" value={stats.activePolicies || 0} icon={AlertCircle} color="bg-rose-500" />
                 <StatCard title="Total Revenue" value={`₹${(stats.totalRevenue || 0).toLocaleString()}`} icon={IndianRupee} color="bg-emerald-600" sparkline={true} />
-                <StatCard title="Pending Actions" value={stats.pendingActions || 0} icon={ClipboardCheck} color="bg-orange-500" />
+                <StatCard title="Pending Requests" value={stats.pendingActions || 0} icon={ClipboardCheck} color="bg-orange-500" />
             </div>
 
             {/* Middle Section: Charts */}

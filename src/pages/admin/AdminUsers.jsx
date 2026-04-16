@@ -25,6 +25,8 @@ const AdminUsers = () => {
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [customerToDelete, setCustomerToDelete] = useState(null);
     const [formData, setFormData] = useState({ name: "", email: "", phone: "", status: "" });
 
     // Debounce search term
@@ -42,17 +44,36 @@ const AdminUsers = () => {
         enabled: !!user?.token
     });
 
+    const deleteMutation = useMutation({
+        mutationFn: (id) => api.delete(`/admin/customers/${id}`, user.token),
+        onSuccess: (res) => {
+            queryClient.invalidateQueries(['adminCustomers']);
+            queryClient.invalidateQueries(['adminStats']); // Refresh dashboard stats
+            toast({ 
+                title: "Customer deleted successfully", 
+                description: res.message, 
+                variant: "success",
+                icon: <Trash2 className="w-4 h-4" />
+            });
+            setIsDeleteModalOpen(false);
+            setCustomerToDelete(null);
+        },
+        onError: (err) => {
+            toast({ 
+                title: "Delete Failed", 
+                description: err.message, 
+                variant: "destructive" 
+            });
+        }
+    });
+
     const updateMutation = useMutation({
         mutationFn: (updateData) => {
             const { _id, ...payload } = updateData;
             if (!_id) throw new Error("Missing Customer ID for update");
-            
-            console.log(`📤 Initiating update for customer [${_id}]`, payload);
-            // Use the established PATCH endpoint for partial updates
             return api.patch(`/admin/customers/${_id}`, payload, user.token);
         },
         onSuccess: (updatedCustomer) => {
-            console.log(`✅ Customer updated successfully:`, updatedCustomer);
             queryClient.invalidateQueries(['adminCustomers']);
             toast({ 
                 title: "Changes saved! ✨", 
@@ -62,7 +83,6 @@ const AdminUsers = () => {
             setIsEditModalOpen(false);
         },
         onError: (err) => {
-            console.error("❌ Mutation error details:", err);
             const errorMessage = err.message || "Failed to update customer";
             const errorTitle = err.status === 404 ? "Endpoint Not Found" : "Update Failed";
             
@@ -88,6 +108,17 @@ const AdminUsers = () => {
             status: u.status || "active"
         });
         setIsEditModalOpen(true);
+    };
+
+    const handleDeleteClick = (u) => {
+        setCustomerToDelete(u);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        if (customerToDelete) {
+            deleteMutation.mutate(customerToDelete._id);
+        }
     };
 
     const handleEditSubmit = (e) => {
@@ -232,6 +263,12 @@ const AdminUsers = () => {
                                                 className="hover:text-slate-600 transition-colors"
                                             >
                                                 <Edit size={16} strokeWidth={2.5} />
+                                            </button>
+                                            <button 
+                                                onClick={() => handleDeleteClick(u)}
+                                                className="hover:text-rose-600 transition-colors"
+                                            >
+                                                <Trash2 size={16} strokeWidth={2.5} />
                                             </button>
                                         </div>
                                     </td>
@@ -455,6 +492,47 @@ const AdminUsers = () => {
                                     </button>
                                 </div>
                             </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+            
+            {/* Delete Confirmation Modal */}
+            <AnimatePresence>
+                {isDeleteModalOpen && customerToDelete && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden font-sans"
+                        >
+                            <div className="p-8 text-center">
+                                <div className="w-20 h-20 rounded-full bg-rose-50 flex items-center justify-center text-rose-500 mx-auto mb-6 ring-8 ring-rose-50/50">
+                                    <AlertCircle size={40} strokeWidth={2.5} />
+                                </div>
+                                <h3 className="text-xl font-bold text-slate-800 mb-2">Delete Customer?</h3>
+                                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                                    Are you sure you want to delete <span className="text-slate-900 font-bold">{customerToDelete.name}</span>? 
+                                    All associated policy data and claim records might be affected. This action cannot be undone.
+                                </p>
+                            </div>
+
+                            <div className="p-6 bg-slate-50 border-t border-slate-100 flex gap-3">
+                                <button 
+                                    onClick={() => setIsDeleteModalOpen(false)}
+                                    className="flex-1 h-12 rounded-xl bg-white border border-slate-200 text-slate-600 text-sm font-bold hover:bg-slate-100 transition-all active:scale-95"
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    onClick={handleConfirmDelete}
+                                    disabled={deleteMutation.isPending}
+                                    className="flex-1 h-12 rounded-xl bg-rose-600 text-white text-sm font-bold shadow-lg shadow-rose-200 hover:bg-rose-700 transition-all active:scale-95 disabled:opacity-50"
+                                >
+                                    {deleteMutation.isPending ? 'Deleting...' : 'Delete Customer'}
+                                </button>
+                            </div>
                         </motion.div>
                     </div>
                 )}

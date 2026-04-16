@@ -38,7 +38,7 @@ const ROLES = {
         icon: Briefcase,
         title: "Agent Portal",
         subtitle: "Access your client pipeline and commissions.",
-        emailPlaceholder: "agent@shieldpro.in",
+        emailPlaceholder: "agent@shieldpro.com",
         emailHint: "Use your registered agent email address",
         buttonLabel: "Access Portal",
         registerLink: false,
@@ -57,7 +57,7 @@ const ROLES = {
         icon: KeyRound,
         title: "Admin Access",
         subtitle: "Restricted to authorised personnel only.",
-        emailPlaceholder: "admin@shieldpro.in",
+        emailPlaceholder: "admin@shieldpro.com",
         emailHint: "Admin accounts are provisioned by the system.",
         buttonLabel: "Secure Login",
         registerLink: false,
@@ -86,6 +86,20 @@ const Login = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
     const { toast } = useToast();
+
+    // BUG FIX: Handle global session expiration redirect from api.js
+    React.useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('expired')) {
+            toast({
+                title: "Session Expired",
+                description: "Your session has expired or is invalid. Please login again.",
+                variant: "destructive"
+            });
+            // Clear the query param without refreshing to prevent toast from reappearing on manual refresh
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }, [toast]);
 
     const role = ROLES[activeRole];
 
@@ -190,11 +204,11 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f1f5f9] flex items-center justify-center p-4 md:p-10 selection:bg-[#10b981] selection:text-white font-sans">
-            <div className="w-full max-w-7xl flex flex-col lg:grid lg:grid-cols-12 shadow-2xl rounded-[3.5rem] overflow-hidden bg-white min-h-[90vh]">
+        <div className="min-h-screen w-full bg-white flex selection:bg-[#10b981] selection:text-white font-sans">
+            <div className="w-full flex flex-col lg:grid lg:grid-cols-12">
 
-                {/* ── LEFT PANEL (unchanged) ── */}
-                <div className="hidden lg:flex lg:col-span-4 bg-[#124C89] p-12 flex-col justify-between text-white relative overflow-hidden">
+                {/* ── LEFT PANEL ── */}
+                <div className="hidden lg:flex lg:col-span-4 bg-[#124C89] p-8 lg:p-12 flex-col justify-between text-white relative overflow-hidden min-h-screen">
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 blur-[100px] rounded-full -mr-40 -mt-40" />
                     <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-white/5 blur-[80px] rounded-full -ml-20 -mb-20" />
                     <div className="relative z-10">
@@ -253,9 +267,9 @@ const Login = () => {
                     </div>
                 </div>
 
-                {/* ── RIGHT PANEL (redesigned) ── */}
-                <div className="flex-1 lg:col-span-8 flex flex-col justify-center items-center py-12 px-6 md:px-16 lg:px-24 relative bg-white overflow-y-auto">
-                    <div className="w-full max-w-[460px] space-y-8">
+                {/* ── RIGHT PANEL ── */}
+                <div className="flex-1 lg:col-span-8 flex flex-col items-center py-12 px-6 md:px-16 lg:px-24 relative bg-white min-h-screen">
+                    <div className="w-full max-w-[460px] space-y-8 my-auto">
 
                         {/* Mobile logo */}
                         <div className="lg:hidden mb-2 text-center">

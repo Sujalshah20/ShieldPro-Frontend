@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { 
     Printer, Download, User as UserIcon, Check, Shield, 
     Banknote, UploadCloud, MessageSquare, Send, Plus, TextSelect, FileText, Image as ImageIcon,
-    ArrowRight
+    ArrowRight, Info
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../hooks/use-toast";

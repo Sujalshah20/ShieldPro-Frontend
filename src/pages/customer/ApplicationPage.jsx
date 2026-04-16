@@ -19,7 +19,7 @@ const STEPS = [
 ];
 
 const ApplicationPage = () => {
-    const { user, profile } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const { state } = useLocation();
     const navigate = useNavigate();
     const { toast } = useToast();
@@ -96,8 +96,8 @@ const ApplicationPage = () => {
             }, user.token);
 
             if (application._id) {
-                toast({ title: "Application Submitted!", description: "Your application has been queued for verification. Proceed to payment." });
-                navigate("/customer/checkout", { state: { policy, applicationId: application._id } });
+                toast({ title: "Application Submitted!", description: "Your application has been queued for verification. You can track its status on your dashboard." });
+                setStep(5);
             }
         } catch (error) {
             toast({ 
@@ -359,11 +359,17 @@ const ApplicationPage = () => {
                         </div>
                         <div>
                             <h3 className="text-2xl font-black text-[#002b45] mb-2">Application Submitted!</h3>
-                            <p className="text-gray-500 text-sm max-w-sm">Your application for <strong>{policy.policyName}</strong> has been successfully submitted and is under review.</p>
+                            <p className="text-gray-500 text-sm max-w-sm">Your application for <strong>{policy.policyName}</strong> has been successfully submitted and is under review by our agents.</p>
                         </div>
                         <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-2xl text-blue-700 text-sm font-medium">
-                            <CheckCircle2 size={18} /> You'll receive a confirmation email within 24 hours.
+                            <CheckCircle2 size={18} /> You can track the status as 'PENDING' on your dashboard.
                         </div>
+                        <button
+                            onClick={() => navigate('/customer')}
+                            className="bg-[#002b45] text-white px-8 py-3 rounded-xl font-bold text-[13px] hover:bg-[#003b5c] transition-colors shadow-sm mt-4"
+                        >
+                            Return to Dashboard
+                        </button>
                     </div>
                 )}
             </motion.div>

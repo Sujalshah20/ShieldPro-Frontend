@@ -30,6 +30,7 @@ const AdminCommissions = lazy(() => import("./pages/admin/AdminCommissions"));
 const AdminTransactions = lazy(() => import("./pages/admin/AdminTransactions"));
 const AdminSettings = lazy(() => import("./pages/admin/AdminSettings"));
 const AdminProfile = lazy(() => import("./pages/admin/AdminProfile"));
+const AdminAgentRequests = lazy(() => import("./pages/admin/AdminAgentRequests"));
 const PolicyDetails = lazy(() => import("./pages/admin/PolicyDetails"));
 const AgentLayout = lazy(() => import("./pages/agent/AgentLayout"));
 const AgentDashboard = lazy(() => import("./pages/agent/AgentDashboard"));
@@ -64,6 +65,7 @@ const PageWrapper = ({ children }) => (
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     transition={{ duration: 0.3 }}
+    className="w-full h-full"
   >
     {children}
   </motion.div>
@@ -144,6 +146,7 @@ function App() {
                     <Route path="transactions" element={<AdminTransactions />} />
                     <Route path="claims" element={<AdminClaims />} />
                     <Route path="profile" element={<AdminProfile />} />
+                    <Route path="agent-requests" element={<AdminAgentRequests />} />
                     <Route path="settings" element={<AdminSettings />}>
                       <Route path=":tab" element={<AdminSettings />} />
                     </Route>

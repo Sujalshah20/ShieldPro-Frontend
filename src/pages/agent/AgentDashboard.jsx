@@ -16,8 +16,9 @@ const AgentDashboard = () => {
 
     // Fetch Agent Stats
     const { data: statsData, isLoading: statsLoading } = useQuery({
-        queryKey: ['agentStats'],
-        queryFn: () => api.get('/stats/agent')
+        queryKey: ['agentStats', user?.token],
+        queryFn: () => api.get('/stats/agent', user.token),
+        enabled: !!user?.token
     });
 
     const stats = [
