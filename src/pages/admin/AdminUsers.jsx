@@ -140,7 +140,7 @@ const AdminUsers = () => {
 
             {/* Title Section */}
             <div className="flex flex-col mb-6">
-                <h1 className="text-2xl font-bold text-slate-900 tracking-tight mb-1">Customer Management</h1>
+                <h1 className="text-2xl font-bold text-slate-900 tracking-tight mb-1">Customer Management (Updated)</h1>
                 <p className="text-sm text-slate-500">Manage your assigned customers and their policy statuses.</p>
             </div>
 

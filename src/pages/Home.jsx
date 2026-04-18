@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../utils/api";
+
 import {
     Shield, Check, Menu, X, ArrowRight, Activity,
     Heart, Car, Home as HomeIcon, Plane, Briefcase,
@@ -12,7 +11,6 @@ import {
     Fingerprint, Cpu, Satellite, Target, Database, Layers, Radio, Workflow, Quote, ShieldCheck
 } from "lucide-react";
 import Reveal from "../components/common/Reveal";
-import heroIllustration from "../assets/hero_illustration_v2.jpg";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -226,36 +224,61 @@ const HeroSection = () => (
     </section>
 );
 
-const StatsSection = () => {
-    const { data: publicStats, isLoading } = useQuery({
-        queryKey: ['publicStats'],
-        queryFn: () => api.get('/stats/public'),
-        staleTime: 600000 // 10 minutes
-    });
-
-    const stats = [
-        { val: publicStats?.policies || "50+", label: "POLICIES", icon: Shield },
-        { val: publicStats?.customers || "10,000+", label: "CUSTOMERS", icon: UserPlus },
-        { val: publicStats?.settlementRate || "99%", label: "CLAIM SETTLEMENT", icon: FileCheck },
-        { val: publicStats?.partners || "100+", label: "PARTNER COMPANIES", icon: Globe }
+const ManagementSection = () => {
+    const features = [
+        {
+            title: "Policy Management",
+            desc: "Easily manage, update, and track all your insurance policies in one place.",
+            icon: ShieldCheck,
+            color: "text-blue-600",
+            bg: "bg-blue-50"
+        },
+        {
+            title: "Claim Tracking",
+            desc: "Real-time claim status tracking with simplified documentation process.",
+            icon: Activity,
+            color: "text-emerald-600",
+            bg: "bg-emerald-50"
+        },
+        {
+            title: "Renewal Reminders",
+            desc: "Automated alerts to avoid policy expiration and late penalties.",
+            icon: Clock,
+            color: "text-orange-600",
+            bg: "bg-orange-50"
+        },
+        {
+            title: "Secure Data Protection",
+            desc: "End-to-end encrypted and secure data handling system.",
+            icon: Lock,
+            color: "text-indigo-600",
+            bg: "bg-indigo-50"
+        }
     ];
 
     return (
-        <section className="py-20 relative bg-white border-b border-slate-100">
+        <section className="py-24 relative bg-white border-b border-slate-100 overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                    {stats.map((s, i) => (
+                <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+                    <Reveal direction="up">
+                        <h2 className="text-3xl md:text-4xl font-bold text-[#1e293b] tracking-tight uppercase">Smart Insurance Management Solutions</h2>
+                        <p className="text-slate-500 text-base font-medium leading-relaxed">
+                            Our unified platform empowers you to effortlessly manage your policies, track claims in real-time, handle renewals without missing a beat, and monitor your comprehensive coverage with complete peace of mind.
+                        </p>
+                    </Reveal>
+                </div>
+                
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {features.map((f, i) => (
                         <Reveal key={i} direction="up" delay={i * 0.1}>
-                            <div className="space-y-4">
-                                <div className="mx-auto w-12 h-12 flex items-center justify-center text-[#134e8d]">
-                                    <s.icon size={32} strokeWidth={2} />
+                            <div className="bg-slate-50 p-8 rounded-3xl border border-slate-100 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] hover:-translate-y-2 hover:bg-white transition-all duration-300 h-full group">
+                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 ${f.bg} ${f.color} shadow-sm`}>
+                                    <f.icon size={28} strokeWidth={2} />
                                 </div>
-                                <div className="space-y-1">
-                                    <h3 className="text-3xl font-bold text-[#1e293b] tracking-tight">
-                                        {isLoading ? "..." : s.val}
-                                    </h3>
-                                    <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">{s.label}</p>
-                                </div>
+                                <h3 className="text-xl font-bold text-[#1e293b] mb-3">{f.title}</h3>
+                                <p className="text-slate-500 text-sm leading-relaxed">
+                                    {f.desc}
+                                </p>
                             </div>
                         </Reveal>
                     ))}
@@ -543,7 +566,7 @@ const Home = () => {
         <div className="relative min-h-screen bg-white font-sans selection:bg-[#10b981] selection:text-white">
             <Navbar />
             <HeroSection />
-            <StatsSection />
+            <ManagementSection />
             <PolicySection />
             <HowItWorks />
             <WhyChooseUs />
