@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
     Shield, Check, Menu, X, ArrowRight, Activity,
     Heart, Car, Home as HomeIcon, Plane, Briefcase,
-    Lock, Zap, Clock, Star, MapPin, Phone, Mail,
+    Lock, Zap, Clock, Star, MapPin, Mail,
     Facebook, Twitter, Instagram, Linkedin,
     Search, UserPlus, MousePointer2, FileCheck, HelpCircle, ChevronRight, Globe, TrendingUp,
     Fingerprint, Cpu, Satellite, Target, Database, Layers, Radio, Workflow, Quote, ShieldCheck
@@ -530,12 +530,6 @@ const Footer = () => (
                                 <MapPin size={18} strokeWidth={2} />
                             </div>
                             <span className="text-white/90 text-sm font-semibold tracking-tight">India</span>
-                        </li>
-                        <li className="flex items-center gap-4 group">
-                            <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
-                                <Phone size={18} strokeWidth={2} />
-                            </div>
-                            <span className="text-white/90 text-sm font-semibold tracking-tight uppercase">1800-SECURE-SHIELD</span>
                         </li>
                         <li className="flex items-center gap-4 group">
                             <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-blue-400 group-hover:bg-[#134e8d] group-hover:text-white transition-all">
