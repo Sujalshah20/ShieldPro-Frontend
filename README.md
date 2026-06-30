@@ -11,7 +11,7 @@
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&pause=1000&color=2563EB&center=true&vCenter=true&random=false&width=600&lines=Smart+Insurance+Management;Seamless+Policy+Tracking;Fast+%26+Easy+Claims+Processing;Your+Protection%2C+Our+Priority+🛡️" alt="Typing SVG" />
 </p>
 
-[🌐 Live Demo](https://shieldpro-frontend.vercel.app) &nbsp;·&nbsp;
+[🌐 Live Demo](https://shield-pro-frontend.vercel.app/) &nbsp;·&nbsp;
 [🐛 Report Bug](https://github.com/Sujalshah20/ShieldPro-Frontend/issues) &nbsp;·&nbsp;
 [✨ Request Feature](https://github.com/Sujalshah20/ShieldPro-Frontend/issues)
 
