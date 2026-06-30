@@ -11,10 +11,14 @@
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&pause=1000&color=2563EB&center=true&vCenter=true&random=false&width=600&lines=Smart+Insurance+Management;Seamless+Policy+Tracking;Fast+%26+Easy+Claims+Processing;Your+Protection%2C+Our+Priority+🛡️" alt="Typing SVG" />
 </p>
 
-[🌐 Live Demo](https://shield-pro-frontend.vercel.app/) &nbsp;·&nbsp;
+[🌐 Live Website](https://shield-pro-frontend.vercel.app/) &nbsp;·&nbsp;
 [🐛 Report Bug](https://github.com/Sujalshah20/ShieldPro-Frontend/issues) &nbsp;·&nbsp;
 [✨ Request Feature](https://github.com/Sujalshah20/ShieldPro-Frontend/issues)
-
+<p align="center">
+  <a href="https://shield-pro-frontend.vercel.app/">
+    <img src="https://img.shields.io/badge/🚀_Visit_Live_Website-2563EB?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
+</p>
 </div>
 
 ---
@@ -29,17 +33,39 @@
 
 ## 📸 Screenshots
 
-<!-- Replace with your actual screenshots -->
-| 🏠 Home | 📋 Dashboard |
-|:-------:|:-----------:|
-| ![Home](https://via.placeholder.com/450x260/1e3a5f/ffffff?text=🏠+Home+Page) | ![Dashboard](https://via.placeholder.com/450x260/1e3a5f/ffffff?text=📊+Dashboard) |
+<div align="center">
 
-| 📄 Policy Management | 📝 Claims |
-|:-------------------:|:--------:|
-| ![Policy](https://via.placeholder.com/450x260/1e3a5f/ffffff?text=📄+Policy+View) | ![Claims](https://via.placeholder.com/450x260/1e3a5f/ffffff?text=📝+Claims+View) |
+### 🏠 Home Page
+<img src="https://i.ibb.co/dwPCnQZb/home.png" alt="Home Page" width="100%" style="border-radius: 10px;"/>
+
+<br/><br/>
+
+### 📊 Dashboard
+<img src="https://i.ibb.co/ht7mM3x/dashboard.png" alt="Dashboard" width="100%" style="border-radius: 10px;"/>
+
+<br/><br/>
+
+### 📋 Browse Policies
+<img src="https://i.ibb.co/pByRghpS/browse-policy.png" alt="Browse Policies" width="100%" style="border-radius: 10px;"/>
+
+<br/><br/>
+
+### 📝 Claims Page
+<img src="https://i.ibb.co/3981RxTR/claim-page.png" alt="Claims Page" width="100%" style="border-radius: 10px;"/>
+
+<br/><br/>
+
+### 🔐 Login & Register
+
+| Login | Register |
+|:-----:|:--------:|
+| <img src="https://i.ibb.co/rf7hvDnQ/login.png" alt="Login Page" width="100%"/> | <img src="https://i.ibb.co/rfdQ4k25/register.png" alt="Register Page" width="100%"/> |
+
+</div>
 
 ---
-## Feature
+
+## ✨ Features 
 
 | Feature | Status |
 |---------|:------:|
